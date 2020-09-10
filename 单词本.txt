@@ -39,10 +39,10 @@
 | embed                                 | 嵌入                |        |
 | zoom in/out                           | 放大/缩小           |        |
 | TOC(table of contents)                | 目录                |        |
-| fatal                                 | 致命的；重大的      |        |
-| merge                                 | 合并                |        |
-| branch                                | 分支                |        |
-| absort                                | 吸收                |        |
+|                                       |                     |        |
+|                                       |                     |        |
+|                                       |                     |        |
+|                                       |                     |        |
 |                                       |                     |        |
 |                                       |                     |        |
 |                                       |                     |        |

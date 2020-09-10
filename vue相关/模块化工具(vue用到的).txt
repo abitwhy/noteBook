@@ -1,0 +1,20 @@
+# vue 模块化相关知识
+
+## package.json
+
+> 概念：Node.js 项目模块化架构下的模块描述文件。
+
+ **属性说明**  
+ `name` - `包名`
+ `version` - `版本号`
+ `description` - `描述`
+ `homepage` - `官网URL`
+ `author` - `作者`
+ `contributors` - `其他贡献者`
+ ` dependencies`/`devDependencies` - `生产/开发环境依赖包列表`
+ `repository` - `包代码的Repo信息`（type和URL）
+ `main` - `指定程序主入口文件`
+ `keywords` - `关键字`
+
+***
+

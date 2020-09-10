@@ -1,0 +1,12 @@
+①数据截断问题
+字段:
+BOTTOM_MENMBERANE_LOT
+PRELOADING_PRESSURE
+CCD_*
+lOWER_MATERIAL_ROLLER_PRESSURE
+PTODUCT_NAME
+②超出取值范围问题
+字段:
+WEIGHT
+③前端数据删除是执行逻辑删除还是物理删除？逻辑删除需要增加一个标识字段。
+===>最终问题归结为:需要再确定一下数据表数据类型

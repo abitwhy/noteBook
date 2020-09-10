@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		&lt;head&gt; 里面出现的文本内容会被展示在 body 中
+		<title>vue 入门</title>
+
+		<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1">
+		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"><!-- 引入 Element.css (最新) -->
+		<style>
+			.fade-enter-active,
+			.fade-leave-active {
+				transition: opacity .5s;
+			}
+
+			.fade-enter,
+			.fade-leave-to {
+				opacity: 0;
+			}
+			[v-cloak]{
+				/* v-cloak 使用范围不能过大，否则一旦某个地方不能正常加载  Mustache 实例，那么将影响整个根节点的显示 */
+				display: none;
+				color: chartreuse;
+			}
+			.component-fade-enter-active, .component-fade-leave-active {
+				transition: opacity .3s ease;
+			}
+			.component-fade-enter, .component-fade-leave-to {
+				opacity: 0;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app" v-cloak>
+			<h1>基础尝试</h1>
+			<b>data{...}声明式将数据渲染进DOM系统</b>
+			<template>
+				<!-- 用 template 将需要渲染的 HTML 包裹起来，以避免页面加载时出“{{...}}" 还有其他方法，详见：https://blog.csdn.net/qq_42363090/article/details/99838712 -->
+				<p>Using mustaches: {{ message }}</p>
+			</template>
+			<p>Using v-html directive: <span v-html="rawHTML"></span></p><!-- 有安全隐患 -->
+		</div>
+		<div id="app-2" v-cloak>
+			<b>v-bind:attr 绑定元素的 attribute</b></br>
+			<span v-bind:title="msg"> 鼠标悬几秒可查看动态绑定的提示信息！ </span>
+		</div>
+		<div id="app-3" v-cloak>
+			<h1>v-if 相关</h1>
+			<b>v-if 将元素绑定到 DOM 结构(插入或删除标签元素）</b></br>
+			<button v-on:click="show=!show">
+				Toggle
+			</button>
+			<transition name="fade" mode="out-in">
+				<!-- mode 过渡模式，设置过渡时机 -->
+				<p v-if="show" key="k1">时光易逝……</p>
+				<!-- transition 里，某一时刻发生消失或添加的元素只有一个时，过渡效果才会生效。由此可见 transition 一次只能处理单个事件 -->
+				<!-- <p v-else>添加进去就会使 transition 失效</p> -->
+
+				<!-- 勘误：使 transition 失效的原因是：类型相同的元素绑定 v-if v-else 对，却没有指定各自的唯一的 key 属性。-->
+				<!-- 根据 Vue 对 DOM 的就近渲染策略，会重用 v-if 绑定的元素，导致过渡效果失效（猜测是强制状态转换打断过渡过程中的钩子函数）。-->
+				<!-- 而绑定 key 就可以避开掉此就近策略性。 -->
+				<!-- 另外，使用类型不同的元素绑定 v-if v-else 对，并不会影响过度效果，但是会报 v-else element 与 v-if element 不一致的错误。 -->
+				<p v-else key="k2">要为绑定 v-if v-else 组合块的标签添加 key 以避免出现异常</p><!-- 当然有 v-else-if 也同样如此 -->
+			</transition>
+			<div>
+				<span>过渡和动画尝试</span><br>
+				<button @click="flg2=!flg2">Toggle</button>
+				<transition name="transitionDemo" enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
+					<p v-if="flg2">自定义过渡类名以引用第三方动画库</p>
+				</transition>
+			</div>
+
+
+			<b>v-if v-else 可以搭配到两种不同标签上（并不总是可以） </b></br><!-- 没有用过度效果就没有报不一致的错误 -->
+			<button v-on:click="qst=!qst">
+				Toggle
+			</button>
+			<b v-if="qst">生</b>
+			<a v-else href="#">
+				死
+			</a>
+			<br><br>a
+			<b>用 template 标签包裹更多元素</b><br>
+			<button v-on:click="flg=!flg">
+				Toggle
+			</button><br>
+			<template v-if="flg">
+				<h3>我是真标题</h3>
+				<p>使用 v-if</p>
+				<p>看起来</p>
+			</template>
+			<template v-else>
+				<h3>我是假标题</h3>
+				<p>紧邻的 v-else</p>
+				<p>更易读</p>
+			</template>
+
+			<b>v-if v-else 重用与部分重用（给内部标签添加 key 属性）以高效渲染</b><br />
+			<template v-if="loginType==='UserName'">
+				<label>UserName</label><br />
+				<input placeholder="没有添加 key 属性就会重用">
+				<input placeholder="添加 key 属性就会被替换" key="user-input">
+			</template>
+			<template v-else-if="loginType==='Phone'">
+				<label>Phone</label><br />
+				<input placeholder="没有添加 key 属性就会重用">
+				<input placeholder="添加 key 属性就会被替换" key="phone-input">
+			</template>
+			<template v-else>
+				<label>Email</label><br />
+				<input placeholder="没有添加 key 属性就会重用">
+				<input placeholder="添加 key 属性就会被替换" key="email-input">
+			</template><br />
+			<button v-on:click="loginType='UserName'">
+				UserName
+			</button>
+			<button v-on:click="loginType='Phone'">
+				Phone
+			</button>
+			<button v-on:click="loginType='Email'">
+				Email
+			</button>
+
+
+
+
+
+		</div>
+		<div id="app-4" v-cloak>
+			<h1>v-for 相关</h1>
+			<b>v-for 遍历绑定数组的数据</b>
+			<ol>
+				<!-- v-bind:key 的作用：为了给 Vue 一个提示，以便它能跟踪每个节点的身份，从而重用和重新排序现有元素 -->
+				<!-- 注意到 v-if 里的一般使用静态的 key 属性，而 v-for 为绑定的 :key。 -->
+				<!-- :key 绑定的对象的类型要为字符串或数字。这很好理解：作为标识，在你的值能互相区别的条件下，副作用越少越好。 -->
+				<li v-for="fruit in fruits" :key="fruit.item">
+					{{fruit.item}}
+				</li>
+			</ol>
+			<b>v-for 遍历数组+访问父作用域 property + 可选参数 index</b><!-- index 从 0 开始 -->
+			<!-- 可以在别的地方用到 index 吗？比如想把 index 作为 :key 绑定的对象，好像根本行不通 -->
+			<ul>
+				<li v-for="(son,index) of father" :key="father.item">
+					<!-- of 可替代 in 作为分隔符 -->
+					{{fatherMessage}}-{{index}}-{{son.item}}
+				</li>
+			</ul>
+			<b>v-for 遍历对象的 property</b>
+			<ul>
+				<li v-for="(value,name) of object" :key="value.title">
+					<!-- name参数可选 -->
+					{{name}}：{{value}}
+				</li>
+			</ul>
+			<b>v-for + 计算属性 显示过滤/排序后的结果</b>
+			<p>原始数组：{{numbers}}</p>
+			<p>偶数元素：</p>
+			<ul>
+				<li v-for="n of evenNumbers">
+					<!-- 这足够简单，所以没有绑定 key -->
+					{{n}}
+				</li>
+			</ul>
+			<b>计算属性不适用的情况,如嵌套 v-for 循环，要使用方法 methods</b>
+			<p>原始二维数组：{{sets}}</p>
+			<p>一维数组里的偶数元素：</p>
+			<ul v-for="set in sets">
+				<li v-for="n in even(set)">
+					{{n}}
+				</li>
+			</ul>
+			<b>v-for 接受整数 可以用来重复模板</b>
+			<p>-添加在元素标签上，重复该元素</p>
+			<div>
+				<span v-for="n in 8">重复元素{{n}}</span>
+			</div>
+			<p>-使用 template 容器，重复多个元素</p>
+			<ul>
+				<template v-for="fruit in fruits">
+					<p>重复元素</p>
+					<li>{{fruit.item}}</li>
+				</template>
+			</ul>
+			<!-- 			<p>不使用 template（坏例子，实际上重复的是 ul 元素）</p>
+			<ul v-for="fruit in fruits">
+				<p>重复元素</p>
+				<li >{{fruit.item}}</li>
+			</ul> -->
+			<p>组件中也可以使用 v-for：<a href="#app-7">去看看</a></p>
+
+
+
+
+
+		</div>
+		<div id="app-5" v-cloak>
+			<h1>computed 相关</h1>
+			<b>v-on 添加一个事件监听器，通过它调用在 Vue 实例中定义的方法</b>
+			<p>元素属性+函数：{{msg}}</p><!-- 元素属性+函数 -->
+			<p>表达式 ：{{msg.split('').reverse().join('')}}</p><!-- 表达式 -->
+			<p>Computed reversed message:{{reverseMessage}}</p><!-- 计算属性  （会缓存，可以提高性能）-->
+			<!-- <p>{{reverseMsg()}}</p> -->
+			<!-- 调用方法 此处初始化之后会导致后面 click 事件无法再执行 reverseMsg 为什么？-->
+			<button @click="reverseMsg">
+				反转消息
+			</button><br /><br />
+			<b>计算属性懒加载</b>
+			<p>{{fullName}}</p>
+			<b>计算属性可以有 setter，即，可赋值</b>
+			<p>{{boxing}}</p>
+			<input v-model="newPlayers" placeholder="选手1+空格+选手2">
+			<button @click="boxing=newPlayers">Toggle</button>
+		</div>
+		<div id="app-6" v-cloak>
+			<h1>v-model 相关</h1><!-- 实现表单输入和应用状态之间双向绑定，不同 input 对应不同的绑定类型，需要重点记忆-->
+			<b>单行文本</b>
+			<br /><span>{{msg}}</span><br />
+			<input v-model="msg"><br /><!-- 实际是将 msg 与 text/textarea 类型的 input 的 value property（附带 input 事件）双向绑定。（注意：msg 要与 value 类型一致，即需为字符串型，否则会发生错误)-->
+			<br />
+			<b>多行文本</b>
+			<p style="white-space: pre-line;">{{msg2}}</p>
+			<textarea v-model="msg2" placeholder="add multuple lines"></textarea><br />
+			<b>复选框</b><br /><!-- 与 checkbox/radio 类型的 input 的 checked property （附带 change 事件）双向绑定 -->
+			<span>单个复选框</span>
+			<input type="checkbox" id="checkbox" v-model="checked" /><!-- 绑定到布尔值 -->
+			<label for="checkbox">{{checked}}</label>
+			<div>
+				<span>多个复选框</span>
+				<input type="checkbox" id="jack" value="Jack" v-model="checkedNames" /><!-- 绑定到同一数组 -->
+				<label for="jack">Jack</label>
+				<input type="checkbox" id="john" value="John" v-model="checkedNames" />
+				<label for="john">John</label>
+				<input type="checkbox" id="mike" value="Mike" v-model="checkedNames" />
+				<label for="mike">Mike</label><br />
+				<span>Checked names:{{checkedNames}}</span>
+			</div><br>
+			<div>
+				<b>单选按钮</b><br />
+				<input type="radio" id="one" value="One" v-model="picked"><!-- 绑定到字符 -->
+				<label for="one">One</label><br />
+				<input type="radio" id="two" value="Two" v-model="picked">
+				<label for="two">Two</label><br />
+				<span>Picked:{{picked}}</span>
+			</div><br>
+
+			<div>
+				<b>选择框</b><br><!-- 与 selecte 类型的 input 的 selected property（附带 change 事件）双向绑定 -->
+				<span>单选</span><br>
+				<select v-model="selected">
+					<!-- 绑定到字符 -->
+					<option disabled value="">请选择</option>
+					<option value="watermelon">西瓜</option><!-- 被选中时会将 value 值放进数组 -->
+					<option>雪碧</option><!-- 不指定 value 则默认将标签里的文本内容赋给 value -->
+					<option>冰柠檬</option>
+				</select>
+				<span>Selected:{{selected}}</span><br>
+				<span>多选</span><br><!-- 需要用鼠标拖动或配合 ctrl 键来完成多选-->
+				<select v-model="selecteds" multiple>
+					<!-- 绑定到数组 -->
+					<option disabled value="">请选择</option>
+					<option>西瓜</option>
+					<option>雪碧</option>
+					<option>冰柠檬</option>
+				</select>
+				<span>Selected:{{selecteds}}</span>
+
+			</div><br>
+			<div>
+				<b>值绑定</b><br>
+				<span>复选框只支持单个复选框</span><br>
+				<input id="vb" type="checkbox" v-model="toggle" true-value="yes" false-value="no"><!-- 绑定的依然是字符串 -->
+				<label for="vb">通过 true-value 和 false-value 两个属性绑定</label><!-- 有别于未进行值绑定的复选框在选中时为 true，未选中时为 false，进行绑定在选不选中都有对应字符串值-->
+				<!-- 				<input id="vb2" type="checkbox" v-model="toggle" true-value="live" false-value="die">
+				<label for="vb2">企图使用多个复选框会出错（测试的时候应将 toggle 变为数组类型）</label> -->
+				<span>|选中的值{{toggle}}</span><br>
+				<br>
+				<span>单选框实现真正的绑定</span><br><!-- 使用值绑定时，不要给单选按钮绑定用以改变 v-bind:value 绑定对象的事件监听，否则会导致意想不到的异常-->
+				<input id="live" type="radio" v-model="pick" :value="a" @click="a=new Date()"> <!-- 绑定了 property -->
+				<label for="live">生</label><!-- 给 input 绑定了 click 事件监听导致了一个异常情况：连续点击单选按钮可以选中或取消选中了（这本该是复选框按钮的效果）。可是，当按钮呈现未被选中效果时，单选按钮组的值（即 picke 的值）却依然是绑定的 a property 的值（准确的说，是上一次选中时的值（区别于该值，取消选中时会有一个更新值），为什么会产生这个值？猜测这个值很可能已经与 a 没多大关系了，它只是 pick 的历史赋值。这应该和单选按钮的更新策略有关。那么整个异常的产生逻辑基本就清晰了）。这完全破坏了单选按钮的逻辑。由此，我们该杜绝给单选按钮绑定 click 事件监听-->
+				<input id="die" type="radio" v-model="pick" :value="b">
+				<label for="die">死</label>
+				<span>|选中的值：{{pick}}</span><br>
+				<!-- 选择框牵扯了新知识，暂略-->
+				<b>v-model 的修饰符</b><br>
+				<span>.lazy 懒加载</span><br>
+				<span>{{msg}}</span><br />
+				<input v-model.lazy="msg"><br /><!-- 在 change 时而非 input 时更新-->
+
+				<span>.number 转化成数字</span><br><!-- 能接受的最大数字为2^1024≈1.8*10^308（过剩近似值）然而 float 的取值范围是[-3.4028235E38, 3.4028235E38]。原来 2^1024 是 parseFloat() 能解析的最大值-->
+				<input v-model.number="age" type="number" placeholder="转换失败将保留字符串"><!-- 这将使得输入的字符：1.能被 parseFloat() 解析的，转换成真正的数字（而不是 String）；2.不能的，原样保留字符串（而不是设为 age 的初始值）。详见 https://cn.vuejs.org/v2/guide/forms.html#%E4%BF%AE%E9%A5%B0%E7%AC%A6 -->
+				<span>输出类型：{{typeof age}}</span><br>
+
+				<span>.trim 过滤空白字符</span><br>
+				<input v-model.trim="msg">
+				<span>{{msg}}</span>
+
+
+			</div><br>
+
+
+		</div>
+		<div id="app-7" v-cloak>
+			<h1>component 相关</h1>
+			<b>component 组件 + props 组件自定义属性，允许我们使用小型、独立和通常可复用的组件构建大型应用。</b></br>
+			<p>component + v-for 遍历列表，注意：规定尽可能为每项都绑定唯一的 key 属性</p>
+			<ol>
+				<todo-item0 v-for="item in groceryList" :todo="item" :key="item.id"></todo-item0><!-- 是不是要贯彻为数组或对象添加 id proper，作为 key 的绑定对象 -->
+			</ol>
+
+			<div>
+				<p>component + v-if 一个比较完整的应用例子</p>
+				<!--.prevent v-on 的事件修饰符之一，设置提交事件不再重载页面 -->
+				<form @submit.prevent="addNewTodo" id="prevent-e">
+					<!-- label 标签通过 for 绑定 input，当用户单击 label 文本时就会选中输入框，在 input 为 checkbox 时尤为便利 -->
+					<label for="new-todo">Add a todo</label>
+					<input v-model="newTodoText" id="new-todo" placeholder="E.g. Day-dream">
+					<button>Add</button>
+				</form>
+				<ul>
+					<li is="todo-item" v-for="(todo,index) in todos" :key="todo.id" :title="todo.title" @remove="todos.splice(index,1)" />
+					<!-- 使用 is 属性与直接使用 todo-item 组件标签效果一样，不过这样做能避免潜在的浏览器关于 ul-li 标签解析错误。-->
+					<!-- splice() 方法向/从数组中添加/删除项目，然后返回被删除的项目。 第二个参数指定删除项个数，为 0 表示不删除-->
+					<!-- 多个 attribute 的元素应该分多行撰写使代码更易读以及随之产生的连带便利（由此导致代码页变长的翻页代价完全可以通过代码折叠规避掉）。 -->
+				</ul>
+
+				<div style="font-size: small;">
+					<!-- 可以考虑定义一个 door 组件了 -->
+					<p>传送门:
+						<span>
+							<a target="_blank" href="https://www.jianshu.com/p/7ccae66dd2b8">
+								v-on 事件修饰符
+							</a>
+							&nbsp;|
+						</span>
+						<span>
+							<a target="_blank" href="https://www.w3school.com.cn/jsref/jsref_splice.asp">
+								splice 方法
+							</a>
+							&nbsp;|
+						</span>
+					</p>
+					<!-- 格式分析：在全展开时会不利于看出 HTML 布局，但却十分有利于对代码的结构分析和后期维护（当你一步步展开缩进就能体会到）。 -->
+					<!-- 那么不妨这么做：代码初始编写时，尽量保持易于反映 HTML 布局的一行格式。代码敲定以后，再将其如上格式化。 -->
+					<!-- 注意：不要进行格式化为一行+格式化代码这种操作，这不会达到预期效果的。 -->
+				</div>
+
+			</div>
+		</div>
+
+		<div id="app-8" v-cloak>
+			<h1>v-bind 相关</h1>
+			<b>绑定 class （观察标签渲染出来的类名以查看效果）</b>
+			<p class="static" :class="{active:isActive,'text-Danger':hasError}">v-bind:class 传普通对象，以动态地切换 class (可与普通 class
+				属性并存)</p>
+			<p :class="classObject">v-bind:class 非内联对象，动态地切换 class</p>
+			<p :class="classObject2">v-bind:class 非内联对象+计算属性，动态地切换 class</p>
+			<the-component class="baz boo" :class="classObject"></the-component><!-- 组件定义时为蛇型命名法，在 HTML 里要使用对应的葫芦型的名字，切记！-->
+			<b>绑定 style</b>
+
+			<p :style="styleObject">v-bind:style 非内联对象，动态地切换 css</p>
+			<p :style="[baseSytle,overridingStyle]">v-bind:style 非内联对象数组，动态地切换 css</p>
+
+		</div>
+		<div id="app-9" v-cloak>
+			<b>v-bind:[attName] 动态参数式绑定元素的 attribute</b></br>
+			<a v-bind:[attName]="msg">
+				鼠标悬查看动态参数式动态绑定的信息！
+			</a>
+			<button @[eventName]="doSth">
+				{{btnMsg}}
+			</button>
+		</div>
+		<div id="app-10" v-cloak>
+			<!-- 可以用 v-on 指令监听 DOM 事件，并在触发时运行一些 JavaScript 代码。 -->
+			<h1>v-on 相关</h1>
+			<p style="font-size: x-small;">注意：v-on 是在 HTML 上监听事件的（这通常是在 JS 里该做的事），这样做有优势，并且 Vue 也解决了由此产生的维护问题。详见：
+				<a href="https://cn.vuejs.org/v2/guide/events.html#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%9C%A8-HTML-%E4%B8%AD%E7%9B%91%E5%90%AC%E4%BA%8B%E4%BB%B6%EF%BC%9F">
+					more
+				</a>
+
+			</p>
+			<b>监听事件，并绑定简单的 JS 代码</b></br>
+			<div>
+				<button @click="counter++">计数器</button><span>{{counter}}</span>
+			</div>
+			<b>监听事件，并绑定方法（名称）</b>
+			<div>
+				<button @click="greet">你好！</button><br />
+				<span>还可以在内联 JavaScript 语句中调用方法</span><br />
+				<button @click="say('Hi !')">say Hi</button>
+			</div>
+			<b>事件修饰符</b><br />
+			<span>.once：只允许触发一次</span>
+			<button @click.once="say('Hi !')">say Hi（once）</button><br />
+			<span>.prevent：阻止表单提交 </span>
+			<a href="#prevent-e">前面有例子</a>
+
+		</div>
+		<div id="app-11" v-cloak>
+			<h1>component 相关·二</h1>
+			<div>
+				<b>data 使实例化的每个组件都将独立维护</b><br>
+				<button-counter>组件实例标签里的内容不会被展示到 HTML 页面</button-counter>
+				<button-counter><a href="javascript:;">那是因为我没有学到卡槽 slot</a></button-counter>
+				<button-counter></button-counter>
+				<!-- slot 传送门：https://cn.vuejs.org/v2/guide/components-slots.html -->
+				<br>
+			</div>
+
+			<div>
+				<b>初步的综合性尝试</b><br>
+				<!-- <my-note :title="obj1.title" :notes="obj1.notes"></my-note> -->
+				<!-- <my-note :title="obj1.title+'--'+obj2.title" :notes="obj2.notes"></my-note> -->
+				<!-- 如果给 prop 传递了非预期类型的对象，就会产生意想不到的异常。ps：在 JS 里，数组+number 的运算不会出错，会产生一个 object1 对象，不太清楚后面数字1的含义。 -->
+				<!-- 另外，Vue 官方文档指出：prop 遇到错误的类型时会从浏览器的 JavaScript 控制台提示用户。=》原来需要按照指定的 prop 定义规范做才能得到这个提示。 -->
+
+				<!-- 改进：封装细节，将接口简化。这意味着通过接口传递的数据更复杂，所以有必要在接口说明中增加更多对参数的描述-->
+				<my-note :the-note="obj1"></my-note>
+				<my-note :the-note="obj2">我失去了在绑定数据时，像前面那样用 JavaScript 语句拼接出灵活标题的能力。这就强迫我把数据处理逻辑统统放到 script 中，这也未见得是坏事。</my-note>
+				<div :style="{fontSize:noteFontSize+'em' }">
+					<my-note-plus :note-page="obj1" @enlarge-text="onEnlargeText"></my-note-plus>
+				</div>
+			</div>
+
+			<div>
+				<b>使用卡槽 slot (知识点详见代码)</b><br>
+				<p>-独占默认插槽缩写语法</p><!-- 这里已经用到了作用域插槽 -->
+				<single-slot :component-prop="user" v-slot="slotProps">
+					<!-- 只有单个插槽时可以简写成这样（没有了 template 容器，也没有插槽名 -->
+					{{slotProps.slotPropDefault.firstName}}
+				</single-slot>
+				<single-slot :component-prop="user" v-slot="{slotPropDefault}">
+					<!-- 解构插槽 prop -原始用法-->
+					{{slotPropDefault.firstName}}
+				</single-slot>
+				<single-slot :component-prop="user" v-slot="{slotPropDefault:newName}">
+					<!-- 解构插槽 prop -重命名-->
+					{{newName.firstName}}
+				</single-slot>
+				<single-slot :component-prop="user" v-slot="{ undefinedProp={firstName:'Guest'}}">
+					<!-- 解构插槽 prop -处理未定义插槽 prop-->
+					{{undefinedProp.firstName}}
+				</single-slot>
+				<!-- 另外，还支持动态插槽，但还有一些疑问有待解决 -->
+				
+				<p>-具名插槽</p>
+				<build-blocks :slot-prop="user" url="/profile">
+					<template v-slot:header>
+					</template>
+					<template v-slot:default>
+						<!-- 此处的 v-slot，甚至是 template 标签都可以省略 -->
+						<p>实例作用域 prop：{{noteFontSize}}</p><!-- 可以被访问 -->
+						<!-- <p>标签作用域 prop：{{url}} </p> -->
+						<!-- 无法被访问 -->
+						<!-- <p>父组件作用域 prop：{{slotProp}} </p> -->
+						<!-- 无法被访问 -->
+					</template>
+					<template v-slot:footer="sfpn">
+						<!-- 给具名插槽属性组(而不是单个插槽属性)命名，添加插槽作用域。-->
+						<!-- 容易看出：插槽作用域 prop 是父组件作用域 prop 的子集 -->
+						{{sfpn.slotFooterProp.firstName}}
+						<!-- 插槽作用域 prop 可以访问了。当需要使用包含插槽作用域里的 prop 来更改后备内容时，这很有用。 -->
+					</template>
+				</build-blocks>
+				<todo-list-plus :filtered-todos="todos">
+					<template #todo="{todo}">
+						<!-- #todo 是具名插槽的缩写形式，缩写只有当有参数时才能用，不要试图将默认插槽写成 #="" 的形式 -->
+						<span v-if="todo.isComplete">√</span>
+						{{todo.text}}
+					</template>
+				</todo-list-plus>
+
+			</div>
+			<div>
+				<b>动态组件</b><br>
+				<input type="radio" id="chooseA" v-model="view" value="v-a">
+				<label for="chooseA">A</label>
+				<input type="radio" id="chooseB" v-model="view" value="v-b">
+				<label for="chooseB">B</label>
+				<transition name="component-fade">
+					<component :is="view"></component>
+				</transition>
+			</div><br>
+			<div>
+				<b>组件注册</b>
+				<component-a></component-a>
+				<component-b></component-b>
+			</div><br>
+			<div>
+				<b>混入对象</b><br>
+				<component-mixin></component-mixin>
+			</div>
+
+		</div>
+		<div id="app-12" v-cloak>
+			<h1>Vue 路由器</h1><!-- 更深入的学习应该在 webkit+单页面组件的开发环境中进行-->
+			<p>
+				<router-link to="/foo">Go to foo</router-link><!-- router-link 组件用于导航。通过 to prop 指定链接路线 -->
+				<router-link to="/bar">Go to Bar</router-link><!-- router-link 标签会被默认渲染成 a 标签 -->
+				<router-link to="/user/foo">Go to User</router-link><!-- 动态参数路由测试失败 -->
+				
+			</p>
+			<router-view></router-view><!-- 路由出口，匹配的组件会被展示在这里 -->
+		</div>
+		<div id="app-13" v-cloak>
+			<el-button @click="visible=true">Button</el-button>
+			<el-dialog :visible.sync="visible" title="Hello Element!">
+				<p>My first Element</p>
+			</el-dialog>
+			
+		</div>
+
+
+
+	</body>
+			<script src="https://unpkg.com/vue"></script><!-- 引入 Vue.js -->
+			<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script><!-- 引入 Vue Roter -->
+			<script src="https://unpkg.com/element-ui/lib/index.js"></script><!-- 引入 Element.js(需要放在引入 Vue 之后) -->
+			<script>Vue.config.productionTip = false</script>
+			
+			<script>
+				var app = new Vue({
+					el: '#app',
+					data: {
+						message: 'Hello Vue！',
+						rawHTML: '<span style="color:red"> red message </span>'
+					}
+				});
+				var app2 = new Vue({
+					el: '#app-2',
+					data: {
+						msg: '页面加载于' + new Date().toLocaleString()
+					}
+				});
+				var app3 = new Vue({
+					el: '#app-3',
+					data: {
+						show: true,
+						qst: true,
+						flg: true,
+						loginType: 'UserName',
+						flg2: true
+					}
+				});
+				var app4 = new Vue({
+					el: '#app-4',
+					data: {
+						fatherMessage: '葫芦娃',
+						fruits: [{
+								item: '苹果'
+							},
+							{
+								item: '香蕉'
+							},
+							{
+								item: '水蜜桃'
+							}
+						],
+						father: [{
+								item: '大娃'
+							},
+							{
+								item: '二娃'
+							},
+							{
+								item: '三娃'
+							}
+						],
+						object: {
+							title: 'SpringBoot实战',
+							author: 'Craig Walls',
+							translator: '丁雪丰'
+						},
+						numbers: [1, 2, 3, 4, 5, 6],
+						sets: [
+							[1, 2, 3, 4, 5, 6],
+							[6, 7, 8]
+						]
+					},
+					computed: {
+						evenNumbers: function() {
+							return this.numbers.filter(function(number) {
+								return number % 2 === 0
+							})
+						}
+					},
+					methods: { //解决嵌套 v-for 循环
+						even: function(numbers) {
+							return numbers.filter(function(number) { /* 注意这里的 numbers 指的是函数参数(与 numbers 数组并无关系) */
+								return number % 2 === 0
+							})
+						}
+					}
+				});
+				var app5 = new Vue({
+					el: '#app-5',
+					data: {
+						msg: '我 需要 提速',
+						firstName: '欧',
+						lastName: '亨利',
+						redPlayer: '阿童木',
+						bluePlayer: '奥特曼',
+						newPlayers: ''
+					},
+					methods: { //函数方法
+						reverseMsg: function() {
+							return this.msg = this.msg.split('').reverse().join('')
+						},
+						// cp:function(){
+						// 	this.boxing=this.newPlayers
+						// }
+					},
+					computed: { //计算属性
+						reverseMessage: function() {
+							return this.msg.split('').reverse().join('')
+						},
+						fullName: function() { //计算属性懒加载
+							return this.firstName + ' ' + this.lastName
+						},
+						boxing: { //计算属性可以有 getter
+							get: function() {
+								return this.redPlayer + ' VS ' + this.bluePlayer
+							},
+							set: function(newVal) {
+								var players = newVal.split(' ')
+								this.redPlayer = players[0]
+								this.bluePlayer = players[players.length - 1]
+							}
+						}
+					}
+				});
+				var app6 = new Vue({
+					el: '#app-6',
+					data: {
+						msg: '保持一致',
+						msg2: '',
+						checked: null /* 绑定的是布尔类型值 */ ,
+						checkedNames: [] /* 数组空初始化方式 */ ,
+						picked: '',
+						selected: '',
+						selecteds: [],
+						toggle: '',
+						pick: '',
+						a: new Date(),
+						b: '买了否冷',
+						age: null
+					}
+				});
+				Vue.component('todo-item0', { /* 组件有多种注册方式,此处是全局声明。传送门：https://cn.vuejs.org/v2/guide/components-registration.html */
+					props: ['todo'],
+					/* 这样的 prop 定义方式只有在开发原型系统时可以接受 */
+					template: '<li>{{ todo.text }}</li>' /* 这个 text property 就要求使用该组件的 vue 对象必须拥有该 property */
+				});
+				Vue.component('todo-item', {
+					props: ['title'],
+					/* 在 template 里使用模板字符串 `` 代替 '' 就可以进行换行。更多去查找术语表*/
+					template: `
+						<li>
+							{{title}}
+							<button @click="$emit(\'remove\')">
+								Remove
+							</button>
+						</li>
+					`
+				});
+				var app7 = new Vue({
+					el: '#app-7',
+					data: {
+						groceryList: [{
+								id: 0,
+								text: '烤鸡翅'
+							},
+							{
+								id: 1,
+								text: '羊肉串'
+							},
+							{
+								id: 2,
+								text: '烤面筋'
+							},
+						],
+			
+						newTodoText: '',
+						todos: [{
+								id: 1,
+								title: 'Play the guitar.'
+							},
+							{
+								id: 2,
+								title: 'Play basketball.'
+							},
+							{
+								id: 3,
+								title: 'Sing on the stage.'
+							}
+						],
+						nextTodoId: 4
+					},
+					methods: {
+						addNewTodo: function() {
+							this.todos.push({
+								id: this.nextTodoId++,
+								title: this.newTodoText
+							})
+							this.newTodoText = ''
+						}
+					}
+				});
+				Vue.component('TheComponent', { /* 组件一旦有语法错误,就会在页面把一些源码信息暴露出来。=》已解决 */
+					template: `
+						<p class="foo bar">
+							v-bind:class 使用组件+非内联对象+计算属性 动态地切换 class
+						</p>
+					`
+					// 没有 prop 表明它是一个单例的组件(该组件每个页面只使用一次)，那么最好按照规范命名单例组件 TheComponent。
+					//可是，通过 Vue.component 定义的是全局组件，全局组件的命名方式推荐葫芦形，这里暂且为了记录单组件这个概念，用单组件命名规范。
+				})
+				var app8 = new Vue({
+					el: '#app-8',
+					data: {
+						isActive: true,
+						hasError: true,
+						error: null,
+						classObject: {
+							active: true,
+							'text-danger': true
+						},
+						styleObject: {
+							color: 'red',
+							fontSize: '14px' //渲染时将 property key 的名字由蛇型自动换成了葫芦型
+						},
+						baseSytle: {
+							color: 'red',
+							fontSize: '10px'
+						},
+						overridingStyle: {
+							color: 'blue'
+						}
+					},
+					computed: {
+						classObject2: function() {
+							return {
+								active: this.isActive && !this.error,
+								'text-danger': this.error && this.error.type === 'fatal'
+							}
+						}
+					}
+			
+				})
+				var app9 = new Vue({
+					el: '#app-9',
+					data: {
+						attname: 'title', //注意：此处 attname property 对应 动态参数名 attName。猜测：这种对应关系应该是 Vue 内部的转换需要
+						msg: '学会使用动态绑定参数',
+						btnMsg: '改变绑定的数据',
+						eventname: 'click', //eventname 对应 eventName 动态参数 
+						flag: true
+					},
+					methods: {
+						doSth: function() {
+							if (this.flag) {
+								this.attname = 'href'; //分号‘;’可以省略
+								this.msg = "#app-7";
+								this.btnMsg = "还原绑定的数据";
+								// this.flag=false
+							} else {
+								this.attname = 'title';
+								this.msg = "学会使用动态绑定参数";
+								this.btnMsg = "改变绑定的数据";
+								// this.flag=true
+							}
+							this.flag = !this.flag
+						}
+					}
+				});
+				var app10 = new Vue({
+					el: '#app-10',
+					data: {
+						counter: 0,
+						now: ''
+					},
+					methods: {
+						greet: function() {
+							let hh = new Date().getHours()
+							// hh=parseInt(hh.toString())
+							if (hh >= 21 && hh < 5) {
+								this.now = 'night'
+							} else if (hh >= 5 && hh < 12) {
+								this.now = 'morning'
+							} else if (hh >= 12 && hh < 18) {
+								this.now = 'afternoon'
+							} else {
+								this.now = 'evening'
+							}
+							alert('Goood ' + this.now + '!')
+							/* 						//测试原生 DOM 事件
+													if(event){
+														alert(event.target.tagName)
+													} */
+						},
+						say: function(message) {
+							alert(message)
+						}
+					}
+				});
+				Vue.component('button-counter', {
+					data: function() {
+						return {
+							count: 0
+						}
+					},
+					template: `
+						<div>
+							<button @click="count++">
+								计数君数到了{{count}}
+							</button><br/>
+							<span>说正事：</span><slot>我是 slot 的后备内容</slot>		
+						</div>
+			
+					`
+					//写在 slot 标签里内容会作为插槽后备内容
+				})
+				Vue.component('my-note', {
+					// 一个推荐类规范:组件/实例的选项最好有序，比如下面 props->data->template 的顺序就符合这种顺序规范。传送门：https://cn.vuejs.org/v2/style-guide/#%E6%A8%A1%E6%9D%BF%E4%B8%AD%E7%9A%84%E7%BB%84%E4%BB%B6%E5%90%8D%E5%A4%A7%E5%B0%8F%E5%86%99%E5%BC%BA%E7%83%88%E6%8E%A8%E8%8D%90
+					props: { /* 好的 prop 定义方式：添加了 prop 验证*/
+						// 更多 prop 验证格式-传送门：https://cn.vuejs.org/v2/guide/components-props.html
+						// title: String,
+						// notes: Array
+						TheNote: Object /* TheNote 对象结构说明：title*/
+						// 一个疑问：哪里可以使用 prop （除了目前已知的 template 外）
+						//目前的认知：prop 在 component 组件编写时只能被当作一个占位符，不能对它有什么实质性的操作。不难想象，只有当组件实例化时，它才被激活。
+					},
+					data: function() { /* data 必须是一个函数，用以在组件内部给每个组件实例添加独立维护 property。这些 property 功能一致，但互不关联，可以认为 property 是属于组件的（因为组件并没有暴露它与外界交流的方式），依靠 data 以函数返回的方式为每个实例制造复制品 */
+						return {
+							learning: ''
+						}
+					},
+					/* 没有在 v-for 遍历出的标签里添加 :key 绑定=》已改正 */
+					/* 勘误：不应该把遍历和绑定 key 放在模板里面（虽然这么做不会出错），这会使组件变得臃肿，不易于改动。我将重写一个改进组件 */
+					template: `
+						<div>
+							<h3 v-text="TheNote.title"></h3>
+							<ol>
+								<li v-for="note in TheNote.notes" :key="TheNote.notes.id">{{note.content}}</li>
+							</ol>
+							<div style="width: 200px;height: 80px;border:1px cornflowerblue solid;">
+								<p v-text="learning"></p>
+							</div>
+							<input type="text" placeholder="写下心得" v-model.lazy="learning">
+						</div>
+					`
+				})
+				// 下面的组件会不断更新
+				Vue.component('my-note-plus', { /* 组件说明：功能：{...},接口：{...},...有待补充。 */
+					props: {
+						NotePage: {
+							type: Object,
+							required: true
+						}
+					},
+					data: function() {
+						return {
+							comment: ''
+						}
+					},
+			
+					template: `
+						<div class="my-note-plus" style="border:1px gray solid">
+							<h3 v-text="NotePage.title" ></h3>
+							<ol>
+								<li v-for="note in NotePage.notes" :key="NotePage.notes.id">{{note.content}}</li>
+							</ol>
+							<div style="width: 200px;height: 80px;border:1px cornflowerblue solid;">
+								<p v-text="comment"></p>
+							</div>
+							<textarea placeholder="写下心得" v-model.lazy="comment"></textarea>
+							<button v-on:click="$emit('enlarge-text',0.1)">放大字号</button>
+						</div>
+					`
+					// 放大字体只是用来演示父子组件之间进行通信，实际应该作为组件私有维护的属性，即用 data 来实现。
+					// 模板字符串里 @: 无法实现监听，为 @ 转义也行不通，需要改为 v-on。虽然可能有解决办法。
+					// 组件层次:父组件··>子组件··>实例，有时也可以把实例看作子组件。
+					// $emit 还可以传递参数（官方说法：抛出一个值），那么就进行改进
+					// 自定义组件的实例也可以使用 v-moel 不过必须在组件中对其加以支持。传送门：https://cn.vuejs.org/v2/guide/components.html
+			
+				})
+				Vue.component('single-slot', {
+					props: {
+						componentProp: {
+							type: Object,
+							required: true
+						}
+					},
+					template: `
+						<span>
+							<slot :slotPropDefault="componentProp" >
+								{{componentProp.lastName}}
+							</slot>
+						</span>
+					`
+				})
+				Vue.component('build-blocks', {
+					props: {
+						slotProp: {
+							type: Object,
+							required: true
+						}
+					},
+					data: function() {
+						return {
+							user: {
+								name: {
+									firstName: '王',
+									lastName: '大锤'
+								}
+							}
+						}
+			
+					},
+					template: `
+						<div class="build-blocks">
+							<header>
+								<slot name="header">后备内容</slot>
+							</header>
+							<main>
+								<slot>后备内容</slot>
+							</main>
+							<footer>
+								<slot name="footer" :slotFooterProp="slotProp">{{slotProp.lastName}}</slot>
+							</footer>
+						</div>
+					`
+					//slotFooterProp 是插槽属性，用以让子组件可以访问卡槽作用域的 prop
+				})
+				Vue.component('todo-list-plus', {
+					props: {
+						filteredTodos: { /* 过滤功能是在 HTML 的组件实例中配合 v-if 实现的，实际上这里的 filterTodos 并没有被实质性地过滤 */
+							type: Array,
+							required: true
+						}
+					},
+					template: `
+						<ul>
+							<li v-for="todo in filteredTodos" :key="todo.id">
+								<slot name="todo" :todo="todo">
+									{{todo.text}}
+								</slot>
+							</li>
+						</ul>	
+					`
+				})
+				var ComponentA = { /* 局部注册*/
+					template: '<p>局部注册组件规范写法</p>'
+				} /* 全局注册 */
+				var ComponentB = Vue.extend({ /* 全局注册 */
+					template: '<p>全局注册组件规范写法</p>'
+				})
+				Vue.component("component-b", ComponentB) /* 使用全局组件 */
+				var myMixin = {/* 混入 一个混入对象可以包含任意组件选项。*/
+					// 实际上 template 选项无法被混入。
+					// 有同名选项时，会将其合并到组件原有选项的尾部，冲突时组件内部选项优先。
+			
+					data:function(){ /* 同理，可简写成 data(){...}*/
+						return {
+							dataConflict:'冲突数据-混入数据',
+							dataMixin:'混入数据'
+						}
+					},
+					created:function(){ /* 模板渲染前自加载函数，可以简写成 created(){...} */
+						this.hello()
+						this.objectNameConflict()
+					},
+					methods:{
+						hello(){
+							console.log('Hello from mixin!')
+							console.log(this.$data)/* (1) 使用了含有实例属性或方法的语句会在未使用的方法的语句后面处理，所以(1)比(2)后执行 */
+						},
+						objectNameConflict(){
+							console.log('对象键名冲突-混入')/* (2) */
+						}
+						
+					},
+					template:/* 不会被混入 */`
+						<a>混入的 template<a>
+					`
+				}
+				Vue.component('component-mixin',{
+					mixins:[myMixin],
+					props:[],
+					data(){
+						return{
+							dataConflict:'冲突数据-组件数据',
+							dataComponent:'组件数据'
+						}
+					},
+					created(){ /* 模板渲染前自加载函数，可以简写成 created(){...} */
+						console.log('混入钩子将在组件钩子之前调用')
+					},
+					methods:{
+						objectNameConflict(){
+							console.log('对象键名冲突-组件')
+						}
+					},
+					template:`
+						<div>
+							<p>原始 template</p>
+							<slot></slot>
+						</div>
+					`
+					
+					
+					
+				})
+				var app11 = new Vue({
+					el: '#app-11',
+					data: {
+						obj1: {
+							title: 'conponent 笔记',
+							notes: [{
+									id: 1,
+									content: '一个组件必须有 template，用来定义 HTML 模板。'
+								},
+								{
+									id: 2,
+									content: 'template 必须有一个最外层的根（标签）'
+								},
+								{
+									id: 3,
+									content: 'props 非必须，用来传递静态或动态的值。'
+								},
+								{
+									id: 4,
+									content: 'data 非必须，它必须是个函数，使得每个实例可以维护一份被返回对象的独立的拷贝'
+								}
+							]
+						},
+						obj2: {
+							title: '几点要改进的地方',
+							notes: [{
+									id: 1,
+									content: '改成表单提交形式'
+								},
+								{
+									id: 2,
+									content: '增加评论的删除键'
+								},
+								{
+									id: 3,
+									content: '富文本编辑器'
+								},
+								{
+									id: 4,
+									content: '应当使组件保持足够的简单'
+								},
+								{
+									id: 5,
+									content: '复杂一些的功能要么由组件组合出来，要么在组件外部使用 JS 完成'
+								},
+								{
+									id: 6,
+									content: '组件能传递函数对象吗？只知道 props 允许函数对象'
+								},
+								{
+									id: 7,
+									content: '组件样式应该在哪里设置'
+								},
+								{
+									id: 8,
+									content: '有了卡槽 slot，组件组合的实现就迎刃而解，那么组件就应当足够单纯，为以后的“搭积木”做原料即可'
+								}
+							]
+						},
+						noteFontSize: 1,
+						defaultProp: '实例 prop',
+						user: {
+							firstName: '大锤',
+							lastName: '王'
+						},
+						todos: [{
+								id: 1,
+								text: '今晚吃饭吗',
+								isComplete: false
+							},
+							{
+								id: 2,
+								text: '我肯定不会来加班的',
+								isComplete: true
+							},
+							{
+								id: 3,
+								text: '记得要洗澡',
+								isComplete: true
+							}
+						],
+						// dynamicComponent:'',
+						view: 'v-a'
+					},
+					components: { /* 组件局部注册，此处直接将注册合并到了使用处，更规范的形式是将使用与注册分开，如下面的 component-a */
+						'v-a': {
+							template: '<div>Component A</div>'
+						},
+						'v-b': {
+							template: '<div>Component B</div>'
+						},
+						'component-a': ComponentA
+					},
+					methods: {
+						onEnlargeText: function(enlargeAmount) {
+							this.noteFontSize += enlargeAmount
+						}
+			
+					}
+				})
+				//1.定义路由组件，之后它们就可以被其它文件 import 了。
+				const Foo={template:'<div>foo</div>'}
+				const Bar={template:'<div>bar</div>'} 
+				//2. 定义路由 routes
+				//每一个路由必须通过 map 映射对应的组件。组件既可以是整个组件，也可以仅仅是它的某些选项对象
+				const routes=[/* 静态的路线，它也可以直接写在 router 中 */
+					{path:'/foo',component:Foo},
+					{path:'/bar',component:Bar}
+				]
+				//3.创建路由器实例，并支持同时添加路由配置
+				const router = new VueRouter({
+					routes /* 这是 “routes:routes”的简写*/
+				})
+				const User={template:'<div>User</div>'}
+				const router2=new VueRouter({ /* 动态路线 */
+					routes:[
+						//动态参数由一个冒号开头
+						{
+							path:'/user/:id',
+							component:User
+						}/* 这里的 id 是在哪定义的 */
+					]
+				})
+				//4.创建并挂载根实例
+				const app12=new Vue({
+					router,
+					router2,
+				}).$mount('#app-12')
+				
+				var app13=new Vue({
+					el:'#app-13',
+					data:{
+						visible:false
+					}
+				})
+			</script>
+</html>

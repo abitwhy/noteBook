@@ -1,0 +1,107 @@
+﻿# 常用命令行
+
+## CMD 的
+
+*CMD 是 Windows 操作系统的`命令提示符系统`*
+
+|            命令行 | 功能描述                         |
+| ----------------: | :------------------------------- |
+|           命令/？ | 查看该命令的提示                 |
+|              exit | 退出                             |
+|                c: | 转到指定盘符                     |
+|    cd /d filepath | 转到文件路径                     |
+|    mkdir filename | 当前路径下新建文件夹             |
+|       cd filename | 转到一级子目录                   |
+|              cd.. | 转到上级目录                     |
+|        dir (/a *) | 显示目录中的文件和子目录列表     |
+|               cls | 清除屏幕                         |
+|       color 0b/08 | 设置背景与字体颜色（推荐这两种） |
+| del filename.type | 删除文件（慎用）                 |
+|         rd packge | 删除文件夹                       |
+|        gpedit.msc | 打开组策略编辑器                 |
+|    slmgr.vbs -xpr | 查看 windoes 激活状态            |
+|                   |                                  |
+|                   |                                  |
+|                   |                                  |
+|                   |                                  |
+|                   |                                  |
+
+***
+
+##  NPM 的	
+
+*NPM 是随同 NodeJS 一起安装的`包管理工具`*
+
+| 命令行                                                       | 功能描述                                              |
+| ------------------------------------------------------------ | ----------------------------------------------------- |
+| npm install/i                                                | 安装依赖                                              |
+| npm config get registry                                      | 查看现有源                                            |
+| npm config set registry=http://registry.npmjs.org            | 设置 npm 默认源                                       |
+| npm --registry https://registry.npm.taobao.org install express | 临时使用淘宝镜像（注意：淘宝不支持 audit (fix) 请求） |
+| npm config set registry https://registry.npm.taobao.org      | 持久使用淘宝镜像                                      |
+| npm run dev                                                  | 启动服务                                              |
+| npm run build                                                | 构建生产环境(默认）                                   |
+| npm run build --qa                                           | 构建测试环境                                          |
+| npm run build --uat                                          | 构建验收环境                                          |
+| npm run build --prod                                         | 构建生产环境                                          |
+|                                                              |                                                       |
+|                                                              |                                                       |
+
+
+
+## Nginx 的 	
+
+*Nginx (engine x) 是一个高性能的 HTTP 和反向代理 `web 服务器`*
+
+| 命令行          | 功能描述                                               |
+| --------------- | ------------------------------------------------------ |
+| start nginx[^*] | 启动服务                                               |
+| nginx -s quit   | 退出服务                                               |
+| nginx -s stop   | 强制关闭服务                                           |
+| nginx -s reload | 重载服务（重载服务配置文件，类似于重启，服务不会中止） |
+| nginx -t        | 验证配置文件                                           |
+| nginx -c        | 使用配置文件-（配置文件路径）                          |
+| nginx -h        | 使用帮助                                               |
+| 使用帮助        | 热启动                                                 |
+|                 |                                                        |
+
+
+[^*]: *需要到 Nginx `安装目录`该执行命令，不要试图为 Nginx 设置全局变量*
+
+
+
+## Git 的 
+
+*Git 是一个开源的`分布式版本控制系统`*
+
+git conf
+
+| 命令行                                                       | 功能描述                                                     |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| git clone                                                    | 复制远程仓库（Git支持多种协议，包括 https，但 ssh 协议速度最快） |
+| git config --global user.name github_account                 | 登录github                                                   |
+| git config --global user.email example@domain                | 相应的邮箱                                                   |
+| pwd                                                          | 显示当前工作区                                               |
+| git init                                                     | 把当前目录变成Git可以管理的仓库（会创建.git文件（版本库 repository）） |
+| git add fileName.type                                        | 提交文件到暂存区（stage 或 index）                           |
+| git commit -m "description:adv+attr"                         | 从暂存区提交文件修改到 master 分支，以及必要的修改说明（建议：动+宾短语） |
+| dir/ls                                                       | 显示目录中的文件和子目录列表                                 |
+| git log (--pretty=oneline)                                   | 显示从最近到最远的提交日志(加参会显示无作者及时间的日志）    |
+| git reset --hard HEAD^/commit_id                             | 回退到上一个版本/commit_id指定版本（HEAD-当前版本，后每多一个^则多退一个版本，退上n个用~n） |
+| cat fileName.type                                            | 查看文档内容                                                 |
+| git reflog                                                   | 查看修改命令历史                                             |
+| git diff HEAD -- fileName.type                               | 查看工作区和版本库里面最新版本的区别                         |
+| git restore -- fileName.type                                 | 回退到暂缓区初始状态（若还未存入暂缓区，会回退到 HEAD 版本） |
+| git rm fileName.type                                         | 删除文件（记得接着提交修改）                                 |
+| git remote add origin git@github.com:account/ repositoryName.git | 将本地版本库（通常起名为origin）与 github 上的远程仓库相关联 |
+| git push (-u) origin master                                  | 把本地库的内容推送到远程仓库(-u 同时关联 master，第一次时才用) |
+|                                                              |                                                              |
+|                                                              |                                                              |
+|                                                              |                                                              |
+
+
+
+
+
+
+​				

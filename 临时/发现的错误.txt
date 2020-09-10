@@ -1,0 +1,24 @@
+都是一些不影响理解的小小错误……
+《芋道 Spring Boot 安全框架 Shiro 入门》博文中
+①2.2.3 ShiroFilter-->#filterChainDefinitionMap() 方法-->filterMap.put("/test/echo", "anon"); 语句
+错误：与 TestController 中的 @GetMapping("/demo") 注解 中的接口不一致
+改正：在 @GetMapping("/demo") 中将接口改为“/echo”、讲解中的“对于 /test/demo 接口，直接访问，无需登录。” 也需一并改成 “/test/echo”。
+②2.3.2 登录请求
+错别字：“所以，POST loginUrl 的目的，实际是为了处理认真失败的情况。”
+改正：认“证”失败
+
+③2.4TestController  （这个不是错误，是关于Shiro 退出重登机制的问题）
+测试：登录用户-->/logout 退出（跳转到GET /login）--> 再次登录-->页面跳转到了 http://localhost:8080/ ，提示404错误 。
+疑问：若按照 authc 过滤器的逻辑，第二次登录会重定向到上一次请求：/logout；或者按照  @GetMapping("/log_success") 的设定，登录成功会跳转到其指定的返回页（这也正是我们所期望的）。但是实际上都不是，它跳转到了  http://localhost:8080/，这是 Shiro 内部的处理逻辑吗？是不是它认为当前没有指定跳转页而跳转到了顶层接口？
+④3.6 使用示例
+错误：“在 lab-33-shiro-demo 示例的基础上，我们进行修改，增加 Shiro 注解的使用。”以及“胖友可以按照如上的说明，进行各种测试。例如说，登录「user/user」用户后，去访问 /demo/admin 接口，会返回无权限的提示~”。
+分析：这里没错，服务器日志确实报错了，但却看出Shiro 注解实现权限配置的方式与前面自定义的 filterChainDefinitionMap 权限配置有冲突。因为同时还出现了许多访问异常，如：无法匿名访问 demo/echo、登录后访问 demo/echo 会跳转到 GET /login 等。可能罪魁祸首是我不知道如何“修改”，只进行了“添加”才会出现这些不必要的问题吧QWQ。
+⑤4.1表结构
+错误：	实体		表	说明
+	SysRoleEntity	sys_role	用户信息
+改正：				角色信息
+
+
+
+
+	
