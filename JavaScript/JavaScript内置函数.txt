@@ -1,0 +1,16 @@
+JavaScript 常用函数汇总
+
+slice() 从已有的数组中返回指定区间的元素，改变原数组。
+join() 把数组中的所有元素放入一个字符串。
+call() 绑定 this，实现对象之间函数的“借用”
+forEach() 遍历数组元素
+toString() 转成字符串
+charCodeAt() 转成 Unicode 值
+Number() 强制转换为数字
+String() 强制转换为字符串
+Boolean() 强制转换为布尔值
+parseInt() 将字符串逐个转换为整数
+concat() 给数组尾部拼接点东西，数组本身包含对象元素时会浅拷贝
+indexOf() 字符串中找指定字符（串）最早出现（首字符）的索引
+indexOf() 字符串中去除空格、制表符、换行符
+floor()\ceil() 数值向上\下取整
