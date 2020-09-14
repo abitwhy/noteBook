@@ -515,7 +515,7 @@ var obj=Object.definePropertie({},'foo',{
 	//get: undefined, // 取值函数，不能和 value 同时设置或同时设置 writable 为 true。
 	//set: undefined // 存值函数，规则同上。
 });
-Object.getOwnPropertyDescriptor(obj,'foo'); // 返回参数指定的元属性。
+Object.getOwnPropertyDescriptor(obj,'foo'); // 返回 obj 的元属性。
 ```
 
 - **补充**
@@ -539,10 +539,11 @@ var o1 = { foo:1 }; // foo 是普通方式创建的属性。
 Object.defineProperty(o1, 'bar', {}); // 给已有对象属性修改元属性。没有的属性会被创建。若已有属性设置了 configurable:false 会导致失败。
 Object.getOwnPropertyDescriptors(o1); // 注意观察普通属性元属性的默认值，与 defineProperty 创建属性元属性的默认值，二者之间的区别。
 var o2 = Object.defineProperties({},{ // 创建对象时定义属性的元属性
-p1:{value:1},
-p2:{}
+    p1:{value:1},
+    p2:{}
 });
 ```
+*此外，使用`Object.create`创建对象时，也允许通过二参定义元属性。*
 
 -----
 
@@ -886,22 +887,22 @@ JSON.parse("'String'");
 - **示例**
 
 ```javascript
-var constructFun = function(){ // 这里是无参构造，当然还可以是含参构造
+var ConstructFun = function(){ // 这里是无参构造，当然还可以是含参构造
 	this.pubTypeProp='形共享-属性'; // 这里赋的值仅为初始值。
     this.pubTypeFun = function (){
         console.log('形共享-方法')
     }
 }
-var f1 = new constructFun();
-var f2 = new constructFun();
+var f1 = new ConstructFun();
+var f2 = new ConstructFun();
 // 构造函数创建的属性和方法是“形共享”的
 f1.pubTypeProp === f2.pubTypeProp; // true，值比较，初值相同而已，不要被干扰。
 f1.pubTypeFun === f2.pubTypeFun; // false,址比较，因而‘值’并未共享。
 
 // 原型对象创建的属性和方法是“形-值共享”的
-constructFun.prototype.pubTypeValueProp = '形值都共享-属性'; // 原型对象上创建的方法
-constructFun.prototype.pubTypeValueFun = function(){
-console.log('形值都共享-方法');
+ConstructFun.prototype.pubTypeValueProp = '形值都共享-属性'; // 原型对象上创建的方法
+ConstructFun.prototype.pubTypeValueFun = function(){
+	console.log('形值都共享-方法');
 }
 f1.pubTypeValueFun === f2.pubTypeValueFun; // true,‘值’也共享了。
 
@@ -913,7 +914,7 @@ f1.hasOwnProperty('pubTypeValueProp'); // true
 
 // 未被覆盖的属性和方法
 f2.pubTypeValueProp; // 形值都共享-属性
-constructFun.prototype.pubTypeValueProp = '通过原型修改继承属性';
+ConstructFun.prototype.pubTypeValueProp = '通过原型修改继承属性';
 f2.pubTypeValueProp; // 通过原型修改继承属性
 ```
 
@@ -932,20 +933,83 @@ f2.pubTypeValueProp; // 通过原型修改继承属性
 
 - **作用**
 
-> 基于构造层面的继承（对比于基于实例的继承）。
+> 基于**构造函数**层面的继承（相较于基于实例的继承）。
+
+- **用法**
+1. 在子类的构造函数中，调用父类的构造函数。
+   **伪码**：
+
+```javascript
+function Sub(value) {
+  Super.call(this);
+  this.prop = value;
+}
+```
+
+2. 让子类的原型指向父类的原型。
+
+   **伪码**：
+
+```javascript
+Sub.prototype = Object.create(Super.prototype);
+Sub.prototype.constructor = Sub;
+Sub.prototype.method = '...';
+```
+
+- **示例**
+
+```javascript
+// 父类（构造函数）
+function Tree(){
+    this.branch="枝";
+    this.leaf="叶";
+    this.root="根"
+}
+Tree.prototype.beMadeUpOf = function(){
+	var form = Object.getOwnPropertyNames(this); // 可选择直接打印 form，后面只是为了复习 forEach 的知识。
+    var result = [];
+    form.forEach(
+        i=>{result.push(this[i])}); // ES6 语法
+    console.log(this.constructor.name +
+                ' is made up of:' + result.toString())
+}
+
+// 子类（构造函数）
+// 第一步：子类调用父类构造函数
+function FruitTree(){
+    Tree.call(this);
+	this.fruit = '果实';
+}
+// 第二步：子类原型指向父类
+FruitTree.prototype = Object.create(Tree.prototype); // 修改原型对象。必须用 Object.create 方式，指向一个继承父类原型的实例。而不是直接赋值 Tree.prototype，指向父类原型。这样，下一行操作将不至于影响父类原型。
+FruitTree.prototype.constructor = FruitTree; // 修改原型对象时，需要同时修改 constructor 属性。
+
+// 验证
+var appleTree = new FruitTree(); 
+appleTree instanceof FruitTree; // true
+appleTree instanceof Tree; // true
+appleTree.beMadeUpOf(); // FruitTree is made up of:枝,叶,根,果实
+// 不太清楚细节（需要深究 create 方法），总之，这样就实现了构造函数的继承，测试也符合预期，这里不一一列举了。
+```
+
+
 
 
 
 ## 'use strict' 常见规范
 
-1. 不能使用未声明的变量。
-
+1. 不能使用未声明的变量
 2. 函数里的 this 不能指向顶层对象
+3. 只读属性不可写
+4. 无法删除不可配置属性
+5. 无法删除变量
+  6. 不允许函数参数重名
+  7. 八进制不能使用`0`前缀，只能使用`0o`前缀
+  8. 禁止 with 语句
+  9. 为 eval 设置作用域
 
-3. 剔除大部分删除操作。
 
- 	4. 不允许变量重名。
- 	5. ……用到再加
+说明和举例详见阮先生的[教程](https://wangdoc.com/javascript/oop/strict.html "关于严格模式")
 
 ------
 
