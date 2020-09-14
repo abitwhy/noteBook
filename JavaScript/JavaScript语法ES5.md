@@ -873,6 +873,55 @@ JSON.parse("'String'");
 
 ------
 
+## prototype 属性
+
+- **作用**
+
+> JavaScript 里实现**继承机制**的具体方式。
+
+- **用法**
+  **构造函数**的 prototype 属性指向一个对象，被称作**原型对象**，原型对象的属性和方法被视为**共有资源**，被该构造函数的所有**实例**共享。
+- **进一步理解**
+  在 JavaScript 里，以构造函数实现‘**类**’这个概念，类可以理解为“**形共享**”。而**继承**则是在“形共享”的基础上，还要求“**值共享**”。于是， JavaScript 就通过`构造函数`+`prototype 属性`的方式，实现继承。
+- **示例**
+
+```javascript
+var constructFun = function(){
+	this.pubTypeProp='形共享-属性'; // 这里赋的值仅为初始值。
+    this.pubTypeFun = function (){
+        console.log('形共享-方法')
+    }
+}
+var f1 = new constructFun();
+var f2 = new constructFun();
+f1.pubTypeProp === f2.pubTypeProp; // true，值比较，初值相同而已。
+f1.pubTypeFun === f2.pubTypeFun; // false,址比较，可看出‘值’并未共享。
+
+constructFun.prototype.pubTypeValueProp = '形值都共享-属性';
+constructFun.prototype.pubTypeValueFun = function(){
+console.log('形值都共享-方法');
+}
+f1.pubTypeValueFun === f2.pubTypeValueFun; // true,‘值’也共享了。
+
+// 注意
+f1.pubTypeValueProp; // '形值都共享-属性'
+f1.hasOwnProperty('pubTypeValueProp'); // false
+f1.pubTypeValueProp = '改变实例的值'; // 这种通过实例给继承属性的赋值操作,会创建同名私有属性，覆盖实例的此继承属性。
+f1.hasOwnProperty('pubTypeValueProp'); // true
+
+```
+
+- **补充**
+
+  - 原型链 
+
+    1. 任何一个对象，都可以充当其他对象的原型；
+    2. 由于原型对象也是对象，所以它也有自己的原型。
+
+    以上两点就产生了原型链。查看对象原型的方法是`Object.getPrototypeOf()`，顶层原型对象一般认为是 `Object.prototype`（它也有自己的原型：`null`，但编译器查找对象属性时，只会追溯到 Object.prototype）。
+
+  - 
+
 ## 'use strict' 常见规范
 
 1. 不能使用未声明的变量。
