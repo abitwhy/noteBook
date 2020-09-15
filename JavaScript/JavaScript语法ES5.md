@@ -2,7 +2,7 @@
 
 > **几点说明:**
 >
-> - 根据[教程](https://wangdoc.com/javascript/index.html "网道《JavaScript教程》")做的笔记，内容有舍取。
+> - 根据[教程](https://wangdoc.com/javascript/index.html "网道《JavaScript教程》")做的笔记，内容有取舍。
 > - 教程里使用的是==ES5==语法，==ES6==应该会较晚的时候学习。
 > - 笔记以单个语法点为单元，单元主题明确，单元间比较散乱。
 > - 文件格式也是后面才转成`md`的，源码排版可能会很乱。
@@ -522,7 +522,7 @@ Object.getOwnPropertyDescriptor(obj,'foo'); // 返回 obj 的元属性。
 
   **defineProperty/definePropertys 的使用方法**
 
-  - **函数原型**
+  - **函数原型**（或说API更准确）
 
     1.`Object.defineProperty(object, propertyName, attributesObject);`
 
@@ -651,8 +651,8 @@ Math.max.apply(null, [1,4,2,8,5,7]); // 8，Math.max 原本不能计算数字数
 ```javascript
 [10111, 1101, 111].sort(); // [10111, 1101, 111]
 [10111, 1101, 111].sort((f,b)=>f-b); // [111, 1101, 10111]
-// 参数函数需双参以作比较，默认不改变原数组顺序，除非满足 return 指定换位条件。（需要将逻辑转换成表达式值大于零，转换过程：递增排序 --(对立面)--> 递减 --(逻辑式)--> f>b --(算术式)--> f-b）。
-// 一句话理解排序规则函数：默认原始排序，除非满足换位条件。
+// 参数函数需双参以作比较，默认不改变原数组顺序，除非满足 return 指定换位条件。（需要将逻辑转换成表达式值大于零，转换过程示例：递增排序 --(对立面)--> 递减 --(逻辑式)--> f>b --(算术式)--> f-b）。
+// 一句话理解排序规则函数：默认原始排序，满足换位条件才反序。
 ```
 
 ------
@@ -665,7 +665,7 @@ Math.max.apply(null, [1,4,2,8,5,7]); // 8，Math.max 原本不能计算数字数
 
 - **用法**
 
-  `map` 本身可传**双参**，首参为**函参**，二参为**回调对象**。函参又有三个可选参数，依次为：**当前元素**、**元素索引**、**数组本身**。
+  `map`本身可传**双参**，首参为**函参**，二参为**回调对象**。函参又有三个可选参数，依次为：**当前元素**、**元素索引**、**数组本身**。
 
 - **示例**
 
@@ -715,7 +715,7 @@ findLongest(['aaa', 'bb', 'c']) // "aaa"，找出字符数组最长元素。
 
   - **概括**
 
-  一般通过 RegExp 的 exec 和 test 方法，以及 String 的 match、matchAll、replace、search 和 split 方法来使用。
+  一般通过**正则式**的`RegExp`的`exec`和`test`方法，或者**字符串**的`match`、`matchAll`、`replace`、`search`和`split`方法来使用。
 
   - **创建**
 
@@ -751,13 +751,13 @@ findLongest(['aaa', 'bb', 'c']) // "aaa"，找出字符数组最长元素。
   
 - **符号详解**[^5]
 
-  - ‘\’，转义符，转义包含两层含义：将其后非特殊字符（字面量）转义成特殊字符；将特殊字符转移成其字面量。
-  - ‘^’，行首判断符/脱字符，前者匹配输入开始（会被换行符影响，可以设置.m参消除），“[^reg]”表示与[]里面匹配规则的对立。单独“[^]”表示匹配一切字符。
-  - ‘$’，匹配输入的结束，换行影响及处理同上。
-  - ‘*’，匹配0或多次，等价于 {0,}。
-  - ‘+’，匹配1或多次，等价于 {1,}。
-  - ‘?’，匹配匹配前面一个表达式 0 次或者 1 次。等价于 {0,1}。
-  - ‘.’，默认匹配除换行符之外的任何单个字符。
+  - `\`，转义符，转义包含两层含义：将其后非特殊字符（字面量）转义成特殊字符；将特殊字符转移成其字面量。
+  - `^`，行首判断符/脱字符，前者匹配输入开始（会被换行符影响，可以设置.m参消除），“[^reg]”表示与[]里面匹配规则的对立。单独`[^]`表示匹配一切字符。
+  - `$`，匹配输入的结束，换行影响及处理同上。
+  - `*`，匹配0或多次，等价于`{0,}`。
+  - `+`，匹配1或多次，等价于`{1,}`。
+  - `?`，匹配匹配前面一个表达式 0 次或者 1 次。等价于`{0,1}`。
+  - `.`，默认匹配除换行符之外的任何单个字符。
   
 
 // TODO 暂时记到这里	
@@ -981,7 +981,7 @@ function FruitTree(){
 	this.fruit = '果实';
 }
 // 第二步：子类原型指向父类
-FruitTree.prototype = Object.create(Tree.prototype); // 修改原型对象。必须用 Object.create 方式，指向一个继承父类原型的实例。而不是直接赋值 Tree.prototype，指向父类原型。这样，下一行操作将不至于影响父类原型。
+FruitTree.prototype = Object.create(Tree.prototype); // 修改原型对象。必须用 Object.create 方式，指向一个父类原型复制品。而不是直接赋值 Tree.prototype，指向父类原型。这样，下一行操作将不至于影响父类原型。
 FruitTree.prototype.constructor = FruitTree; // 修改原型对象时，需要同时修改 constructor 属性。
 
 // 验证
@@ -998,36 +998,114 @@ appleTree.beMadeUpOf(); // FruitTree is made up of:枝,叶,根,果实
 
 ## 'use strict' 常见规范
 
-1. 不能使用未声明的变量
-2. 函数里的 this 不能指向顶层对象
-3. 只读属性不可写
-4. 无法删除不可配置属性
-5. 无法删除变量
-  6. 不允许函数参数重名
-  7. 八进制不能使用`0`前缀，只能使用`0o`前缀
-  8. 禁止 with 语句
-  9. 为 eval 设置作用域
+1. 不能使用未声明的变量；
+2. 函数里的 this 不能指向顶层对象；
+3. 只读属性不可写；
+4. 无法删除不可配置属性；
+5. 无法删除变量；
+  6. 不允许函数参数重名；
+  7. 八进制不能使用`0`前缀，只能使用`0o`前缀；
+  8. 禁止 with 语句；
+  9. 为 eval 设置作用域。
 
 
 说明和举例详见阮先生的[教程](https://wangdoc.com/javascript/oop/strict.html "关于严格模式")
 
 ------
 
+## 回调函数
+
+- **作用**
+
+> 实现**异步操作**最基本的方式。
+
+- **用法**（伪码）
+
+```javascript
+function f1(callback) {
+  // ...
+  callback();
+}
+function f2() {
+  // ...
+}
+f1(f2);
+```
+
+- **示例**
+
+```javascript
+function async(arg, callback) {
+  console.log('参数为 ' + arg +' , 1秒后返回结果');
+  setTimeout(function () { callback(arg * 2); }, 1000);
+}
+function final(value) {
+  console.log('完成: ', value);
+}
+
+async(1, function (value) {
+  async(2, function (value) {
+    async(3, function (value) {
+      async(4, function (value) {
+        async(5, function (value) {
+          async(6, final);
+        });
+      });
+    });
+  });
+});
+// 参数为 1 , 1秒后返回结果
+// 参数为 2 , 1秒后返回结果
+// 参数为 3 , 1秒后返回结果
+// 参数为 4 , 1秒后返回结果
+// 参数为 5 , 1秒后返回结果
+// 参数为 6 , 1秒后返回结果
+// 完成:  12
+```
+
+教程里的[示例](https://wangdoc.com/javascript/async/general.html#异步操作的流程控制 )，里面还有关于**异步任务流程**的知识，需要研读。
+
+- **优缺点**
+  - 优点：简单、容易理解和实现；
+  - 缺点：不利于代码的阅读和维护；各个部分之间高度耦合（coupling），使得程序结构混乱、流程难以追踪（尤其是多个回调函数嵌套的情况）；每个任务只能指定一个回调函数。
+
+------
+
+## 定时器
+
+- **作用**
+
+> 定时执行代码，向任务队列添加定时任务。
+
+- **用法**（伪码）
+
+1. **setTimeout()**
+
+```javascript
+// 执行代码
+var timerId = setTimeout(code, delay); // 返回定时器编号，用以方便取消该定时器。
+// 执行回调函数
+var timerId = setTimeout(funcName/anonFunc, delay,funcP1,funcP2,...,funcPn); // 回调函数可以写函数名或完整的匿名函数。delay 后面的参数会作为回调函数的参数，所以务必对应。
+```
+
+2. **setInterval()**
+   用法与 setTimeout 完全一致，
+
 ## 语法查漏补缺
 
-1. JavaScript 会自动添加行末的分号，但强烈建议为代码手动加上分号。
+1. JavaScript 会自动添加行末的分号`;`，但强烈建议为代码手动加上分号。
 
-2. 全局变量大写表示 UPPER_VAR。
+2. 全局变量要大写表示 UPPER_VAR。
 
-3. 分清楚数组操作及操作数组的函数。
+3. 分清楚**数组操作**及**操作数组**的函数。
 
    - 区分原则：是否改变了原数组。
 
-   - 数组操作：pop|push|shift|unshift|reverse|splice|sort
+   - 数组操作：`pop`|`push`|`shift`|`unshift`|`reverse`|`splice`|`sort`
 
-   - 操作数组：join|concat|slice|forEach|map|filter|some|every|reduce|reduceRight|indexOf	
+   - 操作数组：`join`|`concat`|`slice`|`forEach`|`map`|`filter`|`some`|`every`|`reduce`|`reduceRight`|`indexOf`	
 
-   - 更多说明：某些操作数组的函数如 forEach 等能改变传入的回调对象，如果该对象是原数组，那么也就改变了原数组，但这不在区分原则考虑的范围之内。
+   - 更多说明：某些操作数组的函数，如 forEach 等，能改变传入的回调对象。如果该对象是原数组，那么也就改变了原数组。这不在区分原则考虑的范围之内。
 
 4. 构造函数两个特点：
 
@@ -1035,7 +1113,9 @@ appleTree.beMadeUpOf(); // FruitTree is made up of:枝,叶,根,果实
 
    2. 生成对象的时候，必须使用new命令，使得构造函数执行并返回构造好的 this 对象。
 
-   （**注意**：不要在构造函数内 return，这会干扰返回 this 对象，除非你知道你在干什么。）				 
+   （**注意**：不要在构造函数内 return，这会干扰返回 this 对象，除非你知道你在干什么。）
+
+5.  为了保持简单，JavaScript 是**单线程**的，一开始是这样，将来也不会变。这是这门语言的**核心特征**。
 
 ## 一些有必要记录的示例
 
@@ -1077,7 +1157,7 @@ ALPHABET += '0123456789-_';
 function regTest(regular,string){
    var reg = regular;
    var str = string;
-   function execTest(){
+   function execTest(){ 
        r = reg.exec(str);
        console.log(String(r));
        console.log(r === null ? 'Not exist.' : r.index);
