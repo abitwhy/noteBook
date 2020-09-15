@@ -115,7 +115,7 @@ function b64Decode(str) {
 }
 // 示例：
 b64Encode('我爱你'); // "JUU2JTg4JTkxJUU3JTg4JUIxJUU0JUJEJUEw"
-b64Decode('JUU2JTg4JTkxJUU3JTg4JUIxJUU0JUJEJUEw'); // ”我爱你“
+b64Decode('JUU2JTg4JTkxJUU3JTg4JUIxJUU0JUJEJUEw'); // "我爱你"
 ```
 
 ***
