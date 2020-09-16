@@ -1125,7 +1125,7 @@ var timer = setTimeout(function f() {
 
 ------
 
-## Promise 对象的初步认识
+## 初识 Promise 对象
 
 - **作用**
 
@@ -1137,13 +1137,13 @@ var timer = setTimeout(function f() {
     Promise 对象通过自身的状态，来控制异步操作。
     异步操作状态有三种：
 
-    1. pending - 等待
+    1. `pending` - 等待
 
-    2. fulfilled - 成功
+    2. `fulfilled` - 成功
 
-    3. rejected - 失败
+    3. `rejected` - 失败
 
-    `fulfilled`和`rejected`合在一起称为`resolved`（已定型）。
+    `fulfilled`和`rejected`合在一起称为`resolved`（已定型）[^7]。
 
     状态变化只有两种：
 
@@ -1154,8 +1154,26 @@ var timer = setTimeout(function f() {
 
     对应两种最终结果：
 
-    - 成功：实例返回一个值，并置状态为 fulfilled；
-    - 失败：实例抛出一个错误，并置状态为 rejected。
+    - 成功：实例返回一个值，并置状态为 `fulfilled`；
+    - 失败：实例抛出一个错误，并置状态为 `rejected`。
+
+    [^7]:注意区别于后面出现的 resolve 和 reject 参数(名字可自取)，它们是 JavaScript 引擎提供的函数。resolve 是 fulfilled 状态会执行的函数，是函数；而 resolved 只是一个概念。
+
+  - **then 方法**
+
+    Promise 实例的`then`方法，用来添加回调函数。
+
+    接受两个参数：
+
+    1. 首参：异步操作**成功**时的回调函数
+    2. 二参：异步操作**失败**时的回调函数（可省）
+
+    链式使用：
+
+    相当于嵌套的回调函数。但每个回调都拥有状态信息，能更好地控制回调函数，书写起来也更方便。
+
+  - **微任务**（microtask）
+    Promise 的回调函数属于异步任务，会在同步任务之后执行。不过不同于一般的异步任务，微任务将异步任务添加在本轮事件循环，而不是下一轮。
 
 - **使用**（伪码）
 
@@ -1163,9 +1181,9 @@ var timer = setTimeout(function f() {
 function f1(resolve, reject) {
 	// 异步代码...
     if (true){/* 异步操作成功 */
-        resolve(value); // 返回值将作为下一层内嵌回调函数的参数，即紧邻的 then 方法指定的回调函数的参数。
+        resolve(value); // 置状态为 fulfilled，并返回 value，作为下一层内嵌回调函数的参数，即紧邻的 then 方法指定的回调函数的参数。
 	} else { /* 异步操作失败 */
-        reject(new Error()); // 抛出的错误具有传递性，可被任何一层内嵌回调函数捕捉
+        reject(new Error()); // 置状态为 rejected，并抛出的错误。错误具有传递性，可被任何一层内嵌回调函数捕捉。
     }
 }
 
@@ -1184,19 +1202,22 @@ function timeout(ms) {
     setTimeout(resolve, ms, 'done');
   });
 }
-timeout(100); // 返回了一个 Promise 实例，实例有 [[PromiseState]] 和 [[PromiseResult]] 两个属性，值分别为 fulfilled 和 done。
+timeout(100); // 返回了一个 Promise 实例。
+// 观察到实例有 [[PromiseState]] 和 [[PromiseResult]] 两个属性，值分别为 fulfilled 和 done。
+// 第一次见这种由“[[]]”，包裹的属性，不知道该如何称呼。
+// 这种属性不能被正常访问到。
 
 // 关于 then
 var p1 = new Promise(function (resolve, reject) {
   resolve('成功');
 });
-p1.then(console.log, console.error); // "成功"，二参指定异步操作失败执行的回调函数，可省
+p1.then(console.log, console.error); // "成功"
 var p2 = new Promise(function (resolve, reject) {
   reject(new Error('失败'));
 });
 p2.then(); // Error: 失败
 
-// 关于微任务（microtask）
+// 关于微任务
 setTimeout(function() {
   console.log(1);
 }, 0); // 放到下一轮事件循环任务队列的头部
@@ -1213,7 +1234,34 @@ console.log(3); // 同步任务在本轮事件循环
 
 ------
 
+## 初识 DOM
 
+- **概念**
+
+> DOM（Document Object Model），文档对象模型，是 JavaScript 操作网页的接口 。
+
+- **作用**
+
+> DOM 将网页转为一个 JavaScript 对象，从而可以用脚本对网页进行各种操作。
+
+- **进一步了解**
+  - 浏览器根据 DOM 模型，将结构化文档（HTML、XML 等）解析成树状结构（DOM Tree）。
+  - DOM Tree 是由一系列节点（node）构成的，所有节点，以及结构树本身，都有规范的对外接口。
+  - DOM 只是一个接口规范，可以用各种语言实现。
+
+- **节点**
+
+  - 七种节点类型
+    - `Document`：整个文档树的顶层节点
+    - `DocumentType`：`doctype`标签（比如`<!DOCTYPE html>`）
+    - `Element`：网页的各种HTML标签（比如`<body>`、`<a>`等）
+    - `Attr`：网页元素的属性（比如`class="right"`）
+    - `Text`：标签之间或标签包含的文本
+    - `Comment`：注释
+    - `DocumentFragment`：文档的片段
+
+  - 节点树的组成
+    - `document`节点，代表整个文档树
 
 ## 语法查漏补缺
 
