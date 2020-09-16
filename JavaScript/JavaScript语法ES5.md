@@ -1131,17 +1131,87 @@ var timer = setTimeout(function f() {
 
 > Promise 为**异步操作**提供**统一接口**，起代理（proxy）作用，使得异步操作具备同步操作的接口。
 
+- **进一步了解**
+
+  - **对象状态**
+    Promise 对象通过自身的状态，来控制异步操作。
+    异步操作状态有三种：
+
+    1. pending - 等待
+
+    2. fulfilled - 成功
+
+    3. rejected - 失败
+
+    `fulfilled`和`rejected`合在一起称为`resolved`（已定型）。
+
+    状态变化只有两种：
+
+    - 等待 -> 成功
+    - 等待 -> 失败
+
+    当状态成为**已定型**时，状态将无法再改变，这就如同**承诺**一样，也即`Promise`名字的内涵。
+
+    对应两种最终结果：
+
+    - 成功：实例返回一个值，并置状态为 fulfilled；
+    - 失败：实例抛出一个错误，并置状态为 rejected。
+
 - **使用**（伪码）
 
 ```javascript
 function f1(resolve, reject) {
-  // 异步代码...
+	// 异步代码...
+    if (true){/* 异步操作成功 */
+        resolve(value); // 返回值将作为下一层内嵌回调函数的参数，即紧邻的 then 方法指定的回调函数的参数。
+	} else { /* 异步操作失败 */
+        reject(new Error()); // 抛出的错误具有传递性，可被任何一层内嵌回调函数捕捉
+    }
 }
 
 // Promise 是一个对象，也是一个构造函数。
-var p1 = new Promise(f1); // 包装异步函数 f1,返回一个 Promise 实例。
+var p1 = new Promise(f1); // 传入异步函数 f1,返回一个 Promise 实例。更常见的做法是，直接传入一个匿名函数。
 p1.then(f2).then(f3); // 用 then 方法指定下一步回调的函数，后面可跟多个 then，与嵌套回调函数等效。
+
 ```
+
+- **示例**
+
+```javascript
+// 关于构造函数
+function timeout(ms) {
+  return new Promise((resolve, reject) => {
+    setTimeout(resolve, ms, 'done');
+  });
+}
+timeout(100); // 返回了一个 Promise 实例，实例有 [[PromiseState]] 和 [[PromiseResult]] 两个属性，值分别为 fulfilled 和 done。
+
+// 关于 then
+var p1 = new Promise(function (resolve, reject) {
+  resolve('成功');
+});
+p1.then(console.log, console.error); // "成功"，二参指定异步操作失败执行的回调函数，可省
+var p2 = new Promise(function (resolve, reject) {
+  reject(new Error('失败'));
+});
+p2.then(); // Error: 失败
+
+// 关于微任务（microtask）
+setTimeout(function() {
+  console.log(1);
+}, 0); // 放到下一轮事件循环任务队列的头部
+new Promise(function (resolve, reject) {
+  resolve(2);
+}).then(console.log); // 追加到本轮事件循环任务队列的尾部
+console.log(3); // 同步任务在本轮事件循环
+// 3
+// 2
+// 1
+```
+
+优缺点详见[教程](https://wangdoc.com/javascript/async/promise.html#%E5%B0%8F%E7%BB%93 "Promise 优缺点")。
+
+------
 
 
 
