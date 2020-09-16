@@ -248,7 +248,7 @@ otherFun('内部参数（普通参数）');
 
 ## 立即调用的函数表达式（IIFE）
 
-- **目的**
+- **作用**
 
 > 对匿名函数使用这种“**立即执行的函数表达式**”，不必为函数命名，避免污染全局变量；封装产生作用域，封装私有变量。
 
@@ -442,7 +442,7 @@ Array.prototype.slice.call('abc') // ["a","b","c"]，转换成了数组。
 
 ## 数值运算符‘+’/‘-’
 
-- **目的**
+- **作用**
 
 >  可以将**任何值**转为数值
 
@@ -549,7 +549,7 @@ var o2 = Object.defineProperties({},{ // 创建对象时定义属性的元属性
 
 ## keys 与 getOwnPropertyNames 的异同
 
--  **目的：**返回对象**非继承属性**（数组形式）。
+-  **作用：**返回对象**非继承属性**（数组形式）。
 
 -  **区别：**`Object.keys()` 无法返回**不可遍历**的属性；后者可以。
 
@@ -564,7 +564,7 @@ Object.getOwnPropertyNames([]) // [ 'length' ]，可以用来随时查看内置�
 
 ## 控制对象状态
 
--  **目的**
+-  **作用**
 
 > 冻结对象的读写状态，防止对象被改变。
 
@@ -603,7 +603,7 @@ Object.isFrozen(obj3); // true
 
 [^3]: call()、apply()和bind()。
 
-- **目的**
+- **作用**
 
 > 都是通过**重定义 this 指向**，实现对象之间函数的“**借用**”。 
 
@@ -638,7 +638,7 @@ Math.max.apply(null, [1,4,2,8,5,7]); // 8，Math.max 原本不能计算数字数
 
 ## sort() 
 
-- **目的**
+- **作用**
 
 > 给数组元素排序。
 
@@ -659,7 +659,7 @@ Math.max.apply(null, [1,4,2,8,5,7]); // 8，Math.max 原本不能计算数字数
 
 ## map()
 
-- **目的**
+- **作用**
 
 > 根据传入函数参数，对数组元素进行统一处理，返回一个新数组，不改变原数组。
 
@@ -677,7 +677,7 @@ Math.max.apply(null, [1,4,2,8,5,7]); // 8，Math.max 原本不能计算数字数
 
 ## reduce()/reduceRigeht()
 
-- **目的**
+- **作用**
 
 > 根据参数对**数组元素**做一些与**积累量**相关的操作。
 
@@ -1083,13 +1083,67 @@ async(1, function (value) {
 
 ```javascript
 // 执行代码
-var timerId = setTimeout(code, delay); // 返回定时器编号，用以方便取消该定时器。
+var timerId = setTimeout(code, delay); 
+// code 需为字符串形式(很像 eval，是否会产生相关问题)；
+// delay 指定延迟执行的时间（毫秒）；
+// 函数返回定时器编号，用以方便取消该定时器。
+
 // 执行回调函数
 var timerId = setTimeout(funcName/anonFunc, delay,funcP1,funcP2,...,funcPn); // 回调函数可以写函数名或完整的匿名函数。delay 后面的参数会作为回调函数的参数，所以务必对应。
 ```
 
 2. **setInterval()**
-   用法与 setTimeout 完全一致，
+   参数及返回用法与 setTimeout 完全一致，区别在于 setTimeout 只会执行一次定时任务，而 setInterval 会无限次执行。
+   另外，值得注意的是，两者`delay`的实际含义是**有差异**的。都可以理解为时间间隔，不过，setTimeout 中，间隔含义为：前一**个**任务执行**完毕**，到后一**个**任务**开始**执行的时间；setInterval 中，间隔含义为：前一**次**任务**开始**执行，到后一**次**任务**开始**执行的时间。
+
+- **例子**
+
+```javascript
+// setInterval 常用来实现轮询的
+var i = 1;
+var ood = setInterval(function(){
+    if(i>23){
+        clearTimeout(timer); // 取消参数对应的定时器，并返回计数器编号
+    	clearInterval(ood); // 同上
+    	console.log('Enough!');
+    	i = 1;
+    }else if(1&i){ // 轮询一般会判断外界条件是否变化，这里观察 i 是否为奇数。
+        console.log(i+'是奇数');
+    }
+},1000);
+
+// 嵌套的 setTimeout 模拟 setInterval （时间间隔有差异）
+var timer = setTimeout(function f() {
+  console.log(i++);
+  timer = setTimeout(f, 2000);
+}, 2000);
+
+```
+
+- **setTimeout(f,0)**
+  实际上，回调函数 f 不会立即执行，而是在下一轮**事件循环（Event Loop）**开始时，最先执行。这个特殊的定时器有许多实用的使用场景，详见[教程](https://wangdoc.com/javascript/async/timer.html#settimeoutf-0 "setTimeout(f,0) 使用场景")。
+
+------
+
+## Promise 对象的初步认识
+
+- **作用**
+
+> Promise 为**异步操作**提供**统一接口**，起代理（proxy）作用，使得异步操作具备同步操作的接口。
+
+- **使用**（伪码）
+
+```javascript
+function f1(resolve, reject) {
+  // 异步代码...
+}
+
+// Promise 是一个对象，也是一个构造函数。
+var p1 = new Promise(f1); // 包装异步函数 f1,返回一个 Promise 实例。
+p1.then(f2).then(f3); // 用 then 方法指定下一步回调的函数，后面可跟多个 then，与嵌套回调函数等效。
+```
+
+
 
 ## 语法查漏补缺
 
