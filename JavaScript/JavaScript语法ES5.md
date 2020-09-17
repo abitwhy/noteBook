@@ -507,7 +507,7 @@ console.log(document.body); // 输出了整个 element 选项
 
 ```javascript
 // 用 definePropertie\defineProperties 方法定义元属性。
-var obj=Object.definePropertie({},'foo',{
+var obj = Object.definePropertie({},'foo',{
 	value: undefined, // 属性的属性值	
 	writable: true, // 属性值是否可写
 	enumerable: true, // 是否可遍历
@@ -522,7 +522,7 @@ Object.getOwnPropertyDescriptor(obj,'foo'); // 返回 obj 的元属性。
 
   **defineProperty/definePropertys 的使用方法**
 
-  - **函数原型**（或说API更准确）
+  - **函数原型**（或说 API 更准确）
 
     1.`Object.defineProperty(object, propertyName, attributesObject);`
 
@@ -1253,15 +1253,22 @@ console.log(3); // 同步任务在本轮事件循环
 
   - 七种节点类型
     - `Document`：整个文档树的顶层节点
-    - `DocumentType`：`doctype`标签（比如`<!DOCTYPE html>`）
-    - `Element`：网页的各种HTML标签（比如`<body>`、`<a>`等）
-    - `Attr`：网页元素的属性（比如`class="right"`）
+    - `DocumentType`：指定文档类型的标签（比如`<!DOCTYPE html>`）
+    - `Element`：元素节点，网页的各种HTML标签
+    - `Attr`：网页元素的属性
     - `Text`：标签之间或标签包含的文本
     - `Comment`：注释
     - `DocumentFragment`：文档的片段
 
   - 节点树的组成
-    - `document`节点，代表整个文档树
+
+    - 根节点：`document`节点，代表整个文档树。
+    - 第一层：文档类型节点`<!DOCTYPE html>`+顶层容器节点`<html>`。
+    - 其它层：节点间具有三种关系：**父节点**、**子节点**、**同级节点**。
+
+    对于以上三种关系，DOM 提供对应的操作接口。如子节点有：`firstChild`、`lastChild`等，同级节点有：`nextSibling`、`previousSibling`等。
+
+  关于 DOM 的更多知识，实际是关于节点接口与节点属性的知识。自己目前的认知是，`JQuery`及其库可能封装了更方便的接口，现在仅做一遍浏览，且仅关心结构方面的知识。[接口和属性细节](https://wangdoc.com/javascript/dom/index.html "DOM 接口与属性")有需求时，再来回看。
 
 ## 语法查漏补缺
 
