@@ -522,7 +522,7 @@ Object.getOwnPropertyDescriptor(obj,'foo'); // 返回 obj 的元属性。
 
   **defineProperty/definePropertys 的使用方法**
 
-  - **函数原型**（或说 API 更准确）
+  - **函数原型**（或说 API 更准确）[^*]
 
     1.`Object.defineProperty(object, propertyName, attributesObject);`
 
@@ -544,6 +544,8 @@ var o2 = Object.defineProperties({},{ // 创建对象时定义属性的元属性
 });
 ```
 *此外，使用`Object.create`创建对象时，也允许通过二参定义元属性。*
+
+[^*]:都不正确，参照 MDN，应用**语法**一词。
 
 -----
 
@@ -882,8 +884,12 @@ JSON.parse("'String'");
 
 - **用法**
   **构造函数**的`prototype`属性指向一个对象，被称作**原型对象**，原型对象的属性和方法被视为**共有资源**，被该构造函数的所有**实例**共享。
+  
 - **进一步理解**
   在 JavaScript 里，以构造函数实现‘**类**’这个概念，类可以理解为“**形共享**”。而**继承**则是在“形共享”的基础上，还要求“**值共享**”。于是， JavaScript 就通过“**构造函数+prototype 属性**”的方式，实现继承。
+  
+  *以上是自己的理解，有较深的误解，MDN 有更系统的[解释](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Details_of_the_Object_Model)。*
+  
 - **示例**
 
 ```javascript
@@ -927,13 +933,15 @@ f2.pubTypeValueProp; // 通过原型修改继承属性
 
   以上两点就产生了原型链。查看对象原型的方法是`Object.getPrototypeOf()`，顶层原型对象一般认为是 `Object.prototype`（它也有自己的原型：`null`，但 JavaScript 引擎查找对象属性时，只会追溯到 Object.prototype）。
 
+  
+  
   ------
 
 ## 构造函数的继承
 
 - **作用**
 
-> 基于**构造函数**层面的继承（相较于基于实例的继承）。
+> 基于**构造函数**层面的继承（相较于基于实例的继承）。*（**勘误**：这里其实才真正对应于 Java 里的继承，不存在构造函数和实例层面的继承之分。）*
 
 - **用法**
 1. 在子类的构造函数中，调用父类的构造函数。
@@ -969,7 +977,7 @@ Tree.prototype.beMadeUpOf = function(){
 	var form = Object.getOwnPropertyNames(this); // 可选择直接打印 form，后面只是为了复习 forEach 的知识。
     var result = [];
     form.forEach(
-        i=>{result.push(this[i])}); // ES6 语法
+        i=>{result.push(this[i])}); // 箭头函数，ES6 语法
     console.log(this.constructor.name +
                 ' is made up of:' + result.toString())
 }
@@ -981,7 +989,7 @@ function FruitTree(){
 	this.fruit = '果实';
 }
 // 第二步：子类原型指向父类
-FruitTree.prototype = Object.create(Tree.prototype); // 修改原型对象。必须用 Object.create 方式，指向一个父类原型复制品。而不是直接赋值 Tree.prototype，指向父类原型。这样，下一行操作将不至于影响父类原型。
+FruitTree.prototype = Object.create(Tree.prototype); // 修改子类原型对象。必须用 Object.create 方式，指向一个父类原型的实例。而不是直接赋值 Tree.prototype，指向父类原型。这样，下一行操作将不至于影响父类原型。
 FruitTree.prototype.constructor = FruitTree; // 修改原型对象时，需要同时修改 constructor 属性。
 
 // 验证
@@ -1319,23 +1327,38 @@ console.log(3); // 同步任务在本轮事件循环
 
     有三个地方可设置：
 
-    - HTML 的 on-属性
+    - HTML 的 on-属性（不推荐）
 
       ```html
       <div onclick="console.log('触发事件')">
       ```
 
-    - 元素节点的事件属性
+      违背了*关注点分离 (separation of concern)* 原则。
+
+    - 元素节点的事件属性（不推荐）
 
       ```javascript
-      document.body.onclick = function (event) {
+      document.body.onclick = function(event) {
         console.log('触发事件');
       };
       ```
 
-    - DOM 节点使用`addEventListener`方法
+      对于该元素节点，同种事件只能定义一个监听函数，有局限性。
 
-    它们的
+    - DOM 节点及某些 JavaScript 对象使用`addEventListener`方法（推荐）
+
+      ```javascript
+      window.addEventListener('load', function(event){console.log('触发事件');}, false);
+      ```
+
+      使用范围更广，功能更强。
+
+- **拓展阅读**（必须做到）
+
+  - 什么是[window](https://developer.mozilla.org/zh-CN/docs/Web/API/Window)？(开头部分，后面是接口整理)
+
+  - 什么是 [DOM](https://developer.mozilla.org/zh-CN/docs/Web/API/Document_Object_Model/Introduction)？（相较于[教程](https://wangdoc.com/javascript/events/eventtarget.html)更易懂一些，但也意味着忽略了一些更基础的概念）
+  - 
 
 1. JavaScript 会自动添加行末的分号`;`，但强烈建议为代码手动加上分号。
 
