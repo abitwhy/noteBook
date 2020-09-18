@@ -1270,7 +1270,72 @@ console.log(3); // 同步任务在本轮事件循环
 
   关于 DOM 的更多知识，实际是关于节点接口与节点属性的知识。自己目前的认知是，`JQuery`及其库可能封装了更方便的接口，现在仅做一遍浏览，且仅关心结构方面的知识。[接口和属性细节](https://wangdoc.com/javascript/dom/index.html "DOM 接口与属性")有需求时，再来回看。
 
-## 语法查漏补缺
+------
+
+## DOM 事件
+
+- **概念**
+
+> **事件**是一种程序组件间**通信**的方式，是**异步**编程的一种实现。DOM 提供了大量事件以供编程。
+
+- **进一步了解**[^8]
+
+  - 事件操作的**两个**要素：**监听**和**触发**，对应**一个**DOM 接口`EventTarget`（所有节点对象都部署了这个接口，但不仅限于节点对象）。
+
+  - EventTarget 接口的**三个**实例方法：
+
+    - `addEventListener`：绑定事件的监听函数
+
+      ```伪码
+      target.addEventListener(type, listener[, useCapture]);
+      // 四个要素：
+      // target 目标节点；
+      // type：事件类型；
+      // listener：监听函数；
+      // useCapture：是否在捕获阶段触发（可选）
+      ```
+
+    - `removeEventListener`：移除事件的监听函数
+
+      ```伪码
+      target.removeEventListener(type, listener[, useCapture]);
+      // 移除的监听函数必须是 addEventListener 添加进去的。
+      // 要能对应上：同一节点、同一事件类型、同一函数名、相同 useCapture 参数，四个条件一票否决，并报错。
+      ```
+
+    - `dispatchEvent`：触发事件
+
+      ```
+      target.dispatchEvent(event); // 参数是一个 Event对象
+      ```
+
+  [^8]:从 DOM 原生事件接口进行了解，但暂不关心接口细节。从某种程度上来讲，这比文字总结更简练，更能快速了解事件结构层次。
+
+- **监听函数**
+
+  - **概念**： 浏览器监听到事件后，会执行用户绑定的函数。这种方式属于**事件驱动编程模式**（event-drive）。
+
+  - **如何设置**：
+
+    有三个地方可设置：
+
+    - HTML 的 on-属性
+
+      ```html
+      <div onclick="console.log('触发事件')">
+      ```
+
+    - 元素节点的事件属性
+
+      ```javascript
+      document.body.onclick = function (event) {
+        console.log('触发事件');
+      };
+      ```
+
+    - DOM 节点使用`addEventListener`方法
+
+    它们的
 
 1. JavaScript 会自动添加行末的分号`;`，但强烈建议为代码手动加上分号。
 
@@ -1345,6 +1410,14 @@ function regTest(regular,string){
    return execTest;
 }
 // 在浏览器里运行一遍即可使用
+```
+
+- **让网页文档变得可编辑**
+
+```javascript
+document.body.contentEditable = true;
+// 这会使得网页一些功能失效，如链接失效等。重新设为 false 会恢复。
+// 可以想到的一种好处：直接将某些网站作为静态HTML模板，还可以是作为图片模板。不过,毫无疑问,这是一种极致懒堕且可耻的行为，还很愚昧。
 ```
 
 
