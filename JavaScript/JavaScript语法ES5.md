@@ -1000,7 +1000,7 @@ appleTree.beMadeUpOf(); // FruitTree is made up of:枝,叶,根,果实
 // 不太清楚细节（需要深究 create 方法），总之，这样就实现了构造函数的继承，测试也符合预期，这里不一一列举了。
 ```
 
-
+------
 
 
 
@@ -1356,9 +1356,11 @@ console.log(3); // 同步任务在本轮事件循环
 - **拓展阅读**（必须做到）
 
   - 什么是[window](https://developer.mozilla.org/zh-CN/docs/Web/API/Window)？(开头部分，后面是接口整理)
+- 什么是 [DOM](https://developer.mozilla.org/zh-CN/docs/Web/API/Document_Object_Model/Introduction)？（相较于[教程](https://wangdoc.com/javascript/events/eventtarget.html)更易懂一些，但也意味着忽略了一些更基础的概念）
 
-  - 什么是 [DOM](https://developer.mozilla.org/zh-CN/docs/Web/API/Document_Object_Model/Introduction)？（相较于[教程](https://wangdoc.com/javascript/events/eventtarget.html)更易懂一些，但也意味着忽略了一些更基础的概念）
-  - 
+------
+
+## 语法查漏补缺
 
 1. JavaScript 会自动添加行末的分号`;`，但强烈建议为代码手动加上分号。
 
@@ -1382,9 +1384,13 @@ console.log(3); // 同步任务在本轮事件循环
 
    （**注意**：不要在构造函数内 return，这会干扰返回 this 对象，除非你知道你在干什么。）
 
-5.  为了保持简单，JavaScript 是**单线程**的，一开始是这样，将来也不会变。这是这门语言的**核心特征**。
+5. 为了保持简单，JavaScript 是**单线程**的，一开始是这样，将来也不会变。这是这门语言的**核心特征**。
 
-## 一些有必要记录的示例
+6. 
+
+------
+
+## 语法查漏补缺一些有必要记录的示例
 
 - **输出一个字符串里的四字节字符**
 
