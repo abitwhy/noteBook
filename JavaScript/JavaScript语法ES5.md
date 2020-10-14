@@ -777,7 +777,7 @@ RegExp('[a-z]\\s').test('keep think'); // true
 ```javascript
 /no?d/.test('node'); // true
 /no?d/.test('noodles'); // false
-/no+d/.test('noodles'); // false
+/no+d/.test('noodles'); // true
 /no*d/.test('hand'); // true
 /no+d/.test('hand'); // false
 // 上述量词默认贪婪模式，匹配尽可能多的量词标识字符，转换成非贪婪模式只需在量词后添加‘?’。
