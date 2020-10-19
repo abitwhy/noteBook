@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>守望癫疯</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: 18px;
+        }
+        body {
+            color: black;
+
+        }
+        video{
+            position: fixed;
+             right:0;
+             bottom: 0;
+             min-width: 100%;
+             min-height: 100%;
+             width: auto;
+             height: auto;
+             z-index: -9999;
+             /*灰色调*/
+             /*-webkit-filter:grayscale(100%)*/
+         }
+         a {
+             text-decoration: none;
+             color: black;
+         }
+        ul {
+            /* height: 48px; */
+            list-style: none;
+            /* background-color: rgb(242, 148, 0); */
+        }
+        ul li {
+            height: 100%;
+            float: left;
+            /* background-color:#d7d7d7; */
+            border-bottom: 0 solid transparent;
+            line-height: 48px;
+            text-align: center;
+            cursor: pointer;
+        }
+        header,nav,main {
+        }
+
+        header {           
+             height: 48px;
+        }
+        nav-bar {
+            display: block;
+            background-color:rgba(0, 0, 0, 0.7);
+            color: seashell;
+        }
+        #nav-bar-logo {
+            height: 44px;
+            width: 61.82004px;
+            margin-left: 30px;
+            display: inline-block;
+            background: url(https://blz.nosdn.127.net/1/fsbnet/icon-sprite.png);
+            background-repeat: no-repeat;
+            background-position: -18px -75px;
+        }
+        nav-bar a {
+            color: gainsboro;
+            font-size: 16px;
+        }
+        nav-bar ul{
+            width: 90%;
+            display: inline-block;
+        }
+        nav-bar ul li {
+            padding: 0 20px;
+        }
+        .aside {
+            float: right;
+        }
+        nav-bar ul li:hover a {
+            color: white;
+        }
+        nav {
+            width: 100%;
+            height: 48px;
+            float: left;
+            margin-top: 50px;
+            background-color: ghostwhite;
+        }
+        #nav-logo {
+            width: 50px;
+            height: 48px;
+            display: inline-block;
+            background: url(./img/nav_logo.jpg);
+            /* background-size: px 48px ; */
+        }
+        nav ul {
+            width: auto;
+            display: inline-block;
+            background-color: ghostwhite;
+        }
+        nav ul li {
+            min-width: auto;
+            background-color: ghostwhite;
+            border-left: 0.2px solid gainsboro;
+            padding: 0 20px;
+        }
+        nav ul li:hover{
+            background-color: black;
+        }
+        nav ul li:hover a {            
+            color:  #f7931e;
+        }
+        #nav-buy {
+            height: 100%;
+            float: right;
+            line-height: 48px;
+            /* display: inline-block; */
+            padding: 0 30px;
+            background-color: #f7931e;
+        }
+        #nav-buy:hover {
+            background-color: rgba(247, 147, 30, 0.8);
+        }
+
+
+        .content {
+            width: 500px;
+            height: 200px;
+            margin: 0 auto;
+            margin-top: 260px;
+            background-color: rgba(0, 0, 0, 0.1);
+            
+        }
+        .content *{
+            float: left ;
+        }
+        .content-logo {
+            width: 500px;
+            height: 70px;
+            margin-top: 30px;
+        }
+        button {
+            cursor: pointer;
+            border: 0;
+        }
+        .content-button {
+            width: 40%;
+            height: 50px;
+            margin: 20px 25px;
+            color: white;
+        }
+        .content-button-show {
+            background-color: rgb(0, 165, 226);
+        }
+        .content-button-show:hover {
+            background-color: rgb(10, 175, 236);
+        }
+        .content-button-buy {
+            background-color: rgb(242, 148, 0);
+        }
+        .content-button-buy:hover {
+            background-color: rgb(252, 158, 10);
+        }
+        
+
+    </style>
+</head>
+<body>
+    <video id="v1 autoplay muted loop">
+        <source src="https://overwatch.nosdn.127.net/1/assets/img/pages/home/anniversary/header.webm">
+    </video>
+    <header>
+        <nav-bar>
+            <a id="nav-bar-logo" href="https://www.battlenet.com.cn/zh/"></a>
+            <ul>
+                <!-- <li id="nav-bar-logo">
+                </li> -->
+                <li><a>游戏</a></li>
+                <li><a>商城</a></li>
+                <li><a>新闻</a></li>
+                <li><a>电子竞技</a></li>
+                <li><a>暴雪嘉年华</a></li>
+                <li class="aside"><a>你的通行证</a></li>
+                <li class="aside"><a>支持</a></li>
+            </ul>
+        </nav-bar>
+    </header>
+    <nav>
+        <a id="nav-logo" href="https://ow.blizzard.cn/"></a>
+        <ul>
+            <li><a href="javascript:;">游戏</a></li>
+            <li><a href="javascript:;">英雄</a></li>
+            <li><a href="javascript:;">活动</a></li>
+            <li><a href="javascript:;">视频图片</a></li>
+            <li><a href="javascript:;">新闻</a></li>
+            <li><a href="javascript:;">下载</a></li>
+            <li><a href="javascript:;">电子竞技</a></li>
+            <li><a href="javascript:;">社区</a></li>
+            <!-- <li id="nav-buy"><a href="javascript:;">购买</a></li> -->
+        </ul>
+        <div id="nav-buy"><a href="javascript:;">购买</a></div>
+    </nav>
+    <div class="content">
+        <img class="content-logo" src="https://overwatch.nosdn.127.net/1/assets/img/pages/home/logo_new_0321.png" alt="守望先锋">
+        <button class="content-button content-button-show">游戏介绍</button>
+        <button class="content-button content-button-buy">立即购买</button>
+    </div>
+</body>
+</html>
