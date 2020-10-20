@@ -1,0 +1,35 @@
+<!-- 老师的实现 -->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录demo</title>
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+    <!-- 头像框 -->
+    <div class="info">
+        <img src="./img/info.jpg" alt="背景图片">
+    </div>
+    <form action="return false">
+        <div class="login">
+            <input type="text" placeholder="请输入账号">
+            <input type="password" placeholder="请输入密码">
+            <div class="check">
+                <!-- 第一个 div 元素进行左浮动 -->
+                <div>
+                    <input class="c-btn" type="checkbox" name="remember-me">
+                    <label for="remember-me">记住密码</label>
+                </div>
+                <div>
+                    <a href="javascript:;">游客登录</a>
+                </div>
+            </div>
+
+            <input type="submit" value="登录">
+            <input type="reset" value="重置所有内容">
+        </div>
+    </form>
+</body>
+</html>

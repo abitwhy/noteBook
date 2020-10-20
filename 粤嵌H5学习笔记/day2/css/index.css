@@ -1,0 +1,93 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background: url(../img/bg-img.jpg);
+    background-size: 100% auto;
+    color: white;
+}
+a {
+    text-decoration: none;
+}
+.info {
+    width: 150px;
+    height: 150px;
+    margin: 50px auto;
+    border: 2px solid gainsboro;
+    border-radius: 50%;
+    overflow: hidden;
+}
+img {
+    /* 如果是背景图片而不是图片标签就就不需要如下设置，而是标签里设置  background-size: 100% auto; */
+    width: 100%;
+    height: 100%;
+}
+.login {
+    width: 360px;
+    height: auto;
+    margin: 0 auto;
+    border: 1px solid white;
+    border-radius: 10px;
+}
+input {
+    width: 80%;
+    height: 30px;
+    margin: 15px 10%;
+    border-radius: 5px;
+    /* margin-top: 30px; */
+}
+.login>input:nth-of-type(1) {
+    background-color: transparent;
+    border: 1px solid white;
+}
+.login>input:nth-of-type(2) {
+    background-color: transparent;
+    border: 1px solid white;
+}
+/* 修改 placeholder 里的字体 */
+input::-webkit-input-placeholder { /* WebKit browsers */
+    color: white;
+}
+
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: white;
+}
+
+input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: white;
+}
+
+input:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: white;
+}
+.check {
+    width: 80%;
+    height: 30px;
+    margin: 0 auto;
+}
+.check>div:nth-of-type(1) {
+    float: left;
+}
+.check>div:nth-of-type(2) {
+    float: right;
+}
+.c-btn {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    vertical-align: bottom; /* 行内块元素追至对齐方式 */
+}
+.login>input:nth-last-of-type(1) {
+    background-color: turquoise;
+    color: white;
+    border: 0;
+    cursor: pointer;
+    margin-bottom: 50px;
+}
+.login>input:nth-last-of-type(2) {
+    background-color: turquoise;
+    color: white;
+    border: 0;
+    cursor: pointer;
+}
