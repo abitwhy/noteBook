@@ -1,0 +1,84 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 1px solid red;
+    box-sizing: border-box;
+}
+body {
+    width: 80%;
+    max-width: 780px;
+    margin: 0 auto;
+    border: 1px solid grey;
+    background-color: gainsboro;
+}
+a {
+    text-decoration: none;
+}
+ul li {
+    list-style: none;
+}
+img {
+    border: 0;
+}
+.header-top {
+    width: 90%;
+    height: 50px;
+    margin: 0 auto;
+    border-top: 2px solid rgb(157, 157, 157);
+    border-bottom: 2px solid rgb(157, 157, 157) ;
+}
+.search-bar {
+    width: 86%;
+    height: 35px;
+    margin: 5px auto;
+    margin-left: 20px;
+    float: left;
+    display: flex; /* 为什么要设置弹性模型？有点懵。。。 */
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+.search-bar::before {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-image: url(../images/sprite.png);
+    background-size: 104px auto; /* 注意此处为雪碧图整张图比例缩小后的尺寸 */
+    background-position: -57px -277px;
+    margin: auto 0;
+}
+.search-bar input {
+    flex: 1;
+    /* outline: none; */
+    border: 0;
+}
+.user {
+    width: 50px;
+    height: 44px;
+    margin: 1px auto;
+    float: right;
+    background-image: url(../images/sprite.png);
+    background-size: 140px auto;
+    background-position: -71px -261px;
+}
+.user a {
+    margin: 0 auto;
+    font-size: 13px;
+    font-weight: 550;
+    line-height: 70px;
+}
+.ad {
+    width: 100%;
+    height: 156px;
+    margin: 15px auto;
+    background-image: url(../upload/focus.jpg);
+    background-size: 100% auto;
+}
+section {
+    background-color: white;
+    border-radius: 10px;
+    margin: 1px 0;
+}
+.nav-item {
+    float: left;
+}

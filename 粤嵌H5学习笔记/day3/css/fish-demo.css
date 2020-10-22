@@ -1,8 +1,9 @@
+/* 该 H5 动画在 1520*611 的页面下展示效果最佳（其他尺寸页面会有异常） */
 body {
     background-image: url(../images/bg.jpg);
     background-size: 100%;
     position: relative; /* 父元素须先设置该属性，子元素才能相对定位 */
-    overflow-x: hidden;
+    overflow: hidden;
 }
 /* 鱼群运动轨迹 */
 #fishes-1 {
@@ -12,8 +13,8 @@ body {
     left: 0;
     top: 0;
     z-index: 4; /* 深度（z轴）排序：4，3，1，7，5，2，6。勘误：z-index 值大的排在上面*/
-    border: 1px solid red; /* 为了设计时展示大小，后面要删掉 */
-    animation: swimming-route-1 20s linear infinite; /* 刚好60帧 */
+    /* border: 1px solid red; */ /* 为了设计时展示大小，后面要删掉 */
+    animation: swimming-route-1 30s linear infinite; /* 刚好60帧 */
 }
 #fishes-2 {
     width: 200px;
@@ -22,8 +23,8 @@ body {
     left: 0;
     top: 0;
     z-index: 3;
-    border: 1px solid red; /* 为了设计时展示大小，后面要删掉 */
-    animation: swimming-route-2 15s steps(900) infinite;
+   /*  border: 1px solid red; */ /* 为了设计时展示大小，后面要删掉 */
+    animation: swimming-route-2 20s steps(900) infinite;
 }
 #fishes-3 {
     width: 100px;
@@ -32,8 +33,8 @@ body {
     left: 0;
     top: 0;
     z-index: 1;
-    border: 1px solid red; /* 为了设计时展示大小，后面要删掉 */
-    animation: swimming-route-3 15s steps(900) infinite;
+   /*  border: 1px solid red;  *//* 为了设计时展示大小，后面要删掉 */
+    animation: swimming-route-3 35s steps(900) infinite;
 }
 #fishes-4 {
     width: 100px;
@@ -42,50 +43,53 @@ body {
     left: 0;
     top: 0;
     z-index: 7;
-    border: 1px solid red; /* 为了设计时展示大小，后面要删掉 */
-    animation: swimming-route-3 15s steps(900) infinite;
+   /*  border: 1px solid red; */ /* 为了设计时展示大小，后面要删掉 */
+    animation: swimming-route-4 25s steps(900) infinite;
 }
 #fishes-5 {
     width: 100px;
     height: 100px;
-    position: relative;
+    position: absolute;
     left: 0;
     top: 0;
     z-index: 5;
-    border: 1px solid red; /* 为了设计时展示大小，后面要删掉 */
-    animation: swimming-route-5 15s steps(900) infinite;
+   /*  border: 1px solid red;  *//* 为了设计时展示大小，后面要删掉 */
+    animation: swimming-route-5 20s steps(900) infinite;
 }
 #fishes-6 {
     width: 100px;
     height: 100px;
-    position: relative;
+    position: absolute;
     left: 0;
     top: 0;
     z-index: 2;
-    border: 1px solid red; /* 为了设计时展示大小，后面要删掉 */
+    /* border: 1px solid red; */ /* 为了设计时展示大小，后面要删掉 */
     animation: swimming-route-6 15s steps(900) infinite;
 }
 #fishes-7 {
     width: 100px;
     height: 100px;
-    position: relative;
+    position: absolute;
     left: 0;
     top: 0;
     z-index: 6;
-    border: 1px solid red; /* 为了设计时展示大小，后面要删掉 */
-    animation: swimming-route-7 15s steps(900) infinite;
+    /* border: 1px solid red; */ /* 为了设计时展示大小，后面要删掉 */
+    animation: swimming-route-7 40s steps(900) infinite;
 }
 
 /* 鱼群游泳动作 */
 .fish-1 {
     width: 57px;
     height: 37px;
+    position: relative;
     background-image: url(../images/fish1.png);
     animation: swimming-action-1 0.8s steps(4) infinite;
 }
 .fish-2 {
     width: 78px;
     height: 51.2px;
+    position: relative;
+    float: left;
     background-image: url(../images/fish2.png);
     animation: swimming-action-2 1.2s steps(4) infinite;
 }
@@ -94,12 +98,15 @@ body {
     height: 79px;
     background-image: url(../images/fish3.png);
     animation: swimming-action-3 2s steps(8) infinite;
+    transform: scaleX(-1);
 }
 .fish-4 {
-    width: 105px;
+    width: 98px; /* 使用原宽度 105px 会有问题 */
     height: 151px;
+    position: relative;
     background-image: url(../images/fish4.png);
     animation: swimming-action-4 2s steps(6) infinite;
+    transform: scaleX(-1);
 }
 .fish-5 {
     width: 174px;
@@ -122,94 +129,210 @@ body {
 
 /* 鱼群里鱼的布局 */
 #fishes-1-1 {
-
-}
-#fishes-1-2 {
-
+    left: 100px;
 }
 #fishes-1-3 {
-
+    left: 50px;
+    top: -50px;
+}
+#fishes-1-4 {
+    left: 80px;
+    top: -70px;
+}
+#fishes-1-5 {
+    left: -30px;
+    top: -120px;
+}
+#fishes-1-6 {
+    left: 150px;
+    top: -160px;
+}
+#fishes-2-2 {
+    bottom: -20px;
+}
+#fishes-2-3 {
+    left: 130px;
+}
+#fishes-2-4 {
+    left: 110px;
+    bottom: 50px;
+}
+#finshes-4-2 {
+    left: -90px;
+    bottom: 50px;
 }
 
 /* 鱼群运动轨迹 */
-@keyframes swimming-route-1 {
+@keyframes swimming-route-1 { /* 金色小鱼 */
     /* 自己尝试的动画方案 */
     0% {
-        transform: translateX(0) translateY(0) rotateZ(0); /* transform */
+        left: -200px; /* 初始位置建议设置在动画里，当然可以选择在静态属性里设置设置 */
+        top: 50px;
+        transform: translateX(0) translateY(0) rotateZ(-10deg); /* transform 2d平面图形变化属性*/
     }
-    45% {
-        transform: translateX(1300px) translateY(20px) rotateZ(10deg); /* 角度单位 deg */
+    15% {
+        transform: translateX(500px) translateY(0) rotateZ(5deg);
     }
-    50% {
+    38% {
+        transform: translateX(1150px) translateY(20px) rotateZ(5deg); /* 角度单位 deg */
+    }
+    48% {
         transform: translateX(1400px) translateY(250px) rotateZ(70deg);
     }
-    55% {
+    52% {
         transform: translateX(1450px) translateY(400px) rotateZ(80deg);
     }
     60% {
         transform: translateX(1500px) translateY(650px) rotateZ(90deg); /* 90deg 是一个关键节点，后面一段动画不应该出现 x 轴位移 */
     }
-    65% {
-        transform: translateX(1500px) translateY(1000px) rotateZ(180deg);
+    70% {
+        transform: translateX(1250px) translateY(900px) rotateZ(180deg);
     }
     100% {
         transform: translateX(-400px) translateY(300px) rotateZ(200deg);
     }
 
-    /* 老师的标准动画方案（回避了掉头动画这一难点） */
-    0% {}
-    25% {}
-    50% {}
-    75% {}
-    100% {}
+}
+@keyframes swimming-route-2 { /* 小丑鱼 */
+    /* from {
+        left: 0;
+    }
+    to {
+        left: 100%;
+    } */
+    0% {
+        left: -150px;
+        top: 200px;
+        transform: translateX(0) translateY(0) rotateZ(20deg);
+    }
+    /* 25% {
+        transform: translateX(300px) translateY(-20px) rotateZ(-16deg);
+    } */
+    35% {
+        transform: translateX(450px) translateY(400px) rotateZ(40deg);
+    }
+    46% {
+        transform: translateX(650px) translateY(450px) rotateZ(0);
+    }
+    54% {
+        transform: translateX(800px) translateY(320px) rotateZ(-30deg); 
+    }
+    78% { 
+        transform: translateX(1100px) translateY(-50px) rotateZ(-40deg);
+    }
+    90% {
+        transform: translateX(1400px) translateY(-120px) rotateZ(-20deg);
+    }
+    100% {
+        transform: translateX(1600px) translateY(-250px) rotateZ(-20deg);
+    }
 
 }
-@keyframes swimming-route-2 {
+@keyframes swimming-route-3 { /* 鹦鹉螺 */
     from {
-        left: 0;
+        left: 1500px;
+        top: 200px;
     }
     to {
-        left: 100%;
+        left: -150px;
+        top: 1200px;
     }
 }
-@keyframes swimming-route-3 {
+@keyframes swimming-route-4 { /* 水母 */
     from {
-        left: 0;
+        left: 1500px;
+        top: 800px;
     }
     to {
-        left: 100%;
+        left: 350px;
+        top: -700px;
     }
 }
-@keyframes swimming-route-4 {
-    from {
+@keyframes swimming-route-5 { /* 灯笼鱼 */
+    /* from {
         left: 0;
     }
     to {
         left: 100%;
+    } */
+    0% {
+        left: 200px;
+        top: 800px;
+        transform: rotateZ(-25deg);
+    }
+    40% {
+        left: 500px;
+        top: 500px;
+    }
+    60% {
+        left: 550px;
+        top: 350px;
+        transform: rotateZ(-80deg);
+    }
+    100% {
+        left: 700px;
+        top: -150px;
+        transform: rotateZ(-60deg);
     }
 }
-@keyframes swimming-route-5 {
+@keyframes swimming-route-6 { /* 鳐 */
     from {
-        left: 0;
+        left: 100px;
+        top: -200px;
+        transform: rotateZ(45deg);
     }
     to {
-        left: 100%;
+        left: 1100px;
+        top: 800px;
+        transform: rotateZ(45deg);
     }
 }
-@keyframes swimming-route-6 {
-    from {
+@keyframes swimming-route-7 { /* 海龟 */
+    /* from {
         left: 0;
     }
     to {
         left: 100%;
+    } */
+    0% {
+        left: 800px;
+        top: -200px;
+        transform: rotateZ(90deg);
     }
-}
-@keyframes swimming-route-7 {
-    from {
-        left: 0;
+    5% {
+        left: 800px;
+        top: -100;
+        transform: rotateZ(90deg);
     }
-    to {
-        left: 100%;
+    10% {
+        left: 790px;
+        top: 20px;
+        transform: rotateZ(140deg);
+    }
+    45% {
+        left: 200px;
+        top: 400px;
+        transform: rotateZ(160deg);
+    }
+    65% {
+        left: 220px;
+        top: 400px;
+        transform: rotateZ(20deg);
+    }
+    80% {
+        left: 58	0px;
+        top: 500px;
+        transform: rotateZ(20deg);
+    }
+    90% {
+        left: 650px;
+        top: 550px;
+        transform: rotateZ(90deg);
+    }
+    100% {
+        left: 650px;
+        top: 760px;
+        transform: rotateZ(90deg);
     }
 }
 
