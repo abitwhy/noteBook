@@ -31,6 +31,22 @@
             /* 如果子元素未设置宽/高，默认以能显示全部内容为最小宽度，其余设置了 flex 属性的子元素共分剩余空间 */
             background-color: orange;
         }
+        .flex-test {
+            width: 100px;
+            height: 400px;
+            margin: 0 auto;
+            padding: 10px;
+            flex-flow: column nowrap;
+            background-color: purple;
+            /* justify-content: space-between; */
+        }
+        .flex-item {
+            height: 100px;
+            flex: 1;
+            margin: 2px;
+            /* flex-basis: ; */
+            background-color: orange;
+        }
     </style>
 </head>
 <body>
@@ -38,6 +54,12 @@
         <span class="left">内部元素-左</span>
         <span class="middle">内部元素-中</span>
         <span class="right">内部元素-右</span>
+    </div>
+    <div class="flex-test">
+        <div class="flex-item" id="item-1"></div>
+        <div class="flex-item" id="item-2"></div>
+        <div class="flex-item" id="item-3"></div>
+        <div class="flex-item" id="item-4"></div>
     </div>
 </body>
 </html>

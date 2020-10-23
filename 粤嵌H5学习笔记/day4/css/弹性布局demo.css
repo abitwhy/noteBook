@@ -1,18 +1,24 @@
 * {
     margin: 0;
     padding: 0;
-    border: 1px solid red;
+    /* border: 1px solid red; */
     box-sizing: border-box;
+    /* overflow: hidden;  *//* 行不通 */
 }
 body {
     width: 80%;
     max-width: 780px;
+    min-width: 360px; /* Galaxy S5 屏幕宽度 */
     margin: 0 auto;
     border: 1px solid grey;
-    background-color: gainsboro;
+    flex-flow: column nowrap;
+    text-align: center;
+    /* display: flex; */
+    background-color: #f7f5f5;
 }
 a {
     text-decoration: none;
+    /* cursor: pointer; 手机端未生效，因为手机端本来就没鼠标指针啊！ */
 }
 ul li {
     list-style: none;
@@ -20,12 +26,20 @@ ul li {
 img {
     border: 0;
 }
+header {
+    /* display: flex; */
+    flex: 1;
+    /* flex-flow: column wrap; */
+}
 .header-top {
+    /* flex: 1; */
     width: 90%;
     height: 50px;
     margin: 0 auto;
-    border-top: 2px solid rgb(157, 157, 157);
-    border-bottom: 2px solid rgb(157, 157, 157) ;
+    display: flex;
+    border-top: 1px solid rgb(157, 157, 157);
+    border-bottom: 1px solid rgb(157, 157, 157) ;
+    background-color: ghostwhite;
 }
 .search-bar {
     width: 86%;
@@ -34,8 +48,11 @@ img {
     margin-left: 20px;
     float: left;
     display: flex; /* 为什么要设置弹性模型？有点懵。。。 */
+    overflow: hidden;
     border: 1px solid grey;
     border-radius: 5px;
+    box-shadow: 1px 1px 3px rgb(64,64,64); /* 阴影 */
+
 }
 .search-bar::before {
     content: "";
@@ -56,29 +73,285 @@ img {
     width: 50px;
     height: 44px;
     margin: 1px auto;
-    float: right;
+    /* float: right; */
+    flex-flow: column nowrap;
+    position: relative;
+    /* overflow: hidden; */
+}
+#user-img {
+    display: block;
+    flex: 2;
+    width: 29px;
+    height: 29px;
+    flex-basis: 20px;
     background-image: url(../images/sprite.png);
-    background-size: 140px auto;
-    background-position: -71px -261px;
+    background-size: 130px auto;
+    background-position: -75px -243px;
+}
+#user-title {
+    flex: 1;
+    position: relative;
+    bottom: 6px;
 }
 .user a {
     margin: 0 auto;
     font-size: 13px;
     font-weight: 550;
-    line-height: 70px;
 }
-.ad {
+.ad { /* 仍然不理想 =》改正方法：不直接使用背景，而是嵌入一张图片 */
+    /* flex: 4; */
     width: 100%;
-    height: 156px;
-    margin: 15px auto;
-    background-image: url(../upload/focus.jpg);
-    background-size: 100% auto;
+    flex-basis: 40px;
+    margin: 10px auto;
+}
+.ad img {
+    width: 100%;
+}
+main {
+    flex: 3;
+    flex-flow: column nowrap;
 }
 section {
     background-color: white;
     border-radius: 10px;
-    margin: 1px 0;
+    margin-bottom: 5px;
+    font-size: 11px; /* 为了适应最小屏幕 */
+    font-weight: bolder;
 }
+#section-1 ul{
+    width: 100%;
+    display: inline-flex;  /* 这个地方比较模糊，待验证 */
+    flex-flow: row nowrap; /* 设置了 flex-flow 可省略 display:flex 设置 */
+    line-height: 20px; /* 待考虑 */
+}
+
 .nav-item {
-    float: left;
+    flex: 1;
+    flex-basis: 100px; /* 项目将占据固定空间,参与计算空余空间，影响空余空间的分配。 */
+    display: inline-block;
+    justify-content: center; /* 项目在主轴上的对齐方式 */
+    flex-flow: column nowrap;
 }
+.nav-item a {
+    color: black;
+}
+.nav-item-img {
+    display: block;
+    flex: 3;
+    width: 32px;
+    height: 32px;
+    margin: 0 auto;
+    border-radius: 50%;
+}
+/*  */
+#nav-item-img-1 {
+    background-image: url(../images/localnav_bg.png);
+    background-size: 32px;
+    background-position: 0 0;
+}
+#nav-item-img-2 {
+    background-image: url(../images/localnav_bg.png);
+    background-size: 32px;
+    background-position: 0 -32px;
+}	
+#nav-item-img-3 {
+    background-image: url(../images/localnav_bg.png);
+    background-size: 32px;
+    background-position: 0 -64px;
+}	
+#nav-item-img-4 {
+    background-image: url(../images/localnav_bg.png);
+    background-size: 32px;
+    background-position: 0 -96px;
+}	
+#nav-item-img-5 {
+    background-image: url(../images/localnav_bg.png);
+    background-size: 32px;
+    background-position: 0 -128px;
+}	
+.nav-item-title {
+    display: block;
+    flex: 1;
+    bottom: 0;
+}
+
+/* 出行服务 */
+#section-2 {
+    height: 240px;
+    flex-flow: column nowrap;
+    overflow: hidden; /* 需要展示出来圆角 */
+    color: white;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+    
+}
+.aspect {
+    /* flex: 1; */
+    height: 33.4%; /* 超出一点点没关系 */
+    flex-flow: row nowrap;
+    justify-content: space-between; /* 主轴子元素对齐方式 */
+    align-items: stretch; /* 交叉轴子元素对齐方式 */ /* 无效 */
+    /* background-image: linear-gradient(left,rgb(1,2,3),rgb(20,100,200)); */
+    position: relative;
+}
+
+.aspect-logo,.aspect-details {
+    width: 32.7%; /* 需小于 33% */
+    height: auto; /* 无效 */
+    display: inline-flex;
+}
+.aspect-logo {
+    height: 100%;
+    flex-flow: column nowrap;
+    background-image: url(../images/hotel.png);
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: 0 25px;
+}
+
+.aspect-logo a {
+    font-size: 20px;
+    color: white;
+}
+
+.aspect-details {
+    height: 100%;
+    flex-flow: column nowrap;
+    border-left: 1px solid white;
+}
+.aspect-details div {
+    height: 50%;
+    line-height: 37px;
+}
+.aspect-details div:nth-child(1) { /* 注意 div 和 :nth-child(1) 之间不能有空格 */
+    border-bottom: 1px solid white; /* 不完美 */
+}
+#aspect-1 {
+    background-image: linear-gradient(to right, rgb(250,90,85) , rgb(250,153,77));
+}
+#aspect-2 {
+    background-image: linear-gradient(to right, rgb(76,145,237) , rgb(83,188,237));
+}
+#aspect-3 {
+    background-image: linear-gradient(to right, rgb(52,194,168) , rgb(108,213,90));
+}
+
+/* 缴费服务 */
+#section-3 {
+    height: 120px;
+    flex-flow: column nowrap;
+    background-image: linear-gradient(to bottom,rgba(120,210,250,0.7),rgba(200,250,250,0.7));
+}
+#section-3 ul { /* 菜单列表行 */
+    width: 100%;
+    height: 50%;
+    /* flex: 1; */ /* 还是无效，需要去查一下了 */
+    flex-flow: row nowrap; /* 可能需要换行 */
+}
+#section-3 li { /* 菜单列表行元素 */
+    /* flex: 1; */
+    height: 100%;
+    display: inline-flex;
+    flex-flow: column nowrap;
+
+}
+#section-3 ul:nth-child(1) li { /* 菜单列表第一行的元素 */
+    width: 18%;
+}
+#section-3 ul:nth-child(2) li { /* 菜单列表第二行的元素 */
+    width: 15%;
+}
+.section-3-list-item-logo {
+    /* flex: 2; */
+    width: 35px;
+    height: 28px;
+    margin: 4px auto;
+    display: block;
+    background-image: url(../images/subnav-bg.png);
+    background-size: 35px; /* 默认背景缩放尺寸 */
+    background-repeat: no-repeat;
+}
+/* 恶心的雪碧图-第一组 */
+#section-3-list-1 li:nth-child(1) >div{
+    background-position: 0 1px; 
+}
+#section-3-list-1 li:nth-child(2) >div{
+    background-size: 31px;
+    background-position: 5px -33px;
+}
+#section-3-list-1 li:nth-child(3) >div{
+    background-size: 30px;
+    background-position: 5px -66px;
+}
+#section-3-list-1 li:nth-child(4) >div{
+    background-size: 30px;
+    background-position: 3px -104px;
+}
+#section-3-list-1 li:nth-child(5) >div{
+    background-position: 1px -164px;
+}
+/* 雪碧图-第二组 */
+#section-3-list-2 li:nth-child(1) >div{
+    background-size: 31px;
+    background-position: 7px -180px;
+}
+#section-3-list-2 li:nth-child(2) >div{
+    background-size: 27px;
+    background-position: 6px -188px;
+}
+#section-3-list-2 li:nth-child(3) >div{
+    background-position: 1px -288px;
+}
+#section-3-list-2 li:nth-child(4) >div{
+    background-position: 1px -324px;
+}
+#section-3-list-2 li:nth-child(5) >div{
+    background-position: 5px -360px;
+}
+#section-3-list-2 li:nth-child(6) >div{
+    background-size: 30px;
+    background-position: 4px -343px;
+}
+
+.section-3-list-item-title {
+    /* flex: 1; */
+}
+
+/* 热门活动 */
+#section-4 {
+    height: 360px;
+    border-radius: 0; /* 不需要圆角样式 */
+    flex-flow: column nowrap;
+}
+.promotion-head {
+    flex: 1; /* 无效 */
+    height: 40px;
+    background-color: rgb(210, 196, 224);
+    position: relative;
+}
+.promotion-head a {
+    display: block;
+    /* position: relative; */
+}
+.promotion-head-logo {
+    /* 145*32 */
+    width: 145px;
+    height: 32px;
+    margin: auto 0;
+    float: left;
+    background-color: red;
+    /* left: 0; */
+}
+.promotion-head-more {
+    float: right;
+    /* right: 0; */
+}
+.promotion-item {
+    flex: 4; /* 无效 */
+    height: 160px;
+}
+
+footer {
+    flex: 1;
+}
+
+
