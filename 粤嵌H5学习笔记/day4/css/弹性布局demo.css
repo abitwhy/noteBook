@@ -18,6 +18,7 @@ body {
 }
 a {
     text-decoration: none;
+    color: black;
     /* cursor: pointer; 手机端未生效，因为手机端本来就没鼠标指针啊！ */
 }
 ul li {
@@ -66,7 +67,7 @@ header {
 }
 .search-bar input {
     flex: 1;
-    /* outline: none; */
+    margin-left: 20px;
     border: 0;
 }
 .user {
@@ -86,7 +87,7 @@ header {
     flex-basis: 20px;
     background-image: url(../images/sprite.png);
     background-size: 130px auto;
-    background-position: -75px -243px;
+    background-position: -74px -243px;
 }
 #user-title {
     flex: 1;
@@ -97,6 +98,7 @@ header {
     margin: 0 auto;
     font-size: 13px;
     font-weight: 550;
+    color: cornflowerblue;
 }
 .ad { /* 仍然不理想 =》改正方法：不直接使用背景，而是嵌入一张图片 */
     /* flex: 4; */
@@ -116,7 +118,6 @@ section {
     border-radius: 10px;
     margin-bottom: 5px;
     font-size: 11px; /* 为了适应最小屏幕 */
-    font-weight: bolder;
 }
 #section-1 ul{
     width: 100%;
@@ -182,7 +183,7 @@ section {
     overflow: hidden; /* 需要展示出来圆角 */
     color: white;
     text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
-    
+    font-weight: bolder;
 }
 .aspect {
     /* flex: 1; */
@@ -272,7 +273,7 @@ section {
 }
 /* 恶心的雪碧图-第一组 */
 #section-3-list-1 li:nth-child(1) >div{
-    background-position: 0 1px; 
+    background-position: 1px 1px; 
 }
 #section-3-list-1 li:nth-child(2) >div{
     background-size: 31px;
@@ -287,7 +288,7 @@ section {
     background-position: 3px -104px;
 }
 #section-3-list-1 li:nth-child(5) >div{
-    background-position: 1px -164px;
+    background-position: 2px -164px;
 }
 /* 雪碧图-第二组 */
 #section-3-list-2 li:nth-child(1) >div{
@@ -296,10 +297,10 @@ section {
 }
 #section-3-list-2 li:nth-child(2) >div{
     background-size: 27px;
-    background-position: 6px -188px;
+    background-position: 5px -188px;
 }
 #section-3-list-2 li:nth-child(3) >div{
-    background-position: 1px -288px;
+    background-position: 2px -288px;
 }
 #section-3-list-2 li:nth-child(4) >div{
     background-position: 1px -324px;
@@ -325,30 +326,89 @@ section {
 .promotion-head {
     flex: 1; /* 无效 */
     height: 40px;
-    background-color: rgb(210, 196, 224);
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
     position: relative;
 }
 .promotion-head a {
     display: block;
-    /* position: relative; */
 }
 .promotion-head-logo {
     /* 145*32 */
-    width: 145px;
-    height: 32px;
-    margin: auto 0;
+    width: 53px;
+    height: 40%;
+    margin: 12px 10px;
     float: left;
-    background-color: red;
-    /* left: 0; */
+    background-image: url(../images/hot.png);
+    background-size: 53px;
+    background-position: 0 -10px;
 }
 .promotion-head-more {
     float: right;
-    /* right: 0; */
+    margin-right: 5px;
+    margin-top: 8px;
+    padding: 4px 10px;
+    border-radius: 999px; /* 取一个很大的像素值，元素两端就会变成半圆状的圆角 */
+    background-image: linear-gradient(to right , rgb(255,80,110) , rgb(255,107,198));
+    font-size: 12px;
+    color: rgb(255, 242, 61);
 }
+.promotion-head-more::after { /* 添加箭头图标 搁置 */
+    content: "";
+    /* width: ; */
+}
+
 .promotion-item {
     flex: 4; /* 无效 */
     height: 160px;
+    position: relative;
 }
+.promotion-item >div { /* 第一层 div 布局 */
+    width: 50%;
+    height: 100%;
+    /* float: left; */ /* promotion-head 里的浮动元素会影响这里的浮动，且暂时没有好的解决办法 */
+    position: relative; /* 故采用相对定位 */ 
+    /* 那是否采用弹性布局可以更方便地解决问题呢？ */
+}
+.promotion-item >div >div { /* 第二层 div 布局 */
+    width: 100%;
+    height: 50%;
+    position: relative;
+}
+/* 相对定位排布元素，该方案会遗弃 */
+.promotion-item  div:nth-of-type(2n) { /* 第一层 div 摆放位置 */
+    left: 50%;
+    top: -100%;
+}
+.promotion-item >div >div:nth-of-type(2n) { /* 第二层 div 摆放位置 */
+    left: 0;
+    top: 0;
+}
+
+/* 下面的边框处理仅当作伪类选择器练习，不作为最终边框方案 */
+/* 接下来尝试进行统一的边框操作 */
+/* 结果：效果不理想，虽然实现了十字内边框，但内外层元素会有重叠的边框 */
+/* 解决设想：table 标签应该能完美解决内边框问题（这也是之前 demo 遗留下来的问题） */
+#section-4 div { /* 统一的左下边框 */
+    border-left: 1px solid black;
+    border-bottom:1px solid black ;
+}
+#section-4 div:first-of-type { /* 去除每个最左边 div 元素的左边框 （最外层）*/
+    border-left: 0;
+}
+#section-4 div div:first-of-type { /* 去除每个最左边 div 元素的左边框 （内层）*/
+    border-left: 0;
+}
+#section-4 div:last-of-type { /* 去除每个最底部 div 元素的下边框 （最外层） */
+    border-bottom: 0;
+}
+#section-4 div div:last-of-type { /* 去除每个最底部 div 元素的下边框 （内层） */
+    border-bottom: 0;
+}
+.promotion-item { /* 边框修修补补 */
+    border-left: 0 !important; 
+}
+
 
 footer {
     flex: 1;
