@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>personal-data-table</title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+        table,table tr th, table tr td { 
+            border: 2px solid rgb(186,181,141);
+        }
+        table { 
+            /* width: 200px;  */
+            line-height: 25px;
+            margin: 0 auto;
+            text-align: center;
+            border-collapse: collapse;
+        }
+        th , tr td {
+            min-height: 25px;
+            min-width: 30px;
+            max-width:130px;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>个人资料</h1>
+    <table>
+        <tr>
+            <td>姓名</td>
+            <td></td>
+            <td>性别</td>
+            <td></td>
+            <td>年龄</td>
+            <td></td>
+            <td>民族</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>毕业学校</td>
+            <td colspan="2"></td>
+            <td>学历</td>
+            <td></td>
+            <td>学历</td>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td>身份证号</td>
+            <td colspan="7"></td>
+        </tr>
+        <tr>
+            <td>家庭住址</td>
+            <td colspan="7"></td>
+        </tr>
+        <tr>
+            <td>备注</td>
+            <td rowspan="2" colspan="7"></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+    </table>
+</body>
+</html>
