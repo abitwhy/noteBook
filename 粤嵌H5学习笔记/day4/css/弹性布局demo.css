@@ -1,4 +1,4 @@
-/* --------------------------------预处理样式-------------------------------- */
+	/* --------------------------------预处理样式-------------------------------- */
 * {
     margin: 0;
     padding: 0;
@@ -174,12 +174,13 @@ section {
     font-weight: bolder;
 }
 .aspect {
-    height: 33.4%; /* 超出一点点没关系 */
+    height: 33.4%; 
+    display: flex;
 }
 .aspect-logo,.aspect-details {
-    width: 32.7%; /* 需小于 33% */
-    /* height: auto; */ /* 无效 */
+    width: 33%; 
     display: inline-flex;
+    flex: 1;
 }
 .aspect-logo {
     height: 100%;
@@ -193,7 +194,7 @@ section {
     font-size: 20px;
     color: white;
 }
-.aspect-details { /* 边框处理有问题 */
+.aspect-details { 
     height: 100%;
     flex-flow: column nowrap;
     border-left: 1px solid white;
@@ -333,7 +334,7 @@ section {
             1.手机端显示效果符合预期
             2.该添加内十字边框的方法可以无限嵌套
         不足：
-            1.加内边框的工作使用 table 标签应该可以轻松愉快地解决
+            1.加内边框的工作有更简单的方案：如使用 table 标签应该可以轻松愉快地解决
             2.pc 端在小尺寸屏幕下可能会出现图片得边框没有正常i显示
 */
 .promotion-main >div { 

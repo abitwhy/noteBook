@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login-in-form</title>
+    <style>
+        * {
+            margin: 0 auto;
+        }
+        table {
+            margin-top: 30px;
+        }
+        th {
+            height: 60px;
+        }
+        input[text] { /* 属性选择器(text 属性很特别啊)*/
+            width: 150px;
+        }
+        input[type="checkbox"] { /* 为了对齐复选按钮 */
+            display: inline-flex;
+            margin-bottom: -2px;
+        }
+        label[for="male"] {
+            background-image: url(./images/man.jpg);
+            background-repeat: no-repeat;
+        }
+        label[for="female"] {
+            background-image: url(./images/women.jpg);
+            background-repeat: no-repeat;
+        }
+        label[for="registration-treaty"] {
+            font-size: small;
+        }
+        textarea {
+            width: 85%;
+            height: 50px;
+        }
+        th {
+            text-align: center;
+        }
+        tr td {
+            min-height: 25px;
+            min-width: 30px;
+            padding: 5px 10px;
+            /* background-color: gold; */
+        }
+
+        .left-side {
+            text-align: left;
+            width: 100px;
+        }
+        .right-side {
+            width: 400px;
+        }
+        #register {
+            padding: 4px 30px;
+            border-style: none;
+            background-color: red;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+        <tr>
+            <th colspan="2">时不我待，少谈恋爱</th>
+        </tr>
+        <!-- <caption>时不我待，少谈恋爱</caption> --> <!-- 不是加粗字体，弃用 -->
+        </thead>
+        <tbody>
+            <tr> <!-- 性别 -->
+                <td class="left-side">
+                    性别
+                </td> 
+                <td class="right-side">
+                    <input type="radio" name="gender" id="male" value="男">
+                    <label for="male">
+                        <span>&nbsp;&nbsp;&nbsp;</span>
+                        男
+                    </label>
+                    <input type="radio" name="gender" id="female" value="女">
+                    <label for="female">
+                        <span>&nbsp;&nbsp;&nbsp;</span>
+                        女
+                    </label>
+                </td>
+            </tr>
+            <tr> <!-- 生日 -->
+                <td class="left-side">
+                    生日
+                </td> 
+                <td class="right-side">
+                    <select name="birthday" id="year">
+                        <option value="" disabled selected>请选择年</option>
+                        <option value="">2021</option>
+                        <option value="">2020</option>
+                        <option value="">2019</option>
+                        <option value="">2018</option>
+                    </select>
+                    <select name="birthday" id="month">
+                        <option value="" disabled selected>请选择月</option>
+                        <option value="">01</option>
+                        <option value="">02</option>
+                        <option value="">03</option>
+                        <option value="">04</option>
+                        <option value="">05</option>
+                        <option value="">06</option>
+                        <option value="">07</option>
+                        <option value="">08</option>
+                        <option value="">09</option>
+                        <option value="">10</option>
+                        <option value="">11</option>
+                        <option value="">12</option>
+                    </select>
+                    <select name="birthday" id="day">
+                        <option value="" disabled selected>请选择日</option>
+                        <option value="">01</option>
+                        <option value="">02</option>
+                        <option value="">03</option>
+                        <option value="">04</option>
+                        <option value="">05</option>
+                        <option value="">06</option>
+                        <option value="">07</option>
+                        <option value="">08</option>
+                    </select>
+                </td>
+            </tr>
+            <tr> <!-- 地区 -->
+                <td class="left-side">
+                    <label for="city">所在地区</label>
+                </td>
+                <td class="right-side">
+                    <input type="text" name="city" id="city" placeholder="北京">
+                </td>
+            </tr>
+            <tr> <!-- 婚姻状况 -->
+                <td class="left-side">
+                    婚姻状况
+                </td>
+                <td class="right-side"> <!-- 选项是认真的吗？ -->
+                    <input type="radio" name="marriage" id="unmarried">
+                    <label for="unmarried">未婚</label>
+                    <input type="radio" name="marriage" id="divorced">
+                    <label for="divorced">离婚</label>
+                    <input type="radio" name="marriage" id="widowed">
+                    <label for="widowed">丧偶</label>
+                </td>
+            </tr>
+            <tr> <!-- 学历 -->
+                <td class="left-side">
+                    <label for="education">学历</label>
+                </td>
+                <td class="right-side">
+                    <input type="text" name="education" id="education" placeholder="小学">
+                </td>
+            </tr>
+            <tr> <!-- 月薪 -->
+                <td class="left-side">
+                    <label for="salary">月薪</label>
+                </td>
+                <td class="right-side">
+                    <input type="text" name="salary" id="salary" placeholder="5k-10k">
+                </td>
+            </tr>
+            <tr> <!-- 手机号 -->
+                <td class="left-side">
+                    <label for="phone-number">手机号</label>
+                </td>
+                <td class="right-side">
+                    <input type="text" name="phoneNumber" id="phone-number">
+                </td>
+            </tr>
+            <tr> <!-- 昵称 -->
+                <td class="left-side">
+                    <label for="nick-name">昵称</label>
+                </td>
+                <td class="right-side">
+                    <input type="text" name="nickName" id="nick-name">
+                </td>
+            </tr>
+            <tr> <!-- 喜欢的类型 -->
+                <td class="left-side">
+                    喜欢的类型
+                </td>
+                <td class="right-side">
+                    <input type="checkbox" name="likes" id="chrming">
+                    <label for="charming">妩媚</label>
+                    <input type="checkbox" name="likes" id="graceful">
+                    <label for="graceful">柔美</label>
+                    <input type="checkbox" name="likes" id="lovely">
+                    <label for="lovely">可爱</label>
+                    <input type="checkbox" name="likes" id="handsom-young">
+                    <label for="handsom-young">小鲜肉</label>
+                    <input type="checkbox" name="likes" id="stylish-men">
+                    <label for="stylish-men">型男</label>
+                    <input type="checkbox" name="likes" id="temperament">
+                    <label for="temperament">气质</label>
+                </td>
+            </tr>
+            <tr> <!-- 自我介绍 -->
+                <td class="left-side">
+                    <label for="self-introduction">自我介绍</label>
+                </td>
+                <td class="right-side">
+                    <textarea name="selfInroduction" id="self-inroduction" cols="30" rows="10"></textarea> <!-- cols 和 rows 间接设置宽高，不过推荐使用 css 来设置宽高 （同时设置时，css 会覆盖 culs 和 rows） -->
+                </td>
+            </tr>
+            <tr> <!-- 确认提交 -->
+                <td class="left-side"></td>
+                <td class="right-side">
+                    <input type="submit" name="register" id="register" value="免费注册">
+                </td>
+            </tr>
+            <tr> <!-- 注册协议 -->
+                <td class="left-side"></td>
+                <td class="right-side">
+                    <input type="checkbox" name="registrationTreaty" id="registration-treaty">
+                    <label for="registration-treaty">我同意注册条款和加入会员标准</label>
+                </td>
+            </tr>
+            <tr> <!-- 已注册用户 -->
+                <td class="left-side"></td>
+                <td class="right-side">
+                    <a href="javascript:;">我是会员，立即登录</a>
+                </td>
+            </tr>
+            <tr> <!-- 做出承诺 -->
+                <td class="left-side"></td>
+                <td class="right-side">
+                    <h3>我承诺</h3>
+                    <br>
+                    <ul>
+                        <li>年满18岁、单身</li>
+                        <li>抱着严肃的态度</li>
+                        <li>真诚寻找另一半</li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+
+
+    </table>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表单练习</title>
+    <style>
+        table {
+            width: 500px;
+            height: 250px;
+            float: none; /* 去除默认左浮动 */
+            margin: 100px auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <table border="1" cellspacing="1"  cellpadding="10" align="left" rules="all"> <!-- border 设置外边框 -->
+        <tbody>
+            <form action="" name="userForm" id="user-form"></form>
+            <tr>
+                <td rowspan="4">后台系统</td>
+                <td colspan="2">用户登录</td>
+            </tr>
+            <tr>
+                <td>用户名：</td>
+                <td>
+                    <input type="text" name="userName" id="user-name" placeholder="请输入用户名" form="user-form">
+                </td>
+            </tr>
+            <tr>
+                <td>密码：</td>
+                <td>
+                    <input type="password" name="userName" id="user-name" placeholder="请输入密码" form="user-form">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button form="user-form" type="submit">登录</button>
+                    <button form="user-form" type="reset">清空</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
