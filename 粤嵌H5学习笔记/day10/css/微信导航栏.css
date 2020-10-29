@@ -1,0 +1,62 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+a {
+    text-decoration: none;
+    color: white;
+    /* display: block; */
+}
+nav {
+    height: 75px;
+    background: url(./images/nav-bg.png) ;
+    background-size: 110% 75px;
+    font-size: 16px;
+    color: white;
+}
+
+.container {
+    width: 968px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 10px;
+    overflow: hidden; /* 最小分辨率的屏幕下 ul 会掉下去，这是官网的解决方法 */
+}
+ul {
+    float: right;
+    padding-top: 25px;
+}
+ul li {
+    /* margin: 0 2px; */
+    list-style: none;
+    float: left;
+    
+}
+img[alt="logo-img"] {
+    height: 45px;
+    margin-top: 15px;
+    float: left;
+}
+ul >li >a {
+    padding: 6px 0;
+    padding-left: 12px; /* 滑动门父级元素设置 padding-left */
+    background-size: auto 100%;
+    display: inline; /* 消除调整大小导致的文字下沉 */
+}
+ul >li >a >span {
+    padding: 6px 0;
+    padding-right: 12px; /* 滑动门子元素设置 padding-right */
+}
+ul >li:hover >a {
+    background: url(./images/nav-bg-hover.png) left top;
+}
+ul >li:hover >a >span {
+    background: url(./images/nav-bg-hover.png) right top;
+}
+ul >li:first-child >a {
+    background: url(./images/nav-bg-first.png) left top;
+    font-weight: bold;
+}
+ul >li:first-child >a >span {
+    background: url(./images/nav-bg-first.png) right top;
+}
