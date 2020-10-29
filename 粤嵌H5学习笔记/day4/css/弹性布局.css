@@ -45,16 +45,6 @@
             background-color: orange;
             float: left;
         }
-        .promotion-head-logo { /* 145*32 */
-            display: block;
-            width: 53px;
-            height: 40%;
-            margin: 12px 10px;
-             /* float: left; */ /* 浮动会导致后面排版出现问题，弃用 */
-            background-image: url(../images/hot.png);
-            background-size: 53px;
-            background-position: 0 -10px;
-        }
         
         .flex-test {
             margin: 0 auto;
