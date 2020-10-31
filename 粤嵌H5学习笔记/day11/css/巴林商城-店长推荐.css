@@ -1,0 +1,103 @@
+* {
+    margin: 0;
+    padding: 0;
+    /* box-sizing: border-box; */
+}
+body {
+
+}
+.container { /* 加一个容器方便排版，且在不同分辨率下不容易出问题 */
+    margin: 0 auto;
+    width: 1203px;
+    /* height: 100%; */
+
+    padding: 0 10px;
+    overflow: hidden; /* 最小分辨率的屏幕下 ul 会掉下去，这是官网的解决方法（很low） */
+}
+.header {
+    height: 50px;
+}
+
+.header >a::before {
+    content: "";
+    display: block;
+    width: 100px;
+    height: 30px;
+    margin-left: 10px;
+    background-image: url(../images/店长推荐_title.png);
+}
+
+.section {
+    width: 100%;
+}
+.content-2 {
+    width: 100%;
+    clear: both;
+    background-color: rgb(206, 223, 240);
+}
+.content-column {
+    float: left;
+    /* display: inline-block; */
+    height: 500px;
+    overflow: hidden;
+}
+.content-column a {
+    display: block;
+    height: 250px; /* 解决 span 下沉的笨办法 */
+}
+.content-column span {
+    width: 100%;
+    height: 24px; /* 高度减去了边框 */
+    margin-top: -4px; /* 解决 span 下沉的笨办法 */
+    display: block;
+    /* float: left; */
+    padding: 2px 4px;
+}
+.content-2 >div:nth-of-type(1) {
+    width: 200px;
+    /* height: 100%; */
+}
+.content-2 >div:nth-of-type(2) , .content-2 >div:nth-of-type(3) {
+    width: 501px;
+}
+.struct-1 {
+    /* width: 100%; */
+    height: 50%;
+}
+.struct-2 {
+    width: 50%;
+    height: 100%; /* 不能省略 */
+    float: left;
+}
+.struct-3 {
+    width: 100%; /* 不能省略 */
+    height: 100%; /* 不能省略 */
+}
+
+
+/* 边框处理 */
+#column-2 , #column-3 {
+    border-bottom: 1px solid #000;
+}
+#column-3 {
+    border-right: 1px solid #000;
+}
+.item {
+    border-left: 1px solid #000;
+    border-top: 1px solid #000;    
+}
+.content-column span:first-of-type {
+    border-top: 1px solid #000;
+}
+.cover-head , .cover-row {
+    border: none;
+}
+
+
+.footer {
+    clear: both;
+}
+.footer a {
+    float: right;
+    margin: 10px 0 ;
+}

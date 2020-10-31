@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>清除浮动</title>
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/clear-test.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 0.章节模板 - section model -->
+        <div class="section sectoin-name" id="section-0" style="display: none;">
+            <div class="header">
+                <a href="javascript"></a>
+            </div>
+            <div class="content">
+                <ul class="product-hall sectoin-name clearfix">
+                    <!-- 三种商品名录 -->
+                    <li class="product-booth cover"> <!-- 无名录 -->
+                        <a href="javascript:;">
+                            <img src="./images" alt="商品图片">
+                        </a>
+                    </li>
+                    <li class="product-booth normal"> <!-- 名录1 -->
+                        <a href="javascript:;"> 
+                            <img src="./images" alt="商品图片">
+                            <span>商品描述</span>
+                            <span>价格：<span>￥998</span></span>
+                        </a>
+                    </li>
+                    <li class="product-booth normal"> <!-- 名录2 -->
+                        <a href="javascript:;">
+                            <img src="./images/火爆推荐_03.png" alt="商品图片">
+                            <span>
+                                女装套装秋冬长袖西装套裤女士正 装修身工作服
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span>￥998</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer">
+                <a href="javascript:;">更多&nbsp;></a>
+            </div>
+        </div>
+
+        <!-- 2.新货上架 - fresh --> 
+        <!-- 遮罩效果暂不实现,以后补上 -->
+        <div class="section fresh" id="section-0">
+            <div class="header">
+                <a href="javascript"></a>
+            </div>
+            <div class="content">
+                <ul class="product-hall fresh clearfix">
+                    <li class="product-booth cover">
+                        <a href="javascript:;">
+                            <img src="./images/新货上架_01.png" alt="商品图片">
+                        </a>
+                    </li>
+                    <li class="product-booth cover">
+                        <a href="javascript:;">
+                            <img src="./images/新货上架_02.png" alt="商品图片">
+                        </a>
+                    </li>
+                    <li class="product-booth cover">
+                        <a href="javascript:;">
+                            <img src="./images/新货上架_03.png" alt="商品图片">
+                        </a>
+                    </li>
+                    <li class="product-booth cover">
+                        <a href="javascript:;">
+                            <img src="./images/新货上架_04.png" alt="商品图片">
+                        </a>
+                    </li>
+                    <li class="product-booth cover">
+                        <a href="javascript:;">
+                            <img src="./images/新货上架_05.png" alt="商品图片">
+                        </a>
+                    </li>
+                    <li class="product-booth cover">
+                        <a href="javascript:;">
+                            <img src="./images/新货上架_06.png" alt="商品图片">
+                        </a>
+                    </li>
+                    <li class="product-booth cover">
+                        <a href="javascript:;">
+                            <img src="./images/新货上架_07.png" alt="商品图片">
+                        </a>
+                    </li>
+                    <li class="product-booth cover">
+                        <a href="javascript:;">
+                            <img src="./images/新货上架_08.png" alt="商品图片">
+                        </a>
+                    </li>
+                    <li class="product-booth cover">
+                        <a href="javascript:;">
+                            <img src="./images/新货上架_09.png" alt="商品图片">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer">
+                <a href="javascript:;">更多&nbsp;></a>
+            </div>
+        </div>
+        <!-- 3.热门商品 - hot -->
+        <div class="section hot" id="section-3">
+            <div class="header">
+                <a href="javascript"></a>
+            </div>
+            <div class="content">
+                <ul class="product-hall hot clearfix">
+                    <li class="product-booth cover">
+                        <a href="javascript:;">
+                            <img src="./images/热门商品_01.png" alt="商品图片">
+                        </a>
+                    </li>
+                    <li class="product-booth normal add-top-border">
+                        <a href="javascript:;">
+                            <img src="./images/热门商品_02.png" alt="商品图片">
+                            <span>2015秋季新品专柜同步混纺平纹套西56 </span>
+                            <span>抢购价：<span>￥1198</span></span>
+                        </a>
+                    </li>
+                    <li class="product-booth normal add-top-border">
+                        <a href="javascript:;">
+                            <img src="./images/热门商品_03.png" alt="商品图片">
+                            <span>2015秋季新品专柜同步混纺平纹套西56 </span>
+                            <span>抢购价：<span>￥1198</span></span>
+                        </a>
+                    </li>
+                    <li class="product-booth normal add-left-border">
+                        <a href="javascript:;">
+                            <img src="./images/热门商品_04.png" alt="商品图片">
+                            <span>2015秋季新品专柜同步混纺平纹套西56 </span>
+                            <span>抢购价：<span>￥1198</span></span>
+                        </a>
+                    </li>
+                    <li class="product-booth normal">
+                        <a href="javascript:;">
+                            <img src="./images/热门商品_05.png" alt="商品图片">
+                            <span>2015秋季新品专柜同步混纺平纹套西56 </span>
+                            <span>抢购价：<span>￥1198</span></span>
+                        </a>
+                    </li>
+                    <li class="product-booth normal">
+                        <a href="javascript:;">
+                            <img src="./images/热门商品_06.png" alt="商品图片">
+                            <span>2015秋季新品专柜同步混纺平纹套西56 </span>
+                            <span>抢购价：<span>￥1198</span></span>
+                        </a>
+                    </li>
+                    <li class="product-booth normal">
+                        <a href="javascript:;">
+                            <img src="./images/热门商品_07.png" alt="商品图片">
+                            <span>2015秋季新品专柜同步混纺平纹套西56 </span>
+                            <span>抢购价：<span>￥1198</span></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer clearfix">
+                <a href="javascript:;">更多&nbsp;></a>
+            </div>
+        </div>
+
+        <!-- 4.店长推荐 - recommend -->
+        <div class="section recommend" id="section-4">
+            <div class="header">
+                <a href="javscript:;"></a>
+            </div>
+            <div class="content">
+                <ul class="product-hall recommend clearfix">
+                    <li class="product-booth cover remove-right-border remove-bottom-border">
+                        <a href="javascript:;">
+                            <img src="./images/店长推荐_01.jpg" alt="商品图片">
+                        </a>
+                    </li>
+                    <li class="product-booth cover">
+                        <a href="javascript:;">
+                            <img src="./images/店长推荐_02.jpg" alt="商品图片">
+                        </a>
+                    </li>
+                    <li class="product-booth mormal add-top-border">
+                        <a href="javascript:;">
+                            <img src="./images/店长推荐_03.jpg" alt="商品图片">
+                            <span>专柜同步混纺平纹正装单西xxx</span>
+                            <span>价格：<span>￥998</span></span>
+                        </a>
+                    </li>
+                    <li class="product-booth mormal add-top-border">
+                        <a href="javascript:;">
+                            <img src="./images/店长推荐_04.jpg" alt="商品图片">
+                            <span>专柜同步混纺平纹正装单西xxx</span>
+                            <span>价格：<span>￥998</span></span>
+                        </a>
+                    </li>
+                    <li class="product-booth mormal add-left-border">
+                        <a href="javascript:;">
+                            <img src="./images/店长推荐_05.jpg" alt="商品图片">
+                            <span>女装专柜同步混纺平纹正装单西xxx</span>
+                            <span>价格：<span>￥998</span></span>
+                        </a>
+                    </li>
+                    <li class="product-booth mormal ">
+                        <a href="javascript:;">
+                            <img src="./images/店长推荐_06.jpg" alt="商品图片">
+                            <span>女装专柜同步混纺平纹正装单西xxx</span>
+                            <span>价格：<span>￥998</span></span>
+                        </a>
+                    </li>
+                    <li class="product-booth mormal ">
+                        <a href="javascript:;">
+                            <img src="./images/店长推荐_07.jpg" alt="商品图片">
+                            <span>女装专柜同步混纺平纹正装单西xxx</span>
+                            <span>价格：<span>￥998</span></span>
+                        </a>
+                    </li>
+                    <li class="product-booth mormal ">
+                        <a href="javascript:;">
+                            <img src="./images/店长推荐_08.jpg" alt="商品图片">
+                            <span>女装专柜同步混纺平纹正装单西xxx</span>
+                            <span>价格：<span>￥998</span></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer">
+                <a href="javascript:;">更多&nbsp;></a>
+            </div>
+        </div>
+
+        <!-- 5.爆款推荐 - storm -->
+        <div class="section storm" id="section-0" >
+            <div class="header">
+                <a href="javascript"></a>
+            </div>
+            <div class="content">
+                <ul class="product-hall storm clearfix">
+                    <li class="product-booth cover">
+                        <a href="javascript:;">
+                            <img src="./images/火爆推荐_01.png" alt="商品图片">
+                        </a>
+                    </li>
+                    <li class="product-booth normal">
+                        <a href="javascript:;">
+                            <img src="./images/火爆推荐_02.png" alt="商品图片">
+                        </a>
+                    </li>
+                    <li class="product-booth normal add-top-border">
+                        <a href="javascript:;">
+                            <img src="./images/火爆推荐_03.png" alt="商品图片">
+                            <span>
+                                女装套装秋冬长袖西装套裤女士正 装修身工作服
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span>￥1599.00</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="product-booth normal add-top-border">
+                        <a href="javascript:;">
+                            <img src="./images/火爆推荐_04.png" alt="商品图片">
+                            <span>
+                                女装套装秋冬长袖西装套裤女士正 装修身工作服
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span>￥1599.00</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="product-booth normal add-left-border">
+                        <a href="javascript:;">
+                            <img src="./images/火爆推荐_05.png" alt="商品图片">
+                            <span>
+                                2015秋季新品专柜同步混纺平 纹套西11156
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span>￥1599.00</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="product-booth normal ">
+                        <a href="javascript:;">
+                            <img src="./images/火爆推荐_06.png" alt="商品图片">
+                            <span>
+                                2015秋季新品专柜同步混纺平 纹套西11156
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span>￥1599.00</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="product-booth normal">
+                        <a href="javascript:;">
+                            <img src="./images/火爆推荐_07.png" alt="商品图片">
+                            <span>
+                                2015秋季新品专柜同步混纺平 纹套西11156
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span>￥1599.00</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="product-booth normal">
+                        <a href="javascript:;">
+                            <img src="./images/火爆推荐_08.png" alt="商品图片">
+                            <span>
+                                女装套装秋冬长袖西装套裤女士正 装修身工作服
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span>￥1599.00</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="product-booth normal">
+                        <a href="javascript:;">
+                            <img src="./images/火爆推荐_09.png" alt="商品图片">
+                            <span>
+                                女装套装秋冬长袖西装套裤女士正 装修身工作服
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span>￥1599.00</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer">
+                <a href="javascript:;">更多&nbsp;></a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

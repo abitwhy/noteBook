@@ -1,0 +1,175 @@
+/* --------------------------------全局样式-------------------------------- */
+/* # 容器 */
+.container {
+    width: 1200px; 
+    margin: 0 auto;
+}
+/* # 字体 */
+body {
+
+}
+/* # 章节 */
+.section {
+
+}
+
+/* --------------------------------网页顶部样式-------------------------------- */
+
+
+/* --------------------------------章节样式-------------------------------- */
+/* # 顶部 */
+/* ## 统一 */
+.header {
+     height: 50px;
+}
+.header >a::before {
+    width: 100px;
+    height: 30px;
+    margin-left: 10px;
+    content: "";
+    display: block;
+    /* background-image: url(../images/店长推荐-title.png); */
+}
+/* ## 单独 */
+div.recommend .header >a::before {
+    background-image: url(../images/店长推荐-title.png);
+}
+div.recommend .header >a::before {
+    background-image: url(../images/店长推荐-title.png);
+}
+div.recommend .header >a::before {
+    background-image: url(../images/店长推荐-title.png);
+}
+div.recommend .header >a::before {
+    background-image: url(../images/店长推荐-title.png);
+}
+
+/* # 主体 */
+/* ## 统一 */
+.content {
+
+}
+
+/* ### 字体 */
+.section li a span { /* 商品介绍 */
+    font-size: 14px;
+    color: #2c2c2c;
+}
+li.product-booth >a >span >span { /* 商品价格*/
+    color: #fe5858;
+} 
+
+/* ### 展厅布局 */
+.section ul {
+
+}
+.section li {
+    border-right: 1px solid #9d9d9d;
+    border-bottom: 1px solid #9d9d9d;
+    float: left;
+    overflow: hidden; /* 解决图片遮住边框 */
+}
+
+/* #### 展位布局 */
+li.product-booth >a { /* a 标签转块级 */
+    display: block;
+}
+li.product-booth >a >img , li.product-booth >a >span { /* 行内元素浮动 */
+    width: 100%; /* 不设置会有问题 */
+    float: left; /* 浮动后的元素会自动变成 block,若其父元素未设置高度,则父元素高度将变为0 */
+}
+
+/* ##### 商品名录 */
+li.product-booth >a >span{ /* 商品名录-尺寸 */
+    height: 25px;
+    padding: 0px 10px; 
+    line-height: 25px;
+}
+li.product-booth >a >span:nth-of-type(1) { /* 商品名录-顶部边框 */
+    border-top: 1px solid #9d9d9d;
+}
+
+/* ## 单独 */
+/* ## 单独 */
+/* ###  新货上架*/
+/* #### 展厅布局 */
+ul.fresh {
+
+}
+ul.fresh >li { /* 展位默认尺寸 */
+    border: none;
+
+}
+
+/* ###  热门商品*/
+/* #### 展厅布局 */
+ul.hot {
+
+}
+ul.hot >li { /* 展位默认尺寸 */
+    width: 305px;
+    height: 300px;
+}
+ul.hot >li:first-child { /* 尺寸调整-封面 */
+    width: 615px;
+    height: 318px;
+}
+ul.hot li:nth-of-type(3) , ul.hot li:last-child{ /* 尺寸调整-最右列宽度-小 */
+    width: 280px;
+}
+ul.hot li:nth-of-type(2) , ul.hot li:nth-of-type(3) { /* 尺寸调整-首行高度-大 */
+    height: 318px;
+}
+ul.hot li:nth-of-type(4) , ul.hot li:nth-of-type(5) { /* 尺寸调整-首行高度-大 */
+    width: 307.5px;
+}
+
+/* #### 展位布局 */
+ul.hot li:nth-of-type(2) >a >span , ul.hot li:nth-of-type(3) >a >span { /* 商品名录-上层内边距-大 */
+    padding-top: 10px;
+}
+
+/* ###  店长推荐*/
+/* #### 展厅布局 */
+ul.recommend { 
+    /* height: 500px; */ /* 无需设置高度 */
+}
+ul.recommend >li { /* 展位默认尺寸 */
+    width: 250px;
+    height: 250px;
+}
+ul.recommend >li:first-child { /* 尺寸调整-封面1 */
+    width: 200px;
+    height: 500px;
+}
+ul.recommend >li:nth-child(2) { /* 尺寸调整-封面2 */
+    width: 500px;
+}
+/* #### 展位布局 */
+ul.recommend li {
+
+}
+
+/* ###  爆款推荐*/
+/* #### 展厅布局 */
+ul.storm {
+
+}
+ul.storm >li { /* 展位默认尺寸 */
+    width: 250px;
+    height: 250px;
+}
+ul.storm >li:nth-of-type(1) , ul.storm >li:nth-of-type(2) {
+    width: 350px;
+}
+ul.storm >li:nth-of-type(5) , ul.storm >li:nth-of-type(6) , ul.storm >li:nth-of-type(7) {
+    width: 233px;
+}
+/* # 尾部 */
+.footer a {
+    float: right;
+    margin: 10px 0 ;
+    color: #777777;
+}
+
+/* --------------------------------网页底部样式-------------------------------- */
