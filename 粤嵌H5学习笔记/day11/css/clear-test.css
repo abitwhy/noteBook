@@ -22,26 +22,32 @@ body {
 .header {
      height: 50px;
 }
-.header >a::before {
+/* ### 章节标题 */
+.header >a::before { /* 尺寸及布局 */
     width: 100px;
     height: 30px;
     margin-left: 10px;
     content: "";
     display: block;
-    /* background-image: url(../images/店长推荐-title.png); */
 }
+
 /* ## 单独 */
-div.recommend .header >a::before {
-    background-image: url(../images/店长推荐-title.png);
+/* ### 章节标题 */
+div.rank .header >a::before { /* 尺寸及背景 */
+    width: 175px;
+    background-image: url(../images/热销排行榜-title.png);
+}
+div.fresh .header >a::before {
+    background-image: url(../images/新货上架-title.png);
+}
+div.hot .header >a::before {
+    background-image: url(../images/热门商品-title.png);
 }
 div.recommend .header >a::before {
     background-image: url(../images/店长推荐-title.png);
 }
-div.recommend .header >a::before {
-    background-image: url(../images/店长推荐-title.png);
-}
-div.recommend .header >a::before {
-    background-image: url(../images/店长推荐-title.png);
+div.storm .header >a::before {
+    background-image: url(../images/爆款推荐-title.png);
 }
 
 /* # 主体 */
@@ -55,15 +61,28 @@ div.recommend .header >a::before {
     font-size: 14px;
     color: #2c2c2c;
 }
-li.product-booth >a >span >span { /* 商品价格*/
-    color: #fe5858;
+ul.alter a{ /* t */
+    font-size: 14px;
+    color: #2c2c2c;
 } 
+li.goods-booth >a >span >span { /* 商品价格*/
+    color: #fe5858;
+}
+ul.alter .goods-price-money { /* t */
+    color: #fe5858;
+}
+span.goods-slogan {
+    color: #848484;
+}
+
+
 
 /* ### 展厅布局 */
 .section ul {
 
 }
-.section li {
+.section li { /* 浮动及边框 */
+    /* li 边框方案可能没有 img 边框好,后续优化 */
     border-right: 1px solid #9d9d9d;
     border-bottom: 1px solid #9d9d9d;
     float: left;
@@ -71,33 +90,89 @@ li.product-booth >a >span >span { /* 商品价格*/
 }
 
 /* #### 展位布局 */
-li.product-booth >a { /* a 标签转块级 */
+li.goods-booth >a { /* a 标签转块级 */
     display: block;
 }
-li.product-booth >a >img , li.product-booth >a >span { /* 行内元素浮动 */
+a.goods-link { /* t */
+    display: block;
+}
+li.goods-booth >a >img , li.goods-booth >a >span { /* 行内元素浮动 */
     width: 100%; /* 不设置会有问题 */
     float: left; /* 浮动后的元素会自动变成 block,若其父元素未设置高度,则父元素高度将变为0 */
 }
 
+
 /* ##### 商品名录 */
-li.product-booth >a >span{ /* 商品名录-尺寸 */
+li.goods-booth >a >span{ /* 商品名录-尺寸 */
     height: 25px;
     padding: 0px 10px; 
     line-height: 25px;
 }
-li.product-booth >a >span:nth-of-type(1) { /* 商品名录-顶部边框 */
+li.goods-booth >a >span:nth-of-type(1) { /* 商品名录-顶部边框 */
     border-top: 1px solid #9d9d9d;
 }
 
 /* ## 单独 */
-/* ## 单独 */
+/* ### 热销排行榜 */
+/* #### 展厅布局 */
+ul.rank {
+
+}
+ul.rank >li { /* 展位默认尺寸 */
+    width: 300px;
+    height: 300px;
+    border-top: 1px solid #9d9d9d;
+}
+ul.rank >li:first-child { /* 边框补全 */
+    border-left: 1px solid #9d9d9d;
+}
+
+/* #### 展位布局 */
+ul.rank >li >a >img {
+    width: 300px;
+    height: 210px;
+}
+ul.rank >li >a >span { /* 商品名录-字体 */
+    width: 300px;
+    padding: 15px 10px;
+    text-align: center;
+}
+ul.rank >li >a >span:first-of-type { /* 商品名录-分类-字体 */
+    font-size: 24px;
+    color: #262626;
+}
+ul.rank >li >a >span:last-of-type { /* 商品名录-标语-字体 */
+    color: #848484;
+}
+
 /* ###  新货上架*/
 /* #### 展厅布局 */
 ul.fresh {
-
+    
 }
 ul.fresh >li { /* 展位默认尺寸 */
-    border: none;
+    border: none; 
+    /* 因为没有边框,无需设置展位尺寸 */
+}
+ul.fresh >li:nth-of-type(1n+5) { /* 布局调整-浮动方案 */
+    /* 更理想方案应该为相对定位,但代码量肯定会增加 */
+    float: right;
+}
+ul.fresh >li:nth-of-type(1n+6) { 
+    /* 剩余右浮动元素统一上移 */
+    margin-top: -106px;
+}
+ul.fresh >li:last-child {
+    /* 最后一个不该上移 */
+    margin: 0;
+}
+ul.fresh >li:nth-of-type(5) {
+    /* 解决图片尺寸不规整,导致右浮动偏移了1像素  */
+    border-right: 1px solid rgba(0, 0, 0, 0);
+}
+
+/* #### 展位布局 */
+ul.hot li {
 
 }
 
@@ -165,11 +240,15 @@ ul.storm >li:nth-of-type(1) , ul.storm >li:nth-of-type(2) {
 ul.storm >li:nth-of-type(5) , ul.storm >li:nth-of-type(6) , ul.storm >li:nth-of-type(7) {
     width: 233px;
 }
+
 /* # 尾部 */
 .footer a {
     float: right;
     margin: 10px 0 ;
     color: #777777;
+}
+div.fresh .footer {
+    margin-bottom: 50px;
 }
 
 /* --------------------------------网页底部样式-------------------------------- */

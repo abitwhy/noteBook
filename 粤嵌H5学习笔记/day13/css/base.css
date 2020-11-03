@@ -1,65 +1,93 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* 怪异盒子模型(边框宽度不计算在盒子的体积中) */
+    box-sizing: border-box;
+    /* 怪异盒子模型(边框宽度不计算在盒子的体积中) */
 }
-ul li , ol li {
+
+ul li,
+ol li {
     list-style: none;
 }
+
 a {
-    text-decoration: none; /* 去除下划线 */
-}
-img {
-
+    text-decoration: none;
+    /* 去除下划线 */
 }
 
-body { 
-    font-family:normal Arial,"微软雅黑"，"楷体" Helvetica, sans-serif,;
+img {}
+
+body {
+    font-family: normal Arial, "微软雅黑"，"楷体" Helvetica, sans-serif, ;
 }
+
 
 /* 不展示 */
+
 .dispaly-none {
     display: none;
 }
+
+
 /* 清除浮动 */
-.clearfix::after{
-    content:""; /* 设置内容为空 */
-    height:0; /* 高度为0 */
-    line-height:0; /* 行高为0 */
-    display:block; /* 将文本转为块级元素 */
-    visibility:hidden; /* 将元素隐藏 */
-    clear: both; /* 清除浮动 */
+
+.clearfix::after {
+    content: "";
+    /* 设置内容为空 */
+    height: 0;
+    /* 高度为0 */
+    line-height: 0;
+    /* 行高为0 */
+    display: block;
+    /* 将文本转为块级元素 */
+    visibility: hidden;
+    /* 将元素隐藏 */
+    clear: both;
+    /* 清除浮动 */
 }
 
+
 /* 边框调整 */
+
+
 /* 缺点:边框效果需根据需要更改 */
+
 .add-border {
-    border:  1px solid #9d9d9d !important;
+    border: 1px solid #9d9d9d !important;
 }
+
 .add-left-border {
     border-left: 1px solid #9d9d9d !important;
 }
+
 .add-right-border {
     border-right: 1px solid #9d9d9d !important;
 }
+
 .add-top-border {
     border-top: 1px solid #9d9d9d !important;
 }
+
 .add-bottom-border {
     border-bottom: 1px solid #9d9d9d !important;
 }
+
 .remove-border {
-    border:  none !important;
+    border: none !important;
 }
+
 .remove-left-border {
     border-left: none !important;
 }
+
 .remove-right-border {
     border-right: none !important;
 }
+
 .remove-top-border {
     border-bottom: none !important;
 }
+
 .remove-bottom-border {
     border-bottom: none !important;
 }

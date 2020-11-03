@@ -22,37 +22,33 @@
                     <a href="javascript:;"></a>
                 </div>
                 <div class="content">
-                    <ul class="product-hall sectoin-name clearfix">
+                    <ul class="goods-hall sectoin-name clearfix">
                         <!-- 三种商品名录 -->
-                        <li class="product-booth cover"> <!-- 无名录 -->
+                        <li class="goods-booth cover"> <!-- 无名录 -->
                             <a href="javascript:;">
                                 <img src="./images" alt="商品图片">
                             </a>
                         </li>
-                        <li class="product-booth normal"> <!-- 名录1 -->
+                        <li class="goods-booth normal"> <!-- 名录1 -->
                             <a href="javascript:;"> 
                                 <img src="./images" alt="商品图片">
-                                <span>分类</span>
-                                <span>标语</span>
                             </a>
+                            <a href="javascript:;">分类</a>
+                            <span>标语</span>
                         </li>
-                        <li class="product-booth normal"> <!-- 名录2 -->
+                        <li class="goods-booth normal"> <!-- 名录2 -->
                             <a href="javascript:;"> 
                                 <img src="./images" alt="商品图片">
-                                <span>商品描述</span>
-                                <span>价格：<span>￥998</span></span>
                             </a>
+                            <a href="javasript:;">商品描述</a>
+                            <span>价格：<span>￥rmb</span></span>
                         </li>
-                        <li class="product-booth normal"> <!-- 名录3 -->
+                        <li class="goods-booth normal"> <!-- 名录3 -->
                             <a href="javascript:;">
                                 <img src="./images/爆款推荐_03.png" alt="商品图片">
-                                <span>
-                                    女装套装秋冬长袖西装套裤女士正 装修身工作服
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span>￥998</span>
-                                </span>
                             </a>
+                            <a href="javascript">商品描述</a>
+                            <span>￥rmb</span>
                         </li>
                     </ul>
                 </div>
@@ -60,35 +56,159 @@
                     <a href="javascript:;">更多&nbsp;></a>
                 </div>
             </div>
+
+            <!-- 0.章节模板 - section model (修改测试)-->
+            <div class="section alter" id="section-0"">
+                <div class="section-header">
+                    <a class="header-link" href="javascript:;"></a>
+                </div>
+                <div class="content section-content">
+                    <ul class="hall content-hall alter clearfix">
+                        <!-- 三种商品名录 -->
+                        <li class="booth hall-booth cover"> <!-- 无名录 -->
+                            <div class="goods hall-goods">
+
+                            </div>
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/店长推荐_01.jpg" alt="商品图片">
+                            </a>
+                        </li>
+                        <li class="booth hall-booth normal"> <!-- 名录1 -->
+                            <a class="poster goods-poster" href="javascript:;"> 
+                                <img class="img poster-img" src="./images/热销排行榜_01.png" alt="商品图片">
+                            </a>
+                            <a class="type goods-type" href="javascript:;">分类</a>
+                            <span class="slogan goods-slogan">标语</span>
+                        </li>
+                        <li class="booth hall-booth normal"> <!-- 名录2 -->
+                            <a class="poster goods-poster" href="javascript:;"> 
+                                <img class="img poster-img" src="./images/热门商品_02.png" alt="商品图片">
+                            </a>
+                            <a class="describe goods-describe" href="javasript:;">商品描述</a>
+                            <span class="price goods-price">
+                                <span class="title price-title">价格：</span>
+                                <span class="money price-money">￥rmb</span>
+                            </span>
+                        </li>
+                        <li class="booth hall-booth normal"> <!-- 名录3 -->
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/爆款推荐_03.png" alt="商品图片">
+                            </a>
+                            <a class="describe goods-describe" href="javascript">商品描述</a>
+                            <span class="price goods-price">
+                                <span class="goods-price-money">￥rmb</span>
+                            </span>
+                        </li>
+
+                        <!-- 模板再次精简（尝试） -->
+                        <!-- 主要思路是：以目前完善展位为模板（原型），所有功能默认设置 dispaly: none 不展示（另一种方案是注释掉） ，使用时才去掉该设置，这样模板展位可以不断添加新功能，而不影响前面的功能。
+                            一种可以想到的添加功能的模式是：每有新功能加入进来，就对 html 中每一个对应的地方添加该功能代码。有必要将代码分出至少新旧两个部分。
+                            优缺点：
+                                优点：可持续发展、快速原型
+                                缺点：
+                                    1.原始框架要高度合理，否则需要更改框架改动会完全推翻前面的代码
+                                    2.（开发环境）代码量激增：添加功能时，需要将新代码添加到每个原有功能代码（如何准确快速找到些位置？）的尾部，方便原有功能的拓展，但往往原有功能不需要拓展，徒增了许多代码量。
+                        -->
+                        <li class="booth hall-booth normal"> <!-- 名录2 -->
+                            <a class="poster goods-poster" href="javascript:;"> 
+                                <img class="img poster-img" src="./images/热门商品_02.png" alt="商品图片">
+                            </a>
+                            <div class="goods-describe">
+                                <a class="describe describe-type" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan">标语</span>
+                                <a class="details describe-details" href="javasript:;">商品描述</a>
+                                <span class="price goods-price">
+                                    <span class="title price-title">价格：</span>
+                                    <span class="money price-money">￥rmb</span>
+                                </span>
+                            </div> 
+                        </li>
+                        
+
+
+                    </ul>
+                </div>
+                <div class="footer clearfix">
+                    <a href="javascript:;">更多&nbsp;></a>
+                </div>
+            </div>
+
+            <!-- 重来 -->
+            <!-- 1.热销排行榜 - rank -->
+            <div class="section rank" id="section-1"">
+                <div class="header">
+                    <a href="javascript:;"></a>
+                </div>
+                <div class="content">
+                    <ul class="goods-hall rank clearfix">
+                        <!-- 三种商品名录 -->
+                        <li class="goods-booth normal"> <!-- 名录1 -->
+                            <a class="goods-link" href="javascript:;"> 
+                                <img class="goods-poster" src="./images/热销排行榜_01.png" alt="商品图片">
+                            </a>
+                            <a class="goods-type" href="javascript:;">时尚正装工作服</a>
+                            <span class="goods-slogan">春夏新款女士修身显瘦OL通勤职业装</span>
+                        </li>
+                        <li class="goods-booth normal"> <!-- 名录1 -->
+                            <a class="goods-link" href="javascript:;"> 
+                                <img class="goods-poster" src="./images/热销排行榜_02.png" alt="商品图片">
+                            </a>
+                            <a class="goods-type" href="javascript:;">韩版修身正装</a>
+                            <span class="goods-slogan">春夏新款女士修身显瘦OL通勤职业装</span>
+                        </li>
+                        <li class="goods-booth normal"> <!-- 名录1 -->
+                            <a class="goods-link" href="javascript:;"> 
+                                <img class="goods-poster" src="./images/热销排行榜_03.png" alt="商品图片">
+                            </a>
+                            <a class="goods-type" href="javascript:;">衬衣薄款工作服</a>
+                            <span class="goods-slogan">春夏新款女士修身显瘦OL通勤职业装</span>
+                        </li>
+                        <li class="goods-booth normal"> <!-- 名录1 -->
+                            <a class="goods-link" href="javascript:;"> 
+                                <img class="goods-poster" src="./images/热销排行榜_04.png" alt="商品图片">
+                            </a>
+                            <a class="goods-type" href="javascript:;">时尚正装工作服</a>
+                            <span class="goods-slogan">春夏新款女士修身显瘦OL通勤职业装</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer clearfix">
+                    <a href="javascript:;">更多&nbsp;></a>
+                </div>
+            </div>
+
+
+
+
             <!-- 1.热销排行榜 - rank -->
             <div class="section rank" id="section-0">
                 <div class="header">
                     <a href="javascript:;"></a>
                 </div>
                 <div class="content">
-                    <ul class="product-hall rank clearfix">
-                        <li class="product-booth normal">
+                    <ul class="goods-hall rank clearfix">
+                        <li class="goods-booth normal">
                             <a href="javascript:;"> 
                                 <img src="./images/热销排行榜_01.png" alt="商品图片">
                                 <span>时尚正装工作服</span>
                                 <span>春夏新款女士修身显瘦OL通勤职业装</span>
                             </a>
                         </li>
-                        <li class="product-booth normal">
+                        <li class="goods-booth normal">
                             <a href="javascript:;"> 
                                 <img src="./images/热销排行榜_02.png" alt="商品图片">
                                 <span>时尚正装工作服</span>
                                 <span>春夏新款女士修身显瘦OL通勤职业装</span>
                             </a>
                         </li>
-                        <li class="product-booth normal">
+                        <li class="goods-booth normal">
                             <a href="javascript:;"> 
                                 <img src="./images/热销排行榜_03.png" alt="商品图片">
                                 <span>时尚正装工作服</span>
                                 <span>春夏新款女士修身显瘦OL通勤职业装</span>
                             </a>
                         </li>
-                        <li class="product-booth normal">
+                        <li class="goods-booth normal">
                             <a href="javascript:;"> 
                                 <img src="./images/热销排行榜_04.png" alt="商品图片">
                                 <span>时尚正装工作服</span>
@@ -108,49 +228,49 @@
                 </div>
                 <div class="content">
                     <!-- 遮罩效果暂不实现,以后补上 -->
-                    <ul class="product-hall fresh clearfix">
-                        <li class="product-booth cover">
+                    <ul class="goods-hall fresh clearfix">
+                        <li class="goods-booth cover">
                             <a href="javascript:;">
                                 <img src="./images/新货上架_01.png" alt="商品图片">
                             </a>
                         </li>
-                        <li class="product-booth cover">
+                        <li class="goods-booth cover">
                             <a href="javascript:;">
                                 <img src="./images/新货上架_02.png" alt="商品图片">
                             </a>
                         </li>
-                        <li class="product-booth cover">
+                        <li class="goods-booth cover">
                             <a href="javascript:;">
                                 <img src="./images/新货上架_03.png" alt="商品图片">
                             </a>
                         </li>
-                        <li class="product-booth cover">
+                        <li class="goods-booth cover">
                             <a href="javascript:;">
                                 <img src="./images/新货上架_04.png" alt="商品图片">
                             </a>
                         </li>
                         <!-- 为了配合[布局调整-浮动方案],将以下图片逆序 -->
-                        <li class="product-booth cover">
+                        <li class="goods-booth cover">
                             <a href="javascript:;">
                                 <img src="./images/新货上架_09.png" alt="商品图片">
                             </a>
                         </li>
-                        <li class="product-booth cover">
+                        <li class="goods-booth cover">
                             <a href="javascript:;">
                                 <img src="./images/新货上架_08.png" alt="商品图片">
                             </a>
                         </li>
-                        <li class="product-booth cover">
+                        <li class="goods-booth cover">
                             <a href="javascript:;">
                                 <img src="./images/新货上架_07.png" alt="商品图片">
                             </a>
                         </li>
-                        <li class="product-booth cover">
+                        <li class="goods-booth cover">
                             <a href="javascript:;">
                                 <img src="./images/新货上架_06.png" alt="商品图片">
                             </a>
                         </li>
-                        <li class="product-booth cover">
+                        <li class="goods-booth cover">
                             <a href="javascript:;">
                                 <img src="./images/新货上架_05.png" alt="商品图片">
                             </a>
@@ -167,48 +287,48 @@
                     <a href="javascript:;"></a>
                 </div>
                 <div class="content">
-                    <ul class="product-hall hot clearfix">
-                        <li class="product-booth cover">
+                    <ul class="goods-hall hot clearfix">
+                        <li class="goods-booth cover">
                             <a href="javascript:;">
                                 <img src="./images/热门商品_01.png" alt="商品图片">
                             </a>
                         </li>
-                        <li class="product-booth normal add-top-border">
+                        <li class="goods-booth normal add-top-border">
                             <a href="javascript:;">
                                 <img src="./images/热门商品_02.png" alt="商品图片">
                                 <span>2015秋季新品专柜同步混纺平纹套西56 </span>
                                 <span>抢购价：<span>￥1198</span></span>
                             </a>
                         </li>
-                        <li class="product-booth normal add-top-border">
+                        <li class="goods-booth normal add-top-border">
                             <a href="javascript:;">
                                 <img src="./images/热门商品_03.png" alt="商品图片">
                                 <span>2015秋季新品专柜同步混纺平纹套西56 </span>
                                 <span>抢购价：<span>￥1198</span></span>
                             </a>
                         </li>
-                        <li class="product-booth normal add-left-border">
+                        <li class="goods-booth normal add-left-border">
                             <a href="javascript:;">
                                 <img src="./images/热门商品_04.png" alt="商品图片">
                                 <span>2015秋季新品专柜同步混纺平纹套西56 </span>
                                 <span>抢购价：<span>￥1198</span></span>
                             </a>
                         </li>
-                        <li class="product-booth normal">
+                        <li class="goods-booth normal">
                             <a href="javascript:;">
                                 <img src="./images/热门商品_05.png" alt="商品图片">
                                 <span>2015秋季新品专柜同步混纺平纹套西56 </span>
                                 <span>抢购价：<span>￥1198</span></span>
                             </a>
                         </li>
-                        <li class="product-booth normal">
+                        <li class="goods-booth normal">
                             <a href="javascript:;">
                                 <img src="./images/热门商品_06.png" alt="商品图片">
                                 <span>2015秋季新品专柜同步混纺平纹套西56 </span>
                                 <span>抢购价：<span>￥1198</span></span>
                             </a>
                         </li>
-                        <li class="product-booth normal">
+                        <li class="goods-booth normal">
                             <a href="javascript:;">
                                 <img src="./images/热门商品_07.png" alt="商品图片">
                                 <span>2015秋季新品专柜同步混纺平纹套西56 </span>
@@ -227,53 +347,53 @@
                     <a href="javascript:;"></a>
                 </div>
                 <div class="content">
-                    <ul class="product-hall recommend clearfix">
-                        <li class="product-booth cover remove-right-border remove-bottom-border">
+                    <ul class="goods-hall recommend clearfix">
+                        <li class="goods-booth cover remove-right-border remove-bottom-border">
                             <a href="javascript:;">
                                 <img src="./images/店长推荐_01.jpg" alt="商品图片">
                             </a>
                         </li>
-                        <li class="product-booth cover">
+                        <li class="goods-booth cover">
                             <a href="javascript:;">
                                 <img src="./images/店长推荐_02.jpg" alt="商品图片">
                             </a>
                         </li>
-                        <li class="product-booth mormal add-top-border">
+                        <li class="goods-booth mormal add-top-border">
                             <a href="javascript:;">
                                 <img src="./images/店长推荐_03.jpg" alt="商品图片">
                                 <span>专柜同步混纺平纹正装单西xxx</span>
                                 <span>价格：<span>￥998</span></span>
                             </a>
                         </li>
-                        <li class="product-booth mormal add-top-border">
+                        <li class="goods-booth mormal add-top-border">
                             <a href="javascript:;">
                                 <img src="./images/店长推荐_04.jpg" alt="商品图片">
                                 <span>专柜同步混纺平纹正装单西xxx</span>
                                 <span>价格：<span>￥998</span></span>
                             </a>
                         </li>
-                        <li class="product-booth mormal add-left-border">
+                        <li class="goods-booth mormal add-left-border">
                             <a href="javascript:;">
                                 <img src="./images/店长推荐_05.jpg" alt="商品图片">
                                 <span>女装专柜同步混纺平纹正装单西xxx</span>
                                 <span>价格：<span>￥998</span></span>
                             </a>
                         </li>
-                        <li class="product-booth mormal ">
+                        <li class="goods-booth mormal ">
                             <a href="javascript:;">
                                 <img src="./images/店长推荐_06.jpg" alt="商品图片">
                                 <span>女装专柜同步混纺平纹正装单西xxx</span>
                                 <span>价格：<span>￥998</span></span>
                             </a>
                         </li>
-                        <li class="product-booth mormal ">
+                        <li class="goods-booth mormal ">
                             <a href="javascript:;">
                                 <img src="./images/店长推荐_07.jpg" alt="商品图片">
                                 <span>女装专柜同步混纺平纹正装单西xxx</span>
                                 <span>价格：<span>￥998</span></span>
                             </a>
                         </li>
-                        <li class="product-booth mormal ">
+                        <li class="goods-booth mormal ">
                             <a href="javascript:;">
                                 <img src="./images/店长推荐_08.jpg" alt="商品图片">
                                 <span>女装专柜同步混纺平纹正装单西xxx</span>
@@ -292,18 +412,18 @@
                     <a href="javascript:;"></a>
                 </div>
                 <div class="content">
-                    <ul class="product-hall storm clearfix">
-                        <li class="product-booth cover">
+                    <ul class="goods-hall storm clearfix">
+                        <li class="goods-booth cover">
                             <a href="javascript:;">
                                 <img src="./images/爆款推荐_01.png" alt="商品图片">
                             </a>
                         </li>
-                        <li class="product-booth normal">
+                        <li class="goods-booth normal">
                             <a href="javascript:;">
                                 <img src="./images/爆款推荐_02.png" alt="商品图片">
                             </a>
                         </li>
-                        <li class="product-booth normal add-top-border">
+                        <li class="goods-booth normal add-top-border">
                             <a href="javascript:;">
                                 <img src="./images/爆款推荐_03.png" alt="商品图片">
                                 <span>
@@ -313,7 +433,7 @@
                                 </span>
                             </a>
                         </li>
-                        <li class="product-booth normal add-top-border">
+                        <li class="goods-booth normal add-top-border">
                             <a href="javascript:;">
                                 <img src="./images/爆款推荐_04.png" alt="商品图片">
                                 <span>
@@ -323,7 +443,7 @@
                                 </span>
                             </a>
                         </li>
-                        <li class="product-booth normal add-left-border">
+                        <li class="goods-booth normal add-left-border">
                             <a href="javascript:;">
                                 <img src="./images/爆款推荐_05.png" alt="商品图片">
                                 <span>
@@ -333,7 +453,7 @@
                                 </span>
                             </a>
                         </li>
-                        <li class="product-booth normal ">
+                        <li class="goods-booth normal ">
                             <a href="javascript:;">
                                 <img src="./images/爆款推荐_06.png" alt="商品图片">
                                 <span>
@@ -343,7 +463,7 @@
                                 </span>
                             </a>
                         </li>
-                        <li class="product-booth normal">
+                        <li class="goods-booth normal">
                             <a href="javascript:;">
                                 <img src="./images/爆款推荐_07.png" alt="商品图片">
                                 <span>
@@ -353,7 +473,7 @@
                                 </span>
                             </a>
                         </li>
-                        <li class="product-booth normal">
+                        <li class="goods-booth normal">
                             <a href="javascript:;">
                                 <img src="./images/爆款推荐_08.png" alt="商品图片">
                                 <span>
@@ -363,7 +483,7 @@
                                 </span>
                             </a>
                         </li>
-                        <li class="product-booth normal">
+                        <li class="goods-booth normal">
                             <a href="javascript:;">
                                 <img src="./images/爆款推荐_09.png" alt="商品图片">
                                 <span>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>进度条</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .fix {
+            /* k1 */
+            width: 400px;
+            height: 60px;
+            margin: 50px;
+            background-color: gainsboro;
+            /* k2 */
+            /* k3 */
+            
+        }
+        .current {
+            width: 10%;
+            height: 100%;
+            background-color: rgb(10, 248, 10);
+
+            left: 0;
+            top: 0;
+
+            
+            position: relative;
+        }
+        .current::after {
+            width: 0;
+            height: 0;
+            border: 10px solid red;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-bottom-color: transparent;
+            right:-10px;
+            top: -10px;
+            content: "";
+            display: block;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div class="fix">
+        <div class="current"></div>
+    </div>
+</body>
+</html>

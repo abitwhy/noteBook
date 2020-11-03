@@ -5,6 +5,7 @@
     <meta name="vioewport" content="width=device-width, initial-scale=1.0">
     <title>block-居中</title>
     <style>
+        /* 推荐用第三、第五种 */
         * {
             margin: 0;
             padding: 0;
@@ -12,21 +13,121 @@
         hr {
             margin: 50px 0;
         }
-        .father {
-            margin: 0 auto;
+        .outer {
+            width: 200px;
+            height: 200px;
             background-color: purple;
+
+            margin: 10px;
+
+            float: left;
         }
-        .son {
+        .inner { 
+            width: 100px;
+            height: 100px;
             background-color: orange;
+   
         }
-        body div:first-child {
-            
+
+        /* # 方式一：margin */
+        /* ## 水平居中 */
+        #outer-1 .inner { /* ## 方式1：margin：0 auto */
+            margin: 0 auto; /* 水平居中 */
+        }
+
+        /* # 垂直居中 */
+        #outer-2 .inner { /* 注意：水平居中与垂直居中对父元素的要求相互独立 */
+            /* 下列三个属性三选一 */
+            /* border: 1px solid black; */ /* 设置边框（宽度不能为0） */
+            /* padding: 1px;  *//* 设置内边距（大小不能为0） */
+            overflow: hidden;
+        }
+        #outer-2 .inner { /* ## 方式2：margin-top 设为（父高-子高）*0.5 */
+            margin-top: 50px; /* 设置值绝对值是一大缺点 */
+        }
+
+        /* 水平垂直居中 */
+        #outer-3 {
+            overflow: hidden;
+        }
+        #outer-3 .inner{
+            margin: 0 auto; 
+            margin-top: 50px; 
+        }
+
+        /* # 方式二：绝对定位 */
+        /* ## 水平垂直居中 */
+        #outer-4 {
+            position: relative;
+        }
+        #outer-4 .inner {
+            margin-left: 50%;
+            margin-top: 50%;
+
+            left: -50px; /* 设置值绝对值是一大缺点 */
+            top: -50px; /* 设置值绝对值是一大缺点 */
+            position: absolute;
+        }
+
+        /* # 方式三：绝对定位 + margin */
+        /* ## 水平垂直居中 */
+        #outer-5 {
+            position: relative;
+        }
+        #outer-5 .inner {
+            margin: auto; /* 只需设置 auto 即可 */
+
+            left: 0; /* 四个方向全需设为0 */
+            right: 0;
+            top: 0;
+            bottom: 0;
+            /* 发现不设置某一个就会靠向另一侧，值得应用 */
+
+            position: absolute;
+        }
+        
+        /* # 方式四：table-cell + margin */
+        /* ## 水平垂直居中 */
+        #outer-6 {
+            display: table-cell; /* 会导致父元素 margin 失效 */
+            vertical-align: middle; /* 垂直居中（注意是设置在父元素上） */
+            float: none;/* 父元素浮动（上面统一设置过）会导致 vertical-align 失效 */
+        }
+        #outer-6 .inner {
+            margin: 0 auto; /* 水平居中 */
+        }
+
+        /* # 方式五：弹性盒子 */
+        /* ## 水平垂直居中 */
+        #outer-7 {
+            display: flex;
+            flex-flow: row nowrap; /* 设置主轴方向及是否换行 */
+            justify-content: center; /* 主轴（本例是水平）方向居中   */
+            align-items: center; /* 交叉轴（本例是垂直）方向居中 */
         }
     </style>
 </head>
 <body>
-    <div class="block-test father">
-        <div class="son"></div>
+    <div class="outer" id="outer-1">
+        <div class="inner"></div> 
+    </div>
+    <div class="outer" id="outer-2">
+        <div class="inner"></div> 
+    </div>
+    <div class="outer" id="outer-3">
+        <div class="inner"></div> 
+    </div>
+    <div class="outer" id="outer-4">
+        <div class="inner"></div> 
+    </div>
+    <div class="outer" id="outer-5">
+        <div class="inner"></div> 
+    </div>
+    <div class="outer" id="outer-6">
+        <div class="inner"></div> 
+    </div>
+    <div class="outer" id="outer-7">
+        <div class="inner"></div> 
     </div>
 </body>
 </html>

@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>巴林商城</title>
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/巴林商城首页-改.css">
+</head>
+
+<body>
+    <header>
+        <div class="poster">
+
+        </div>
+
+    </header>
+    <main>
+        <div class="container">
+
+
+            <!-- 0.章节模板 - section model (开发)-->
+            <div class="section sectoin-name" id="section-0">
+                <div class="header section-header">
+                    <a class="header-link" href="javascript:;"></a>
+                </div>
+                <div class="content section-content">
+                    <ul class="hall content-hall sectoin-name clearfix">
+                        <!-- 模板再次精简（尝试） -->
+                        <!-- 主要思路是：以目前完善展位为模板（原型），所有功能默认设置 dispaly: none 不展示（另一种方案是注释掉） ，使用时才去掉该设置，这样模板展位可以不断添加新功能，而不影响前面的功能。
+                            一种可以想到的添加功能的模式是：每有新功能加入进来，就对 html 中每一个对应的地方添加该功能代码。有必要将代码分出至少新旧两个部分。
+                            优缺点：
+                                优点：可持续发展、快速原型
+                                缺点：
+                                    1.原始框架要高度合理，否则需要更改框架改动会完全推翻前面的代码
+                                    2.（开发环境）代码量激增：添加功能时，需要将新代码添加到每个原有功能代码（如何准确快速找到些位置？）的尾部，方便原有功能的拓展，但往往原有功能不需要拓展，徒增了许多代码量。
+                        -->
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/热门商品_02.png" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describee">
+                                <a class="type describe-type" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan">标语</span>
+                                <a class="details describe-details" href="javasript:;">商品描述</a>
+                                <span class="price goods-price">
+                                    <span class="title price-title">价格：</span>
+                                <span class="money price-money">￥rmb</span>
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer section-footer clearfix">
+                    <a class="more footer-more" href="javascript:;">更多&nbsp;></a>
+                </div>
+            </div>
+            <!-- 0.章节模板 - section model (生产)-->
+            <div class="section sectoin-name dispaly-none" id="section-0">
+                <div class="header section-header">
+                    <a class="header-link" href="javascript:;"></a>
+                </div>
+                <div class="content section-content">
+                    <ul class="hall content-hall sectoin-name clearfix">
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster dispaly-none" href="javascript:;">
+                                <img class="img poster-img dispaly-none" src="./images/热门商品_02.png" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe dispaly-none">
+                                <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span>
+                                <a class="details describe-details dispaly-none" href="javasript:;">商品描述</a>
+                                <span class="price goods-price dispaly-none">
+                                    <span class="title price-title dispaly-none">价格：</span>
+                                <span class="money price-money dispaly-none">￥rmb</span>
+                                </span>
+                            </div>
+                        </li>
+                        <!-- 未使用模块 -->
+
+                        <!-- 新增模块 -->
+                    </ul>
+                </div>
+                <div class="footer section-footer clearfix">
+                    <a class="more footer-more" href="javascript:;">更多&nbsp;></a>
+                </div>
+            </div>
+
+            <!-- 1.热销排行榜 - rank -->
+            <div class="section rank" id="section-1">
+                <div class="header section-header">
+                    <a class="header-link" href="javascript:;"></a>
+                </div>
+                <div class="content section-content">
+                    <ul class="hall content-hall rank clearfix">
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/热销排行榜_01.png" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe">
+                                <a class="type describe-type" href="javascript:;">时尚正装工作服</a>
+                                <span class="slogan goods-slogan">春夏新款女式修身显瘦OL通勤职业装</span>
+
+                                <!-- 未使用模块 -->
+                                <!-- <a class="details describe-details dispaly-none" href="javasript:;">商品描述</a>
+                                <span class="price goods-price dispaly-none">
+                                    <span class="title price-title dispaly-none">价格：</span>
+                                    <span class="money price-money dispaly-none">￥rmb</span>
+                                </span> -->
+
+                                <!-- 新增模块 -->
+                                <!-- 无 -->
+                            </div>
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/热销排行榜_02.png" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe">
+                                <a class="type describe-type" href="javascript:;">时尚正装工作服</a>
+                                <span class="slogan goods-slogan">春夏新款女式修身显瘦OL通勤职业装</span>
+
+                                <!-- 未使用模块 -->
+                                <!-- <a class="details describe-details dispaly-none" href="javasript:;">商品描述</a>
+                                <span class="price goods-price dispaly-none">
+                                    <span class="title price-title dispaly-none">价格：</span>
+                                    <span class="money price-money dispaly-none">￥rmb</span>
+                                </span> -->
+
+                                <!-- 新增模块 -->
+                                <!-- 无 -->
+                            </div>
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/热销排行榜_03.png" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe">
+                                <a class="type describe-type" href="javascript:;">时尚正装工作服</a>
+                                <span class="slogan goods-slogan">春夏新款女式修身显瘦OL通勤职业装</span>
+
+                                <!-- 未使用模块 -->
+                                <!-- <a class="details describe-details dispaly-none" href="javasript:;">商品描述</a>
+                                <span class="price goods-price dispaly-none">
+                                    <span class="title price-title dispaly-none">价格：</span>
+                                    <span class="money price-money dispaly-none">￥rmb</span>
+                                </span> -->
+
+                                <!-- 新增模块 -->
+                                <!-- 无 -->
+                            </div>
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/热销排行榜_04.png" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe">
+                                <a class="type describe-type" href="javascript:;">时尚正装工作服</a>
+                                <span class="slogan goods-slogan">春夏新款女式修身显瘦OL通勤职业装</span>
+
+                                <!-- 未使用模块 -->
+                                <!-- <a class="details describe-details dispaly-none" href="javasript:;">商品描述</a>
+                                <span class="price goods-price dispaly-none">
+                                    <span class="title price-title dispaly-none">价格：</span>
+                                    <span class="money price-money dispaly-none">￥rmb</span>
+                                </span> -->
+
+                                <!-- 新增模块 -->
+                                <!-- 无 -->
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer section-footer clearfix">
+                    <a class="more footer-more" href="javascript:;">更多&nbsp;></a>
+                </div>
+            </div>
+            <!-- 2.新货上架 - fresh -->
+            <div class="section fresh" id="section-2">
+                <div class="header section-header">
+                    <a class="header-link" href="javascript:;"></a>
+                </div>
+                <div class="content section-content">
+                    <!-- 遮罩效果暂不实现,以后补上 -->
+                    <ul class="hall content-hall fresh clearfix">
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/新货上架_01.png" alt="商品图片">
+                            </a>
+                            <!-- 未使用模块 -->
+                            <!-- <div class="describe goods-describe dispaly-none">
+                                <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span>
+                                <a class="details describe-details dispaly-none" href="javasript:;">商品描述</a>
+                                <span class="price goods-price dispaly-none">
+                                    <span class="title price-title dispaly-none">价格：</span>
+                                        <span class="money price-money dispaly-none">￥rmb</span>
+                                </span>
+                            </div> -->
+
+                            <!-- 新增模块 -->
+                            <!-- 无 -->
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/新货上架_02.png" alt="商品图片">
+                            </a>
+                            <!-- 未使用模块 -->
+                            <!-- <div class="describe goods-describe dispaly-none">
+                                <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span>
+                                <a class="details describe-details dispaly-none" href="javasript:;">商品描述</a>
+                                <span class="price goods-price dispaly-none">
+                                    <span class="title price-title dispaly-none">价格：</span>
+                                    <span class="money price-money dispaly-none">￥rmb</span>
+                                </span>
+                            </div> -->
+
+                            <!-- 新增模块 -->
+                            <!-- 无 -->
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/新货上架_03.png" alt="商品图片">
+                            </a>
+                            <!-- 未使用模块 -->
+                            <!-- <div class="describe goods-describe dispaly-none">
+                                <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span>
+                                <a class="details describe-details dispaly-none" href="javasript:;">商品描述</a>
+                                <span class="price goods-price dispaly-none">
+                                    <span class="title price-title dispaly-none">价格：</span>
+                                    <span class="money price-money dispaly-none">￥rmb</span>
+                                </span>
+                            </div> -->
+
+                            <!-- 新增模块 -->
+                            <!-- 无 -->
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/新货上架_04.png" alt="商品图片">
+                            </a>
+                            <!-- 未使用模块 -->
+                            <!-- <div class="describe goods-describe dispaly-none">
+                                <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span>
+                                <a class="details describe-details dispaly-none" href="javasript:;">商品描述</a>
+                                <span class="price goods-price dispaly-none">
+                                    <span class="title price-title dispaly-none">价格：</span>
+                                    <span class="money price-money dispaly-none">￥rmb</span>
+                                </span>
+                            </div> -->
+
+                            <!-- 新增模块 -->
+                            <!-- 无 -->
+                        </li>
+                        <!-- 为了配合[布局调整-浮动方案],将以下图片逆序 -->
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/新货上架_09.png" alt="商品图片">
+                            </a>
+                            <!-- 未使用模块 -->
+                            <!-- <div class="describe goods-describe dispaly-none">
+                                <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span>
+                                <a class="details describe-details dispaly-none" href="javasript:;">商品描述</a>
+                                <span class="price goods-price dispaly-none">
+                                    <span class="title price-title dispaly-none">价格：</span>
+                                    <span class="money price-money dispaly-none">￥rmb</span>
+                                </span>
+                            </div> -->
+
+                            <!-- 新增模块 -->
+                            <!-- 无 -->
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/新货上架_08.png" alt="商品图片">
+                            </a>
+                            <!-- 未使用模块 -->
+                            <!-- <div class="describe goods-describe dispaly-none">
+                                <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span>
+                                <a class="details describe-details dispaly-none" href="javasript:;">商品描述</a>
+                                <span class="price goods-price dispaly-none">
+                                    <span class="title price-title dispaly-none">价格：</span>
+                                    <span class="money price-money dispaly-none">￥rmb</span>
+                                </span>
+                            </div> -->
+
+                            <!-- 新增模块 -->
+                            <!-- 无 -->
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/新货上架_07.png" alt="商品图片">
+                            </a>
+                            <!-- 未使用模块 -->
+                            <!-- <div class="describe goods-describe dispaly-none">
+                                <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span>
+                                <a class="details describe-details dispaly-none" href="javasript:;">商品描述</a>
+                                <span class="price goods-price dispaly-none">
+                                    <span class="title price-title dispaly-none">价格：</span>
+                                    <span class="money price-money dispaly-none">￥rmb</span>
+                                </span>
+                            </div> -->
+
+                            <!-- 新增模块 -->
+                            <!-- 无 -->
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/新货上架_06.png" alt="商品图片">
+                            </a>
+                            <!-- 未使用模块 -->
+                            <!-- <div class="describe goods-describe dispaly-none">
+                                <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span>
+                                <a class="details describe-details dispaly-none" href="javasript:;">商品描述</a>
+                                <span class="price goods-price dispaly-none">
+                                    <span class="title price-title dispaly-none">价格：</span>
+                                    <span class="money price-money dispaly-none">￥rmb</span>
+                                </span>
+                            </div> -->
+
+                            <!-- 新增模块 -->
+                            <!-- 无 -->
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/新货上架_05.png" alt="商品图片">
+                            </a>
+                            <!-- 未使用模块 -->
+                            <!-- <div class="describe goods-describe dispaly-none">
+                                <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span>
+                                <a class="details describe-details dispaly-none" href="javasript:;">商品描述</a>
+                                <span class="price goods-price dispaly-none">
+                                    <span class="title price-title dispaly-none">价格：</span>
+                                    <span class="money price-money dispaly-none">￥rmb</span>
+                                </span>
+                            </div> -->
+
+                            <!-- 新增模块 -->
+                            <!-- 无 -->
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer section-footer clearfix">
+                    <!-- 未使用模块 -->
+                    <!-- <a class="more footer-more" href="javascript:;">更多&nbsp;></a> -->
+                </div>
+            </div>
+            <!-- 3.热门商品 - hot -->
+            <div class="section hot" id="section-3">
+                <div class="header section-header">
+                    <a class="header-link" href="javascript:;"></a>
+                </div>
+                <div class="content section-content">
+                    <ul class="hall content-hall hot clearfix">
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/热门商品_01.png" alt="商品图片">
+                            </a>
+                            <!-- 未使用模块 -->
+                            <!-- <div class="describe goods-describe">
+                                <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span>
+                                <a class="details describe-details" href="javasript:;">商品描述</a>
+                                <span class="price goods-price">
+                                    <span class="title price-title">价格：</span>
+                                    <span class="money price-money">￥rmb</span>
+                                </span>
+                            </div> -->
+
+                            <!-- 新增模块 -->
+                            <!-- 无 -->
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/热门商品_02.png" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe">
+                                <!-- 未使用模块 -->
+                                <!-- <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span> -->
+                                <a class="details describe-details" href="javasript:;">2015秋季新品专柜同步混纺平纹套西11156</a>
+                                <span class="price goods-price">
+                                    <span class="title price-title">抢购价：</span>
+                                <span class="money price-money">￥1599.00</span>
+                                </span>
+                                <!-- 新增模块 -->
+                                <!-- 无 -->
+                            </div>
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/热门商品_03.png" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe">
+                                <!-- 未使用模块 -->
+                                <!-- <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span> -->
+                                <a class="details describe-details" href="javasript:;">2015秋季新品专柜同步混纺平纹套西</a>
+                                <span class="price goods-price">
+                                    <span class="title price-title">抢购价：</span>
+                                <span class="money price-money">￥1599.00</span>
+                                </span>
+                                <!-- 新增模块 -->
+                                <!-- 无 -->
+                            </div>
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/热门商品_04.png" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe">
+                                <!-- 未使用模块 -->
+                                <!-- <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span> -->
+
+                                <span class="price goods-price">
+                                    <span class="title price-title">抢购价：</span>
+                                <span class="money price-money">￥1599.00</span>
+                                </span>
+                            </div>
+                            <!-- 新增模块 -->
+                            <!-- 无 -->
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/热门商品_05.png" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe">
+                                <!-- 未使用模块 -->
+                                <!-- <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span> -->
+                                <a class="details describe-details" href="javasript:;">2015秋季新品专柜同步混纺平纹套西11156</a>
+                                <span class="price goods-price">
+                                    <span class="title price-title">抢购价：</span>
+                                <span class="money price-money">￥1599.00</span>
+                                </span>
+                                <!-- 新增模块 -->
+                                <!-- 无 -->
+                            </div>
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/热门商品_06.png" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe">
+                                <!-- 未使用模块 -->
+                                <!-- <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span> -->
+                                <a class="details describe-details" href="javasript:;">2015秋季新品专柜同步混纺平纹套西11156</a>
+                                <span class="price goods-price">
+                                    <span class="title price-title">抢购价：</span>
+                                <span class="money price-monee">￥1599.00</span>
+                                </span>
+                                <!-- 新增模块 -->
+                                <!-- 无 -->
+                            </div>
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/热门商品_07.png" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe">
+                                <!-- 未使用模块 -->
+                                <!-- <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span> -->
+                                <a class="details describe-details" href="javasript:;">2015秋季新品专柜同步混纺平纹套西</a>
+                                <span class="price goods-price">
+                                    <span class="title price-title">抢购价：</span>
+                                <span class="money price-money">￥1599.00</span>
+                                </span>
+                                <!-- 新增模块 -->
+                                <!-- 无 -->
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer section-footer clearfix">
+                    <a class="more footer-more" href="javascript:;">更多&nbsp;></a>
+                </div>
+            </div>
+            <!-- 4.店长推荐 - recommend -->
+            <div class="section recommend" id="section-0">
+                <div class="header section-header">
+                    <a class="header-link" href="javascript:;"></a>
+                </div>
+                <div class="content section-content">
+                    <ul class="hall content-hall recommend clearfix">
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/店长推荐_01.jpg" alt="商品图片">
+                            </a>
+                            <!-- 未使用模块 -->
+                            <!-- <div class="describe goods-describe">
+                                <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span>
+                                <a class="details describe-details" href="javasript:;">商品描述</a>
+                                <span class="price goods-price">
+                                    <span class="title price-title">价格：</span>
+                                <span class="money price-money">￥rmb</span>
+                                </span>
+                            </div> -->
+
+                            <!-- 新增模块 -->
+                            <!-- 无 -->
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/店长推荐_02.jpg" alt="商品图片">
+                            </a>
+                            <!-- 未使用模块 -->
+                            <!-- <div class="describe goods-describe">
+                                <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span>
+                                <a class="details describe-details" href="javasript:;">商品描述</a>
+                                <span class="price goods-price">
+                                    <span class="title price-title">价格：</span>
+                                <span class="money price-money">￥rmb</span>
+                                </span>
+                            </div> -->
+
+                            <!-- 新增模块 -->
+                            <!-- 无 -->
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/店长推荐_03.jpg" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe">
+                                <!-- 未使用模块 -->
+                                <!-- <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span> -->
+                                <a class="details describe-details" href="javasript:;">专柜同步混纺平纹正装单西111</a>
+                                <span class="price goods-price">
+                                    <span class="title price-title">价格：</span>
+                                <span class="money price-money">￥1399</span>
+                                </span>
+                                <!-- 新增模块 -->
+                                <!-- 无 -->
+                            </div>
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/店长推荐_04.jpg" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe">
+                                <!-- 未使用模块 -->
+                                <!-- <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span> -->
+                                <a class="details describe-details" href="javasript:;">专柜同步混纺平纹正装单西111</a>
+                                <span class="price goods-price">
+                                    <span class="title price-title">价格：</span>
+                                <span class="money price-money">￥1399</span>
+                                </span>
+                                <!-- 新增模块 -->
+                                <!-- 无 -->
+                            </div>
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/店长推荐_05.jpg" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe">
+                                <!-- 未使用模块 -->
+                                <!-- <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span> -->
+                                <a class="details describe-details" href="javasript:;">女装专柜同步混纺平纹正装单西111</a>
+                                <span class="price goods-price">
+                                    <span class="title price-title">价格：</span>
+                                <span class="money price-money">￥1099</span>
+                                </span>
+                                <!-- 新增模块 -->
+                                <!-- 无 -->
+                            </div>
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/店长推荐_06.jpg" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe">
+                                <!-- 未使用模块 -->
+                                <!-- <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span> -->
+                                <a class="details describe-details" href="javasript:;">女装专柜同步混纺平纹正装单西111</a>
+                                <span class="price goods-price">
+                                    <span class="title price-title">价格：</span>
+                                <span class="money price-money">￥1099</span>
+                                </span>
+                                <!-- 新增模块 -->
+                                <!-- 无 -->
+                            </div>
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/店长推荐_07.jpg" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe">
+                                <!-- 未使用模块 -->
+                                <!-- <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span> -->
+                                <a class="details describe-details" href="javasript:;">女装专柜同步混纺平纹正装单西111</a>
+                                <span class="price goods-price">
+                                    <span class="title price-title">价格：</span>
+                                <span class="money price-money">￥1099</span>
+                                </span>
+                                <!-- 新增模块 -->
+                                <!-- 无 -->
+                            </div>
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/店长推荐_08.jpg" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe">
+                                <!-- 未使用模块 -->
+                                <!-- <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span> -->
+                                <a class="details describe-details" href="javasript:;">女装专柜同步混纺平纹正装单西111</a>
+                                <span class="price goods-price">
+                                    <span class="title price-title">价格：</span>
+                                <span class="money price-money">￥1099</span>
+                                </span>
+                                <!-- 新增模块 -->
+                                <!-- 无 -->
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer section-footer clearfix">
+                    <a class="more footer-more" href="javascript:;">更多&nbsp;></a>
+                </div>
+            </div>
+            <!-- 5.爆款推荐 - storm -->
+            <div class="section storm" id="section-0">
+                <div class="header section-header">
+                    <a class="header-link" href="javascript:;"></a>
+                </div>
+                <div class="content section-content">
+                    <ul class="hall content-hall storm clearfix">
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/爆款推荐_01.png" alt="商品图片">
+                            </a>
+                            <!-- 未使用模块 -->
+                            <!-- <div class="describe goods-describe">
+                                <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span>
+                                <a class="details describe-details" href="javasript:;">商品描述</a>
+                                <span class="price goods-price">
+                                    <span class="title price-title">价格：</span>
+                                <span class="money price-money">￥rmb</span>
+                                </span>
+                            </div> -->
+
+                            <!-- 新增模块 -->
+                            <!-- 无 -->
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/爆款推荐_02.png" alt="商品图片">
+                            </a>
+                            <!-- 未使用模块 -->
+                            <!-- <div class="describe goods-describe">
+                                <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span>
+                                <a class="details describe-details" href="javasript:;">商品描述</a>
+                                <span class="price goods-price">
+                                    <span class="title price-title">价格：</span>
+                                <span class="money price-money">￥rmb</span>
+                                </span>
+                            </div> -->
+
+                            <!-- 新增模块 -->
+                            <!-- 无 -->
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/爆款推荐_03.png" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe">
+                                <!-- 未使用模块 -->
+                                <!-- <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span> -->
+                                <a class="details describe-details" href="javasript:;">女装套装秋冬长袖西装套裤女士正 装修身工作服</a>
+                                <span class="price goods-price">
+                                    <!-- 未使用模块 -->
+                                    <!-- <span class="title price-title dispaly-none">价格：</span> -->
+                                <span class="money price-money">￥1099.00</span>
+                                </span>
+                                <!-- 新增模块 -->
+                                <!-- 无 -->
+                            </div>
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/爆款推荐_04.png" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe">
+                                <!-- 未使用模块 -->
+                                <!-- <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span> -->
+                                <a class="details describe-details" href="javasript:;">女装套装秋冬长袖西装套裤女士正 装修身工作服</a>
+                                <span class="price goods-price">
+                                    <!-- 未使用模块 -->
+                                    <!-- <span class="title price-title dispaly-none">价格：</span> -->
+                                <span class="money price-money">￥1099.00</span>
+                                </span>
+                                <!-- 新增模块 -->
+                                <!-- 无 -->
+                            </div>
+                        </li>
+                        <li class="booth hall-booth normal">
+                            <a class="poster goods-poster" href="javascript:;">
+                                <img class="img poster-img" src="./images/爆款推荐_05.png" alt="商品图片">
+                            </a>
+                            <div class="describe goods-describe">
+                                <!-- 未使用模块 -->
+                                <!-- <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span> -->
+                                <a class="details describe-details" href="javasript:;">2015秋季新品专柜同步混纺平 纹套西11156</a>
+                                <span class="price goods-price">
+                                    <!-- 未使用模块 -->
+                                    <!-- <span class="title price-title dispaly-none">价格：</span> -->
+                                <span class="money price-money">￥1599.00</span>
+                                </span>
+                                <!-- 新增模块 -->
+                                <!-- 无 -->
+                            </div>
+                            <li class="booth hall-booth normal">
+                                <a class="poster goods-poster" href="javascript:;">
+                                    <img class="img poster-img" src="./images/爆款推荐_06.png" alt="商品图片">
+                                </a>
+                                <div class="describe goods-describe">
+                                    <!-- 未使用模块 -->
+                                    <!-- <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span> -->
+                                    <a class="details describe-details" href="javasript:;">2015秋季新品专柜同步混纺平 纹套西11156</a>
+                                    <span class="price goods-price">
+                                    <!-- 未使用模块 -->
+                                    <!-- <span class="title price-title dispaly-none">价格：</span> -->
+                                    <span class="money price-money">￥1599.00</span>
+                                    </span>
+                                    <!-- 新增模块 -->
+                                    <!-- 无 -->
+                                </div>
+                                <li class="booth hall-booth normal">
+                                    <a class="poster goods-poster" href="javascript:;">
+                                        <img class="img poster-img" src="./images/爆款推荐_07.png" alt="商品图片">
+                                    </a>
+                                    <div class="describe goods-describe">
+                                        <!-- 未使用模块 -->
+                                        <!-- <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span> -->
+                                        <a class="details describe-details" href="javasript:;">2015秋季新品专柜同步混纺平 纹套西11156</a>
+                                        <span class="price goods-price">
+                                    <!-- 未使用模块 -->
+                                    <!-- <span class="title price-title dispaly-none">价格：</span> -->
+                                        <span class="money price-money">￥1599.00</span>
+                                        </span>
+                                        <!-- 新增模块 -->
+                                        <!-- 无 -->
+                                    </div>
+                                </li>
+                                <li class="booth hall-booth normal">
+                                    <a class="poster goods-poster" href="javascript:;">
+                                        <img class="img poster-img" src="./images/爆款推荐_08.png" alt="商品图片">
+                                    </a>
+                                    <div class="describe goods-describe">
+                                        <!-- 未使用模块 -->
+                                        <!-- <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span> -->
+                                        <a class="details describe-details" href="javasript:;">女装套装秋冬长袖西装套裤女士正 装修身工作服</a>
+                                        <span class="price goods-price">
+                                    <!-- 未使用模块 -->
+                                    <!-- <span class="title price-title dispaly-none">价格：</span> -->
+                                        <span class="money price-money">￥1099.00</span>
+                                        </span>
+                                        <!-- 新增模块 -->
+                                        <!-- 无 -->
+                                    </div>
+                                </li>
+                                <li class="booth hall-booth normal">
+                                    <a class="poster goods-poster" href="javascript:;">
+                                        <img class="img poster-img" src="./images/爆款推荐_09.png" alt="商品图片">
+                                    </a>
+                                    <div class="describe goods-describe">
+                                        <!-- 未使用模块 -->
+                                        <!-- <a class="type describe-type dispaly-none" href="javascript:;">分类</a>
+                                <span class="slogan goods-slogan dispaly-none">标语</span> -->
+                                        <a class="details describe-details" href="javasript:;">女装套装秋冬长袖西装套裤女士正 装修身工作服</a>
+                                        <span class="price goods-price">
+                                    <!-- 未使用模块 -->
+                                    <!-- <span class="title price-title dispaly-none">价格：</span> -->
+                                        <span class="money price-money">￥1099.00</span>
+                                        </span>
+                                        <!-- 新增模块 -->
+                                        <!-- 无 -->
+                                    </div>
+                                </li>
+                    </ul>
+                </div>
+                <div class="footer section-footer clearfix">
+                    <a class="more footer-more" href="javascript:;">更多&nbsp;></a>
+                </div>
+            </div>
+    </main>
+
+    <footer>
+
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,416 @@
+/* 注：本页面布局未使用 felx */
+
+
+/* --------------------------------全局样式-------------------------------- */
+
+
+/* # 容器 */
+
+.container {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+
+/* # 字体 */
+
+body {
+    font-size: 14px;
+    color: #262626;
+}
+
+
+/* # 章节 */
+
+.section {}
+
+
+/* --------------------------------网页顶部样式----------------------------- */
+
+
+/* --------------------------------章节样式-------------------------------- */
+
+
+/* # 顶部 */
+
+
+/* ## 统一 */
+
+.header {
+    height: 50px;
+}
+
+
+/* ### 章节标题 */
+
+.header>a::before {
+    /* 尺寸+布局 */
+    width: 100px;
+    height: 30px;
+    margin-left: 10px;
+    content: "";
+    display: block;
+}
+
+
+/* ## 单独 */
+
+
+/* ### 章节标题 */
+
+div.rank .header>a::before {
+    /* 尺寸+背景 */
+    width: 175px;
+    background-image: url(../images/热销排行榜-title.png);
+}
+
+div.fresh .header>a::before {
+    background-image: url(../images/新货上架-title.png);
+}
+
+div.hot .header>a::before {
+    background-image: url(../images/热门商品-title.png);
+}
+
+div.recommend .header>a::before {
+    background-image: url(../images/店长推荐-title.png);
+}
+
+div.storm .header>a::before {
+    background-image: url(../images/爆款推荐-title.png);
+}
+
+
+/* # 主体 */
+
+
+/* ## 统一 */
+
+.content {}
+
+
+/* ### 字体 */
+
+ul.hall a {
+    /* 商品链接-字体颜色 */
+    color: #2c2c2c;
+}
+
+ul.hall a.type,
+ul.hall span.slogan {
+    /* 商品种类+商品标语-文字居中 */
+    text-align: center;
+}
+
+ul.hall a.type {
+    /* 商品种类-字体大小 */
+    font-size: 24px;
+}
+
+ul.hall span.slogan {
+    /* 商品标语-字体颜色 */
+    color: #848484;
+}
+
+ul.hall span.money {
+    /* 商品价格-钱-字体颜色 */
+    color: #fe5858;
+}
+
+
+/* ### 展厅布局 */
+
+ul.hall {}
+
+ul.hall>li.booth {
+    /* 尺寸+边框+浮动 */
+    /* 展位默认尺寸 (注意区分下文的标准尺寸)*/
+    width: 300px;
+    height: 300px;
+    /* 右-下边框 */
+    border-right: 1px solid #9d9d9d;
+    border-bottom: 1px solid #9d9d9d;
+    float: left;
+    /* 为了子元素对齐 */
+    position: relative;
+}
+
+
+/* #### 展位布局 */
+
+li.booth>a.poster {
+    /* 海报 a 标签转块级 */
+    display: block;
+}
+
+li.booth>div.describe {
+    /* 对齐+其他样式 */
+    /* 只需设置 auto 即可 */
+    margin: auto;
+    /* 顶部边框 */
+    border-top: 1px solid #9d9d9d;
+    background-color: white;
+    line-height: 25px;
+    /* 四个方向全需设为0会垂直居中，某一两个不设置则会在对向对齐 */
+    left: 0;
+    right: 0;
+    /* 不设置 top 使底部对齐 */
+    /* top: 0; */
+    bottom: 0;
+    position: absolute;
+}
+
+li.booth>a.poster>img.img,
+li.booth>div.describe>a,
+li.booth>div.describe>span {
+    /* 行内元素浮动 */
+    /* 不设置宽度会有居中等问题 */
+    width: 100%;
+    /* 浮动后的元素会自动变成 block,若其父元素未设置高度,则父元素高度将变为0 */
+    float: left;
+}
+
+li.booth>div.describe>a.details,
+li.booth>div.describe>span.price {
+    /* 调整文字内边距 */
+    padding: 0 10px;
+    /* margin: 0 10px; */
+}
+
+
+/* ## 单独 */
+
+
+/* ### 1.热销排行榜 */
+
+
+/* #### 展厅布局 */
+
+ul.rank>li {
+    /* 展位标准尺寸+边框补全 (注意区分上文的默认尺寸)*/
+    width: 300px;
+    height: 300px;
+    border-top: 1px solid #9d9d9d;
+}
+
+ul.rank>li:first-child {
+    /* 边框补全 */
+    border-left: 1px solid #9d9d9d;
+}
+
+
+/* #### 展位布局 */
+
+ul.rank a.type,
+ul.rank span.slogan {
+    /* 文字垂直位置调整 */
+    padding: 6px 10px;
+}
+
+ul.rank div.describe {
+    /* 描述框高度+边框调整 */
+    /* 还可以选择设置 span 的内边距来撑起来 */
+    height: 90px;
+    /* 去除头部边框 */
+    border-top: none;
+}
+
+
+/* ###  2.新货上架*/
+
+
+/* #### 展厅布局 */
+
+ul.fresh>li.booth {
+    /* 尺寸+边框 */
+    /* 去除展位默认尺寸 */
+    width: auto;
+    height: auto;
+    /* 无边框 */
+    border: none;
+}
+
+ul.fresh>li:nth-of-type(1n+5) {
+    /* 布局调整-浮动方案 */
+    /* 更理想方案应该为相对定位,但代码量肯定会增加 */
+    float: right;
+}
+
+ul.fresh>li:nth-of-type(1n+6) {
+    /* 剩余右浮动元素统一上移 */
+    margin-top: -106px;
+}
+
+ul.fresh>li:last-child {
+    /* 最后一个不该上移 */
+    margin: 0;
+}
+
+ul.fresh>li:nth-of-type(5) {
+    /* 解决图片尺寸不规整,导致右浮动偏移了1像素  */
+    border-right: 1px solid rgba(0, 0, 0, 0);
+}
+
+
+/* ###  3.热门商品*/
+
+
+/* #### 展厅布局 */
+
+ul.hot>li.booth {
+    /* 展位标准尺寸 */
+    width: 305px;
+    height: 300px;
+}
+
+ul.hot>li:first-child {
+    /* 尺寸调整-封面 */
+    width: 615px;
+    height: 318px;
+}
+
+ul.hot>li:nth-of-type(3),
+ul.hot>li:last-child {
+    /* 尺寸调整-最右列宽度-小 */
+    width: 280px;
+}
+
+ul.hot>li:nth-of-type(2),
+ul.hot>li:nth-of-type(3) {
+    /* 尺寸+边框 */
+    /* 尺寸调整-首行高度-大 */
+    height: 318px;
+    /* 补首行上边框 */
+    border-top: 1px solid #9d9d9d;
+}
+
+ul.hot>li:nth-of-type(4) {
+    /* 补最左列左边框 */
+    border-left: 1px solid #9d9d9d;
+}
+
+ul.hot>li:nth-of-type(4),
+ul.hot>li:nth-of-type(5) {
+    /* 尺寸调整-首行高度-大 */
+    width: 307.5px;
+}
+
+ul.hot div.describe {
+    /* 描述框标准高度 */
+    height: 53px;
+    /* 还可以选择设置 span 的内边距来撑起来 */
+}
+
+ul.hot li.booth:nth-of-type(2) div.describe,
+ul.hot li.booth:nth-of-type(3) div.describe {
+    /* 描述框高度-大 */
+    height: 75px;
+}
+
+ul.hot li.booth:nth-of-type(2) a.details,
+ul.hot li.booth:nth-of-type(3) a.details {
+    /* 调整文字内边距 */
+    margin-top: 11px;
+}
+
+
+/* ###  店长推荐*/
+
+
+/* #### 展厅布局 */
+
+ul.recommend>li.booth {
+    /* 展位标准尺寸 */
+    width: 250px;
+    height: 250px;
+}
+
+ul.recommend>li:first-child {
+    /* 尺寸调整-封面1 */
+    width: 200px;
+    height: 500px;
+    /* 去除边框 */
+    border: none;
+}
+
+ul.recommend>li:nth-child(2) {
+    /* 尺寸调整-封面2 */
+    width: 500px;
+    /* 去除边框 */
+    border: none;
+}
+
+ul.recommend>li:nth-child(3),
+ul.recommend>li:nth-child(4) {
+    /* 首行加上边框 */
+    border-top: 1px solid #9d9d9d;
+}
+
+ul.recommend>li:nth-child(5) {
+    /* 最左列加左边框 */
+    border-left: 1px solid #9d9d9d;
+}
+
+
+/* ###  爆款推荐*/
+
+
+/* #### 展厅布局 */
+
+ul.storm>li.booth {
+    /* 展位默认尺寸 */
+    width: 250px;
+    height: 250px;
+}
+
+ul.storm>li:nth-of-type(1),
+ul.storm>li:nth-of-type(2) {
+    width: 350px;
+}
+
+ul.storm>li:nth-of-type(5),
+ul.storm>li:nth-of-type(7) {
+    width: 233px;
+}
+
+ul.storm>li:nth-of-type(6) {
+    width: 234px;
+}
+
+ul.storm>li:nth-of-type(1) {
+    /* 封面一去除右边框 */
+    border: none;
+}
+
+ul.storm>li:nth-of-type(3),
+ul.storm>li:nth-of-type(4) {
+    /* 首行加上边框 */
+    border-top: 1px solid #9d9d9d;
+}
+
+ul.storm>li:nth-child(5) {
+    /* 最左列加左边框 */
+    border-left: 1px solid #9d9d9d;
+}
+
+
+/* #### 展位布局 */
+
+li.booth>div.describe>a,
+li.booth>div.describe>span {
+    /* 调整描述框文字布局 */
+    float: none;
+}
+
+
+/* # 尾部 */
+
+.footer a {
+    float: right;
+    margin: 10px 0;
+    color: #777777;
+}
+
+div.fresh .footer {
+    margin-bottom: 50px;
+}
