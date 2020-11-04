@@ -72,6 +72,8 @@ console.log('Execute follow things.');
 
 - **示例**
 
+  任意进制转换为十进制
+
   - `parseInt('123');` 
 
       等价于`parseInt(123);`或`parseInt(String(123));`。
@@ -82,13 +84,20 @@ console.log('Execute follow things.');
 
   - `parseInt(0o377);`(**非十六进制**可利用该写法）
 
-     等价于`parseInt(String(0o377));`、`parseInt('255');`或`parseInt('377',18));`。
+     等价于`parseInt(String(0o377));`、`parseInt('255');`或`parseInt('377',8));`。
 
   - **易错：**`parseInt(011,2);`
-
+  
      - 预期：`3`
      - 结果：`NaN`
      - 原因：等价于`parseInt('9',2);`
+     
+  - **拓展**
+  
+     十进制转换为任意进制
+  
+     - `Number(8).toString(2);`
+     - 可简写为`(8).toString(2);`
 
 ***
 
@@ -170,9 +179,9 @@ var funC = new Function('param1','param2',...,'paramN','functionBody'); // funct
 ```javascript
 // 斐波那契数列
 var fib=function fibInner(num){
-if(num===0)return 0;
-if(num===1)return 1;
-return fibInner(num-2)+fibInner(num-1);
+	if(num===0)return 0;
+	if(num===1)return 1;
+	return fibInner(num-2)+fibInner(num-1);
 };
 fibInner(6); // ReferenceError: fibInner is not defined
 fib(6); // 8
@@ -187,14 +196,14 @@ fib(6); // 8
 ```javascript
 // 定义闭包函数，形成闭包环境。
 function closureFun(initParam){ // 勘误：闭包不是指父函数，而是指内嵌子函数。
-var innerProp='父函数内部私有属性';
-function innerFun(innerParam){ // 必须嵌套有内部函数。
-console.log(innerProp);
-console.log(initParam);
-console.log(innerParam);
-return innerParam;
-}
-return innerFun; // 必须返回内部函数。
+	var innerProp='父函数内部私有属性';
+	function innerFun(innerParam){ // 必须嵌套有内部函数。
+		console.log(innerProp);
+		console.log(initParam);
+		console.log(innerParam);
+		return innerParam;
+	}
+	return innerFun; // 必须返回内部函数。
 }
 // 创建变量接收闭包函数实例的返回值。
 var otherFun=closureFun('初始化参数'); 
@@ -903,7 +912,7 @@ var f1 = new ConstructFun();
 var f2 = new ConstructFun();
 // 构造函数创建的属性和方法是“形共享”的
 f1.pubTypeProp === f2.pubTypeProp; // true，值比较，初值相同而已，不要被干扰。
-f1.pubTypeFun === f2.pubTypeFun; // false,址比较，因而‘值’并未共享。
+f1.pubTypeFun === f2.pubTypeFun; // false，址比较，因而‘值’并未共享。
 
 // 原型对象创建的属性和方法是“形-值共享”的
 ConstructFun.prototype.pubTypeValueProp = '形值都共享-属性'; // 原型对象上创建的方法

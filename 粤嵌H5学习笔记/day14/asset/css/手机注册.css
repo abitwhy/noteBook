@@ -1,0 +1,18 @@
+.poster {
+    position: relative;
+}
+
+.poster img {
+    /* 设置宽度为屏幕窗口大小 1536px/1628px (1950px 分辨率，非全屏，有无垂直滚动条) */
+    width: 1536px;
+    /* 只需设置 auto 即可 */
+    margin: auto;
+    /* 四个方向全需设为0 */
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    /* 发现不设置某一个就会靠向另一侧，值得应用 */
+    position: absolute;
+    display: block;
+}

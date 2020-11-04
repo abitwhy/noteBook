@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>how old</title>
+</head>
+
+<body>
+    <h1>prompt输入自己生日年份: 比如 1999 ，计算出自己今年几岁. 并对错误输出做出提示.</h1>
+    <img src="./asset/images/bg_ZhouDai-bridge.jpg" alt="" style="width: 100%;display: block;">
+</body>
+<script>
+    setTimeout(function() {
+        var flag = true;
+        var user_input;
+        again:
+            while (flag) {
+                user_input = window.prompt("请输入您的出生年份：", 2020); /* 更好的处理是取当前时间 */ /* promot 的返回值是 string 类型的（未输入为 null） */
+                if (Number(user_input).toString() !== NaN.toString()) { /* 更简单的方法是 isNaN */
+                    var age;
+                    age = 2020 - Number(user_input);
+                    window.alert("您今年" + age + "岁了.")
+                    flag = false;
+                } else {
+                    window.alert("您输入的\"" + user_input + "\"不是合理出生年份！！！");
+                    continue again;
+                }
+            }
+    }, 2000)
+</script>
+
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>user information table</title>
+</head>
+
+<body>
+    <h1>把题2的结果规整成一个表格代码字符串，用document.write();在网页输出表格. 表格需要有边框. </h1>
+    <img src="./asset/images/bg_ZhouDai-bridge.jpg" alt="" style="width: 100%;display: block;">
+</body>
+<script>
+    setTimeout(function() {
+        var username, age, sex, borthday, address, info;
+        username = prompt("请输入您的姓名：", "王德法");
+        age = prompt("请输入您的年龄：", "18");
+        sex = prompt("请输入您的性别：");
+        birthday = prompt("请输入您的生日：");
+        address = prompt("请输入您的家庭地址：");
+        document.write(
+            "<table border='1' cellspacing='0'><thead>收集到的用户基本信息</thead><tbody><tr><th>姓名</th><th>年龄</th><th>性别</th><th>生日</th><th>家庭住址</th></tr><tr><td>" +
+            username + "</td><td>" + age + "</td><td>" + sex + "</td><td>" + birthday + "</td><td>" + address + "</td></tr></tbody></table>"
+        );
+    }, 2000)
+</script>
+
+</html>

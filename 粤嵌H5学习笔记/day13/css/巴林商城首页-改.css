@@ -1,10 +1,27 @@
-/* 注：本页面布局未使用 felx */
+/* 注：本页面布局未使用 felx (最后还是部分使用了) */
 
 
-/* --------------------------------全局样式-------------------------------- */
+/* TOD
+
+1.全局样式
+1.1 容器
+1.2 字体
+1.3 章节 
+...
+有时间再做
+
+TOD */
 
 
-/* # 容器 */
+/* --------------------------------1.全局样式-------------------------------- */
+
+
+/* 1.1 布局 */
+
+main,
+footer {
+    margin-top: 30px;
+}
 
 .container {
     width: 1200px;
@@ -12,36 +29,272 @@
 }
 
 
-/* # 字体 */
+/* 1.2 字体 */
 
 body {
     font-size: 14px;
     color: #262626;
 }
 
+a {
+    color: #262626;
+}
 
-/* # 章节 */
+input::placeholder {
+    /* padding-left: 5px; */
+}
+
+
+/* 1.3 章节 */
 
 .section {}
 
 
-/* --------------------------------网页顶部样式----------------------------- */
+/* --------------------------------2.网页顶部样式----------------------------- */
 
 
-/* --------------------------------章节样式-------------------------------- */
+/* 2.1 用户 */
+
+header * {}
+
+.user {
+    height: 30px;
+    background-color: #ececec;
+    line-height: 30px;
+    color: #1e1e1e;
+}
+
+.greeting {
+    float: left;
+}
+
+.setting {
+    float: right;
+}
+
+.setting span+span::before {
+    /* 相邻选择器添加"|"  */
+    content: " | ";
+    line-height: 30px;
+}
 
 
-/* # 顶部 */
+/* 2.2 导航 */
+
+.top {
+    height: 46px;
+    margin: 60px 0;
+    line-height: 46px;
+    position: relative;
+}
+
+.search-bar,
+.shopping-cat {
+    /* position: absolute; */
+}
+
+.logo {
+    left: 0;
+    position: absolute;
+    /* float: left; */
+    /* width: 100%; */
+    /* height: 80px; */
+}
+
+.logo * {
+    float: left;
+}
+
+.logo img {
+    margin: 4px 0;
+}
+
+.logo a {
+    color: #8b3131;
+    font-size: 36px;
+    line-height: 50px;
+}
+
+.search-bar {
+    width: 700px;
+    height: 46px;
+    border: 2px solid #8b3131;
+    margin-left: -350px;
+    left: 50%;
+    /* float: left; */
+    position: absolute;
+}
+
+.search-bar input {
+    width: 580px;
+    height: 100%;
+    margin-left: 10px;
+    border: 0;
+    background-color: transparent;
+    left: 0;
+    float: left;
+    /* position: absolute; */
+}
+
+.search-bar .alternative {
+    height: 30px;
+    margin-top: 12px;
+    color: #3a3a3a;
+    line-height: 30px;
+    float: left;
+}
+
+.alternative span+span::before {
+    content: " | ";
+}
+
+.search-button {
+    width: 120px;
+    height: 102%;
+    background-color: #8b3131;
+    font-size: 18px;
+    color: white;
+    right: 0;
+    top: -1px;
+    /* float: left; */
+    position: absolute;
+}
+
+.search-button::before {
+    width: 18px;
+    height: 18px;
+    margin: 0 15px 0 30px;
+    background-image: url(../images/巴林_icon_search.png);
+    display: inline-block;
+    content: "";
+}
+
+.shopping-cat {
+    /* width: 160px; */
+    height: 46px;
+    padding: 8px 10px;
+    border: 1px solid #cecece;
+    line-height: 28px;
+    right: 100px;
+    /* float: right; */
+    position: absolute;
+}
+
+.shopping-cat * {
+    display: block;
+    float: left;
+}
+
+.shopping-cat>a>img {
+    margin-right: 10px;
+}
+
+.row-2 {
+    height: 30px;
+}
+
+.logo {}
 
 
-/* ## 统一 */
+/* 2.3 展示 */
+
+.show {
+    padding-top: 20px;
+}
+
+ul.show-type {
+    text-align: center;
+    font-size: 18px;
+    line-height: 48px;
+    display: flex;
+}
+
+ul.show-type>li {
+    padding: 4px 0;
+    background-color: #5d5d5d;
+    flex: 1;
+    float: left;
+}
+
+ul.show-type>li:first-of-type {
+    background-color: #bf5b5b;
+    font-size: 24px;
+    flex: 1 1 150px;
+}
+
+.show a {
+    color: white;
+    display: block;
+}
+
+.show ul a:nth-of-type(1) {}
+
+.open-list {
+    width: 300px;
+    background-color: rgba(180, 96, 90, 0.5);
+    position: absolute;
+    z-index: 2;
+}
+
+.open-list li {
+    height: 111px;
+}
+
+.open-list li>a {
+    display: block;
+    padding: 2px 10px;
+}
+
+.open-list h5,
+.open-list p {
+    margin-top: 10px;
+    color: white;
+}
+
+.open-list p {
+    font-size: 16px;
+}
+
+.show-poster {
+    width: 100%;
+    margin: 10px auto;
+    position: relative;
+    top: -10px;
+    z-index: 1;
+}
+
+.show-poster img {
+    width: 1528px;
+    /* 网页的浏览器窗口宽度（电脑分辨率1920px下，非全屏，有垂直滚动条，无垂直滚动条时为1560px） */
+    margin-left: -769px;
+    left: 50%;
+    display: block;
+    position: absolute;
+}
+
+.section-list {
+    margin-top: 500px;
+}
+
+.section-list li {
+    float: right;
+}
+
+
+/* --------------------------------3.章节样式-------------------------------- */
+
+
+/* 3.1 顶部 */
+
+
+/* 3.1.1 统一 */
 
 .header {
     height: 50px;
 }
 
 
-/* ### 章节标题 */
+/* 3.1.1 # 章节标题 */
 
 .header>a::before {
     /* 尺寸+布局 */
@@ -53,10 +306,10 @@ body {
 }
 
 
-/* ## 单独 */
+/* 3.1.2 单独 */
 
 
-/* ### 章节标题 */
+/* 3.1.2 # 章节标题 */
 
 div.rank .header>a::before {
     /* 尺寸+背景 */
@@ -81,15 +334,15 @@ div.storm .header>a::before {
 }
 
 
-/* # 主体 */
+/* 3.2 主体 */
 
 
-/* ## 统一 */
+/* 3.2.1 统一 */
 
 .content {}
 
 
-/* ### 字体 */
+/* 3.2.1 # 字体 */
 
 ul.hall a {
     /* 商品链接-字体颜色 */
@@ -118,7 +371,7 @@ ul.hall span.money {
 }
 
 
-/* ### 展厅布局 */
+/* 3.2.1 # 展厅布局 */
 
 ul.hall {}
 
@@ -136,7 +389,7 @@ ul.hall>li.booth {
 }
 
 
-/* #### 展位布局 */
+/* 3.2.1 ## 展位布局 */
 
 li.booth>a.poster {
     /* 海报 a 标签转块级 */
@@ -147,6 +400,8 @@ li.booth>div.describe {
     /* 对齐+其他样式 */
     /* 只需设置 auto 即可 */
     margin: auto;
+    /* 内部文字边距 */
+    padding: 0 12px;
     /* 顶部边框 */
     border-top: 1px solid #9d9d9d;
     background-color: white;
@@ -170,21 +425,14 @@ li.booth>div.describe>span {
     float: left;
 }
 
-li.booth>div.describe>a.details,
-li.booth>div.describe>span.price {
-    /* 调整文字内边距 */
-    padding: 0 10px;
-    /* margin: 0 10px; */
-}
+
+/* 3.2.2 单独 */
 
 
-/* ## 单独 */
+/* 3.2.2 # 热销排行榜 */
 
 
-/* ### 1.热销排行榜 */
-
-
-/* #### 展厅布局 */
+/* 3.2.2 ## 展厅布局 */
 
 ul.rank>li {
     /* 展位标准尺寸+边框补全 (注意区分上文的默认尺寸)*/
@@ -199,7 +447,7 @@ ul.rank>li:first-child {
 }
 
 
-/* #### 展位布局 */
+/* 3.2.2 ## 展位布局 */
 
 ul.rank a.type,
 ul.rank span.slogan {
@@ -216,10 +464,10 @@ ul.rank div.describe {
 }
 
 
-/* ###  2.新货上架*/
+/* 3.2.2 # 新货上架 */
 
 
-/* #### 展厅布局 */
+/* 3.2.2 ## 展厅布局 */
 
 ul.fresh>li.booth {
     /* 尺寸+边框 */
@@ -252,10 +500,10 @@ ul.fresh>li:nth-of-type(5) {
 }
 
 
-/* ###  3.热门商品*/
+/* 3.2.2 # 热门商品*/
 
 
-/* #### 展厅布局 */
+/* 3.2.2 ## 展厅布局 */
 
 ul.hot>li.booth {
     /* 展位标准尺寸 */
@@ -295,6 +543,9 @@ ul.hot>li:nth-of-type(5) {
     width: 307.5px;
 }
 
+
+/* 3.2.2 ## 展位布局 */
+
 ul.hot div.describe {
     /* 描述框标准高度 */
     height: 53px;
@@ -314,10 +565,10 @@ ul.hot li.booth:nth-of-type(3) a.details {
 }
 
 
-/* ###  店长推荐*/
+/* 3.2.2 # 店长推荐*/
 
 
-/* #### 展厅布局 */
+/* 3.2.2 ## 展厅布局 */
 
 ul.recommend>li.booth {
     /* 展位标准尺寸 */
@@ -352,10 +603,10 @@ ul.recommend>li:nth-child(5) {
 }
 
 
-/* ###  爆款推荐*/
+/* 3.2.2 #  爆款推荐*/
 
 
-/* #### 展厅布局 */
+/* 3.2.2 ## 展厅布局 */
 
 ul.storm>li.booth {
     /* 展位默认尺寸 */
@@ -394,16 +645,22 @@ ul.storm>li:nth-child(5) {
 }
 
 
-/* #### 展位布局 */
+/* 3.2.2 ## 展位布局 */
 
-li.booth>div.describe>a,
-li.booth>div.describe>span {
+ul.storm div.describe>a.details,
+ul.storm div.describe>span.price {
     /* 调整描述框文字布局 */
     float: none;
+    /* 这里发现同一个样式,[统一]选择器优先级可能比[单独]的高,两个部分的选择器需要在简洁与准确之间做考量 */
+}
+
+ul.storm div.describe {
+    /* 内部文字边距 */
+    padding: 0 16px;
 }
 
 
-/* # 尾部 */
+/* 3.3 尾部 */
 
 .footer a {
     float: right;
@@ -413,4 +670,149 @@ li.booth>div.describe>span {
 
 div.fresh .footer {
     margin-bottom: 50px;
+}
+
+
+/* --------------------------------4.网页底部-------------------------------- */
+
+ul.service {
+    margin-top: 30px;
+    display: flex;
+}
+
+ul.service li {
+    margin-top: 16px;
+    height: 200px;
+    background-color: #f5f5f5;
+    float: left;
+    flex: 1;
+    display: flex;
+    float: left;
+    /* 主轴（本例是水平）方向居中   */
+    justify-content: center;
+    /* 交叉轴（本例是垂直）方向居中 */
+    align-items: center;
+}
+
+div.sevice-text {
+    width: 220px;
+}
+
+div.service-text::before {
+    width: 50px;
+    height: 50px;
+    content: "111";
+    display: block;
+}
+
+ul.service li:nth-of-type(1)>div::before {
+    width: 41px;
+    height: 50px;
+    margin-right: 10px;
+    margin-top: 16px;
+    background-image: url(../images/iconfont-baozhang.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    content: "";
+    display: block;
+    float: left;
+}
+
+ul.service li:nth-of-type(2)>div::before {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    margin-top: 16px;
+    background-image: url(../images/iconfont-tuihuo.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    content: "";
+    display: block;
+    float: left;
+}
+
+ul.service li:nth-of-type(3)>div::before {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    margin-top: 16px;
+    background-image: url(../images/iconfont-fukuanfangshi.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    content: "";
+    display: block;
+    float: left;
+}
+
+ul.service li:nth-of-type(4)>div::before {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    margin-top: 16px;
+    background-image: url(../images/iconfont-bangzhu.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    content: "";
+    display: block;
+    float: left;
+}
+
+li.service-item span {
+    display: block;
+}
+
+li.service-item span:nth-of-type(1) {
+    padding: 10px 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+ul.more {
+    padding: 100px 0 50px 0;
+    border-bottom: 1px solid #c5c5c5;
+    display: flex;
+    text-align: center;
+}
+
+ul.more li {
+    flex: 1;
+}
+
+ul.more ul>li:first-child {
+    font-size: 18px;
+}
+
+ul.more ul>li {
+    padding: 4px 0;
+}
+
+ul.cooperation {
+    padding: 50px;
+    font-size: 17px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+ul.cooperation a {
+    display: inline-block;
+}
+
+ul.cooperation li {
+    line-height: 30px;
+    float: left;
+}
+
+ul.cooperation li+li::before {
+    padding: 0 8px;
+    content: "|";
+}
+
+.final-text {
+    font-size: 12px;
+    text-align: center;
+}
+
+.final-text p {
+    padding: 5px 0;
 }

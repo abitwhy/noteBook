@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>max number</title>
+</head>
+
+<body>
+    <h1>用prompt 提示3次输入1数字,得到三个数字,求出 三个数字里面最大的值(选做).</h1>
+    <img src="./asset/images/bg_ZhouDai-bridge.jpg" alt="" style="width: 100%;display: block;">
+</body>
+<script>
+    setTimeout(function() {
+        var nums = new Array();
+        var max = -Infinity;
+        window.alert("请输入三个数字。");
+        for (var i = 0; i < 3; i++) {
+            nums.push(window.prompt("第" + (i + 1) + "个数字："));
+            max = max > nums[i] ? max : nums[i];
+        }
+        window.alert("三个数字中最大的是：" + max);
+    }, 2000)
+</script>
+
+</html>

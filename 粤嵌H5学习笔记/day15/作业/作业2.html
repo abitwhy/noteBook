@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>user information</title>
+</head>
+
+<body>
+    <h1>用prompt 依次提示输入: 姓名 年龄 性别 生日 家庭地址. 并把各个输入用变量存储输入最后一项后，连接上面的变量 生成一个新的变量. 并用至少3种方式输出.</h1>
+    <img src="./asset/images/bg_ZhouDai-bridge.jpg" alt="" style="width: 100%;display: block;">
+</body>
+<script>
+    setTimeout(function() {
+        var username, age, sex, borthday, address, info;
+        username = prompt("请输入您的姓名：", "王德法");
+        age = prompt("请输入您的年龄：", "18");
+        sex = prompt("请输入您的性别：");
+        birthday = prompt("请输入您的生日：");
+        address = prompt("请输入您的家庭地址：");
+        document.write(
+            "<b>收集到的用户基本信息</b>" +
+            "<li>姓名：" + username + "</li>" +
+            "<li>年龄：" + age + "</li>" +
+            "<li>性别：" + sex + "</li>" +
+            "<li>生日：" + birthday + "</li>" +
+            "<li>家庭地址：" + address + "</li>"
+        );
+        info = username + age + sex + birthday + address;
+        console.log(info);
+        window.alert(info);
+    }, 2000)
+</script>
+
+</html>
