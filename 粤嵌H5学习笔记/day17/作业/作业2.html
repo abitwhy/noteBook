@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCF</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        输入两个数，求两个数的最大公约数（能够同时整除两个数的最大数）。
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <img src="./asset/images/bg_ZhengZhou-sewage-treatment.jpg " alt=" " title="图片来源:阮一峰的网络日志-132期">
+</body>
+<script>
+    function gcf(n1, n2) { /* greatest common factor */
+        // 先写一个遍历的蠢办法
+        var num_gcf = 1;
+        if (isNaN(Number(n1)) || isNaN(Number(n2))) { /* 输入非数字 */
+            return NaN;
+        } else if (n1 === n2) { /* 单独处理 n1===n2 的情况 */
+            return n1;
+        } else {
+            for (var i = 2; i <= (n1 > n2 ? n1 : n2) / 2; i++) { /* n1===n2 不在循环内 */
+                if (n1 % i === 0 && n2 % i === 0) {
+                    num_gcf = num_gcf > i ? num_gcf : i;
+                }
+            }
+            console.log(num_gcf);
+            return num_gcf;
+        }
+
+    }
+    // 更好的办法是先分别找因数，再找相同的因数之积
+    // function gcf2(num1, num2) { /* greatest common factor */
+    //     var gcf = 1;
+    //     for (var i = 1; i <= (num1 > num2 ? num1 : num2) / 2; i++) {
+    //         if (num1 % i === 0 && num2 % i === 0) {
+    //             gcf = gcf > i ? gcf : i;
+    //         }
+    //     }
+    //     console.log(gcf);
+    //     return gcf;
+    // }
+    document.getElementById("answer ").onclick = function() {
+        var num1, num2, num_gcd;
+        alert("请依次输入两个正整数： ");
+        num1 = prompt("第一个数： ");
+        num2 = prompt("第二个数： ");
+        alert(num1 + "和 " + num2 + "的最大公约数为 " + gcf(num1, num2));
+    };
+</script>
+
+</html>

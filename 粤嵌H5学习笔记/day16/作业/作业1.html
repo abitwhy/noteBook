@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>how old</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        为抵抗洪水，战士连续作战89小时，编程计算共多少天零多少小时？
+        <span id="answer"> 告诉我答案</span>
+    </h1>
+    <img src="./asset/images/bg_cyberpunk.jpg" alt=" " title="图片来源:阮一峰的网络日志-131期">
+</body>
+<script>
+    document.getElementById("answer").onclick = function() {
+        var days = parseInt(String(89 / 24));
+        var hours = 89 % 24;
+        alert("共连续作战 " + days + "天零 " + hours + "小时 ");
+    }
+</script>
+
+</html>

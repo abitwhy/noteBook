@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>逻辑运算比较三值大者</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    var a, b, c, max;
+    a = Math.floor(Math.random() * 100 + 1); /* 100以内的随机数 */
+    b = Math.floor(Math.random() * 100 + 1);
+    c = Math.floor(Math.random() * 100 + 1);
+    console.log(a, b, c);
+    // max=a>b&&a;
+    max = ((a >= b && a >= c && a) || (b >= c && b)) || c;
+
+    console.log(max);
+</script>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今年是第几天、第几周？</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        提示用户输入年、月、日，计算该天是该年的第几天,第几周。
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <img src="./asset/images/bg_ZhengZhou-sewage-treatment.jpg" alt="" title="图片来源:阮一峰的网络日志-132期">
+</body>
+<script>
+    document.getElementById("answer").onclick = function() {
+        var year, month, week, weeks, day, days, now, begin;
+        alert("请依次填写有效的年、月、日")
+        year = prompt("年：");
+        month = prompt("月：");
+        day = prompt("日：");
+        now = new Date(year + ',' + month + ',' + day);
+        begin = new Date(year, 0);
+        days = (now - begin) / 86400000;
+        weeks = parseInt(days / 7) + 1;
+        alert(year + "年" + month + "月" + day + "日是" + year + "年的第" + weeks + "周、" + days + "天");
+    }
+</script>
+
+
+</html>

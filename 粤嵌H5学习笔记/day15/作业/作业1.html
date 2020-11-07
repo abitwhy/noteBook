@@ -8,20 +8,21 @@
 </head>
 
 <body>
-    <h1>prompt输入自己生日年份: 比如 1999 ，计算出自己今年几岁. 并对错误输出做出提示.</h1>
-    <img src="./asset/images/bg_ZhouDai-bridge.jpg" alt="" style="width: 100%;display: block;">
+    <h1>prompt输入自己生日年份: 比如 1999 ，计算出自己今年几岁。并对错误输出做出提示。</h1>
+    <img src="./asset/images/bg_ZhouDai-bridge.jpg" alt="" title="图片来源:阮一峰的网络日志-130期" style="width: 100%;display: block;">
 </body>
 <script>
     setTimeout(function() {
         var flag = true;
         var user_input;
+        var current_year = new Date().getFullYear();
         again:
             while (flag) {
-                user_input = window.prompt("请输入您的出生年份：", 2020); /* 更好的处理是取当前时间 */ /* promot 的返回值是 string 类型的（未输入为 null） */
-                if (Number(user_input).toString() !== NaN.toString()) { /* 更简单的方法是 isNaN */
+                user_input = window.prompt("请输入您的出生年份：", current_year); /* promot 的返回值是 string 类型的（未输入为 null） */
+                if (!isNaN(user_input) && user_input <= current_year) { /* 原先的蠢方法 Number(user_input).toString() !== NaN.toString()*/
                     var age;
-                    age = 2020 - Number(user_input);
-                    window.alert("您今年" + age + "岁了.")
+                    age = current_year - Number(user_input);
+                    window.alert("您今年" + age + "岁了。")
                     flag = false;
                 } else {
                     window.alert("您输入的\"" + user_input + "\"不是合理出生年份！！！");

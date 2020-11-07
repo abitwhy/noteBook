@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>流程控制</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>水仙花数
+        <span id="answer"> 告诉我答案</span>
+    </h1>
+    <img src="./asset/images/bg_cyberpunk.jpg" alt=" ">
+</body>
+<script>
+    document.getElementById("answer").onclick = function() {
+        // var result = "";
+        var daffodil_num = new Array();
+        for (var i = 100; i < 1000; i++) {
+            var base1, base2, base3;
+
+            base1 = i % 10;
+            base2 = (i % 100 - base1) / 10;
+            base3 = (i % 1000 - base2 * 10 - base1) / 100;
+            // base4=(i%10000-base3*1000-base2*10-base1)/1000;
+            if (Math.pow(base1, 3) + Math.pow(base2, 3) + Math.pow(base3, 3) === i) {
+                daffodil_num.unshift(i);
+            }
+        }
+
+        alert("三位数水仙花数有：" + daffodil_num.toString());
+    }
+
+    function number2array(n) { /* 数字转数组 */
+        return String(n).split("");
+    }
+
+    function flower(n) { /* 花数 */
+        var flower_num, sum;
+        flower_num = new Array();
+        console.log(n + "位水仙花数有：")
+        for (i = 10 ** (n - 1); i < 10 ** n; i++) {
+            sum = 0;
+            for (var j = 0; j < n; j++) {
+                sum += String(i)[j] ** n;
+            }
+            if (sum == i) {
+                flower_num.unshift(sum);
+            }
+        }
+        if (flower_num.length == 0) {
+            console.log("无");
+        } else {
+            console.log(flower_num.toString());
+        }
+    }
+
+    function mult_table() {
+        document.write(
+            `<h1>九九乘法表</h1>`
+        )
+        for (i = 1; i < 9; i++) {
+            document.write(i + "&nbsp;");
+            for (j = 1; j <= i; j++) {
+                document.write(i + "X" + j + "得" + i * j + "&nbsp;")
+            }
+            document.write("<br/>");
+        }
+    }
+</script>
+
+</html>

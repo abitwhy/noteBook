@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>how old</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        小明要到美国旅游，可是那里的温度是以华氏度为单位记录的。它需要一个程序将华氏温度（80度）转换为摄氏度，并以华氏度和摄氏度为单位分别显示该温度。提示：摄氏度与华氏度的转换公式为：摄氏度 = 5/9.0*(华氏度-32)
+        <span id="answer"> 告诉我答案</span>
+    </h1>
+    <img src="./asset/images/bg_cyberpunk.jpg" alt="" title="图片来源:阮一峰的网络日志-131期">
+</body>
+<script>
+    document.getElementById("answer").onclick = function() {
+        var degree_f, degree_c;
+        degree_f = prompt("请输入需要转化的华氏度：", 0);
+        degree_c = 5 / 9.0 * (degree_f - 32);
+
+        alert(
+            "摄氏度为：" + degree_c + "℃\n" +
+            "华氏度为：" + degree_f + "℉"
+        );
+    }
+</script>
+
+</html>
