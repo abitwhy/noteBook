@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>递归练习</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        有一堆桃子不知数目，猴子第一天吃掉一半，觉得不过瘾，又多吃了一只，第二天照此办法，吃掉剩下桃子的一半另加一只， 天天如此，到第num(num
+        <=1 0)天早上，猴子发现只剩一只桃子了， 问这堆桃子原来有多少只？ <span id="answer"> 让我试试看</span>
+    </h1>
+    <img src="./asset/images/bg_scrawl-bus.jpg" alt="" title="图片来源:阮一峰的网络日志-126期">
+</body>
+<script>
+    function eat(n) {
+        if (n == 10) {
+            return 1;
+        } else {
+            return 2 * (eat(n + 1) + 1);
+        }
+    }
+    document.getElementById("answer").onclick = function() {
+        alert("这堆桃子原来有：" + eat(1) + "个。");
+    }
+</script>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂练习</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    var sum = function(a, b) {
+        return a + b;
+    };
+
+    function out(type, f) {
+        var exfun = f(3, 4)
+        switch (type) {
+            case "console":
+                console.log(exfun);
+                break;
+            case "write":
+                document.write(exfun);
+                break;
+            case "alert":
+                alert(exfun);
+                break;
+            default:
+                break;
+        }
+    }
+    out("alert", sum);
+    out("console", (a, b) => a * b);
+</script>
+
+</html>

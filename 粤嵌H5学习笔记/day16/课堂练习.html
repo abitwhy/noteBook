@@ -11,16 +11,16 @@
 
 </body>
 <script>
-    function salary(year) {
+    function salary(year) { /* 月薪固定指数增长算 N 年后的月薪 */
         var x = 6000;
         for (var i = 0; i < year; i++) {
             x += x * 0.05;
         }
         return x;
     }
-    console.log(salary(5));
+    console.log("第五年月薪：" + salary(5));
 
-    function Digit(numbers) {
+    function Digit(numbers) { /* 列出指定数字的每一位 */
         var result, digitalUnit;
         digitalUnit = ["个", "十", "百", "千", "万", "十万", "百万", "千万", "亿", "十亿", "百亿", "千亿", "万亿", "十万亿", "百万亿", "千万亿", "兆"];
         result = new Array();
@@ -31,8 +31,10 @@
             console.log(result.shift());
         }
     }
+    console.log("123214434245的各位分别是：")
+    Digit(123214434245);
 
-    function DigitUp(numbers) {
+    function DigitUp(numbers) { /* 将数字转化成汉字大写 */
         var upArray = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
         var numStr = String(numbers);
         var result = "";
@@ -42,10 +44,14 @@
         // console.log(result);
         return result;
     }
-    DigitUp(112);
-    // console.log(digitUp(110));
 
-    function Digit2(numbers) {
+    // DigitUp(112);
+    console.log("将657转化为大写：" + DigitUp(657));
+
+    function Digit2(numbers) { /* 数字的中文读法 */
+        // 发现的问题：
+        // 1.多个相邻的0会出错
+        // 2.十之前的一应该省略
         var digitalUnit, result, output, upcase_reverse;
         // digitalUnit = ["个", "十", "百", "千", "万", "十万", "百万", "千万", "亿", "十亿", "百亿", "千亿", "万亿", "十万亿", "百万亿", "千万亿", "兆"];
         digitalUnit = ["", "十", "百", "千", "万", "十", "百", "千", "亿", "十", "百", "千", "万", "十", "百", "千", "兆"];
@@ -58,12 +64,11 @@
         while (result.length != 0) {
             output += result.shift();
         }
-        console.log(numbers);
-        console.log(output);
+        // console.log(numbers);
+        // console.log(output);
         return output;
     }
-    // Digit(123214434245);
-    Digit2(123214434245);
+    console.log("123214434245读作：" + Digit2(123214434245))
 </script>
 
 </html>

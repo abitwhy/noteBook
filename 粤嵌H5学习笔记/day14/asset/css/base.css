@@ -50,7 +50,7 @@ body {
 /* 边框调整 */
 
 
-/* 缺点:边框效果需根据需要更改 */
+/* 缺点:边框效果需根据需要更改,且增加过长的类名不利于阅读 HTML 代码 */
 
 .add-border {
     border: 1px solid #9d9d9d !important;

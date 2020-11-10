@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加密</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        某个公司采用公用电话传递数据，数据是四位的整数，在传递过程中是加密的，加密规则如下： 每位数字都加上5,然后用除以10的余数代替该数字，再将第一位和第四位交换，第二位和第三位交换， 请编写一个函数，传入原文(四位整数)，返回密文。
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <img src="./asset/images/bg_door.jpg" alt="" title="图片来源:阮一峰的网络日志-127期">
+</body>
+<script>
+    function encrypt(num) {
+        var num_str, result, temp;
+        num_str = String(num);
+        result = [];
+        for (var i = 0; i < num_str.length; i++) {
+            result[i] = (+num_str.charAt(i) + 5) % 10; /* 字符串前写‘+’快捷转换为数字 */
+        }
+
+        temp = result[0];
+        result[0] = result[3];
+        result[3] = temp;
+        temp = result[1];
+        result[1] = result[2];
+        result[2] = temp;
+        return result;
+    }
+
+    document.getElementById("answer").onclick = function() {
+        var input, result;
+        input = prompt("请输入需要加密4位的明文");
+        result = "";
+        for (var i = 0; i < input.length; i++) {
+            result += encrypt(input)[i];
+        }
+        alert("加密出的密文是：" + result);
+    }
+</script>
+
+</html>

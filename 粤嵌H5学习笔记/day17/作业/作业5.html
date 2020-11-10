@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>回文数</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        五位数中，对称的数称为回文数，找出所有的回文数。
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <img src="./asset/images/bg_ZhengZhou-sewage-treatment.jpg" alt="" title="图片来源:阮一峰的网络日志-132期">
+</body>
+<script>
+    document.getElementById("answer").onclick = function() {
+        var result = new Array();
+        for (var i = 10000, j = 0; i < 99999; i++) {
+            if (String(i).charAt(0) == String(i).charAt(4) && String(i).charAt(1) == String(i).charAt(3)) {
+                result.push(i);
+            }
+        }
+        // alert("五位回文数字有：" + result.toString());
+        alert("请（按F12）打开控制台查看结果");
+        console.log("五位回文数字有：" + result.toString());
+    }
+</script>
+
+
+</html>

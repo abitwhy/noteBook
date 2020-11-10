@@ -35,11 +35,10 @@
         day = prompt("日：");
         now = new Date(year + ',' + month + ',' + day);
         begin = new Date(year, 0);
-        days = (now - begin) / 86400000;
-        weeks = parseInt(days / 7) + 1;
+        days = (now - begin) / 86400000 + 1; /* 需加一 */
+        weeks = parseInt(days / 7) + 1; /* 需加一 */
         alert(year + "年" + month + "月" + day + "日是" + year + "年的第" + weeks + "周、" + days + "天");
     }
 </script>
-
 
 </html>

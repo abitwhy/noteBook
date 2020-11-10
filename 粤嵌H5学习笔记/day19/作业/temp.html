@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tozz</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    var num = 10; /* 输入值 */
+    function sum(num) { /* 求桃子的递归函数 */
+        if (num == 1) { /* 递归终止条件 */
+            return 1; /* 终止时的返回值 */
+        } else { /* 重复逻辑（相同的子问题） */
+            return (sum(num - 1) + 1) * 2; /* 前一轮递归等于后一轮递归加一乘以二，并返回 */
+        }
+    }
+    alert(sum(num)); /* 提示的方式输出递归10层的结果 */
+</script>
+
+</html>

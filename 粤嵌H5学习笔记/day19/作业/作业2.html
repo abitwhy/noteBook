@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最大值函数</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        生成13位条形码(对之前的知识综合练习) Ean-13码规则：第十三位数字是前十二位数字经过计算得到的校验码。
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <img src="./asset/images/bg_scrawl-bus.jpg" alt="" title="图片来源:阮一峰的网络日志-126期">
+</body>
+<script>
+    function ean13(num) {
+        var numDigi, numStr, result;
+        numDigi = +num;
+        numStr = String(num);
+        result = [0, 0, 0, 0, 0]; /* 不要忘记初始化，否则会计算出 NaN */
+        for (i = 0; i <= numStr.length; i += 2) {
+            result[0] += +numStr.charAt(i);
+            result[1] += +numStr.charAt(i + 1);
+        }
+        result[2] = result[0] + 3 * result[1];
+        result[3] = result[2] % 10;
+        result[4] = 10 - result[3];
+        result[5] = result[4] % 10;
+        result[6] = numDigi * 10 + result[5];
+        // console.log(result)
+        return result[6];
+    }
+
+    document.getElementById("answer").onclick = function() {
+        var input;
+        input = prompt("请输入需要生成条形码的13位数：");
+        alert(input + "转换成13位条形码为：" + ean13(input));
+    }
+</script>
+
+</html>

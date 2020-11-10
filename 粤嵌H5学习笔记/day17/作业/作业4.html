@@ -28,15 +28,20 @@
 </body>
 <script>
     function shadow_num(n, shadow) { /* Kagebunsin 影分身术。应该是音译，而且名字太长了，弃用 */
-        // 只能算正数，负数未考虑
-        // 另一个重要的问题：应该限定 shadow 小于 10 吗？那么就有广义影分身数和狭义影分身数之分了。
+        // 1).只能算正数，负数未考虑
+        // 2).另一个重要的问题：应该限定 shadow 小于10吗？那么就有广义影分身数和狭义影分身数之分了。
+        // 3).引申出来的另一个问题：广义影分身数到底是什么？换句话说，99的下一位是什么？是99*10+99，即999呢？还是99*10**t+99，即9999呢？t 代表 shasow 的位数。
+        // 4).更进一步思考：10只是十进制的基数，那么别的进制是不是应该换进制基数呢？
+        // 5).如果重新定义，那后面的数值规模判断函数也要推翻。。。
+        // 我选择暂时停止思考。。。
         if (n === 0) {
             return 0
         } else
         if (n === 1) {
             return shadow;
         } else {
-            return 10 * shadow_num(n - 1, shadow) + shadow; /* 如果是广义影分身数，这里应该乘以进制基数 */
+            // return 10 * shadow_num(n - 1, shadow) + shadow; /* 如果是广义影分身数，这里可能更应该乘以进制基数 */
+            return (10 ** String(shadow).length) * shadow_num(n - 1, shadow) + shadow; /* 如果是广义影分身数，这里可能更应该乘以进制基数 */
         }
     }
 
@@ -51,7 +56,7 @@
     }
 
     function shadow_scale(n) { /* 数值规模判断的拟合方程（指数函数） */
-        // 整体也只达到了控制数值规模接近 Number.MAX_SAFE_INTEGER 的作用， 没有达到小于的要求。根源在于模拟函数的选取。
+        // 只达到了控制数值规模接近 Number.MAX_SAFE_INTEGER 的作用， 没有达到小于的要求。根源在于模拟函数的选取。
         var a, b, max;
         a = 7.4521850237266E+16;
         b = -2.30497163451143;
@@ -63,19 +68,17 @@
         flag = true;
         agin:
             while (flag) {
-                // flag = confirm("请输入两个正数");
                 if (confirm("请输入两个[正数]")) {
                     num1 = +prompt("第1个[正数]："); /* prompt 返回类型为 strin，使用 ‘+’运算符是字符串转数字的快捷方式 */
                     num2 = +prompt("第2个[正数]："); /* 这里也可以考虑用户取消立即退出 */
                     if (num1 > 16 || num2 > 2 ** 53 || num2 > shadow_scale(num1)) { /* 数字过大（会造成浏览器卡死），终止循环，提示超出计算能力 */
-                        // 思考一下如何衡量两个数值对计算规模的影响。
+                        // 思考一下如何衡量两个参数对结果数值规模的影响。
                         // 暂时规定 shadow_sum(num1, num2) 应该小于最大的安全整数 Number.MAX_SAFE_INTEGER: 2^53=9007199254740991 (共16位)
                         // 考虑使用曲线模拟方案
                         alert("超出了我的计算能力！")
                         break;
                     } else if (num1 < 0 || num2 < 0) { /* 负数从头再来 */
                         flag = true;
-                        console.log(flag);
                         continue agin; /* 不能用 break */
                     } else { /* 正常计算流程 */
                         flag = false;
@@ -85,7 +88,6 @@
                 } else { /* 用户取消立即退出     */
                     break;
                 }
-
             }
     }
 </script>

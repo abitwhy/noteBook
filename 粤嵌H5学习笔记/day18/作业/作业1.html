@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最大值函数</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        定义一个函数. 输入3个值,返回最大值。
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <img src="./asset/images/bg_door.jpg" alt="" title="图片来源:阮一峰的网络日志-127期">
+</body>
+<script>
+    var max = new Function( /* 尝试一下构造函数声明方式 */
+        "num1", "num2", "num3",
+        "return num1 > num2 ? num1 : num2 > num3 ? num2 : num3;"
+    );
+    document.getElementById("answer").onclick = function() {
+        var input, input_record, num_max;
+        input = new Array();
+        alert("请输入三个需要比较的数");
+        for (var i = 0; i < 3; i++) {
+            input.push(prompt("请输入第" + (i + 1) + "个数："));
+        }
+        input_record = input.toString();
+        num_max = max(input.shift(), input.shift(), input.shift());
+        alert(input_record + "中最大的数是：" + num_max);
+    }
+</script>
+
+</html>

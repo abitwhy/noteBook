@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7的倍数及含7的数</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        封装一个函数,找出0-100之间7的倍数，和包含7的数 求和 并返回结果。
+        <!-- <span id="answer"> 让我试试看</span> -->
+        <span id="answer"> 告诉我答案</span>
+    </h1>
+    <img src="./asset/images/bg_door.jpg" alt="" title="图片来源:阮一峰的网络日志-127期">
+</body>
+<script>
+    function contain7(range_min, range_max) {
+        // 字符串方案
+        var num_str, result;
+        result = new Array();
+        for (var i = range_min; i < range_max; i++) {
+            num_str = String(i);
+            for (var j = 0; j < num_str.length; j++) {
+                if (num_str.charAt(j) == 7) {
+                    result.push(i);
+                    break; /* 当遇到第一个7时结束循环，防止含多个7的数被重复统计  */
+                }
+            }
+        }
+        // 数值计算方案
+
+        return result;
+    }
+    var multipleOf7 = function(range_min, range_max) {
+        var result;
+        result = new Array();
+        for (var i = range_min; i * 7 < range_max; i++) { /* 0是不是7的倍数？ */
+            result.push(i * 7);
+        }
+        return result;
+    }
+    document.getElementById("answer").onclick = function() {
+        var result, c7, m7;
+        result = 0;
+        c7 = contain7(0, 100);
+        m7 = multipleOf7(0, 100);
+        c7.forEach(function(item) { /* 包含7的和 */
+            result += item;
+        });
+        m7.forEach(function(item) { /* 7的倍数的和（除去了包含7的数） */
+            for (i in c7) {
+                if (c7[i] == item) {
+                    result -= item; /* 减去重复值，不能直接 continue */
+                }
+            }
+            result += item;
+        })
+        alert(
+            "0-100包含7的数有：\n" + c7.toString() + "\n" +
+            "是7的倍数的数有：\n" + m7.toString() + "\n" +
+            "它们的和为：\n" + result
+        )
+
+
+    }
+</script>
+
+</html>

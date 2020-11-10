@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一个函数</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        编写一个函数，输入n为偶数时，调用函数求1/2+1/4+...+1/n,当输入n为奇数时，调用函数求/1+1/3+...+1/n。
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <img src="./asset/images/bg_door.jpg" alt="" title="图片来源:阮一峰的网络日志-127期">
+</body>
+<script>
+    function fun(num) {
+        var result, i;
+        result = 0;
+        if (1 & num == 1) { /* 判断奇偶的简便方法 */
+            i = 1;
+        } else {
+            i = 2;
+        }
+        for (; i <= num; i += 2) {
+            result += 1 / i;
+        }
+        return result;
+    }
+    document.getElementById("answer").onclick = function() {
+        var input, result;
+        input = prompt("请输入需要计算的数：");
+        result = fun(input);
+        alert("计算结果为：" + result);
+    }
+</script>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>反转数组</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        反转数组：将数组的内容反过来存放 翻转数组.(自己编写函数实现类似reverse()函数效果)。
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <img src="./asset/images/bg_scrawl-bus.jpg" alt="" title="图片来源:阮一峰的网络日志-126期">
+</body>
+<script>
+    function myReverse(arr) {
+        var result = [];
+        if (arr instanceof Array) {
+            while (arr.length != 0) {
+                result.push(arr.pop());
+            }
+        } else {
+            return "请输入数组！！！"
+        }
+        return result;
+    }
+    document.getElementById("answer").onclick = function() {
+        alert("演示一下对数组[3，1，4，1，5,9,2,6]的反转：" + myReverse([3, 1, 4, 1, 5, 9, 2, 6]));
+    }
+</script>
+
+</html>

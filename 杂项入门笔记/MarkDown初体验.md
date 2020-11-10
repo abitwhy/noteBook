@@ -31,7 +31,7 @@
 
 > **隔空行**文本则会隔行
 
-> **段落开头不要留出空白字符**。否则像Typora 会在留白处编译出来一个‘?’。
+> **段落开头不要留出空白字符**。否则像 Typora 会在留白处编译出来一个‘?’。
 *********************
 ## 表格
 
@@ -93,6 +93,15 @@ document.write(fib(10));
 
 ```javascript
 // 缩进四格表示代码块，仅作了解，编辑器仅支持语法而已
+```
+
+```diff
+function(){ 
+	// try to use diff 
+	// it seems can be replaece by comment
+-  	bad things
++  	good things
+}
 ```
 
 ***
