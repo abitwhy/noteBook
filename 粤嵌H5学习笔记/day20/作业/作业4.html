@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>随机点名</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        小组随机点名器. 收集小组成员姓名，放入数组，随机点名小组对成员。
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <img src="./asset/images/bg_sand-grape.jpg" alt="" title="图片来源:阮一峰的网络日志-125期">
+</body>
+<script>
+    function getRandomInt(min, max) { /* 生成伪随机整数（含端点值） */
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function ctr(group) { /* call the roll 点名 */
+        var callOne, ct;
+        ct = confirm("点名开始！");
+        while (group.length && ct) {
+            callOne = getRandomInt(0, group.length - 1); /* 需数组长度减一，若生成的是不含右端点的随机数，则可以不减一 */
+            ct = confirm(group.splice(callOne, 1));
+        }
+    }
+    document.getElementById("answer").onclick = function() {
+        var group;
+        group = ["吴世富", "曾衍凯", "樊家威", "何延卿", "曹俊龙", "卢亚兰", "龙紫欣", "魏红兵"];
+        ctr(group);
+    }
+</script>
+
+</html>

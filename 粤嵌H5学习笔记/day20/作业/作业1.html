@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>相隔天数</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        获取两个日期之间相差的天数. 比如 2020-11-11 到 2021-1-1相差多少天.日期对象实现。
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <img src="./asset/images/bg_sand-grape.jpg" alt="" title="图片来源:阮一峰的网络日志-125期">
+</body>
+<script>
+    function daysBetween(day1, day2) {
+        var d1, d2, gap, days, MILIISECOND_OF_A_DAY;
+        MILIISECOND_OF_A_DAY = 24 * 60 * 60 * 1000;
+        d1 = new Date(day1).getTime();
+        d2 = new Date(day2).getTime();
+        gap = d2 - d1;
+        days = gap / MILIISECOND_OF_A_DAY;
+        return days;
+    }
+    document.getElementById("answer").onclick = function() {
+        var cf, day1, day2;
+
+        cf = confirm("请输入需要计算天数间隔的两天（格式为 YYYY/MM/DD）："); /* 格式为 YYYY-MM-DD 会出问题 */
+        if (cf) {
+            day1 = prompt("请输入前一日期：");
+            day2 = prompt("请输入后一日期：");
+            alert(day2 + "和" + day1 + "之间相差" + daysBetween(day1, day2) + "天");
+        }
+    }
+</script>
+
+</html>

@@ -23,7 +23,7 @@ JavaScript 六种**基本类型**有:
 ## 逻辑运算的返回值[^1]
 
 
-1. **逻辑与运算**（`&&`运算）会返回最早遇到非以下类型的值：
+1. **逻辑与运算**（`&&`运算）会返回最早遇到以下类型的值：
    `NaN` `null` `undefined` `0` `false`;
    
 2. **逻辑或运算**（`||`运算） 会返回最早遇到非以下类型的值：
@@ -68,7 +68,7 @@ console.log('Execute follow things.');
 
 - **作用**
 
-> 将**字符串**转成**整数**/**浮点数**。
+> 将**字符串**转成**整数**/**浮点数**。对于小数的字符串，使用 parseInt 转换为整数时，会将小数部分全部舍去。
 
 - **示例**
 
@@ -524,7 +524,7 @@ var obj = Object.definePropertie({},'foo',{
 	//get: undefined, // 取值函数，不能和 value 同时设置或同时设置 writable 为 true。
 	//set: undefined // 存值函数，规则同上。
 });
-Object.getOwnPropertyDescriptor(obj,'foo'); // 返回 obj 的元属性。
+Object.getOwnPropertyDescriptor(obj,'foo'); // 返回 obj.foo 的元属性。
 ```
 
 - **补充**
@@ -1378,6 +1378,50 @@ console.log(3); // 同步任务在本轮事件循环
 
 ------
 
+## 浏览器模型
+
+- **嵌入 script 的四种方式**
+
+  1. `<script>`标签内嵌入脚本
+
+     - 示例
+
+       `<scrpit>console.log("hello JavaScript!")</script>`
+
+     - 值得记录的问题
+
+       script 标签可以设置 type 属性，一般不设置，使用默认属性即可。而如果给 type 属性赋一个自定义的值，浏览器将不会执行其中的脚本，但 script 标签依旧被写入 DOM 中，可以被获取到。那么通过 DOM 修改其 type 属性是否会使其重新生效呢？
+
+  2. `<script>`标签引入外部脚本
+
+     - 示例
+
+       `<script src="asset/js/script.js"></script>`
+
+     - 值得记录的问题
+
+       - 方式2与方式1**不可混用**；
+       - `src` 可以赋**本地资源**地址，也可以赋**网络资源**；
+       - 脚本里使用了非英文字符需设置 `charset` 属性；
+       - 可以设置 i`ntegrity` 属性验证外部脚本；
+
+  3. 事件属性
+
+     - 示例
+
+       `<button onclick="alert('hello noob')">学习</button>`
+
+  4. `URL`协议
+
+     - 示例
+
+       `<a href="javascript:void new String('noob');">坚持</a>`
+
+     - 值得记录的问题
+       - 返回字符串才会创建并打开文档；
+       - (因此)添加 void 可以不打开新文档（不跳转）；
+
+
 ## 语法查漏补缺
 
 1. JavaScript 会自动添加行末的分号`;`，但强烈建议为代码手动加上分号。
@@ -1404,11 +1448,11 @@ console.log(3); // 同步任务在本轮事件循环
 
 5. 为了保持简单，JavaScript 是**单线程**的，一开始是这样，将来也不会变。这是这门语言的**核心特征**。
 
-6. 
+6. `Math.round()` 对**负数**会“**五舍六入**”。
 
 ------
 
-## 语法查漏补缺一些有必要记录的示例
+## 一些有必要记录的示例
 
 - **输出一个字符串里的四字节字符**
 
@@ -1425,7 +1469,7 @@ String.fromCharCode('??'.charCodeAt(0),'??'.charCodeAt(1)); // '??'，某些编�
 - **骰子游戏**
 
 ```javascript
-// 任意范围的随机整数生成函数
+// 任意范围的（伪）随机整数生成函数
 function getRandomInt(min, max) { 
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }

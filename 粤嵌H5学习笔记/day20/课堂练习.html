@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂练习</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function game() { /* 猜数游戏 */
+        var answer = parseInt(Math.random() * 10);
+        var cf = confirm("想玩猜数字游戏吗？");
+        while (cf) {
+            var input = prompt("你猜几？");
+            if (input == answer) {
+                cf = confirm("被你你猜中了owo !!!");
+                break;
+            } else if (input > answer) {
+                cf = confirm("你猜大了，再猜！")
+            } else {
+                cf = confirm("你猜小了，再猜！")
+            }
+        }
+    }
+</script>
+
+</html>

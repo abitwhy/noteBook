@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>字符串操作</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        统计字符串 'Arrays are list-like objects whose prototype has methods to perform traversal and mutation operations. Neither the length of a JavaScript array nor the types of its elements are fixed. Since an array's length can change at any time, and data can
+        be stored at non-contiguous locations in the array, JavaScript arrays are not guaranteed to be dense; this depends on how the programmer chooses to use them. In general, these are convenient characteristics; but if these features are not desirable
+        for your particular use, you might consider using typed arrays' 中 javascript出现的次数。
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <img src="./asset/images/bg_react.jpg" alt="" title="图片来源:阮一峰的网络日志-126期">
+</body>
+<script>
+    // 首选正则式方案（搁置）
+
+    // 数组方案
+    function searchWordFrequency(formStr, searchStr) { /* 统计字符频率，找出高频字符 */
+        var fre, currentChars;
+        fre = 0;
+        currentChars = [];
+        if (typeof formStr === "string" && typeof searchStr === "string") {
+            // 统计出字符频率
+            for (var i = 0; i < formStr.length; i++) { /* 遍历查找 */
+                for (var j = 0; j < searchStr.length; j++) { /* 取出搜索单词长度个字符 */
+                    currentChars[j] = formStr.charAt(i + j);
+                }
+                if (currentChars.join("") == searchStr) { /* 匹配出单词 */
+                    fre++; /* 单词频率加一 */
+                }
+            }
+        } else {
+            return "请输入字符串";
+        }
+        // console.log(fre);
+        return fre;
+    }
+    document.getElementById("answer").onclick = function() {
+        var str, fre;
+        str = "Arrays are list-like objects whose prototype has methods to perform traversal and mutation operations. Neither the length of a JavaScript array nor the types of its elements are fixed. Since an array's length can change at any time, and data can";
+        str += "be stored at non-contiguous locations in the array, JavaScript arrays are not guaranteed to be dense; this depends on how the programmer chooses to use them. In general, these are convenient characteristics; but if these features are not desirable";
+        str += "for your particular use, you might consider using typed arrays";
+        console.log(str);
+        fre = searchWordFrequency(str, "JavaScript");
+        alert("共从原字符串中找到" + fre + "个\"JavaScript\"");
+    }
+</script>
+
+</html>

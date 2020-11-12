@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2020年12月倒计时</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+        
+        #count-down {
+            width: 400px;
+            height: 50px;
+            background-color: orangered;
+            font-size: large;
+            line-height: 50px;
+            text-align: center;
+            left: 50%;
+            margin-left: -100px;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        封装函数countDown() 结合 setInterval 实现 到2020-12-1 0:0:0的倒计时. 显示为还有 x天x时x分x秒结束.并动态变化(setInterval())
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <div id="count-down">倒计时</div>
+    <img src="./asset/images/bg_react.jpg" alt="" title="图片来源:阮一峰的网络日志-126期">
+</body>
+<script>
+    function timeBetween(day1, day2) { /* 时间间隔，返回不同时间粒度 */
+        var day1, day2, gap, days, hours, minutes, seconds, MILIISECOND_OF_A_DAY, MILIISECOND_OF_AN_HOUR, MILIISECOND_OF_A_MINUTE, MILIISECOND_OF_A_SECOND;
+        MILIISECOND_OF_A_DAY = 24 * 60 * 60 * 1000;
+        MILIISECOND_OF_AN_HOUR = 60 * 60 * 1000;
+        MILIISECOND_OF_A_MINUTE = 60 * 1000;
+        MILIISECOND_OF_A_SECOND = 1000;
+        gap = [];
+        gap[0] = day2 - day1;
+        days = parseInt(gap[0] / MILIISECOND_OF_A_DAY);
+        gap[1] = gap[0] - days * MILIISECOND_OF_A_DAY;
+        hours = parseInt(gap[1] / MILIISECOND_OF_AN_HOUR);
+        gap[2] = gap[1] - hours * MILIISECOND_OF_AN_HOUR;
+        minutes = parseInt(gap[2] / MILIISECOND_OF_A_MINUTE);
+        gap[3] = gap[2] - minutes * MILIISECOND_OF_A_MINUTE;
+        seconds = parseInt(gap[3] / MILIISECOND_OF_A_SECOND);
+        return {
+            days: days,
+            hours: hours,
+            minutes: minutes,
+            seconds: seconds
+        };
+    }
+
+    function countDown() { /* 倒计时器，暂时不接受参数 */
+        var timeId;
+        timeId = setInterval(() => {
+            var now, endTime, gaps;
+            now = Date.now();
+            endTime = new Date("2020/12/1").getTime();
+            gaps = timeBetween(now, endTime);
+            document.getElementById("count-down").innerHTML = "距离2020年12月1日还有：\n" + gaps.days + "天" + gaps.hours + "时" + gaps.minutes + "分" + gaps.seconds + "秒" + "。"
+        }, 1000);
+        console.log(timeId);
+    }
+
+    document.getElementById("answer").onclick = function() {
+        countDown();
+    }
+</script>
+
+</html>

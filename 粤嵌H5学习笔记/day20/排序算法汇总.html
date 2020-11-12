@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排序算法</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    var arr = []
+    arr.sort(); /* Array 原生的排序算法内部是冒泡算法 */
+    function bubble(arr) { /* 冒泡算法 */
+        // 主要思想：每轮比较大小，直接交换相邻两元素，排出第 n 大（小）值，n 为轮数
+        var temp;
+        if (arr instanceof Array) {
+            for (var i = 0; i < arr.length; i++) {
+                for (var j = 0; j < arr.length - i; j++) {
+                    if (arr[j] > arr[i]) { /* 升序 ，逆序交换 */
+                        temp = arr[i];
+                        console.log(temp);
+                        arr[i] = arr[j];
+                        arr[j] = temp;
+                    }
+                    // if(arr[j]<arr[i]){ /* 降序 ，逆序交换 */
+                    // temp=arr[i];
+                    // arr[i]=arr[j];
+                    // arr[j]=temp;
+                    // }
+                }
+            }
+        } else {
+            return "请输入数组！！！";
+        }
+        // arr.reverse(); /* 降序还可以通过升序后再反转实现 */
+        return arr;
+    }
+
+    function selection(arr) { /* 选择排序 */
+        // 主要思想：每轮选出无序部分的最小值，与有序部分最后一位单个交换
+        var extremum, temp;
+        if (arr instanceof Array) {
+            for (var i = 0; i < arr.length; i++) { /* 从第一个数开始，每轮从后面无序数中找出最小的数，放到前面有序数中的最后一位 */
+                extremum = i;
+                for (var j = i; j < arr.length; j++) {
+                    if (arr[j] < arr[extremum]) { /* 升序，反序记录。注意要与 arr[extremum] 比，而不是 arr[i]*/
+                        extremum = j; /* 记录脚标 */
+                    }
+                }
+                if (extremum != i) { /* 极值不是默认值则交换 */
+                    console.log(extremum);
+                    temp = arr[i];
+                    arr[i] = arr[extremum];
+                    arr[extremum] = temp;
+                }
+            }
+        } else {
+            return "请输入数组！！！";
+        }
+        return arr;
+    }
+
+    function insert(arr) { /* 插入排序（冒泡排序改进版） */
+        // 主要思想：从第一个数开始，分出有序无序两部分。每轮从无序部分依次选出一个数，将它有序地（冒泡的方式）插入有序部分
+        var temp;
+        if (arr instanceof Array) {
+            for (var i = 1; i < arr.length; i++) {
+                for (var j = i; arr[j] < arr[j - 1] && j > 0; j--) { /* 升序。逆序交换 */
+                    temp = arr[j - 1];
+                    arr[j - 1] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        } else {
+            return "请输入数组！！！";
+        }
+        return arr;
+    }
+
+    function quick(arr) { /* 快速排序（递归方式） */
+
+    }
+
+    function qksort(arr) { /* 快速排序（非递归方式） */
+
+    }
+</script>
+
+</html>

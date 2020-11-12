@@ -1,0 +1,502 @@
+<!-- 由很多页面合到一起的，需要测试自己摘取并copy即可！ -->
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2020年12月倒计时</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+        
+        #count-down {
+            width: 400px;
+            height: 50px;
+            background-color: orangered;
+            font-size: large;
+            line-height: 50px;
+            text-align: center;
+            left: 50%;
+            margin-left: -100px;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        封装函数countDown() 结合 setInterval 实现 到2020-12-1 0:0:0的倒计时. 显示为还有 x天x时x分x秒结束.并动态变化(setInterval())
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <div id="count-down">倒计时</div>
+    <img src="./asset/images/bg_react.jpg" alt="" title="图片来源:阮一峰的网络日志-126期">
+</body>
+<script>
+    function timeBetween(day1, day2) { /* 时间间隔，返回不同时间粒度 */
+        var day1, day2, gap, days, hours, minutes, seconds, MILIISECOND_OF_A_DAY, MILIISECOND_OF_AN_HOUR, MILIISECOND_OF_A_MINUTE, MILIISECOND_OF_A_SECOND;
+        MILIISECOND_OF_A_DAY = 24 * 60 * 60 * 1000;
+        MILIISECOND_OF_AN_HOUR = 60 * 60 * 1000;
+        MILIISECOND_OF_A_MINUTE = 60 * 1000;
+        MILIISECOND_OF_A_SECOND = 1000;
+        gap = [];
+        gap[0] = day2 - day1;
+        days = parseInt(gap[0] / MILIISECOND_OF_A_DAY);
+        gap[1] = gap[0] - days * MILIISECOND_OF_A_DAY;
+        hours = parseInt(gap[1] / MILIISECOND_OF_AN_HOUR);
+        gap[2] = gap[1] - hours * MILIISECOND_OF_AN_HOUR;
+        minutes = parseInt(gap[2] / MILIISECOND_OF_A_MINUTE);
+        gap[3] = gap[2] - minutes * MILIISECOND_OF_A_MINUTE;
+        seconds = parseInt(gap[3] / MILIISECOND_OF_A_SECOND);
+        return {
+            days: days,
+            hours: hours,
+            minutes: minutes,
+            seconds: seconds
+        };
+    }
+
+    function countDown() { /* 倒计时器，暂时不接受参数 */
+        var timeId;
+        timeId = setInterval(() => {
+            var now, endTime, gaps;
+            now = Date.now();
+            endTime = new Date("2020/12/1").getTime();
+            gaps = timeBetween(now, endTime);
+            document.getElementById("count-down").innerHTML = "距离2020年12月1日还有：\n" + gaps.days + "天" + gaps.hours + "时" + gaps.minutes + "分" + gaps.seconds + "秒" + "。"
+        }, 1000);
+        console.log(timeId);
+    }
+
+    document.getElementById("answer").onclick = function() {
+        countDown();
+    }
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2020年12月倒计时</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+        
+        #count-down {
+            width: 400px;
+            height: 50px;
+            background-color: orangered;
+            font-size: large;
+            line-height: 50px;
+            text-align: center;
+            left: 50%;
+            margin-left: -100px;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        封装函数countDown() 结合 setInterval 实现 到2020-12-1 0:0:0的倒计时. 显示为还有 x天x时x分x秒结束.并动态变化(setInterval())
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <div id="count-down">倒计时</div>
+    <img src="./asset/images/bg_react.jpg" alt="" title="图片来源:阮一峰的网络日志-126期">
+</body>
+<script>
+    function timeBetween(day1, day2) { /* 时间间隔，返回不同时间粒度 */
+        var day1, day2, gap, days, hours, minutes, seconds, MILIISECOND_OF_A_DAY, MILIISECOND_OF_AN_HOUR, MILIISECOND_OF_A_MINUTE, MILIISECOND_OF_A_SECOND;
+        MILIISECOND_OF_A_DAY = 24 * 60 * 60 * 1000;
+        MILIISECOND_OF_AN_HOUR = 60 * 60 * 1000;
+        MILIISECOND_OF_A_MINUTE = 60 * 1000;
+        MILIISECOND_OF_A_SECOND = 1000;
+        gap = [];
+        gap[0] = day2 - day1;
+        days = parseInt(gap[0] / MILIISECOND_OF_A_DAY);
+        gap[1] = gap[0] - days * MILIISECOND_OF_A_DAY;
+        hours = parseInt(gap[1] / MILIISECOND_OF_AN_HOUR);
+        gap[2] = gap[1] - hours * MILIISECOND_OF_AN_HOUR;
+        minutes = parseInt(gap[2] / MILIISECOND_OF_A_MINUTE);
+        gap[3] = gap[2] - minutes * MILIISECOND_OF_A_MINUTE;
+        seconds = parseInt(gap[3] / MILIISECOND_OF_A_SECOND);
+        return {
+            days: days,
+            hours: hours,
+            minutes: minutes,
+            seconds: seconds
+        };
+    }
+
+    function countDown() { /* 倒计时器，暂时不接受参数 */
+        var timeId;
+        timeId = setInterval(() => {
+            var now, endTime, gaps;
+            now = Date.now();
+            endTime = new Date("2020/12/1").getTime();
+            gaps = timeBetween(now, endTime);
+            document.getElementById("count-down").innerHTML = "距离2020年12月1日还有：\n" + gaps.days + "天" + gaps.hours + "时" + gaps.minutes + "分" + gaps.seconds + "秒" + "。"
+        }, 1000);
+        console.log(timeId);
+    }
+
+    document.getElementById("answer").onclick = function() {
+        countDown();
+    }
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>字符串操作</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        统计字符串 'Arrays are list-like objects whose prototype has methods to perform traversal and mutation operations. Neither the length of a JavaScript array nor the types of its elements are fixed. Since an array's length can change at any time, and data can
+        be stored at non-contiguous locations in the array, JavaScript arrays are not guaranteed to be dense; this depends on how the programmer chooses to use them. In general, these are convenient characteristics; but if these features are not desirable
+        for your particular use, you might consider using typed arrays' 中 javascript出现的次数。
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <img src="./asset/images/bg_react.jpg" alt="" title="图片来源:阮一峰的网络日志-126期">
+</body>
+<script>
+    // 首选正则式方案（搁置）
+
+    // 数组方案
+    function searchWordFrequency(formStr, searchStr) { /* 统计字符频率，找出高频字符 */
+        var fre, currentChars;
+        fre = 0;
+        currentChars = [];
+        if (typeof formStr === "string" && typeof searchStr === "string") {
+            // 统计出字符频率
+            for (var i = 0; i < formStr.length; i++) { /* 遍历查找 */
+                for (var j = 0; j < searchStr.length; j++) { /* 取出搜索单词长度个字符 */
+                    currentChars[j] = formStr.charAt(i + j);
+                }
+                if (currentChars.join("") == searchStr) { /* 匹配出单词 */
+                    fre++; /* 单词频率加一 */
+                }
+            }
+        } else {
+            return "请输入字符串";
+        }
+        console.log(fre);
+        return fre;
+    }
+    document.getElementById("answer").onclick = function() {
+        var str, fre;
+        str = "Arrays are list-like objects whose prototype has methods to perform traversal and mutation operations. Neither the length of a JavaScript array nor the types of its elements are fixed. Since an array's length can change at any time, and data can";
+        str += "be stored at non-contiguous locations in the array, JavaScript arrays are not guaranteed to be dense; this depends on how the programmer chooses to use them. In general, these are convenient characteristics; but if these features are not desirable";
+        str += "for your particular use, you might consider using typed arrays";
+        console.log(str);
+        fre = searchWordFrequency(str, "JavaScript");
+        alert("共从原字符串中找到" + fre + "个\"JavaScript\"");
+    }
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>定时输出字符</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+        
+        #text-box {
+            width: 400px;
+            height: 50px;
+            background-color: orangered;
+            font-size: large;
+            line-height: 50px;
+            text-align: center;
+            left: 50%;
+            margin-left: -100px;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        用setInterval()实现字符串输出. 每隔0.5秒输出一个字符。
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <div id="text-box"></div>
+    <img src="./asset/images/bg_react.jpg" alt="" title="图片来源:阮一峰的网络日志-126期">
+</body>
+<script>
+    function fakeAnima(str, elementId) { /* 模拟动画输出字符 */
+        if (typeof str === "string") {
+            str = str.split(""); /* 必须要转数组 */
+            setInterval(function(str, c) {
+                document.getElementById(elementId).innerHTML += str.splice(0, 1);
+            }, 500, str);
+        } else {
+            return "请输入字符串";
+        }
+    }
+    document.getElementById("answer").onclick = function() {
+        var str;
+        str = "欢迎来到广州！Welcome to China!"
+        fakeAnima(str, "text-box");
+    }
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂练习</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function frequencyChar(str) { /* 统计字符频率，找出高频字符 */
+        // 对象方案
+        var freList, char, mostFreChar, properties;
+        freList = {};
+        mostFreChar = {
+            char: "",
+            times: 0
+        };
+        if (typeof str === "string") {
+            // 统计出字符频率
+            for (var i = 0; i < str.length; i++) {
+                char = str.charAt(i); /* 取出字符 */
+                if (freList[char]) { /* 字符作为 freList 对象的属性名，且出现过 */
+                    freList[char]++; /* 字符频率加一 */
+                } else { /* 未出现过 */
+                    freList[char] = 1; /* 创建以字符作为属性名的属性，并赋值1，作为字符出现的频率 */
+                }
+                mostFreChar.times = freList[char] > mostFreChar.times ? (mostFreChar.char = char) && freList[char] : mostFreChar.times; /* 在此处找出高频字符 */
+            }
+            // 找出出现频率最大字符（单独找是为了回顾对象属性相关知识）
+            // properties = Object.keys(freList); /* Object.keys 返回对象非继承属性（数组形式）,可得知属性个数，进而遍历对象的属性=》勘误：对象使用 for-in 遍历属性更容易 */
+            // for (var j = 0; j < properties.length; j++) {
+            // mostFreChar.times = freList[properties[j]] > mostFreChar.times ? (mostFreChar.char = properties[j]) && freList[properties[j]] : mostFreChar.times;
+            // }
+        } else {
+            return "请输入字符串";
+        }
+        // 数组方案搁置 。。。
+        return {
+            freList,
+            mostFreChar
+        };
+    }
+    frequencyChar("Not everything is so cut and dry.").mostFreChar;
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排序算法</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    var arr = []
+    arr.sort(); /* Array 原生的排序算法内部是冒泡算法 */
+    function bubble(arr) { /* 冒泡算法 */
+        // 主要思想：每轮比较大小，直接交换相邻两元素，排出第 n 大（小）值，n 为轮数
+        var temp;
+        if (arr instanceof Array) {
+            for (var i = 0; i < arr.length; i++) {
+                for (var j = 0; j < arr.length - i; j++) {
+                    if (arr[j] > arr[i]) { /* 升序 ，逆序交换 */
+                        temp = arr[i];
+                        console.log(temp);
+                        arr[i] = arr[j];
+                        arr[j] = temp;
+                    }
+                    // if(arr[j]<arr[i]){ /* 降序 ，逆序交换 */
+                    // temp=arr[i];
+                    // arr[i]=arr[j];
+                    // arr[j]=temp;
+                    // }
+                }
+            }
+        } else {
+            return "请输入数组！！！";
+        }
+        // arr.reverse(); /* 降序还可以通过升序后再反转实现 */
+        return arr;
+    }
+
+    function selection(arr) { /* 选择排序 */
+        // 主要思想：每轮选出无序部分的最小值，与有序部分最后一位单个交换
+        var extremum, temp;
+        if (arr instanceof Array) {
+            for (var i = 0; i < arr.length; i++) { /* 从第一个数开始，每轮从后面无序数中找出最小的数，放到前面有序数中的最后一位 */
+                extremum = i;
+                for (var j = i; j < arr.length; j++) {
+                    if (arr[j] < arr[extremum]) { /* 升序，反序记录。注意要与 arr[extremum] 比，而不是 arr[i]*/
+                        extremum = j; /* 记录脚标 */
+                    }
+                }
+                if (extremum != i) { /* 极值不是默认值则交换 */
+                    console.log(extremum);
+                    temp = arr[i];
+                    arr[i] = arr[extremum];
+                    arr[extremum] = temp;
+                }
+            }
+        } else {
+            return "请输入数组！！！";
+        }
+        return arr;
+    }
+
+    function insert(arr) { /* 插入排序（冒泡排序改进版） */
+        // 主要思想：从第一个数开始，分出有序无序两部分。每轮从无序部分依次选出一个数，将它有序地（冒泡的方式）插入有序部分
+        var temp;
+        if (arr instanceof Array) {
+            for (var i = 1; i < arr.length; i++) {
+                for (var j = i; arr[j] < arr[j - 1] && j > 0; j--) { /* 升序。逆序交换 */
+                    temp = arr[j - 1];
+                    arr[j - 1] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        } else {
+            return "请输入数组！！！";
+        }
+        return arr;
+    }
+
+    function quick(arr) { /* 快速排序（递归方式） */
+
+    }
+
+    function qksort(arr) { /* 快速排序（非递归方式） */
+
+    }
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂练习</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function game() { /* 猜数游戏 */
+        var answer = parseInt(Math.random() * 10);
+        var cf = confirm("想玩猜数字游戏吗？");
+        while (cf) {
+            var input = prompt("你猜几？");
+            if (input == answer) {
+                cf = confirm("被你你猜中了owo !!!");
+                break;
+            } else if (input > answer) {
+                cf = confirm("你猜大了，再猜！")
+            } else {
+                cf = confirm("你猜小了，再猜！")
+            }
+        }
+    }
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>递归</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function fib(n) { /* 斐波那契数列 */
+        if (n == 0) {
+            return 0;
+        } else if (n == 1) {
+            return 1;
+        } else {
+            return fib(n - 1) + fib(n - 2)
+        }
+    }
+    console.log("斐波那契数列:" + fib(3));
+
+    function factorial(n) { /* 阶乘 */
+        if (n == 0) {
+            return 1;
+        } else {
+            return n * factorial(n - 1);
+        }
+    }
+
+    console.log("阶乘:" + factorial(3));
+</script>
+
+</html>

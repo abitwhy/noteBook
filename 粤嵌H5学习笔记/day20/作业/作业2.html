@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后天</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        定义函数nextDay(n). 输入n，输出n天后的日期。
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <img src="./asset/images/bg_sand-grape.jpg" alt="" title="图片来源:阮一峰的网络日志-125期">
+</body>
+<script>
+    function nextDay(days) {
+        var MILIISECOND_OF_A_DAY, daysTime, gap, date;
+        MILIISECOND_OF_A_DAY = 24 * 60 * 60 * 1000;
+        daysTime = new Date(+days * MILIISECOND_OF_A_DAY); /* days 转换为数字 */
+        gap = daysTime.getTime() + Date.now();
+        console.log(gap);
+        date = new Date(gap);
+        return date;
+    }
+
+    document.getElementById("answer").onclick = function() {
+        var input;
+        input = prompt("请输入需要求今天后的第几天的日期：");
+        alert("今天后的第" + input + "天为：" + nextDay(input));
+    }
+</script>
+
+</html>

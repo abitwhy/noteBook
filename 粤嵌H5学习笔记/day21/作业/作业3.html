@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>定时输出字符</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+        
+        #text-box {
+            width: 400px;
+            height: 50px;
+            background-color: orangered;
+            font-size: large;
+            line-height: 50px;
+            text-align: center;
+            left: 50%;
+            margin-left: -100px;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        用setInterval()实现字符串输出. 每隔0.5秒输出一个字符。
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <div id="text-box"></div>
+    <img src="./asset/images/bg_react.jpg" alt="" title="图片来源:阮一峰的网络日志-126期">
+</body>
+<script>
+    function fakeAnima(str, elementId) { /* 模拟动画输出字符 */
+        if (typeof str === "string") {
+            str = str.split(""); /* 必须要转数组 */
+            setInterval(function(str, c) {
+                document.getElementById(elementId).innerHTML += str.splice(0, 1);
+            }, 500, str);
+        } else {
+            return "请输入字符串";
+        }
+    }
+    document.getElementById("answer").onclick = function() {
+        var str;
+        str = "欢迎来到广州！Welcome to China!"
+        fakeAnima(str, "text-box");
+    }
+</script>
+
+</html>

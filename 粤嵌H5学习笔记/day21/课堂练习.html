@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂练习</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function frequencyChar(str) { /* 统计字符频率，找出高频字符 */
+        // 对象方案
+        var freList, char, mostFreChar, properties;
+        freList = {};
+        mostFreChar = {
+            char: "",
+            times: 0
+        };
+        if (typeof str === "string") {
+            // 统计出字符频率
+            for (var i = 0; i < str.length; i++) {
+                char = str.charAt(i); /* 取出字符 */
+                if (freList[char]) { /* 字符作为 freList 对象的属性名，且出现过 */
+                    freList[char]++; /* 字符频率加一 */
+                } else { /* 未出现过 */
+                    freList[char] = 1; /* 创建以字符作为属性名的属性，并赋值1，作为字符出现的频率 */
+                }
+                mostFreChar.times = freList[char] > mostFreChar.times ? (mostFreChar.char = char) && freList[char] : mostFreChar.times; /* 在此处找出高频字符 */
+            }
+            // 找出出现频率最大字符（单独找是为了回顾对象属性相关知识）
+            // properties = Object.keys(freList); /* Object.keys 返回对象非继承属性（数组形式）,可得知属性个数，进而遍历对象的属性=》勘误：对象使用 for-in 遍历属性更容易 */
+            // for (var j = 0; j < properties.length; j++) {
+            // mostFreChar.times = freList[properties[j]] > mostFreChar.times ? (mostFreChar.char = properties[j]) && freList[properties[j]] : mostFreChar.times;
+            // }
+        } else {
+            return "请输入字符串";
+        }
+        // 数组方案搁置 。。。
+        return {
+            freList,
+            mostFreChar
+        };
+    }
+    frequencyChar("Not everything is so cut and dry.").mostFreChar;
+</script>
+
+</html>
