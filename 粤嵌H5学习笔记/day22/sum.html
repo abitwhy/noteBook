@@ -1,0 +1,532 @@
+<!-- 由很多页面合到一起的，需要测试自己摘取并cop。看看代码量就好了， 有关图片的地方都会出错 -->
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2020年12月倒计时</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: 1px solid red;
+        }
+        
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+        
+        img {
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        #count-down {
+            width: 400px;
+            height: 50px;
+            background-color: orangered;
+            font-size: large;
+            line-height: 50px;
+            text-align: center;
+            left: 50%;
+            margin-left: -100px;
+            position: absolute;
+        }
+        
+        #photo-frame {
+            position: relative;
+        }
+        
+        .pick-list {
+            position: absolute;
+            right: 15%;
+            top: 50px;
+        }
+        
+        ul>li {
+            width: 66px;
+            height: 66px;
+            margin-left: 30px;
+            list-style: none;
+            border: 2px solid white;
+            border-radius: 50%;
+            background-color: transparent;
+            float: left;
+        }
+    </style>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <div class="container">
+        <h1>点播图</h1>
+        <div id="photo-frame">
+            <ul class="pick-list">
+                <li id="btn0"></li>
+                <li id="btn1"></li>
+                <li id="btn2"></li>
+                <li id="btn3"></li>
+                <li id="btn4"></li>
+                <li id="btn5"></li>
+            </ul>
+            <img src="./asset/images/image1.jpg" alt="" title="图片来源:阮一峰的网络日志-126期" id="photo">
+        </div>
+    </div>
+
+</body>
+<script>
+    (function() { /* 没有读题，老师说的改变 className 更好 */
+        var pickList = document.querySelector(".pick-list");
+        var picks = pickList.querySelectorAll('li');
+        console.dir(picks);
+        var currentPick;
+        var imgSrcs = ["/asset/images/image1.jpg", "/asset/images/image2.jpg", "/asset/images/image3.jpg", "/asset/images/image4.jpg", "/asset/images/image5.jpg", "/asset/images/image6.jpg"]
+
+        function changes() {
+            var index, currentSrc, img;
+            // 改变样式
+            this.style.border = "2px solid gray";
+            this.style.backgroundColor = "white";
+            index = this.id[this.id.length - 1];
+            img = document.getElementById("photo");
+            console.log(img.src);
+            // img.src = img.src.slice(0, -5) + index + img.src.slice(-4); /* 很不靠谱 */
+            img.src = img.src.slice(0, -imgSrcs[0].length) + imgSrcs[index]; /* 也不是很靠谱 */
+            console.log(img.src);
+            // 还原样式
+            for (var j = 0; j < picks.length; j++) { /* 更理想的是只改变当上一个被点击节点的样式 */
+                if (picks[j] !== this) {
+                    picks[j].style.border = "2px solid white";
+                    picks[j].style.backgroundColor = "transparent";
+                }
+            }
+        }
+        for (var i = 0; i < picks.length; i++) {
+            picks[i].addEventListener("click", changes, false);
+        }
+    })();
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关闭淘宝二维码</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            position: relative;
+        }
+        
+        #code-box {
+            position: fixed;
+            right: 50px;
+            bottom: 26%;
+            z-index: 1;
+        }
+        
+        #opened {
+            width: 100px;
+            height: 120px;
+            padding: 15px 10px;
+            border: 1px solid gainsboro;
+            background-color: ghostwhite;
+            font-size: 24px;
+            color: red;
+            text-align: center;
+            line-height: 10px;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+        }
+        
+        #close-btn {
+            width: 20px;
+            height: 20px;
+            padding: 2px;
+            font-size: 16px;
+            color: rgb(211, 202, 202);
+            line-height: 20px;
+            text-align: center;
+            border: 1px solid rgb(211, 202, 202);
+            background-color: ghostwhite;
+            position: absolute;
+            left: -26px;
+            top: -1px;
+            z-index: 3;
+            cursor: pointer;
+        }
+        
+        #closed {
+            width: 50px;
+            height: 50px;
+            background-image: url(./asset/images/icon_code.png);
+            background-size: 100%;
+            display: none;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            left: 10px;
+            top: 42px;
+            z-index: 2;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="code-box">
+        <div id="closed"></div>
+        <div id="opened">
+            去领红包
+            <div id="close-btn">X</div>
+            <img src="./asset/images/tb.png" alt="淘宝二维码">
+        </div>
+
+    </div>
+</body>
+<script>
+    (function codeToggle() { /* 控制二维码开关 */
+        var opened = document.getElementById("opened");
+        var closed = document.getElementById("closed");
+        document.getElementById("close-btn").onclick = function() { /* 展开状态关闭 */
+            opened.style.display = "none";
+            closed.style.display = "block";
+        };
+        document.getElementById("closed").onclick = function() { /* 关闭状态展开 */
+            closed.style.display = "none";
+            opened.style.display = "block";
+        }
+    })();
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂练习</title>
+    <style>
+        h5 {
+            margin-left: 168px;
+            background-color: gold;
+        }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li class="className">li1</li>
+        <li class="className">li2</li>
+        <li class="className">li3</li>
+    </ul>
+    <a href="https://wangdoc.com/javascript/dom/document.html#documentqueryselector，documentqueryselectorall" id="el-id">document.querySelector()</a>
+    <p class="element-p">段落1</p>
+    <p class="element-p">段落2</p>
+    <p class="element-p">段落3</p>
+    <input type="text">
+    <input type="radio">
+    <input type="button" value="改变图片">
+    <div class="common-element">普通元素节点
+        <div>div1</div>
+        <div>div2</div>
+    </div>
+    <label for="login-in">
+        密码：<input type="password" name="" id="login-in" placeholder="请输入密码"><b id="toggle">显示密码</b>
+    </label>
+    <br>
+    <br>
+    <img src="./作业/asset/images/bg_react.jpg" alt="react" id="test-img1">
+    <div id="event-test">
+
+    </div>
+
+</body>
+<script>
+    // document.querySelectorAll 接受一个 CSS 选择器作为参数，返回所有匹配该选择器的元素节点。
+    var elementsLi = document.querySelectorAll("li"); /* 不能直接修改集合的 css 属性 */
+    elementsLi.forEach(function(item) { /* 而是通过 forEach 修改集合中每个元素的 css 属性  */
+        item.style.width = "100px";
+        item.style.height = "100px";
+        item.style.margin = "2px auto"
+        item.style.backgroundColor = "orange";
+        item.style.listStyle = "none"
+    });
+    var elementsP = document.querySelectorAll("p");
+    elementsP.forEach(function(item) {
+        item.style.backgroundColor = "gainsboro";
+    });
+    // 也可以像数组一样，对每个数组元素进行单独的 css 样式修改。
+    elementsP[0].style.textAlign = "right";
+    elementsP[1].style.textAlign = "center";
+    elementsP[2].style.textAlign = "left";
+    // document.querySelector 接受一个 CSS 选择器作为参数，返回首个匹配该选择器的元素节点。
+    // 可以修改单个 css 样式 
+    document.querySelector("ul").style.padding = "2px";
+    document.querySelector("ul").style.backgroundColor = "purple";
+    document.querySelector("li").style.backgroundColor = "yellow";
+    document.querySelector("#el-id").style.textDecoration = "none";
+    document.querySelector("input[type='text']").style = "width:500px; height:50px;"; /* 也可以给 style 属性直接赋值，以同时更改多个属性 */
+    // 还可以改变元素属性
+    document.querySelector("input[type='text']").placeholder = "querySelector 和 querySelectorAll 都支持复杂的 CSS 选择器";
+    document.querySelector("input[type='radio']").checked = true;
+    document.querySelector("input[type='button']").value = "一键下机";
+    // 另外：querySelector 和 querySelectorAll 除了定义在document对象上，还能定义在元素节点上
+    commonDiv = document.querySelector(".common-element");
+    commonDiv.style = "margin:20px auto; text-align:center; background-color:#7058e6; font-size:large;"
+    innerDiv = commonDiv.querySelectorAll("div"); /* 注意这里是在普通元素节点上使用 querySelectorAll 方法*/
+    innerDiv.forEach(function(item) {
+        item.style.width = "100px";
+        item.style.height = "100px";
+        item.style.margin = "2px auto"
+    });
+    innerDiv[0].style.backgroundColor = "#c6e2ff";
+    innerDiv[1].style.backgroundColor = "#c187ea";
+    // 区分 innerHTML 和 InnerText
+    innerDiv[0].innerText += "<b>foo</b>"; /* 传给文本节点，不解析 HTML 代码 */
+    innerDiv[1].innerHTML += "<b>bar</b>"; /* 传个 NODE 节点，解析 HTML 代码 */
+
+
+
+    // 综合练习
+    // 输入框密码的显隐
+    document.getElementById("toggle").onclick = function() {
+        var input;
+        input = document.getElementById("login-in");
+        if (this.innerText == "显示密码") {
+            input.type = "text";
+            this.innerHTML = "隐藏密码";
+        } else {
+            input.type = "password";
+            this.innerHTML = "显示密码";
+        }
+    };
+    // 改变图片路径
+    document.getElementById("test-img1").style = "width:300px;";
+
+    (function changeImgById() { /* IIFE 立执行函数 */
+        var img;
+        img = document.getElementById("test-img1");
+        img.onclick = function() {
+            var flag = true;
+            if (img.alt == "react") {
+                img.src = "./作业/asset/images/二久子dby.png";
+                img.alt = "294dby";
+            } else {
+                img.src = "./作业/asset/images/bg_react.jpg";
+                img.alt = "react";
+            }
+        }
+    })();
+
+    // document 事件
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function gerRandomColor() {
+        var r, g, b;
+        r = getRandomInt(0, 255);
+        b = getRandomInt(0, 255);
+        g = getRandomInt(0, 255);
+        return
+    }
+    (function() {
+        var lamp = document.getElementById("event-test");
+        lamp.style = `
+                    width:66px;
+                    height:66px;
+                    background-color:red;`;
+        lamp.onclick = function() { /* onclic 事件 */
+            this.style.marginLeft = "168px";
+            this.style.backgroundColor = "gold";
+        }
+        lamp.mouseenter = function() { /* mouseenter 事件 */
+            this.style.backgroundColor = "green";
+        }
+        lamp.mouseleave = function() { /* mouseleve 事件 */
+            this.style.backgroundColor = "";
+        }
+    })();
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>流程控制</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>水仙花数
+        <span id="answer"> 告诉我答案</span>
+    </h1>
+    <img src="./asset/images/bg_cyberpunk.jpg" alt=" ">
+</body>
+<script>
+    document.getElementById("answer").onclick = function() {
+        // var result = "";
+        var daffodil_num = new Array();
+        for (var i = 100; i < 1000; i++) {
+            var base1, base2, base3;
+
+            base1 = i % 10;
+            base2 = (i % 100 - base1) / 10;
+            base3 = (i % 1000 - base2 * 10 - base1) / 100;
+            // base4=(i%10000-base3*1000-base2*10-base1)/1000;
+            if (Math.pow(base1, 3) + Math.pow(base2, 3) + Math.pow(base3, 3) === i) {
+                daffodil_num.unshift(i);
+            }
+        }
+
+        alert("三位数水仙花数有：" + daffodil_num.toString());
+    }
+
+    function number2array(n) { /* 数字转数组 */
+        return String(n).split("");
+    }
+
+    function flower(n) { /* 花数 */
+        var flower_num, sum;
+        flower_num = new Array();
+        console.log(n + "位水仙花数有：")
+        for (i = 10 ** (n - 1); i < 10 ** n; i++) {
+            sum = 0;
+            for (var j = 0; j < n; j++) {
+                sum += String(i)[j] ** n;
+            }
+            if (sum == i) {
+                flower_num.unshift(sum);
+            }
+        }
+        if (flower_num.length == 0) {
+            console.log("无");
+        } else {
+            console.log(flower_num.toString());
+        }
+    }
+
+    function mult_table() {
+        document.write(
+            `<h1>九九乘法表</h1>`
+        )
+        for (i = 1; i < 9; i++) {
+            document.write(i + "&nbsp;");
+            for (j = 1; j <= i; j++) {
+                document.write(i + "X" + j + "得" + i * j + "&nbsp;")
+            }
+            document.write("<br/>");
+        }
+    }
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂练习</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function salary(year) { /* 月薪固定指数增长算 N 年后的月薪 */
+        var x = 6000;
+        for (var i = 0; i < year; i++) {
+            x += x * 0.05;
+        }
+        return x;
+    }
+    console.log("第五年月薪：" + salary(5));
+
+    function Digit(numbers) { /* 列出指定数字的每一位 */
+        var result, digitalUnit;
+        digitalUnit = ["个", "十", "百", "千", "万", "十万", "百万", "千万", "亿", "十亿", "百亿", "千亿", "万亿", "十万亿", "百万亿", "千万亿", "兆"];
+        result = new Array();
+        for (var i = 0; i < String(numbers).length; i++) {
+            result.unshift(digitalUnit[i] + "位：" + String(numbers)[i]);
+        }
+        while (result.length != 0) {
+            console.log(result.shift());
+        }
+    }
+    console.log("123214434245的各位分别是：")
+    Digit(123214434245);
+
+    function DigitUp(numbers) { /* 将数字转化成汉字大写 */
+        var upArray = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+        var numStr = String(numbers);
+        var result = "";
+        for (var i = 0; i < numStr.length; i++) {
+            result += upArray[parseInt(numStr.charAt(i))];
+        }
+        // console.log(result);
+        return result;
+    }
+
+    // DigitUp(112);
+    console.log("将657转化为大写：" + DigitUp(657));
+
+    function Digit2(numbers) { /* 数字的中文读法 */
+        // 发现的问题：
+        // 1.多个相邻的0会出错
+        // 2.十之前的一应该省略
+        var digitalUnit, result, output, upcase_reverse;
+        // digitalUnit = ["个", "十", "百", "千", "万", "十万", "百万", "千万", "亿", "十亿", "百亿", "千亿", "万亿", "十万亿", "百万亿", "千万亿", "兆"];
+        digitalUnit = ["", "十", "百", "千", "万", "十", "百", "千", "亿", "十", "百", "千", "万", "十", "百", "千", "兆"];
+        result = new Array();
+        output = "";
+        upcase_reverse = DigitUp(numbers).split('').reverse().join(''); /* 字符串逆序的方法 */
+        for (var i = 0; i < upcase_reverse.length; i++) {
+            result.unshift(upcase_reverse[i] + digitalUnit[i]);
+        }
+        while (result.length != 0) {
+            output += result.shift();
+        }
+        // console.log(numbers);
+        // console.log(output);
+        return output;
+    }
+    console.log("123214434245读作：" + Digit2(123214434245))
+</script>
+
+</html>
+
+</html>

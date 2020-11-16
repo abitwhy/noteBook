@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,107 +10,130 @@
             text-decoration: none;
             color: red;
         }
+        
         p {
             color: gold;
         }
+        
         ol li {
             color: aqua;
         }
+        
         .good {
             background-color: turquoise;
         }
+        
         .bad {
             background-color: gainsboro;
         }
+        
         #m {
             background-color: rgb(250, 0, 0);
             width: 10px;
             height: 10px;
             font-size: 8px;
         }
+        
         #s {
             background-color: rgb(200, 0, 0);
             width: 50px;
             height: 50px;
             font-size: 16px;
         }
+        
         #n {
             background-color: rgb(150, 0, 0);
             width: 100px;
             height: 100px;
             font-size: 24px;
         }
+        
         #b {
             background-color: rgb(100, 0, 0);
             width: 200px;
             height: 200px;
             font-size: 32px;
         }
+        
         #h {
             background-color: rgb(50, 0, 0);
             width: 400px;
             height: 400px;
-            font-size: 40px; /* 字体尺寸最大为 24px */
+            font-size: 40px;
+            /* 字体尺寸最大为 24px */
         }
+        
         .origin * {
             /* 选中所有后代元素（各种类型，各种层级） */
             width: 100px;
             height: 60px;
-            border:1px solid black;
+            border: 1px solid black;
         }
+        
         .father>* {
             /* 选中所有后代元素（各种类型，各种层级） */
             width: 100px;
             height: 60px;
-            border:1px solid black;
-            /* color: red; */ 
+            border: 1px solid black;
+            /* color: red; */
             /* 发现字体属性的继承关系是子元素默认继承父元素 */
         }
+        
         #color-box {
             width: 66px;
             height: 66px;
             background-color: red;
         }
+        
         #color-box:hover {
             background-color: yellow;
         }
+        
         #anchor-test {
             font-size: 24px;
             background-color: chartreuse;
         }
+        
         #anchor-test:link {
             color: yellow;
         }
+        
         #anchor-test:hover {
             color: tomato;
         }
+        
         #anchor-test:active {
             color: red;
         }
+        
         #anchor-test:visited {
             color: black;
         }
-
+        
         #center {
             width: 66px;
             height: 66px;
             background-color: red;
         }
-        #center::before { /* 生成的伪类元素是行内块元素 */
-            content: "前"; /* content 属性必须设置 */
+        
+        #center::before {
+            /* 生成的伪类元素是行内块元素 */
+            content: "前";
+            /* content 属性必须设置 */
             width: 30px;
             height: 30px;
             background-color: yellow;
-        } 
+        }
+        
         #center::after {
             content: "后";
             width: 30px;
             height: 30px;
             background-color: blue;
         }
-        #center::
     </style>
 </head>
+
 <body>
     <!-- 标签选择器  -->
     <h1>标签选择器</h1>
@@ -152,8 +176,9 @@
     </div>
     <h1>伪类选择器</h1>
     <div id="color-box"></div>
-    <a href="#anchor-test" id="anchor-test">锚-anchor</a>   
+    <a href="#anchor-test" id="anchor-test">锚-anchor</a>
     <h1>伪类？？？</h1>
-    <div id="center"></div>  
+    <div id="center"></div>
 </body>
+
 </html>

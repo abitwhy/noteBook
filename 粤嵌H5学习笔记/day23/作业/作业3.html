@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>选项卡</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+        
+        ul li {
+            list-style: none;
+        }
+        
+        .menu {
+            background-color: #f3f3f3;
+            width: 100%;
+        }
+        
+        .menu>li {
+            width: 150px;
+            background-color: #f3f3f3;
+            text-align: center;
+            font-size: 20px;
+            float: left;
+        }
+        
+        .menu>li:hover {
+            background-color: gainsboro;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <ul class="menu">
+            <li class="menu-item">
+                <div class="title">London</div>
+                <ul class="submenu">
+                    <li>
+                        <h5>London</h5>
+                        <p>London is the capital of England.</p>
+                    </li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <div class="title">Paris</div>
+                <ul class="submenu">
+                    <li>
+                        <h5>Paris</h5>
+                        <p>Paris is the capital of French.</p>
+                    </li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <div class="title">Tokyo</div>
+                <ul class="submenu">
+                    <li>
+                        <h5>Tokyo</h5>
+                        <p>tokyo is the capital of Japan.</p>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</body>
+
+</html>

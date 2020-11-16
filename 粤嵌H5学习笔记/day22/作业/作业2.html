@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关闭淘宝二维码</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            position: relative;
+        }
+        
+        #code-box {
+            position: fixed;
+            right: 50px;
+            bottom: 26%;
+            z-index: 1;
+        }
+        
+        #opened {
+            width: 100px;
+            height: 120px;
+            padding: 15px 10px;
+            border: 1px solid gainsboro;
+            background-color: ghostwhite;
+            font-size: 24px;
+            color: red;
+            text-align: center;
+            line-height: 10px;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+        }
+        
+        #close-btn {
+            width: 20px;
+            height: 20px;
+            padding: 2px;
+            font-size: 16px;
+            color: rgb(211, 202, 202);
+            line-height: 20px;
+            text-align: center;
+            border: 1px solid rgb(211, 202, 202);
+            background-color: ghostwhite;
+            position: absolute;
+            left: -26px;
+            top: -1px;
+            z-index: 3;
+            cursor: pointer;
+        }
+        
+        #closed {
+            width: 50px;
+            height: 50px;
+            background-image: url(./asset/images/icon_code.png);
+            background-size: 100%;
+            display: none;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            left: 10px;
+            top: 42px;
+            z-index: 2;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="code-box">
+        <div id="closed"></div>
+        <div id="opened">
+            去领红包
+            <div id="close-btn">X</div>
+            <img src="./asset/images/tb.png" alt="淘宝二维码">
+        </div>
+
+    </div>
+</body>
+<script>
+    (function codeToggle() { /* 控制二维码开关 */
+        var opened = document.getElementById("opened");
+        var closed = document.getElementById("closed");
+        document.getElementById("close-btn").onclick = function() { /* 展开状态关闭 */
+            opened.style.display = "none";
+            closed.style.display = "block";
+        };
+        document.getElementById("closed").onclick = function() { /* 关闭状态展开 */
+            closed.style.display = "none";
+            opened.style.display = "block";
+        }
+    })();
+</script>
+
+</html>

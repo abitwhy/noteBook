@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轮播图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+        
+        img {
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 50px;
+            text-align: center;
+        }
+        
+        #count-down {
+            width: 400px;
+            height: 50px;
+            background-color: orangered;
+            font-size: large;
+            line-height: 50px;
+            text-align: center;
+            left: 50%;
+            margin-left: -100px;
+            position: absolute;
+        }
+        
+        #photo-frame {
+            position: relative;
+        }
+        
+        .pick-list {
+            position: absolute;
+            right: 5%;
+            top: 50px;
+        }
+        
+        ul>li {
+            width: 30px;
+            height: 30px;
+            margin-left: 8px;
+            list-style: none;
+            border: 2px solid white;
+            border-radius: 50%;
+            background-color: transparent;
+            float: left;
+            cursor: pointer;
+        }
+        /* 类名方案告吹 */
+        /* .picked {
+            box-shadow: 0px 0px 5px 1px white;
+            border: 2px solid gray;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        .unpicked {
+            box-shadow:none;
+            border: 1px solid white;
+            background-color: transparent;
+        } */
+    </style>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <div class="container">
+        <h1>轮播图</h1>
+        <div id="photo-frame">
+            <ul class="pick-list">
+                <li id="btn0"></li>
+                <li id="btn1"></li>
+                <li id="btn2"></li>
+                <li id="btn3"></li>
+                <li id="btn4"></li>
+                <li id="btn5"></li>
+            </ul>
+            <img src="./asset/images/image1.jpg" alt="" title="" id="photo">
+        </div>
+    </div>
+
+</body>
+<script>
+    // 谈谈优缺点：
+    //  优点：没有代码较为简洁，复用性较高；
+    //  缺点：已知 bug：初始时第一个按钮没有处于选中状态；
+    //        尝试结合类名改变样式时,轮询进行的移除和添加类名操作会不同步，可能是浏览器重绘的策略导致的。可以想到，不能使用类名修改样式的痛苦。
+    //        更换一张图片的 src 不如将所有图片都准备好，直接改变图片显隐好。
+
+    (function() { /* 没有读题，老师说的改变 className 可能更好,不过很好修改=>第一次尝试，效果不尽人意。 */
+        var pickList, picks, previousPick, imgSrcs, previousInterval;
+        pickList = document.querySelector(".pick-list"); /* 定位到按钮组父元素 */
+        picks = pickList.querySelectorAll('li'); /* 获取按钮组 */
+        previousPick = null; /* 上一个被选中按钮 */
+        // 图片路径数组（相对路径，后面涉及拼接出绝对路径）
+        imgSrcs = ["/asset/images/image1.jpg", "/asset/images/image2.jpg", "/asset/images/image3.jpg", "/asset/images/image4.jpg", "/asset/images/image5.jpg", "/asset/images/image6.jpg"];
+        previousInterval = null; /* 循环触发事件定时器 ID，配合[打断方案]使用 */
+        // 回调函数
+        function changes() { /* 事件触发后的回调函数（一系列动作） */
+            var index, currentSrc, img;
+            // 改变该节点样式
+            this.style.border = "2px solid #666fcc";
+            this.style.boxShadow = "0px 0px 5px 1px white";
+            this.style.backgroundColor = "rgba(255, 255, 255, 0.8)";
+            // this.classList.add() /* 添加类名（不用担心重复添加相同类名） */
+            // this.classList.remove() /* 删除类名 */
+            // 拼接图片绝对路径
+            index = this.id[this.id.length - 1];
+            img = document.getElementById("photo");
+            // currentSrc = img.src.slice(0, -5) + index + img.src.slice(-4); /* 很不靠谱 */
+            currentSrc = img.src.slice(0, -imgSrcs[0].length) + imgSrcs[index]; /* 也不是很靠谱 */
+            img.src = currentSrc;
+            // 还原前一个节点样式
+            for (var j = 0; j < picks.length; j++) { /* 奇奇怪怪 */
+                if (picks[previousPick] === this) { /* 点击同一个按钮 */
+                    // reDispatchPick(previousPick); /* 重新触发循环 */
+                    break;
+                } else if (picks[j] === this) { /* 点击不同按钮 */
+                    // console.log(j);
+                    if (previousPick !== null) {
+                        picks[previousPick].style.boxShadow = "none";
+                        picks[previousPick].style.border = "2px solid white";
+                        picks[previousPick].style.backgroundColor = "transparent";
+                    }
+                    previousPick = j;
+                    reDispatchPick(previousPick); /* 重新触发循环 */
+                }
+            }
+        }
+        // 点击事件监听
+        for (var i = 0; i < picks.length; i++) {
+            picks[i].addEventListener("click", changes, false);
+            // 有什么方法可以解决与循环触发事件间的冲突，应该需要在 changes 回调函数里写。
+        }
+        // picks[0].dispatchEvent(new Event("click")); /* 默认触发一次=》会干扰 reDispatchPick 执行，废弃 */
+        // 循环触发事件
+        // 不打断方案
+        // (function dispatchPick() { /* 立执行函数方式，循环不会被用户点击打断 */
+        //     var k = 0; /* 索引需要在定时器外部 */
+        //     var timeId = setInterval(() => { /*  */
+        //         var eventClick = new Event("click");
+        //         picks[(k++) % picks.length].dispatchEvent(eventClick);
+        //         // console.log((k++) % picks.length);
+        //     }, 2000);
+        // })();
+        // 打断方案
+        function dispatchPick(begin) { /* 普通函数方式，用户点击会重置循环 */
+            var k = begin; /* 索引需要在定时器外部 */
+            var intervalId = setInterval(() => { /*  */
+                var eventClick = new Event("click");
+                picks[(k++) % picks.length].dispatchEvent(eventClick);
+                // console.log((k++) % picks.length);
+            }, 2000);
+            return intervalId;
+        }
+        previousInterval = dispatchPick(0); /* 默认执行一次 */
+        function reDispatchPick(current) { /* 清除前轮询，执行新轮询 */
+            clearInterval(previousInterval);
+            previousInterval = dispatchPick(current);
+            // console.log("current:" + current + "," + "previousInterval:" + previousInterval);
+        }
+    })();
+</script>
+
+</html>

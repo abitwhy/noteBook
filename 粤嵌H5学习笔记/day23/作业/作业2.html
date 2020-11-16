@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>侧边栏</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+        
+        ul li {
+            list-style: none;
+        }
+        
+        a {
+            text-decoration: none;
+            color: white;
+        }
+        
+        button {
+            /* margin: 0 auto; */
+            padding: 6px 10px;
+            border: 0;
+            /* border-radius: 99px; */
+            /* background-color: #a5ebf6; */
+            /* font-size: 20px; */
+            display: block;
+            cursor: pointer;
+        }
+        
+        button>span {
+            width: 40px;
+            height: 40px;
+            background-image: url(./asset/images/menu-b.png);
+            background-size: 100%;
+            display: block;
+        }
+        
+        button>span:hover {
+            background-image: url(./asset/images/menu-o.png);
+            /* transform: rotate(90deg) 1.5s; */
+        }
+        
+        .menu {
+            width: 200px;
+            height: 400px;
+            padding: 10px;
+            background-color: black;
+            color: white;
+            position: relative;
+            opacity: 0;
+        }
+        
+        .menu>span {
+            width: 25px;
+            height: 25px;
+            color: white;
+            font-size: 32px;
+            text-align: center;
+            line-height: 25px;
+            display: block;
+            right: 16px;
+            top: 20px;
+            position: absolute;
+            cursor: pointer;
+        }
+        
+        .menu>li {
+            height: 50px;
+            line-height: 50px;
+            font-size: 20px;
+        }
+        
+        .menu>li:hover {
+            font-size: 22px;
+        }
+        
+        .show {
+            opacity: 1 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="side-bar">
+            <button>
+                <span></span>
+            </button>
+            <ul class="menu">
+                <span>×</span>
+                <li>
+                    <a href="javascript:;">About</a>
+                </li>
+                <li>
+                    <a href="javascript:;">Service</a>
+                </li>
+                <li>
+                    <a href="javascript:;">Clients</a>
+                </li>
+                <li>
+                    <a href="javascript:;">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script>
+    var btn, closeBtn, menu, view;
+    btn = document.querySelector("button");
+    menu = document.querySelector(".menu")
+    closeBtn = menu.querySelector("span");
+    view = false; /*  */
+    btn.onclick = function() {
+        if (view) {
+            menu.classList.remove("show");
+            view = false;
+        } else {
+            menu.classList.add("show");
+            view = true;
+        }
+    };
+    closeBtn.onclick = function() {
+        menu.classList.remove("show");
+        view = false;
+    }
+</script>
+
+</html>

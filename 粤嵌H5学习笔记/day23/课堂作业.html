@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>随机背景颜色、获取鼠标坐标</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            width: 1200px;
+            height: 800px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+        
+        .info {
+            width: 50%;
+            margin: 0 auto;
+            font-size: 24px;
+            text-align: center;
+        }
+        
+        .rgb {
+            height: 50px;
+            background-color: orange;
+            line-height: 50px;
+        }
+        
+        .coordinate {
+            height: 80px;
+            background-color: khaki;
+            line-height: 40px;
+        }
+        
+        .liner {
+            margin: 10px auto;
+            background-color: palegreen;
+        }
+        
+        .particle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        
+        button {
+            margin: 5px 10px;
+        }
+        
+        #particle1 {
+            background-color: gold;
+        }
+        
+        #particle2 {
+            background-color: silver;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="info">
+            <div class="rgb"></div>
+            <div class="coordinate"></div>
+        </div>
+        <div class="liner">
+            <button onclick=constantSpeed(0,600,5)>匀速直线运动</button>
+            <button onclick="">匀减速直线运动</button>
+            <hr>
+            <div class="particle" id="particle1">1</div>
+            <hr>
+            <div class="particle" id="particle2">2</div>
+        </div>
+    </div>
+</body>
+<script>
+    (function() {
+        var container, coordinate, rgb, r, g, b, x, y;
+        container = document.querySelector(".container");
+        coordinate = document.querySelector(".coordinate");
+        rgb = document.querySelector(".rgb");
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        // 随机背景颜色
+        (function randomColor() {
+            setInterval(() => {
+                r = getRandomInt(0, 255);
+                g = getRandomInt(0, 255);
+                b = getRandomInt(0, 255);
+                container.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+                rgb.innerHTML = "R:" + r + "," + "G:" + g + "," + "B:" + b;
+            }, 2000);
+        })();
+        // 获取鼠标坐标
+        (function getCoordinate() {
+            document.onmousemove = function(event) { /* event 是默认参数 */
+                x = event.clientX;
+                y = event.clientY;
+                coordinate.innerHTML = "<span>X:" + x + "</span>" + "<br>" + "<span>Y:" + y + "</span>";
+            };
+        })();
+        // 初始化
+        (function init() {
+            r = getRandomInt(0, 255);
+            g = getRandomInt(0, 255);
+            b = getRandomInt(0, 255);
+            container.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+            rgb.innerHTML = "R:" + r + "," + "G:" + g + "," + "B:" + b;
+            x = null;
+            y = null;
+            coordinate.innerHTML = "<span>X:" + x + "</span>" + "<br>" + "<span>Y:" + y + "</span>";
+        })();
+
+    })();
+    var particle1, particle2, s1, s2;
+    particle1 = document.getElementById("particle1");
+    particle2 = document.getElementById("particle2");
+    console.dir(particle1);
+    console.dir(particle2);
+    // 匀速
+
+    // s1 = +particle1.style.marginLeft;
+    // s2 = +particle2.style.marginLeft;
+
+    function constantSpeed(start, end, speed) {
+        var tId;
+        s1 = start;
+        tId = setInterval((speed) => {
+            if (s1 > end) {
+                clearInterval(tId);
+            } else {
+                s1 += speed;
+                particle1.style.marginLeft = s1 + "px";
+            }
+        }, 10, speed);
+    }
+    // 匀减速 Uniformly retarded
+    function retardedSpeed() {
+        var tId;
+        tId = setInterval((a) + {
+
+        }, 10, 5)
+    }
+</script>
+
+</html>

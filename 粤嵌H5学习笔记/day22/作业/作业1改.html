@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轮播图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+        
+        li {
+            list-style: none;
+        }
+        
+        img {
+            width: 100%;
+            height: 100%;
+        }
+        
+        h1 {
+            font-size: 50px;
+            text-align: center;
+        }
+        
+        #photo-wrap {
+            width: 60%;
+            height: 630px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .pick-list {
+            position: absolute;
+            right: 5%;
+            top: 50px;
+            z-index: 2;
+        }
+        
+        ul.pick-list>li {
+            width: 20px;
+            height: 20px;
+            margin-left: 4px;
+            list-style: none;
+            border: 1px solid white;
+            border-radius: 50%;
+            background-color: transparent;
+            float: left;
+            /* 解决边框宽度变化导致元素跳动 */
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+        
+        ul.pick-list>li:hover {
+            box-shadow: 0px 0px 5px 1px white;
+            border: 2px solid #666fcc;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .picked {
+            /* 类名选择器优先级比较低，更改属性时，需要考虑优先级（添加属性则不需要） */
+            box-shadow: 0px 0px 5px 1px white;
+            border: 2px solid #666fcc !important;
+            background-color: rgba(255, 255, 255, 0.8) !important;
+        }
+        
+        .img-list {
+            height: 100%;
+        }
+        
+        ul.img-list li {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+        
+        .show {
+            z-index: 1;
+            opacity: 1 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>轮播图</h1>
+        <div id="photo-wrap">
+            <ul class="pick-list">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+            <ul class="img-list">
+                <li>
+                    <a href="javascript:;">
+                        <img src="./asset/images/image1.jpg" alt="" title="">
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                        <img src="./asset/images/image2.jpg" alt="" title="">
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                        <img src="./asset/images/image3.jpg" alt="" title="">
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                        <img src="./asset/images/image4.jpg" alt="" title="">
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                        <img src="./asset/images/image5.jpg" alt="" title="">
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                        <img src="./asset/images/image6.jpg" alt="" title="">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+<script>
+    // 改进内容：
+    // 1.通过类名改变 css 样式；
+    // 2.通过改变图片显隐更换图片；=>这个方案会导致图片链接点击问题，解决：改变 z-index
+    // 3.集中初始化；
+    // 4.设置自定义 index 属性，使程序逻辑更清晰；
+    // 5.纠正了[奇奇怪怪]的地方。
+    (function slideshow() { /* 轮播图改进版 */
+        var pickList, picks, lastPick, imgList, imgs, lastInterval;
+        pickList = document.querySelector(".pick-list"); /* 定位到按钮组父元素 */
+        picks = pickList.querySelectorAll("li"); /* 获取按钮组 */
+        lastPick = { /* 上一个被选中按钮，分别记录手动点击的和循环触发的 */
+            manual: 0,
+            auto: 0
+        };
+        picks.forEach((item, i) => { /* 给按钮添加索引，方便后面还原前一个按钮样式，以及绑定对应 img 元素等操作 */
+            item.index = i++;
+        }, 0);
+        imgList = document.querySelector(".img-list"); /* 定位到图片组父元素 */
+        imgs = imgList.querySelectorAll("li"); /* 获取图片组 */
+        // 回调函数
+        function changes() { /* 事件触发后的回调函数（一系列动作） */
+            picks[lastPick.manual].classList.remove("picked");
+            imgs[lastPick.manual].classList.remove("show");
+            lastPick.manual = this.index;
+            picks[lastPick.manual].classList.add("picked");
+            imgs[lastPick.manual].classList.add("show");
+            if (lastPick.manual !== lastPick.auto) { /* 手动点击后，重置循环触发 */
+                reDispatchPick(lastPick.manual);
+            }
+            // console.log(lastPick);
+        }
+        // 监听按钮点击事件（可以考虑使用事件代理进行优化=》搁置：changes 里的 this 指向代理元素（pickList），导致获取不到当前被点击的子元素）
+        for (var i = 0; i < picks.length; i++) {
+            picks[i].addEventListener("click", changes, false);
+        }
+        // 循环触发事件
+        // 不打断方案
+        // (function dispatchPick() { /* 立执行函数方式，循环不会被用户点击打断 */
+        //     var k = 0; /* 索引需要在定时器外部 */
+        //     var timeId = setInterval(() => { /*  */
+        //         var eventClick = new Event("click");
+        //         picks[(k++) % picks.length].dispatchEvent(eventClick);
+        //         // console.log((k++) % picks.length);
+        //     }, 2000);
+        // })();
+        // 打断方案
+        function dispatchPick(begin) { /* 普通函数方式，接受触发起始位置参数，实现根据用户点击按钮重置循环 */
+            var intervalId = setInterval(() => { /*  */
+                var eventClick = new Event("click");
+                lastPick.auto = (begin++) % picks.length; /* 更新循环触发的前一个按钮 */
+                picks[lastPick.auto].dispatchEvent(eventClick); /* dispatchEvent 有布尔返回值 */
+            }, 2000);
+            return intervalId;
+        }
+        // 重置循环触发
+        function reDispatchPick(current) { /* 清除前轮询，执行新轮询。*/
+            // 可以改成传双参，但需要给首参 last 赋传址类型的变量，并对 lastInterval 和 reDispatchPick 做相应改变  
+            clearInterval(lastInterval);
+            lastInterval = dispatchPick(current);
+            // console.log("current:" + current + "," + "lastInterval:" + lastInterval);
+        }
+        // 鼠标悬浮暂停轮询 （有点bug：点击按钮会重新轮询）
+        (function nap() {
+            imgList.onmouseenter = function() {
+                clearInterval(lastInterval);
+            };
+            imgList.onmouseleave = function() {
+                reDispatchPick(lastPick.auto);
+            };
+        })();
+        // imgList.onmouseenter = function() {
+        //     clearInterval(lastInterval);
+        // };
+        // imgList.onmouseleave = function() {
+        //     reDispatchPick(lastPick.auto);
+        // };
+        // 初始化
+        (function init() { /* 某些初始化可以在 HTML 里进行，这里为了提高函数的重用性，选择在 js 里初始化 */
+            picks[lastPick.manual].classList.add("picked");
+            imgs[lastPick.manual].classList.add("show");
+            lastInterval = dispatchPick(0);
+        })();
+    })();
+</script>
+
+</html>
