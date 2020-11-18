@@ -22,20 +22,54 @@
         }
         
         .menu {
-            background-color: #f3f3f3;
             width: 100%;
+            height: 40px;
+            border: 1px solid gainsboro;
+            background-color: #f3f3f3;
+            position: relative;
         }
         
         .menu>li {
-            width: 150px;
+            /* width: 150px; */
+            height: 40px;
             background-color: #f3f3f3;
+            line-height: 40px;
             text-align: center;
             font-size: 20px;
             float: left;
         }
         
-        .menu>li:hover {
+        .menu>li>.title {
+            width: 150px;
+            float: left;
+        }
+        
+        .menu>li>.title:hover {
             background-color: gainsboro;
+        }
+        
+        .active {
+            background-color: rgb(233, 231, 231);
+        }
+        
+        .submenu {
+            width: 100%;
+            height: 200px;
+            border: 1px solid gainsboro;
+            text-align: left;
+            left: 0;
+            top: 40px;
+            position: absolute;
+            display: none;
+        }
+        
+        .submenu>li {
+            padding: 10px;
+        }
+        
+        .show {
+            /* left: -1px !important; */
+            display: block;
         }
     </style>
 </head>
@@ -73,5 +107,31 @@
         </ul>
     </div>
 </body>
+<script>
+    var menuItem, submenu, lastPick;
+    menuItemTitles = document.querySelectorAll(".menu-item>.title");
+    console.dir(menuItemTitles);
+    submenus = document.querySelectorAll(".submenu");
+    menuItemTitles.forEach((item, i) => {
+        item.index = i++;
+        console.log(item.index);
+    }, 0);
+    menuItemTitles.forEach(function(item) {
+        // menuItemTitles
+        item.onclick = function() {
+            menuItemTitles[lastPick].classList.remove("active");
+            submenus[lastPick].classList.remove("show");
+            lastPick = item.index;
+            menuItemTitles[lastPick].classList.add("active");
+            submenus[lastPick].classList.add("show");
+        };
+    });
+    // 初始化
+    (function init() {
+        lastPick = 0;
+        menuItemTitles[lastPick].classList.add("active");
+        submenus[lastPick].classList.add("show");
+    })();
+</script>
 
 </html>

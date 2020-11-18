@@ -1,0 +1,526 @@
+<!-- 由很多页面合到一起的，需要测试自己摘取并cop。看看代码量就好了， 有关图片的地方都会出错 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂练习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+        
+        ul li {
+            list-style: none;
+        }
+        
+        .menu-wrap {
+            position: relative;
+        }
+        
+        .menu {
+            width: 100%;
+            height: 40px;
+            border: 1px solid gainsboro;
+            background-color: #f3f3f3;
+        }
+        
+        .menu>li {
+            width: 150px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            font-size: 20px;
+            float: left;
+            cursor: pointer;
+        }
+        
+        .menu>li:hover {
+            background-color: gainsboro;
+        }
+        
+        .content {
+            width: 100%;
+            height: 200px;
+            border: 1px solid gainsboro;
+            text-align: left;
+            left: 0;
+            top: 42px;
+            position: absolute;
+            /* display: none; */
+        }
+        
+        .picked {
+            background-color: rgb(233, 231, 231) !important;
+        }
+        
+        .content>p {
+            padding: 6px;
+        }
+        
+        .node-test {
+            position: absolute;
+            top: 400px;
+            /* display: none; */
+        }
+        
+        .family {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="menu-wrap">
+            <ul class="menu">
+                <li class="item menu-item">菜单一</li>
+                <li class="item menu-item">菜单二</li>
+                <li class="item menu-item">菜单三</li>
+            </ul>
+            <div class="content">
+                <p>初始文本内容</p>
+            </div>
+        </div>
+        <div class="node-test">
+            <div class="family"> 父节点
+                <p>当前节点<span>子节点1</span><br><span>子节点3</span></p>
+                <a href="javascript:;">兄弟节点</a>
+            </div>
+            <ul class="story">
+                <li>从前有座山</li>
+                <li>山里有座庙</li>
+                <li>庙里有个老和尚</li>
+                <li>和一个小和尚</li>
+                <li>老和尚在给小和尚讲故事</li>
+                <li>讲的是：</li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script>
+    var menu, menuItems, content, lastPick, text;
+    menu = document.querySelector(".menu");
+    menuItems = menu.querySelectorAll("li");
+    content = document.querySelector(".content>p");
+    lastPick = null;
+    text = ["红烧猪蹄", "东坡肉", "锡纸花蛤"];
+    menuItems.forEach((item, i) => { /* 添加索引，简化逻辑 */
+        item.index = i++;
+    }, 0);
+    menuItems.forEach(function(item) {
+        item.onclick = function() {
+            if (lastPick !== null) {
+                menuItems[lastPick].classList.remove("picked");
+            }
+            lastPick = item.index;
+            menuItems[lastPick].classList.add("picked");
+            content.firstChild.nodeValue = text[lastPick]; /* 元素节点的第一个子节点通常是文本节点 */
+        };
+    });
+    (function() { /* Node 节点接口练习 */
+        var currentNode, parentNode, nextSibling, previousSibling, childNodes, children, firstChild, lastChild, str;
+        currentNode = document.querySelector(".node-test p");
+        parentNode = currentNode.parentNode;
+        nextSibling = currentNode.nextSibling;
+        previousSibling = currentNode.previousSibling;
+        childNodes = currentNode.childNodes;
+        children = currentNode.children;
+        firstChild = currentNode.firstChild;
+        lastChild = currentNode.lastChild;
+        str = ["currentNode", "parentNode", "nextSibling", "previousSibling", "childNodes", "children", "firstChild", "lastChild"];
+        [currentNode, parentNode, nextSibling, previousSibling, childNodes, children, firstChild, lastChild].forEach(function(item, index) {
+            console.log("------------------" + str[index] + "------------------");
+            if (item.firstChild) {
+                console.log(item.firstChild);
+            }
+            console.dir(item);
+        }, 0);
+
+        var story = document.querySelector(".story");
+        var newLi = document.createElement("li");
+        var newLiText = document.createTextNode("从前有座山……");
+        var newLiA = document.createElement("a");
+        var newLiAText = document.createTextNode("去你的！")
+        var newH5 = document.createElement("h5");
+        var newH5Text = document.createTextNode("《故事》")
+        var newB = document.createElement("b");
+        var newBText = document.createTextNode("miaomiaomiaomiao");
+        var storyLis = story.querySelectorAll("li");
+        story.appendChild(newLi);
+        newLi.appendChild(newLiText);
+        newLiA.appendChild(newLiAText);
+        newLiA.setAttribute("href", "javascript:;");
+        newLi.appendChild(newLiA);
+        newH5.insertBefore(newH5Text, null);
+        story.insertBefore(newH5, story.firstElementChild);
+        newB.insertBefore(newBText, null);
+        story.insertBefore(newB, storyLis[parseInt(storyLis.length / 2)]);
+
+
+    })();
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模仿发布动态</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+        
+        ul li {
+            list-style: none;
+        }
+        
+        .todo-list {
+            margin: 30px 0;
+        }
+        
+        .desk {
+            height: 300px;
+            margin: 0 auto;
+        }
+        
+        textarea {
+            max-width: 98%;
+            max-height: 240px;
+            padding: 10px;
+            display: block;
+        }
+        
+        .alert-box {
+            width: 200px;
+            height: 50px;
+            margin: 100px auto;
+            padding: 0 10px;
+            background-color: #494646;
+            font-size: 24px;
+            line-height: 50px;
+            color: white;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+        
+        .show {
+            opacity: 1 !important;
+        }
+        
+        .history {
+            margin: 20px auto;
+        }
+        
+        .content {
+            margin-top: 50px;
+        }
+        
+        .content>li {
+            font-size: 24px;
+            padding: 10px;
+        }
+        
+        .default {
+            border: 1px solid silver;
+            font-size: 40px !important;
+            color: gainsboro;
+        }
+        
+        .content>li>span {
+            width: 30px;
+            height: 30px;
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="todo-list">
+            <h1>村动态</h1>
+            <br>
+            <div class="desk">
+                <textarea name="" id="" cols="100" rows="10" placeholder="内心独白/记录生活"></textarea>
+                <button class="issue">发布动态</button>
+                <button class="reissue">重新发布</button>
+                <div class="alert-box">这是提示文本</div>
+            </div>
+            <div class="history">
+                <div class="title"><b>最新动态</b></div>
+                <ul class="content">
+                    <li class="default">你还没有发布内容……</li>
+                    <!-- 控制不了里面字的颜色 -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var todoList, textarea, issue, reissue, alertBox, content, contentItems, defaultItem, count, historyNote;
+    todoList = document.querySelector(".todo-list");
+    textarea = todoList.querySelector("textarea");
+    issue = todoList.querySelector(".issue");
+    reissue = todoList.querySelector(".reissue");
+    alertBox = todoList.querySelector(".alert-box");
+    content = todoList.querySelector(".content");
+    contentItems = content.querySelectorAll("li");
+    defaultItem = content.querySelector(".default");
+    count = 0;
+    console.dir(todoList);
+    // console.dir(alertBox);
+
+    // function debounce(fn, delay) { /* 防抖函数 */
+    //     var timer = null; // 声明计时器
+    //     return function() {
+    //         var context = this;
+    //         var args = arguments;
+    //         clearTimeout(timer);
+    //         timer = setTimeout(function() {
+    //             fn.apply(context, args);
+    //         }, delay);
+    //     };
+    // }
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function randomColor() {
+        var r, g, b;
+        r = getRandomInt(0, 255);
+        g = getRandomInt(0, 255);
+        b = getRandomInt(0, 255);
+        return [r, g, b];
+    }
+    issue.onclick = function(event) {
+        var newNote, newLi, newLiText, newLiTextBtn, rgb;
+        newNote = textarea.value;
+        console.log(newNote);
+        if (newNote !== null) {
+            count++;
+            console.log(count);
+            defaultItem.style.display = count > 0 ? "none" : "block";
+            console.log(
+                defaultItem.style.display
+            )
+            newLi = document.createElement("li");
+            newLiText = document.createTextNode(newNote);
+            newLi.appendChild(newLiText);
+            newLiTextBtn = document.createElement("span");
+            newLiTextBtn.appendChild(document.createTextNode("×"));
+            rgb = randomColor();
+            newLi.style.backgroundColor = "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
+            newLi.style.color = "rgb(" + (255 - rgb[0]) + "," + (255 - rgb[1]) + "," + (255 - rgb[2]) + ")";
+            newLi.appendChild(newLiTextBtn);
+            content.insertBefore(newLi, content.firstElementChild);
+            textarea.value = null;
+            newLiTextBtn.onclick = function(event) {
+                content.removeChild(this.parentNode);
+                count--;
+                defaultItem.style.display = count > 0 ? "none" : "block";
+            }
+        } else {
+            // debounce(function() {
+            //     alertBox.classList.add("show");
+            //     var tid = setTimeout(() => {
+            //         alertBox.classList.remove("show");
+            //     }, 3000);
+            //     console.log(tid);
+            // }, 500);
+        }
+    }
+    reissue.onclick = function() {
+        var content = document.querySelector(".content");
+        if (content.firstElementChild !== defaultItem) {
+            var cloneItem = content.firstElementChild.cloneNode(true);
+        }
+        content.insertBefore(cloneItem, content.firstElementChild);
+    }
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>随机背景颜色、获取鼠标坐标</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            width: 1200px;
+            height: 800px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+        
+        .info {
+            width: 50%;
+            margin: 0 auto;
+            font-size: 24px;
+            text-align: center;
+        }
+        
+        .rgb {
+            height: 50px;
+            background-color: orange;
+            line-height: 50px;
+        }
+        
+        .coordinate {
+            height: 80px;
+            background-color: khaki;
+            line-height: 40px;
+        }
+        
+        .liner {
+            margin: 10px auto;
+            background-color: palegreen;
+        }
+        
+        .particle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        
+        button {
+            margin: 5px 10px;
+        }
+        
+        #particle1 {
+            background-color: gold;
+        }
+        
+        #particle2 {
+            background-color: silver;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="info">
+            <div class="rgb"></div>
+            <div class="coordinate"></div>
+        </div>
+        <div class="liner">
+            <button onclick=constantSpeed(0,600,5)>匀速直线运动</button>
+            <button onclick="retardedSpeed(0,600,1,1)">匀减速直线运动</button>
+            <hr>
+            <div class="particle" id="particle1">1</div>
+            <hr>
+            <div class="particle" id="particle2">2</div>
+        </div>
+    </div>
+</body>
+<script>
+    (function() {
+        var container, coordinate, bgColor, r, g, b, rgb, x, y;
+        container = document.querySelector(".container");
+        coordinate = document.querySelector(".coordinate");
+        bgColor = document.querySelector(".rgb");
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        // 随机背景颜色
+        (function randomColor() {
+            setInterval(() => {
+                r = getRandomInt(0, 255);
+                g = getRandomInt(0, 255);
+                b = getRandomInt(0, 255);
+                container.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+                // 另一种写法
+                // rgb = getRandomInt(0, 0xFFFFFF).toString(16);
+                // r = parseInt(rgb.slice(0, 2), 16);
+                // g = parseInt(rgb.slice(2, 4), 16);
+                // b = parseInt(rgb.slice(4, 6), 16);
+                // container.style.backgroundColor = "#" + rgb;
+                bgColor.innerHTML = "R:" + r + "," + "G:" + g + "," + "B:" + b;
+            }, 2000);
+        })();
+        // 获取鼠标坐标
+        (function getCoordinate() {
+            document.onmousemove = function(event) { /* event 是默认参数 */
+                x = event.clientX;
+                y = event.clientY;
+                coordinate.innerHTML = "<span>X:" + x + "</span>" + "<br>" + "<span>Y:" + y + "</span>";
+            };
+        })();
+        // 初始化
+        (function init() {
+            r = getRandomInt(0, 255);
+            g = getRandomInt(0, 255);
+            b = getRandomInt(0, 255);
+            container.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+            bgColor.innerHTML = "R:" + r + "," + "G:" + g + "," + "B:" + b;
+            x = null;
+            y = null;
+            coordinate.innerHTML = "<span>X:" + x + "</span>" + "<br>" + "<span>Y:" + y + "</span>";
+        })();
+
+    })();
+    var particle1, particle2, s1, s2;
+    particle1 = document.getElementById("particle1");
+    particle2 = document.getElementById("particle2");
+    // 匀速
+
+    // s1 = +particle1.style.marginLeft;
+    // s2 = +particle2.style.marginLeft;
+
+    function constantSpeed(start, end, distance) { /* distance 表示单位时间里的位移 */
+        var tId1;
+        s1 = start;
+        tId = setInterval((d, s0) => {
+            if (s1 > end) {
+                clearInterval(tId1);
+            } else {
+                s1 += d + s0;
+                particle1.style.marginLeft = s1 + "px";
+            }
+        }, 10, distance, start);
+    }
+    // 匀减速 Uniformly retarded
+    function retardedSpeed(start, end, distance, frequecy) { /* f 表示频率 */
+        var tId2;
+        s2 = start;
+        tId2 = setInterval((d, f, s0) => {
+            // console.log(d, ',', f, ',', s0);
+            if (s2 > end) {
+                clearInterval(tId2);
+            } else {
+                s2 += 2 * d / f + s0;
+                console.log(s2);
+                particle2.style.marginLeft = s2 + "px";
+            }
+        }, frequecy, distance, frequecy, start);
+    }
+</script>
+
+</html>

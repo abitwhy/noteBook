@@ -62,12 +62,26 @@
     var btn, textBox;
     btn = document.querySelector("button");
     textBox = document.querySelector(".text-box");
-    btn.onclick = function() {
-        textBox.classList.add("show");
-        setTimeout(() => {
-            textBox.classList.remove("show");
-        }, 3000)
+
+    function debounce(fn, delay) { /* 防抖函数 */
+        var timer = null; // 声明计时器
+        return function() {
+            var context = this;
+            var args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+                fn.apply(context, args);
+            }, delay);
+        };
     }
+
+    btn.onclick = debounce(function() {
+        textBox.classList.add("show");
+        var tid = setTimeout(() => {
+            textBox.classList.remove("show");
+        }, 3000);
+        // console.log(tid);
+    }, 500);
 </script>
 
 </html>

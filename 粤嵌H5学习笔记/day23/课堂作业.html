@@ -70,7 +70,7 @@
         </div>
         <div class="liner">
             <button onclick=constantSpeed(0,600,5)>匀速直线运动</button>
-            <button onclick="">匀减速直线运动</button>
+            <button onclick="retardedSpeed(0,600,1,1)">匀减速直线运动</button>
             <hr>
             <div class="particle" id="particle1">1</div>
             <hr>
@@ -80,10 +80,10 @@
 </body>
 <script>
     (function() {
-        var container, coordinate, rgb, r, g, b, x, y;
+        var container, coordinate, bgColor, r, g, b, rgb, x, y;
         container = document.querySelector(".container");
         coordinate = document.querySelector(".coordinate");
-        rgb = document.querySelector(".rgb");
+        bgColor = document.querySelector(".rgb");
 
         function getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -95,7 +95,13 @@
                 g = getRandomInt(0, 255);
                 b = getRandomInt(0, 255);
                 container.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
-                rgb.innerHTML = "R:" + r + "," + "G:" + g + "," + "B:" + b;
+                // 另一种写法
+                // rgb = getRandomInt(0, 0xFFFFFF).toString(16);
+                // r = parseInt(rgb.slice(0, 2), 16);
+                // g = parseInt(rgb.slice(2, 4), 16);
+                // b = parseInt(rgb.slice(4, 6), 16);
+                // container.style.backgroundColor = "#" + rgb;
+                bgColor.innerHTML = "R:" + r + "," + "G:" + g + "," + "B:" + b;
             }, 2000);
         })();
         // 获取鼠标坐标
@@ -112,7 +118,7 @@
             g = getRandomInt(0, 255);
             b = getRandomInt(0, 255);
             container.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
-            rgb.innerHTML = "R:" + r + "," + "G:" + g + "," + "B:" + b;
+            bgColor.innerHTML = "R:" + r + "," + "G:" + g + "," + "B:" + b;
             x = null;
             y = null;
             coordinate.innerHTML = "<span>X:" + x + "</span>" + "<br>" + "<span>Y:" + y + "</span>";
@@ -122,31 +128,37 @@
     var particle1, particle2, s1, s2;
     particle1 = document.getElementById("particle1");
     particle2 = document.getElementById("particle2");
-    console.dir(particle1);
-    console.dir(particle2);
     // 匀速
 
     // s1 = +particle1.style.marginLeft;
     // s2 = +particle2.style.marginLeft;
 
-    function constantSpeed(start, end, speed) {
-        var tId;
+    function constantSpeed(start, end, distance) { /* distance 表示单位时间里的位移 */
+        var tId1;
         s1 = start;
-        tId = setInterval((speed) => {
+        tId = setInterval((d, s0) => {
             if (s1 > end) {
-                clearInterval(tId);
+                clearInterval(tId1);
             } else {
-                s1 += speed;
+                s1 += d + s0;
                 particle1.style.marginLeft = s1 + "px";
             }
-        }, 10, speed);
+        }, 10, distance, start);
     }
     // 匀减速 Uniformly retarded
-    function retardedSpeed() {
-        var tId;
-        tId = setInterval((a) + {
-
-        }, 10, 5)
+    function retardedSpeed(start, end, distance, frequecy) { /* f 表示频率 */
+        var tId2;
+        s2 = start;
+        tId2 = setInterval((d, f, s0) => {
+            // console.log(d, ',', f, ',', s0);
+            if (s2 > end) {
+                clearInterval(tId2);
+            } else {
+                s2 += 2 * d / f + s0;
+                console.log(s2);
+                particle2.style.marginLeft = s2 + "px";
+            }
+        }, frequecy, distance, frequecy, start);
     }
 </script>
 

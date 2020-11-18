@@ -26,13 +26,14 @@
             color: white;
         }
         
+        .side-bar {
+            position: relative;
+        }
+        
         button {
             /* margin: 0 auto; */
             padding: 6px 10px;
             border: 0;
-            /* border-radius: 99px; */
-            /* background-color: #a5ebf6; */
-            /* font-size: 20px; */
             display: block;
             cursor: pointer;
         }
@@ -56,8 +57,8 @@
             padding: 10px;
             background-color: black;
             color: white;
-            position: relative;
-            opacity: 0;
+            position: absolute;
+            left: -999px;
         }
         
         .menu>span {
@@ -74,18 +75,22 @@
             cursor: pointer;
         }
         
+        .menu>span:hover {
+            font-size: 34px;
+        }
+        
         .menu>li {
             height: 50px;
             line-height: 50px;
             font-size: 20px;
         }
         
-        .menu>li:hover {
+        .menu>li>a:hover {
             font-size: 22px;
         }
         
         .show {
-            opacity: 1 !important;
+            left: 0 !important;
         }
     </style>
 </head>
@@ -120,7 +125,7 @@
     menu = document.querySelector(".menu")
     closeBtn = menu.querySelector("span");
     view = false; /*  */
-    btn.onclick = function() {
+    btn.onclick = function(event) {
         if (view) {
             menu.classList.remove("show");
             view = false;
@@ -129,7 +134,7 @@
             view = true;
         }
     };
-    closeBtn.onclick = function() {
+    closeBtn.onclick = function(event) {
         menu.classList.remove("show");
         view = false;
     }
