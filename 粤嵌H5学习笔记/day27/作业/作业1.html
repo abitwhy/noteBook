@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跳转页面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        .container {
+            width: 800px;
+            margin: 20px auto;
+        }
+        
+        .tip {
+            margin: 40% auto;
+            font-size: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="tip">
+            <p>您将在<span class="second">3</span>秒后跳转到百度</p>
+        </div>
+    </div>
+</body>
+<script>
+    var tip, second, begin, iId;
+    tip = document.querySelector(".tip")
+    second = document.querySelector(".second");
+    begin = second.innerText;
+    iId = setInterval(() => {
+        second.innerText = begin--;
+        if (begin < 0) {
+            clearInterval(iId);
+            var popup = window.open("https://www.baidu.com", "_self");
+            if (popup) {
+                popup.opener = null;
+            } else {
+                tip.innerHTML = "<b>跳转失败，请检查网络！<b>";
+            }
+        }
+    }, 1000);
+</script>
+
+</html>

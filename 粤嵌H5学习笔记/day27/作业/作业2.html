@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自动关闭广告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        .container {
+            width: 800px;
+            margin: 20px auto;
+        }
+        
+        .ad {
+            width: 100%;
+            height: 90px;
+            background: 100% url(./asset/images/ad.jpg) no-repeat;
+            background-size: cover;
+            position: absolute;
+        }
+        
+        .tip {
+            width: fit-content;
+            height: 30px;
+            padding: 6px 10px;
+            background-color: #0000008a;
+            color: white;
+            line-height: 30px;
+            float: right;
+        }
+        
+        .second {
+            padding: 2px;
+            color: red;
+        }
+        
+        .close-btn {
+            margin-left: 20px;
+            padding: 4px;
+            border: 1px solid #e3af00;
+            cursor: pointer;
+        }
+        
+        .unshow {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ad">
+        <div class="tip">
+            <span class="second">5</span>秒后自动关闭广告<span class="close-btn">关闭</span>
+        </div>
+    </div>
+</body>
+<script>
+    var ad, second, begin, closeBtn, tId, iId;
+    ad = document.querySelector(".ad");
+    second = ad.querySelector(".second");
+    begin = second.innerText
+    closeBtn = ad.querySelector(".close-btn");
+
+    function closeAd() {
+        ad.classList.add("unshow");
+    }
+    iId = setInterval(() => {
+        second.innerText = begin--;
+        if (begin < 0) {
+            clearInterval(iId);
+            closeAd();
+        }
+    }, 1000);
+    closeBtn.onclick = closeAd;
+</script>
+
+</html>

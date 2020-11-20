@@ -782,7 +782,7 @@ findLongest(['aaa', 'bb', 'c']) // "aaa"，找出字符数组最长元素。
 - **示例**
 1. 使用转义
 ```javascript
-RegExp('[a-z]\\s').test('keep think'); // true
+RegExp('[a-z]\\s').test('keep thinking'); // true
 // ‘\’在字符串和正则表达式中都有转义的作用，结合使用时还需进行字符串层面的转义。
 ```
   2. 理解量词

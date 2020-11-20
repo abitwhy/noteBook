@@ -92,17 +92,17 @@
     province.onchange = function(e) {
         var relatedCity = [];
         tip.innerHTML = null;
-        province.firstElementChild.setAttribute("disabled", "true"); /* 提示项不可选中 */
+        province.firstElementChild.setAttribute("disabled", "true"); /* debug：提示项不可选中，否则再次被选中会导致 tips 内容变化而跳动。PS：之所以不在 html 里一开始就添加 disabled，是因为 js 里为 province 添加 option 节点会导致提示选项不会被展示出来，不清楚原因。 */
         for (var i in provinces) {
             if (provinces[i].code == this.value) { /* 不能 === */
                 relatedCity = provinces[i].cities;
                 selected.prov = provinces[i].name;
-                selected.city = provinces[i].cities[0];
+                selected.city = provinces[i].cities[0]; /* debug: 默认选中第一个城市，否则 tips 里无法顺利显示第一项（根本原因是：更改 tips 内容定义到了 onchange 事件上，更理想的是定义到 onclick 事件上） */
                 tip.innerHTML = selected.prov + "-" + selected.city;
                 break;
             }
         }
-        city.innerHTML = null; /* 清空记录 */
+        city.innerHTML = null; /* debug: 清空记录 */
         for (var i in relatedCity) {
             var newOption = document.createElement("option");
             newOption.innerHTML = relatedCity[i];
