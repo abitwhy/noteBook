@@ -159,10 +159,11 @@
         imgList = document.querySelector(".img-list"); /* 定位到图片组父元素 */
         imgs = imgList.querySelectorAll("li"); /* 获取图片组 */
         // 回调函数
-        function changes() { /* 事件触发后的回调函数（一系列动作） */
+        function changes(e) { /* 事件触发后的回调函数（一系列动作） */
             picks[lastPick.manual].classList.remove("picked");
             imgs[lastPick.manual].classList.remove("show");
             lastPick.manual = this.index;
+            // lastPick.manual = e.target.index;
             picks[lastPick.manual].classList.add("picked");
             imgs[lastPick.manual].classList.add("show");
             if (lastPick.manual !== lastPick.auto) { /* 手动点击后，重置循环触发 */
@@ -170,10 +171,11 @@
             }
             // console.log(lastPick);
         }
-        // 监听按钮点击事件（可以考虑使用事件代理进行优化=》搁置：changes 里的 this 指向代理元素（pickList），导致获取不到当前被点击的子元素）
+        // 监听按钮点击事件（可以考虑使用事件代理进行优化=》搁置：changes 里的 this 指向代理元素（pickList），导致获取不到当前被点击的子元素=>解决：event.target=再次告吹：无法自动触发事件，何谈轮播图呢？）
         for (var i = 0; i < picks.length; i++) {
             picks[i].addEventListener("click", changes, false);
         }
+        // pickList.addEventListener("click", changes, false);
         // 循环触发事件
         // 不打断方案
         // (function dispatchPick() { /* 立执行函数方式，循环不会被用户点击打断 */
@@ -206,15 +208,9 @@
                 clearInterval(lastInterval);
             };
             imgList.onmouseleave = function() {
-                reDispatchPick(lastPick.auto);
+                reDispatchPick(lastPick.auto); /* 也可以考虑从手动点击位置开始 */
             };
         })();
-        // imgList.onmouseenter = function() {
-        //     clearInterval(lastInterval);
-        // };
-        // imgList.onmouseleave = function() {
-        //     reDispatchPick(lastPick.auto);
-        // };
         // 初始化
         (function init() { /* 某些初始化可以在 HTML 里进行，这里为了提高函数的重用性，选择在 js 里初始化 */
             picks[lastPick.manual].classList.add("picked");

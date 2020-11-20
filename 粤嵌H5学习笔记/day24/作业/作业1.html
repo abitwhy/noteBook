@@ -46,7 +46,7 @@
         .alert-box {
             width: 240px;
             height: 50px;
-            margin: 100px auto;
+            margin: -120px;
             padding: 0 10px;
             background-color: #494646;
             font-size: 24px;
@@ -55,6 +55,9 @@
             text-align: center;
             opacity: 0;
             transition: opacity 1s;
+            left: 50%;
+            top: 50%;
+            position: fixed;
         }
         
         .show {
@@ -151,7 +154,7 @@
         }
     }
     issue.onclick = function(event) {
-        var newNote, newLi, newLiText, newLiTextBtn, rgb;
+        var newNote, newLi, newLiText, newLiBtn, rgb;
         newNote = textarea.value;
         if (newNote) { /* if(newNote!==null) 会很好玩 */
             count++;
@@ -159,16 +162,16 @@
             newLi = document.createElement("li");
             newLiText = document.createTextNode(newNote);
             newLi.appendChild(newLiText);
-            newLiTextBtn = document.createElement("span");
-            newLiTextBtn.appendChild(document.createTextNode("×"));
+            newLiBtn = document.createElement("span");
+            newLiBtn.appendChild(document.createTextNode("×"));
             rgb = randomColor();
             newLi.style.backgroundColor = "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
             newLi.style.color = "rgb(" + (255 - rgb[0]) + "," + (255 - rgb[1]) + "," + (255 - rgb[2]) + ")";
-            newLi.appendChild(newLiTextBtn);
+            newLi.appendChild(newLiBtn);
             content.insertBefore(newLi, content.firstElementChild);
             textarea.value = null;
-            newLiTextBtn.onclick = function(event) {
-                content.removeChild(this.parentNode);
+            newLiBtn.onclick = function(event) {
+                content.removeChild(newLi);
                 count--;
                 defaultItem.style.display = count > 0 ? "none" : "block";
             }
@@ -176,14 +179,16 @@
             alertNotBlank();
         }
     };
-    reissue.onclick = function() {
+    reissue.onclick = function() { /* 重新发布的应该是被删除（撤回）的那一个 */
         if (count) {
-            var content = document.querySelector(".content");
-            var cloneItem = content.firstElementChild.cloneNode(true);
-            content.insertBefore(cloneItem, content.firstElementChild);
+            var content, cloneLi, cloneLiBtn;
+            content = document.querySelector(".content"); /* 必须重新获取 content PS:只有Node.childNodes返回的是一个动态集合，其他的 NodeList 都是静态集合。*/
+            cloneLi = content.firstElementChild.cloneNode(true);
+            cloneLiBtn = cloneLi.querySelector("span");
+            content.insertBefore(cloneLi, content.firstElementChild);
             count++;
-            cloneItem.onclick = function(event) {
-                content.removeChild(this);
+            cloneLiBtn.onclick = function(event) { /* 可以用事件代理优化 */
+                content.removeChild(cloneLi);
                 count--;
                 defaultItem.style.display = count > 0 ? "none" : "block";
             };

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>放大镜</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+            box-sizing: border-box;
+        }
+        
+        .container {
+            width: 1400px;
+            margin: 20px auto;
+        }
+        
+        ul li {
+            list-style: none;
+            float: left;
+        }
+        
+        .hall {
+            max-width: 53%;
+            border: 1px solid gainsboro;
+            display: inline-block;
+            vertical-align: top;
+            overflow: hidden;
+        }
+        
+        .booth {
+            width: 160px;
+            height: 160px;
+            margin: 12px;
+            border: 2px solid #820202;
+            box-shadow: 2px 0px 1px 1px #fe6767;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        img {
+            width: 100%;
+        }
+        
+        .move-box {
+            width: 40%;
+            height: 40%;
+            border: 4px solid rgb(251, 56, 56);
+            border-radius: 2px;
+            /* background-color: #034774; */
+            /* background-color: #21e51b; */
+            background-color: #e966b054;
+            /* opacity: 0; */
+            left: 0;
+            top: 0;
+            position: absolute;
+            display: none;
+            cursor: pointer;
+        }
+        
+        .booth:hover .move-box {
+            display: block;
+            /* opacity: 0.3; */
+        }
+        
+        .zoomin-box {
+            width: 600px;
+            height: 600px;
+            border: 1px solid gainsboro;
+            display: inline-block;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .zoomin-box img {
+            position: absolute;
+            /* width: 250%; */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <ul class="hall">
+            <li class="booth">
+                <img src="./asset/images/phone1.jpg" alt="">
+                <div class="move-box"></div>
+            </li>
+            <li class="booth">
+                <img src="./asset/images/phone2.jpg" alt="">
+                <div class="move-box"></div>
+            </li>
+            <li class="booth">
+                <img src="./asset/images/phone3.jpg" alt="">
+                <div class="move-box"></div>
+            </li>
+            <li class="booth">
+                <img src="./asset/images/phone4.jpg" alt="">
+                <div class="move-box"></div>
+            </li>
+            <li class="booth">
+                <img src="./asset/images/phone5.jpg" alt="">
+                <div class="move-box"></div>
+            </li>
+            <li class="booth">
+                <img src="./asset/images/phone6.jpg" alt="">
+                <div class="move-box"></div>
+            </li>
+            <li class="booth">
+                <img src="./asset/images/phone7.jpg" alt="">
+                <div class="move-box"></div>
+            </li>
+            <li class="booth">
+                <img src="./asset/images/phone8.jpg" alt="">
+                <div class="move-box"></div>
+            </li>
+        </ul>
+        <div class="zoomin-box">
+            <img src="./asset/images/huawei.jpg" alt="">
+        </div>
+    </div>
+</body>
+<script>
+    var hall, zoominBox, zImg, zImgSrc0, executing;
+    hall = document.querySelector(".hall");
+    zoominBox = document.querySelector(".zoomin-box");
+    zImg = zoominBox.querySelector("img");
+    zImgSrc0 = zImg.src;
+    // 值得改进之处：
+    // 1.点击的第一下就该放大图片
+    function zoomin(e) {
+        e.preventDefault(); /* 防止出现复制事件 */
+        var booth, img, moveBox, offsetX, offsetY, x, y;
+        if (e.target.className === "move-box") {
+            // console.dir(e.target);
+            moveBox = e.target;
+            booth = moveBox.parentNode;
+            img = booth.querySelector("img");
+            offsetX = e.clientX - moveBox.offsetLeft;
+            offsetY = e.clientY - moveBox.offsetTop;
+
+            function move(e) {
+                var x, y, maxX, maxY;
+                x = e.clientX - offsetX;
+                y = e.clientY - offsetY;
+                x = x < 0 ? 0 : x;
+                y = y < 0 ? 0 : y;
+                maxX = img.offsetLeft + img.offsetWidth - moveBox.offsetWidth;
+                maxY = img.offsetTop + img.offsetHeight - moveBox.offsetHeight;
+                // console.log(img.offsetLeft + img.offsetWidth - moveBox.offsetWidth);
+                // console.log("x:" + x);
+                x = x > maxX ? maxX : x;
+                y = y > maxY ? maxY : y;
+                moveBox.style.left = x + "px";
+                moveBox.style.top = y + "px";
+                zImg.src = img.src;
+                zImg.style.width = "250%";
+                zImg.style.left = -x * 9.375 + "px";
+                zImg.style.top = -y * 9.375 + "px";
+            }
+
+            function stopMove(e) {
+                // 需不需要还原位置？若需要，可再为 booth 添加一个 mouseleave 事件
+                // that.style.left = 0 + "px";
+                // that.style.top = 0 + "px";
+                clearTimeout(executing);
+                document.removeEventListener("mousemove", move);
+                executing = setTimeout(() => { /* 还原 */
+                    zImg.style.left = 0;
+                    zImg.style.top = 0;
+                    zImg.style.width = "100%";
+                    zImg.src = zImgSrc0;
+                }, 3000);
+            }
+            document.addEventListener("mousemove", move);
+            document.addEventListener("mouseup", stopMove);
+            booth.addEventListener("mouseleave", stopMove); /* 解决强行将 moveBox 拖出 booth 会消失问题 */
+        }
+    }
+
+    hall.addEventListener("mousedown", zoomin)
+</script>
+
+</html>

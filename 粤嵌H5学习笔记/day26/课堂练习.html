@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂练习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        /* body { 
+            position: relative;
+        } */
+        
+        .box {
+            width: 1000px;
+            height: 1000px;
+            margin-left: 100px;
+            margin-top: 100px;
+            padding: 5px;
+            border: 0.5px solid black;
+            background-color: #e9e7ed;
+            font-size: 20px;
+            text-align: center;
+            line-height: 50px;
+        }
+        
+        .move-box {
+            width: 100px;
+            height: 100px;
+            background-color: rgb(248, 155, 15);
+            position: absolute;
+            left: 50%;
+            top: 200px;
+        }
+        
+        .move-box2 {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            left: 50%;
+            top: 400px;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 坐标练习 -->
+    <div class="coordinateTest">
+        <div class="box"></div>
+        <div class="move-box"></div>
+        <div class="move-box2"></div>
+    </div>
+</body>
+<script>
+    var box, moveBox, moveBox2;
+    box = document.querySelector(".box");
+    moveBox = document.querySelector(".move-box");
+    moveBox2 = document.querySelector(".move-box2");
+
+    function still(e) {
+        var clientX, clientY, offsetWidth, offsetHeight, offsetLeft, offsetTop, offsetX, offsetY;
+        clientX = e.clientX;
+        clientY = e.clientY;
+        offsetWidth = box.offsetWidth;
+        offsetHeight = box.offsetHeight;
+        offsetLeft = box.offsetLeft;
+        offsetTop = box.offsetTop; /* 为什么 offsetTop 是相对于 body 的距离，而不是 html */
+        // 关于 offsetLeft/offsetTop：在 JavaScript 中，offsetLeft 和 offsetTop 属性返回当前元素的偏移位置。IE 怪异模式以父元素为参照进行偏移位置，DOM 标准模式以最近定位元素为参照进行偏移的位置。
+        offsetX = clientX - offsetLeft;
+        offsetY = clientY - offsetTop;
+        box.innerText = "clientX:" + clientX + "\nclientY：" + clientY + "\noffsetWidth:" + offsetWidth + "\noffsetHeight:" + offsetHeight + "\noffsetLeft:" + offsetLeft + "\noffsetTop:" + offsetTop + "\noffsetX:" + offsetX + "\noffsetY:" + offsetY;
+    }
+    document.addEventListener("mousemove", still);
+
+    // 节点 on- 事件方式
+    moveBox.onmousedown = function(e) { /* 注意这里取的是 mousedown 事件的 clientX、clientY */
+        offsetX = e.clientX - moveBox.offsetLeft;
+        offsetY = e.clientY - moveBox.offsetTop;
+        document.onmousemove = function(ev) { /* 这里取的是 mousemove 事件的 clientX、clientY */
+            var x, y, minX, minY;
+            x = ev.clientX - offsetX;
+            y = ev.clientY - offsetY;
+            // 此时的 x，y 值其实就代表了 offsetX 、oofsetY。
+            // 极值判断
+            x = x < 0 ? 0 : x;
+            y = y < 0 ? 0 : y;
+            // 两个重要尺寸：窗口可视尺寸（包含滚动条）window.innerWidth、document.documentElement.clientWidth（不包含滚动条）
+            x = x > document.documentElement.clientWidth ? document.documentElement.clientWidth : x;
+            y = y > document.documentElement.clientHeight ? document.documentElement.clientHeight : y;
+            moveBox.style.left = x + "px";
+            moveBox.style.top = y + "px";
+            // console.log(moveBox.offsetLeft + "," + moveBox.offsetTop);
+        };
+    };
+    moveBox.onmouseup = function() {
+        document.onmousemove = null;
+    };
+
+    // 失败的尝试
+    // function move(e) { /* 粘人的盒子 */
+    //     var offsetX, offsetY;
+    //     offsetX = e.clientX - moveBox.offsetLeft;
+    //     offsetY = e.clientY - moveBox.offsetTop;
+    //     document.onmousemove = function(ev) {
+    //         moveBox.style.left = (ev.clientX - offsetX) + "px";
+    //         moveBox.style.top = (ev.clientY - offsetY) + "px";
+    //     };
+    // }
+    // moveBox.addEventListener("mousemove", move);
+    // function stop(e) { /* 停不下来！这里的 document.onmousemove 与 move 里的不对应，为什么？ */
+    //     console.log("stop!");
+    //     document.onmousemove = null;
+    // }
+    // moveBox.addEventListener("mouseup", stop);
+
+    // addEventListener 方式
+    function move(e) {
+        offsetX = e.clientX - this.offsetLeft;
+        offsetY = e.clientY - this.offsetTop;
+        that = this;
+
+        function innerMove(ev) {
+            var x, y, minX, minY;
+            x = ev.clientX - offsetX;
+            y = ev.clientY - offsetY;
+            x = x < 0 ? 0 : x;
+            y = y < 0 ? 0 : y;
+            that.style.left = x + "px";
+            that.style.top = y + "px";
+        }
+
+        function stopMove(evt) {
+            document.removeEventListener("mousemove", innerMove);
+        }
+        document.addEventListener("mousemove", innerMove);
+        document.addEventListener("mouseup", stopMove);
+    }
+    moveBox2.addEventListener("mousedown", move);
+</script>
+
+</html>

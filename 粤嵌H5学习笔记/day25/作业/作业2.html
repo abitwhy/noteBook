@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鼠标的尾巴</title>
+    <style>
+        body {
+            position: relative;
+        }
+        
+        ul li {
+            list-style: none;
+            width: 0;
+            height: 0;
+            border: 20px solid#8de9e2cc;
+            border-top-width: 30px;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            position: absolute;
+            left: -10%;
+            top: -10%;
+        }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</body>
+<script>
+    var lis, x, y, current;
+    lis = document.querySelectorAll("li");
+    current = 0;
+    // 低配（高性能）效果
+    document.onmousemove = function(event) { /* event 是默认参数 */
+        event = event || window.event; /* 兼容问题 */
+        x = event.clientX;
+        y = event.clientY;
+    };
+    setInterval(() => {
+        current = current === lis.length ? 0 : current;
+        lis[current].style.left = x + "px";
+        lis[current].style.top = y + "px";
+        current++;
+    }, 30);
+    // 纸牌效果
+    // document.onmousemove = function(e) {
+    //     for (let i = 0; i < lis.length; i++) {
+    //         setTimeout(() => {
+    //             lis[i].style.left = e.clientX + 'px';
+    //             lis[i].style.top = e.clientY + 'px';
+    //         }, 50 * i);
+    //     }
+    // }
+</script>
+
+</html>

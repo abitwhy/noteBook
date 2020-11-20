@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态表格</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+        
+        ul li {
+            list-style: none;
+        }
+        
+        button {
+            padding: 4px;
+            cursor: pointer;
+        }
+        
+        form {
+            width: 800px;
+            height: 150px;
+            margin: 20px auto;
+            padding: 15px;
+            border: 1px solid gainsboro;
+        }
+        
+        input {
+            margin-top: 8px;
+            padding-left: 10px;
+        }
+        
+        input[type="text"] {
+            height: 30px;
+        }
+        
+        input[type="button"] {
+            padding: 2px 4px;
+            background-color: ghostwhite;
+            cursor: pointer;
+        }
+        
+        table {
+            margin: 0 auto;
+        }
+        
+        th,
+        td {
+            padding: 4px;
+            text-align: center;
+        }
+        
+        table tr:first-child {
+            background: rgb(248, 230, 0);
+        }
+        
+        table th:nth-child(2n+1) {
+            min-width: 200px;
+        }
+        
+        table th:nth-child(2) {
+            min-width: 400px;
+        }
+        
+        .alert-box {
+            width: 240px;
+            height: 50px;
+            margin: -120px;
+            padding: 0 10px;
+            background-color: #494646;
+            font-size: 24px;
+            line-height: 50px;
+            color: white;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s;
+            left: 50%;
+            top: 50%;
+            position: fixed;
+        }
+        
+        .show {
+            opacity: 1 !important;
+        }
+        
+        .unvisiable {
+            position: absolute;
+            left: -100%;
+        }
+        
+        .visiable {
+            position: unset;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form action="">
+            <label for="username">请输入姓名：</label>
+            <input type="text" id="username">
+            <br>
+            <label for="email">请输入邮箱：</label>
+            <input type="text" id="email">
+            <br>
+            <input type="button" value="添加" type="submit">
+            <div class="alert-box">您还没有完善信息！</div>
+        </form>
+        <table border="1" cellspacing="0">
+            <tbody>
+                <tr>
+                    <th>姓名</th>
+                    <th>邮箱</th>
+                    <th>管理</th>
+                </tr>
+                <tr class="unvisiable">
+                    <td>name</td>
+                    <td>123_xxx@xxx.xxx.xx</td>
+                    <td>
+                        <ul>
+                            <li><button>删除</button></li>
+                        </ul>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>
+    var addBtn, alertBox, table, trData, executing;
+    addBtn = document.querySelector("input[type='button']");
+    alertBox = document.querySelector(".alert-box");
+    table = document.querySelector("table");
+    trData = table.querySelectorAll("tr")[1];
+
+    function alertNotBlank() { /* 非空提示 */
+        if (!executing) { /* 需要声明全局变量 executing，实现有效弹出 */
+            executing = true;
+            alertBox.classList.add("show");
+            var tid = setTimeout(() => {
+                console.log("执行");
+                alertBox.classList.remove("show");
+                executing = false;
+            }, 3000);
+        }
+    }
+
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function randomColor() {
+        var r, g, b;
+        r = getRandomInt(0, 255);
+        g = getRandomInt(0, 255);
+        b = getRandomInt(0, 255);
+        return [r, g, b];
+        // return {R:r,G:g,B:b};
+    }
+
+    function addTuple(e) {
+        var username, email, newTuple, newTupleTds, rgb;
+        username = document.querySelector("#username").value;
+        email = document.querySelector("#email").value;
+        newTuple = trData.cloneNode(true);
+        newTupleTds = newTuple.querySelectorAll("td");
+        if (username && email) {
+            newTuple.classList.add("visiable");
+            newTupleTds[0].innerText = username;
+            newTupleTds[1].innerText = email;
+            document.querySelector("#username").value = null;
+            document.querySelector("#email").value = null;
+            rgb = randomColor();
+            newTuple.style.backgroundColor = "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
+            newTuple.style.color = "rgb(" + (255 - rgb[0]) + "," + (255 - rgb[1]) + "," + (255 - rgb[2]) + ")";
+            trData.parentNode.appendChild(newTuple);
+        } else {
+            alertNotBlank();
+        }
+        e.stopPropagation(); /* 建议：停止事件的传播 */
+    }
+    addBtn.addEventListener("click", addTuple);
+
+    function deleteTuple(e) {
+        if (e.target.nodeName.toLowerCase() === "button") {
+            var parentTr;
+            parentTr = e.target.parentNode.parentNode.parentNode.parentNode; /* 这里要根据 HTML 结构随时变动，否则可写一个函数找父级 tr 标签 */
+            parentTr.parentNode.removeChild(parentTr);
+        }
+    }
+    table.addEventListener("click", deleteTuple);
+</script>
+
+</html>

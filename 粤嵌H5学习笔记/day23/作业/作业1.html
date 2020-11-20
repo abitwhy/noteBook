@@ -35,7 +35,7 @@
         .text-box {
             width: 200px;
             height: 50px;
-            margin: 100px auto;
+            margin: -100px;
             padding: 0 10px;
             background-color: #494646;
             font-size: 24px;
@@ -44,6 +44,9 @@
             text-align: center;
             opacity: 0;
             transition: opacity 1s;
+            left: 50%;
+            top: 50%;
+            position: fixed;
         }
         
         .show {

@@ -387,16 +387,18 @@ for(var i in arr){console.log(i)}; // 会把对象属性也遍历出来，所以
 > 一个对象的所有键名都是**自然数**（零和正整数），并且有`length`属性。
 
 - **说明**
-
-  1. **JS内置类数组对象：**JavaScript 字符串和部分内置对象就属于类数组对象。内置对象如函数的 arguments 对象。
+1. **JS内置类数组对象：**JavaScript 字符串和部分内置对象就属于类数组对象。内置对象如函数的 arguments 对象。
   2.  **`slice` 方法：**slice 根据索引找出选定区间的元素，返回目标数组。
-
+  
 - **示例**
 
 ```javascript
-'abc'.slice(0,1) // [a,b] 
-Array.prototype.slice.call('abc') // ["a","b","c"]，转换成了数组。
+'abc'.slice(0,1); // "a"
+// 类数组转数组
+Array.prototype.slice.call('abc'); // ["a","b","c"]，转换成了数组。
 ```
+
+
 
 ***
 

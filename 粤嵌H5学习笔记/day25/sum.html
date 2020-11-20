@@ -1,0 +1,605 @@
+<!-- 由很多页面合到一起的，需要测试自己摘取并cop。看看代码量就好了， 有关图片的地方都会出错 -->
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态表格</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+        
+        ul li {
+            list-style: none;
+        }
+        
+        button {
+            padding: 4px;
+            cursor: pointer;
+        }
+        
+        form {
+            width: 800px;
+            height: 150px;
+            margin: 20px auto;
+            padding: 15px;
+            border: 1px solid gainsboro;
+        }
+        
+        input {
+            margin-top: 8px;
+            padding-left: 10px;
+        }
+        
+        input[type="text"] {
+            height: 30px;
+        }
+        
+        input[type="button"] {
+            padding: 2px 4px;
+            background-color: ghostwhite;
+            cursor: pointer;
+        }
+        
+        table {
+            margin: 0 auto;
+        }
+        
+        th,
+        td {
+            padding: 4px;
+            text-align: center;
+        }
+        
+        table tr:first-child {
+            background: rgb(248, 230, 0);
+        }
+        
+        table th:nth-child(2n+1) {
+            min-width: 200px;
+        }
+        
+        table th:nth-child(2) {
+            min-width: 400px;
+        }
+        
+        .alert-box {
+            width: 240px;
+            height: 50px;
+            margin: -120px;
+            padding: 0 10px;
+            background-color: #494646;
+            font-size: 24px;
+            line-height: 50px;
+            color: white;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s;
+            left: 50%;
+            top: 50%;
+            position: fixed;
+        }
+        
+        .show {
+            opacity: 1 !important;
+        }
+        
+        .unvisiable {
+            position: absolute;
+            left: -100%;
+        }
+        
+        .visiable {
+            position: unset;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form action="">
+            <label for="username">请输入姓名：</label>
+            <input type="text" id="username">
+            <br>
+            <label for="email">请输入邮箱：</label>
+            <input type="text" id="email">
+            <br>
+            <input type="button" value="添加" type="submit">
+            <div class="alert-box">您还没有完善信息！</div>
+        </form>
+        <table border="1" cellspacing="0">
+            <tbody>
+                <tr>
+                    <th>姓名</th>
+                    <th>邮箱</th>
+                    <th>管理</th>
+                </tr>
+                <tr class="unvisiable">
+                    <td>name</td>
+                    <td>123_xxx@xxx.xxx.xx</td>
+                    <td>
+                        <ul>
+                            <li><button>删除</button></li>
+                        </ul>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>
+    var addBtn, alertBox, table, trData, executing;
+    addBtn = document.querySelector("input[type='button']");
+    alertBox = document.querySelector(".alert-box");
+    table = document.querySelector("table");
+    trData = table.querySelectorAll("tr")[1];
+    console.dir(addBtn);
+
+    function alertNotBlank() {
+        if (!executing) {
+            executing = true;
+            alertBox.classList.add("show");
+            var tid = setTimeout(() => {
+                console.log("执行");
+                alertBox.classList.remove("show");
+                executing = false;
+            }, 3000);
+        }
+    }
+
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function randomColor() {
+        var r, g, b;
+        r = getRandomInt(0, 255);
+        g = getRandomInt(0, 255);
+        b = getRandomInt(0, 255);
+        return [r, g, b];
+        // return {R:r,G:g,B:b};
+    }
+
+    function addTuple(e) {
+        var username, email, newTuple, newTupleTds, rgb;
+        username = document.querySelector("#username").value;
+        email = document.querySelector("#email").value;
+        newTuple = trData.cloneNode(true);
+        newTupleTds = newTuple.querySelectorAll("td");
+        if (username && email) {
+            newTuple.classList.add("visiable");
+            newTupleTds[0].innerText = username;
+            newTupleTds[1].innerText = email;
+            document.querySelector("#username").value = null;
+            document.querySelector("#email").value = null;
+            rgb = randomColor();
+            newTuple.style.backgroundColor = "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
+            newTuple.style.color = "rgb(" + (255 - rgb[0]) + "," + (255 - rgb[1]) + "," + (255 - rgb[2]) + ")";
+            trData.parentNode.appendChild(newTuple);
+        } else {
+            alertNotBlank();
+        }
+
+    }
+    addBtn.addEventListener("click", addTuple);
+
+    function deleteTuple(e) {
+        if (e.target.nodeName.toLowerCase() === "button") {
+            var parentTr;
+            parentTr = e.target.parentNode.parentNode.parentNode.parentNode;
+            parentTr.parentNode.removeChild(parentTr);
+        }
+    }
+    table.addEventListener("click", deleteTuple);
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鼠标的尾巴</title>
+    <style>
+        body {
+            position: relative;
+        }
+        
+        ul li {
+            list-style: none;
+            width: 0;
+            height: 0;
+            border: 20px solid#8de9e2cc;
+            border-top-width: 30px;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            position: absolute;
+            left: -10%;
+            top: -10%;
+        }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</body>
+<script>
+    var lis, x, y, current;
+    lis = document.querySelectorAll("li");
+    coordinatePromises = [];
+    current = 0;
+    document.onmousemove = function(event) { /* event 是默认参数 */
+        x = event.clientX;
+        y = event.clientY;
+    };
+    setInterval(() => {
+        current = current === 20 ? 0 : current;
+        lis[current].style.left = x + "px";
+        lis[current].style.top = y + "px";
+        current++;
+    }, 30);
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂练习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+        
+        ul li {
+            list-style: none;
+        }
+        
+        .chatting {
+            width: 60%;
+            margin: 50px auto;
+            padding: 10px;
+            border: 1px solid gainsboro;
+            /* BFC，解决浮动塌陷 */
+            overflow: hidden;
+        }
+        
+        .reply {
+            margin: 10px auto;
+            clear: both;
+            /* BFC */
+            overflow: hidden;
+        }
+        
+        .reply>p {
+            padding: 6px;
+            border-radius: 4px;
+            line-height: 40px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .reply:nth-child(2n+1)>p {
+            margin-left: 40px;
+            background-color: #f8f8f8;
+            float: left;
+        }
+        
+        .reply:nth-child(2n+1)>p::before {
+            width: 0;
+            height: 0;
+            border: 10px solid #f8f8f8;
+            border-right-width: 40px;
+            border-left-color: transparent;
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+            left: -50px;
+            display: block;
+            content: "";
+            position: absolute;
+        }
+        
+        .reply:nth-child(2n)>p {
+            margin-right: 40px;
+            background-color: springgreen;
+            float: right;
+            text-align: right;
+        }
+        
+        .reply:nth-child(2n)>p::before {
+            width: 0;
+            height: 0;
+            border: 10px solid springgreen;
+            border-left-width: 40px;
+            border-right-color: transparent;
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+            right: -50px;
+            display: block;
+            content: "";
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="event-test">
+            <ul class="chatting">
+                <li class="reply" onclick="tong1()">
+                    <p>对话1</p>
+                </li>
+                <li class="reply">
+                    <p>对话2</p>
+                </li>
+                <li class="reply">
+                    <p>对话3</p>
+                </li>
+                <li class="reply">
+                    <p>对话4</p>
+                </li>
+                <li class="reply">
+                    <p>对话5</p>
+                </li>
+                <li class="reply">
+                    <p>对话6</p>
+                </li>
+                <li class="reply">
+                    <p>对话7</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script>
+    var lines, eventTest, replies, option;
+    lines = [
+        "你无情你无耻你无理取闹。", "那你就不无情不无耻不无理取闹吗？",
+        "我哪里无情哪里哪里无理取闹？", "你哪里不无情哪里不无耻哪里不无理取闹？",
+        "我就算再怎么无情再怎么无耻再怎么无理取闹，也不会比你更无情更无耻更无理取闹！",
+        "好，那我就给你无情无耻无理取闹看看！", "终于承认自己无情无耻无理取闹了吧！"
+    ];
+    eventTest = document.querySelector(".event-test");
+    replies = eventTest.querySelectorAll(".reply");
+    option = {
+        capture: false,
+        once: true,
+        passive: false
+    };
+    // 一、HTML 标签 on- 属性
+    function tong1() { /* 方式1：标签添加 on- 属性 */
+        replies[0].querySelector("p").innerText = lines[0];
+    }
+
+    function bai1() {
+        console.log(this);
+        replies[1].querySelector("p").innerText = lines[1];
+    }
+    replies[1].setAttribute("onclick", "bai1();"); /* 方式2：为标签设置 on- 属性，等价于方式1 */
+    // 二、元素事件属性
+    replies[2].querySelector("p").onclick = function tong2(event) {
+        replies[2].querySelector("p").innerText = lines[2];
+    };
+    // replies[2].querySelector("p").onclick = function() { /* 注意不要重复定义 */
+    //     alert("通过元素事件属性方式，在同一元素上重复定义同一事件，后一事件会覆盖前一事件！");
+    // };
+
+    // 三、添加事件监听（addEventListener） 
+    function bai2() {
+        this.innerText = lines[3];
+    }
+    replies[3].querySelector("p").addEventListener("click", bai2, false); /* 注意：参数1不用写“on”；参数2直接写函数名；参数三默认 false，表示不在冒泡阶段（即捕获阶段）触发；this 指向触发事件的节点；除了 DOM 其他对象也有该接口，如 window  */
+
+    function another() {
+        var that = this;
+        var tId = setTimeout(function(context) {
+            context.style.backgroundColor = "red";
+        }, 2000, that);
+        return tId;
+    }
+    replies[3].querySelector("p").addEventListener("click", another, option); /* 可以为同一节点的同一事件，添加不同的回调函数 */
+    function restore() {
+        var that = this;
+        var tId = setTimeout(function(context) {
+            context.style.backgroundColor = null;
+        }, 3000, that);
+        return tId;
+    }
+    replies[3].querySelector("p").addEventListener("click", restore, option); /* 第三个参数可以传入对象，配置更多（共3个）设置，如 once，只触发一次 */
+
+    function tong3() {
+        this.innerText = lines[4];
+    }
+    replies[4].querySelector("p").addEventListener("click", tong3, option);
+
+    function bai3() {
+        this.innerText = lines[5];
+    }
+    replies[5].querySelector("p").addEventListener("click", bai3, option);
+
+    function tong4() {
+        this.innerText = lines[6];
+    }
+    replies[6].querySelector("p").addEventListener("click", tong4, option);
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>选项卡</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+        
+        ul li {
+            list-style: none;
+        }
+        
+        .menu {
+            width: 100%;
+            height: 40px;
+            border: 1px solid gainsboro;
+            background-color: #f3f3f3;
+            position: relative;
+        }
+        
+        .menu>li {
+            /* width: 150px; */
+            height: 40px;
+            background-color: #f3f3f3;
+            line-height: 40px;
+            text-align: center;
+            font-size: 20px;
+            float: left;
+        }
+        
+        .menu>li>.title {
+            width: 150px;
+            float: left;
+        }
+        
+        .menu>li>.title:hover {
+            background-color: gainsboro;
+        }
+        
+        .active {
+            background-color: rgb(233, 231, 231);
+        }
+        
+        .submenu {
+            width: 100%;
+            height: 200px;
+            border: 1px solid gainsboro;
+            text-align: left;
+            left: 0;
+            top: 40px;
+            position: absolute;
+            display: none;
+        }
+        
+        .submenu>li {
+            padding: 10px;
+        }
+        
+        .show {
+            /* left: -1px !important; */
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <ul class="menu">
+            <li class="menu-item">
+                <div class="title">London</div>
+                <ul class="submenu">
+                    <li>
+                        <h5>London</h5>
+                        <p>London is the capital of England.</p>
+                    </li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <div class="title">Paris</div>
+                <ul class="submenu">
+                    <li>
+                        <h5>Paris</h5>
+                        <p>Paris is the capital of French.</p>
+                    </li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <div class="title">Tokyo</div>
+                <ul class="submenu">
+                    <li>
+                        <h5>Tokyo</h5>
+                        <p>tokyo is the capital of Japan.</p>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</body>
+<script>
+    var menuItem, submenu, lastPick;
+    menuItemTitles = document.querySelectorAll(".menu-item>.title");
+    console.dir(menuItemTitles);
+    submenus = document.querySelectorAll(".submenu");
+    menuItemTitles.forEach((item, i) => {
+        item.index = i++;
+        console.log(item.index);
+    }, 0);
+    menuItemTitles.forEach(function(item) {
+        // menuItemTitles
+        item.onclick = function() {
+            menuItemTitles[lastPick].classList.remove("active");
+            submenus[lastPick].classList.remove("show");
+            lastPick = item.index;
+            menuItemTitles[lastPick].classList.add("active");
+            submenus[lastPick].classList.add("show");
+        };
+    });
+    // 初始化
+    (function init() {
+        lastPick = 0;
+        menuItemTitles[lastPick].classList.add("active");
+        submenus[lastPick].classList.add("show");
+    })();
+</script>
+
+</html>

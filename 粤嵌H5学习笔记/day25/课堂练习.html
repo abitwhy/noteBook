@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂练习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+        
+        ul li {
+            list-style: none;
+        }
+        
+        .chatting {
+            width: 60%;
+            margin: 50px auto;
+            padding: 10px;
+            border: 1px solid gainsboro;
+            /* BFC，解决浮动塌陷 */
+            overflow: hidden;
+        }
+        
+        .reply {
+            margin: 10px auto;
+            clear: both;
+            /* BFC */
+            overflow: hidden;
+        }
+        
+        .reply>p {
+            padding: 6px;
+            border-radius: 4px;
+            line-height: 40px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .reply:nth-child(2n+1)>p {
+            margin-left: 40px;
+            background-color: #f8f8f8;
+            float: left;
+        }
+        
+        .reply:nth-child(2n+1)>p::before {
+            width: 0;
+            height: 0;
+            border: 10px solid #f8f8f8;
+            border-right-width: 40px;
+            border-left-color: transparent;
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+            left: -50px;
+            display: block;
+            content: "";
+            position: absolute;
+        }
+        
+        .reply:nth-child(2n)>p {
+            margin-right: 40px;
+            background-color: springgreen;
+            float: right;
+            text-align: right;
+        }
+        
+        .reply:nth-child(2n)>p::before {
+            width: 0;
+            height: 0;
+            border: 10px solid springgreen;
+            border-left-width: 40px;
+            border-right-color: transparent;
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+            right: -50px;
+            display: block;
+            content: "";
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="event-test">
+            <ul class="chatting">
+                <li class="reply" onclick="tong1()">
+                    <p>对话1</p>
+                </li>
+                <li class="reply">
+                    <p>对话2</p>
+                </li>
+                <li class="reply">
+                    <p>对话3</p>
+                </li>
+                <li class="reply">
+                    <p>对话4</p>
+                </li>
+                <li class="reply">
+                    <p>对话5</p>
+                </li>
+                <li class="reply">
+                    <p>对话6</p>
+                </li>
+                <li class="reply">
+                    <p>对话7</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script>
+    var lines, eventTest, replies, option;
+    lines = [
+        "你无情你无耻你无理取闹。", "那你就不无情不无耻不无理取闹吗？",
+        "我哪里无情哪里哪里无理取闹？", "你哪里不无情哪里不无耻哪里不无理取闹？",
+        "我就算再怎么无情再怎么无耻再怎么无理取闹，也不会比你更无情更无耻更无理取闹！",
+        "好，那我就给你无情无耻无理取闹看看！", "终于承认自己无情无耻无理取闹了吧！"
+    ];
+    eventTest = document.querySelector(".event-test");
+    replies = eventTest.querySelectorAll(".reply");
+    option = {
+        capture: false,
+        once: true,
+        passive: false
+    };
+    // 一、HTML 标签 on- 属性
+    function tong1() { /* 方式1：标签添加 on- 属性 */
+        replies[0].querySelector("p").innerText = lines[0];
+    }
+
+    function bai1() {
+        console.log(this);
+        replies[1].querySelector("p").innerText = lines[1];
+    }
+    replies[1].setAttribute("onclick", "bai1();"); /* 方式2：为标签设置 on- 属性，等价于方式1 */
+    // 二、元素事件属性
+    replies[2].querySelector("p").onclick = function tong2(event) {
+        replies[2].querySelector("p").innerText = lines[2];
+    };
+    // replies[2].querySelector("p").onclick = function() { /* 注意不要重复定义 */
+    //     alert("通过元素事件属性方式，在同一元素上重复定义同一事件，后一事件会覆盖前一事件！");
+    // };
+
+    // 三、添加事件监听（addEventListener） 
+    function bai2() {
+        this.innerText = lines[3];
+    }
+    replies[3].querySelector("p").addEventListener("click", bai2, false); /* 注意：参数1不用写“on”；参数2直接写函数名；参数三默认 false，表示不在冒泡阶段（即捕获阶段）触发；this 指向触发事件的节点；除了 DOM 其他对象也有该接口，如 window  */
+
+    function another() {
+        var that = this;
+        var tId = setTimeout(function(context) {
+            context.style.backgroundColor = "red";
+        }, 2000, that);
+        return tId;
+    }
+    replies[3].querySelector("p").addEventListener("click", another, option); /* 可以为同一节点的同一事件，添加不同的回调函数 */
+    function restore() {
+        var that = this;
+        var tId = setTimeout(function(context) {
+            context.style.backgroundColor = null;
+        }, 3000, that);
+        return tId;
+    }
+    replies[3].querySelector("p").addEventListener("click", restore, option); /* 第三个参数可以传入对象，配置更多（共3个）设置，如 once，只触发一次 */
+
+    function tong3() {
+        this.innerText = lines[4];
+    }
+    replies[4].querySelector("p").addEventListener("click", tong3, option);
+
+    function bai3() {
+        this.innerText = lines[5];
+    }
+    replies[5].querySelector("p").addEventListener("click", bai3, option);
+
+    function tong4() {
+        this.innerText = lines[6];
+    }
+    replies[6].querySelector("p").addEventListener("click", tong4, option);
+</script>
+
+</html>

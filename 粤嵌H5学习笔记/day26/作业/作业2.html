@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联动城市下拉列表</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+            /* box-sizing: border-box; */
+        }
+        
+        .container {
+            width: 1400px;
+            margin: 20px auto;
+        }
+        
+        form {
+            /* margin: 0 auto; */
+            padding: 20px;
+            border: 1px solid gainsboro;
+        }
+        
+        label {
+            vertical-align: middle;
+        }
+        
+        select {
+            width: 150px;
+            height: 30px;
+        }
+        
+        .tips {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form action="">
+            <label for="province">省：</label>
+            <select name="" id="province">
+                <option value="" >请选择</option> <!-- disable 会被顶替显示 -->
+            </select>
+            <label for="city">城市：</label>
+            <select name="" id="city">
+                <option value="" >请先选择省份</option>
+            </select>
+            <div class="tips">
+                <b>您选择了：</b><span class="tip"></span>
+            </div>
+        </form>
+    </div>
+</body>
+<script>
+    var provice, city, tips, tip, provinces, selected;
+    province = document.querySelector("#province");
+    city = document.querySelector("#city");
+    tips = document.querySelector(".tips");
+    tip = tips.querySelector(".tip")
+    selected = {
+        prov: null,
+        city: null
+    };
+    provinces = [{
+        name: "广东",
+        code: 1,
+        cities: ["广州", "深圳", "中山", "东莞"]
+    }, {
+        name: "江西",
+        code: 2,
+        cities: ["南昌", "赣州", "上饶", "新余"]
+    }, {
+        name: "湖南",
+        code: 3,
+        cities: ["长沙", "娄底", "张家界", "郴州"]
+    }, {
+        name: "广西",
+        code: 4,
+        cities: ["北海", "桂林", "柳州", "南宁"]
+    }]
+    for (var i in provinces) {
+        var newOption = document.createElement('option');
+        newOption.innerText = provinces[i].name;
+        newOption.value = provinces[i].code; /* code 在与服务器交互时才有意义 */
+        province.appendChild(newOption);
+    }
+    province.onchange = function(e) {
+        var relatedCity = [];
+        tip.innerHTML = null;
+        province.firstElementChild.setAttribute("disabled", "true"); /* 提示项不可选中 */
+        for (var i in provinces) {
+            if (provinces[i].code == this.value) { /* 不能 === */
+                relatedCity = provinces[i].cities;
+                selected.prov = provinces[i].name;
+                selected.city = provinces[i].cities[0];
+                tip.innerHTML = selected.prov + "-" + selected.city;
+                break;
+            }
+        }
+        city.innerHTML = null; /* 清空记录 */
+        for (var i in relatedCity) {
+            var newOption = document.createElement("option");
+            newOption.innerHTML = relatedCity[i];
+            city.appendChild(newOption);
+        }
+    }
+    city.onchange = function(e) {
+        selected.city = this.value;
+        tip.innerHTML = selected.prov + "-" + selected.city;
+    }
+</script>
+
+</html>
