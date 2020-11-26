@@ -69,8 +69,8 @@
             <div class="coordinate"></div>
         </div>
         <div class="liner">
-            <button onclick=constantSpeed(0,600,5)>匀速直线运动</button>
-            <button onclick="retardedSpeed(0,600,1,1)">匀减速直线运动</button>
+            <button id="cs">匀速直线运动</button>
+            <button id="rs">匀减速直线运动</button>
             <hr>
             <div class="particle" id="particle1">1</div>
             <hr>
@@ -125,40 +125,58 @@
         })();
 
     })();
-    var particle1, particle2, s1, s2;
+    var particle1, particle2, cs, rs;
     particle1 = document.getElementById("particle1");
     particle2 = document.getElementById("particle2");
+    cs = document.querySelector("#cs");
+    rs = document.querySelector("#rs");
     // 匀速
 
     // s1 = +particle1.style.marginLeft;
     // s2 = +particle2.style.marginLeft;
 
-    function constantSpeed(start, end, distance) { /* distance 表示单位时间里的位移 */
-        var tId1;
-        s1 = start;
-        tId = setInterval((d, s0) => {
-            if (s1 > end) {
-                clearInterval(tId1);
+    function constantSpeed(node, speed, end, callback) { /* 实际的速度与 interval 有关。应该等于 speed*(1000/interval) */
+        var time, s, tId;
+        s = 0;
+        time = 0;
+        node.style.marginLeft = 0 + "px"; /* 归零，以重复执行 */
+        tId = setInterval(() => {
+            if (s < end) {
+                s = speed * time++; /* 匀速直线运动路程公式 */
+                node.style.marginLeft = s + "px";
             } else {
-                s1 += d + s0;
-                particle1.style.marginLeft = s1 + "px";
+                clearInterval(tId);
+                callback && callback();
             }
-        }, 10, distance, start);
+        }, 10);
     }
+    cs.onclick = function() {
+        constantSpeed(particle1, 5, 1000);
+    };
     // 匀减速 Uniformly retarded
-    function retardedSpeed(start, end, distance, frequecy) { /* f 表示频率 */
-        var tId2;
-        s2 = start;
-        tId2 = setInterval((d, f, s0) => {
-            // console.log(d, ',', f, ',', s0);
-            if (s2 > end) {
-                clearInterval(tId2);
+    function retardedSpeed(node, a, end, callback) { /* a 代表加速度，建议 a 的范围在 0-0.2 区间，否则需要改偏差 */
+        var time, s, v0, tId;
+        time = 0;
+        s = 0;
+        // 计算初速度：根据 2as=vt^2-v0^2,其中 vt=0。得： v0=sqrt(-2as)
+        // v0 = Math.ceil(Math.sqrt(-2 * a * end) * 10) / 10; /* 方案1： 向上保留1为小数，解决 s 到达不了end 的问题，同时减小了计算精度=》缺点：更改 a 容易失灵，动画效果不细腻 */
+        v0 = Math.sqrt(-2 * a * 1.025 * end); /* 方案2：给 end 加一个0.025倍的偏差 */
+        console.log(v0);
+        node.style.marginLeft = 0 + "px"; /* 归零，以重复执行 */
+        tId = setInterval(() => {
+            console.log(s);
+            if (s < end) { /* 计算的结果不准确，不能直接 s<end =》改进后可以了*/
+                s = (v0 * time) + 0.5 * a * time++ ** 2; /* 匀加速直线运动路程公式 */
+                particle2.style.marginLeft = s + "px";
             } else {
-                s2 += 2 * d / f + s0;
-                console.log(s2);
-                particle2.style.marginLeft = s2 + "px";
+                console.log(tId);
+                clearInterval(tId);
+                callback && callback(); /* 如果callback参数有传入那就执行 */
             }
-        }, frequecy, distance, frequecy, start);
+        }, 10);
+    }
+    rs.onclick = function() {
+        retardedSpeed(particle2, -0.14, 300);
     }
 </script>
 

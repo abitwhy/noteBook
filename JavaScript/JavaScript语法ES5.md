@@ -389,7 +389,7 @@ for(var i in arr){console.log(i)}; // 会把对象属性也遍历出来，所以
 - **说明**
 1. **JS内置类数组对象：**JavaScript 字符串和部分内置对象就属于类数组对象。内置对象如函数的 arguments 对象。
   2.  **`slice` 方法：**slice 根据索引找出选定区间的元素，返回目标数组。
-  
+
 - **示例**
 
 ```javascript
@@ -628,7 +628,7 @@ Object.isFrozen(obj3); // true
 
   1. `obj.funObject.call(thisObject,param1,...,paramN);`
 
-  **参数与返回：**首参 thisObject 传给 funObject 里的 this 指针，余参作为 funObject 的普通参数。无返回，直接调用 funObject。
+  **参数与返回：**首参 `thisObject` 传给 `funObject` 里的 `this` 指针（如果 thisObject  为空、`null`和`undefined`，则默认传入全局对象），余参作为 funObject 的普通参数。无返回，直接调用 funObject。
 
   2. `obj.funObject.apply(thisObject,[param1,...,paramN]);` 
 
@@ -644,6 +644,10 @@ Object.isFrozen(obj3); // true
 Array.prototype.join.call('hello', '-'); // "h-e-l-l-o"
 // 数组原型调用 call 将实例方法 join 用到字符串（类数组对象）上，实现给字符串字符间添加连接符。相当于字符串“借用了”数组原型的 join 方法。
 Math.max.apply(null, [1,4,2,8,5,7]); // 8，Math.max 原本不能计算数字数组参数中的最大数字。
+function callback(){
+    console.log(this);
+}
+var iID = setInterval(callback.bind({bind:"Change this and return new function."}),1000); // bind 常用于改变回调函数 this 的指向
 ```
 
 -  **想法**
@@ -782,7 +786,7 @@ findLongest(['aaa', 'bb', 'c']) // "aaa"，找出字符数组最长元素。
 - **示例**
 1. 使用转义
 ```javascript
-RegExp('[a-z]\\s').test('keep thinking'); // true
+RegExp('[a-z]\\s').test('keep thinking'); // true =》这里有问题
 // ‘\’在字符串和正则表达式中都有转义的作用，结合使用时还需进行字符串层面的转义。
 ```
   2. 理解量词
@@ -888,6 +892,68 @@ JSON.parse("'String'");
 ```
 
 ------
+
+## 构造函数
+
+- **作用**
+
+> 构造函数是对象的模板，描述实例[^9]对象的基本结构。是专门用来生成实例对象的函数。
+
+- **用法**
+
+```javascript
+function Construct() { 
+    this.property="default";
+};
+var constructInstance = new Construct(); // 括号非必须，不建议省略
+constructInstance.property; // "default"
+```
+
+- **进一步理解**
+
+  - 构造函数首先是一个普通函数，它遵循函数的基本语法（如定义方式等）。
+
+  - 构造函数函数名建议大写，以（视觉上）区别于普通函数。
+
+  - `new`关键字原理
+
+    1. 创建一个空对象，作为将要返回的对象实例。
+    2. 将这个空对象的原型，指向构造函数的`prototype`属性。
+    3. 将这个空对象赋值给函数内部的`this`关键字。
+    4. 开始执行构造函数内部的代码。
+
+  - 新建实例注意事项
+
+    - 赋初始值（可同时设置默认值）
+
+    ```javascript
+    function Construct(param) { 
+        this.property = param||"default"; // 这种写法在传入的 param 值能转换为 false 时会出 bug
+    };
+    ```
+
+    - 防止遗漏`new`关键字
+
+    ```javascript
+    // 忘记写 new 关键字会导致构造函数里的 this 指向 window，从而使里面的属性变成全局属性，且构造函数的构造实例过程（即 new 的原理）也不会进行了（更不会返回创建的实例）。
+    // 报错方式：严格模式
+    function Construct() { 
+        "use strict"; // 在构造函数内部添加该语句，使得 this 不得指向 window 而等于 undefined
+        this.property = "default"; // 给 undefined 添加属性就会报错
+    };
+    // 非报错方式：自动纠正
+    function Construct(){
+        if (!(this instanceof Construct)) {
+        	return new Construct();
+      	}
+        this.property = "default";
+    }
+    ```
+
+    
+
+
+[^9]:**提示：**实例在基于类的语言中具有特定的技术含义。在这些语言中，一个实例是一个类的单独实例化，与一个类本质上是不同的。在 JavaScript 中，“实例”没有这个技术含义，因为JavaScript在类和实例之间不存在这样的区别。然而，在讨论 JavaScript 时，可以非正式地使用“实例”来表示使用特定构造函数创建的对象。
 
 ## prototype 属性
 
@@ -1371,6 +1437,7 @@ console.log(3); // 同步任务在本轮事件循环
       ```
 
   [^8]:从 DOM 原生事件接口进行了解，但暂不关心接口细节。从某种程度上来讲，这比文字总结更简练，更能快速了解事件结构层次。
+  [^9]: 
 
 - **监听函数**
 

@@ -95,6 +95,7 @@
         <h1>轮播图</h1>
         <div id="photo-wrap">
             <ul class="pick-list">
+                <!-- li 数量可在 js 里根据 img-list 里的图片数量动态生成。 -->
                 <li></li>
                 <li></li>
                 <li></li>
@@ -145,6 +146,11 @@
     // 3.集中初始化；
     // 4.设置自定义 index 属性，使程序逻辑更清晰；
     // 5.纠正了[奇奇怪怪]的地方。
+
+    // 待改进内容：
+    // 1.通过 js 生成按钮（减少 html 冗余代码，提高代码重用性）；
+    // 2.前进后退按钮；
+    // 3.滑动动效；
     (function slideshow() { /* 轮播图改进版 */
         var pickList, picks, lastPick, imgList, imgs, lastInterval;
         pickList = document.querySelector(".pick-list"); /* 定位到按钮组父元素 */
@@ -171,7 +177,7 @@
             }
             // console.log(lastPick);
         }
-        // 监听按钮点击事件（可以考虑使用事件代理进行优化=》搁置：changes 里的 this 指向代理元素（pickList），导致获取不到当前被点击的子元素=>解决：event.target=再次告吹：无法自动触发事件，何谈轮播图呢？）
+        // 监听按钮点击事件（可以考虑使用事件代理进行优化=》搁置：changes 里的 this 指向代理元素（pickList），导致获取不到当前被点击的子元素=》解决：event.target=》再次告吹：无法自动触发事件，何谈轮播图呢？）
         for (var i = 0; i < picks.length; i++) {
             picks[i].addEventListener("click", changes, false);
         }

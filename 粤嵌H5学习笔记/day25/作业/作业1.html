@@ -79,8 +79,8 @@
             background-color: #494646;
             font-size: 24px;
             line-height: 50px;
-            color: white;
             text-align: center;
+            color: white;
             opacity: 0;
             transition: opacity 1s;
             left: 50%;
@@ -123,6 +123,7 @@
                     <th>管理</th>
                 </tr>
                 <tr class="unvisiable">
+                    <!-- 模板，减少 js 写初始 dom 操作 -->
                     <td>name</td>
                     <td>123_xxx@xxx.xxx.xx</td>
                     <td>
@@ -175,6 +176,10 @@
         newTuple = trData.cloneNode(true);
         newTupleTds = newTuple.querySelectorAll("td");
         if (username && email) {
+            if (!/^\w+@\w+(?:\.\w+)+$/.test(email)) {
+                alert("邮箱格式错误！");
+                return;
+            }
             newTuple.classList.add("visiable");
             newTupleTds[0].innerText = username;
             newTupleTds[1].innerText = email;

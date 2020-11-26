@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂练习</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // 自定义数组 filter 函数，没有
+    function myFilter(callback) {
+        var result = [];
+        if (callback) {
+            this.forEach(function(i) {
+                callback(i) ? this.push(i) : null;
+            }, result);
+        }
+        return result;
+    }
+    Array.prototype.myFilter = myFilter;
+</script>
+
+</html>

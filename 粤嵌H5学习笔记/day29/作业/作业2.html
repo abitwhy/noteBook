@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>给Math添加sum方法</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+        
+        #count-down {
+            width: 400px;
+            height: 50px;
+            background-color: orangered;
+            font-size: large;
+            line-height: 50px;
+            text-align: center;
+            left: 50%;
+            margin-left: -100px;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        给Math对象 扩展一个 sum方法， 如果传入的是数组 ，求数组元素的和，如果传入的参数是多个数字 求多个数字的和。
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <img src="./asset/images/bg_glider.jpg" alt="" title="图片来源:阮一峰的网络日志-134期">
+</body>
+<script>
+    function sum() { /* 能应付一般情况，不支持忽略空位，还可考虑改进为支持求嵌套数组之和 */
+        'use strict'; // 开启严格模式，不允许修改 arguments
+        var result, args;
+        result = 0; /* 必须先赋0 */
+        args = Array.prototype.slice.call(arguments);
+        if (args.length < 2) { /* 有一个及以下参数 */
+            if (args[0] instanceof Array) { /* 有一数组参数 */
+                while (args[0].length && !isNaN(result)) { /* 中间结果一旦为 NaN 则可停止计算 */
+                    result += +args[0].pop(); /* 无论元素是何类型，都强转为数字 */
+                }
+            } else { /* 无参数或单参非数组 */
+                result = +args[0]; /* 无参返回其对应的 Number 强转结果（这里用 + 运算等效） */
+            }
+        } else { /* 有两个及以上参数 */
+            while (args.length && !isNaN(result)) {
+                result += +args.pop();
+            }
+        }
+        return result;
+    }
+
+    function sum2() { /* 忽略空位版 */
+        'use strict'; // 开启严格模式，不允许修改 arguments
+        var result, args;
+        result = 0; /* 必须先赋0 */
+        args = Array.prototype.slice.call(arguments);
+        if (args.length < 2) { /* 有一个及以下参数 */
+            if (args[0] instanceof Array) { /* 有一数组参数 */
+                try {
+                    args[0].forEach((item) => {
+                        result += +item; /* 无论元素是何类型，都强转为数字 */
+                        if (isNaN(result)) { /* 中间结果一旦为 NaN 则可停止计算，若计算量很大时尤为重要 */
+                            throw new Error("breakForEach"); /* 通过抛出异常打断 forEach */
+                        }
+                    });
+                } catch (e) {
+                    if (e.message != "breakForEach") throw e;
+                }
+
+            } else { /* 无参数或单参非数组 */
+                result = +args[0]; /* 无参返回其对应的 Number 强转结果（这里用 + 运算等效） */
+            }
+        } else { /* 有两个及以上参数 */
+            try {
+                args.forEach((item) => {
+                    result += +item; /* 无论元素是何类型，都强转为数字 */
+                    if (isNaN(result)) { /* 中间结果一旦为 NaN 则可停止计算 */
+                        throw new Error("breakForEach");
+                    }
+                });
+            } catch (e) {
+                if (e.message != "breakForEach") throw e;
+            }
+        }
+        return result;
+    }
+
+    function sum3() { /* 忽略空位+支持求嵌套数组之和版 TODO */
+        'use strict'; // 开启严格模式，不允许修改 arguments
+        var result, args;
+        result = 0; /* 必须先赋0 */
+        args = Array.prototype.slice.call(arguments);
+    }
+
+    Math.sum = sum; /* Math 是静态内置对象，直接添加方法即可 */
+    Math.sum2 = sum2;
+    document.getElementById("answer").onclick = function() {
+        alert("Math.sum(1,2,3)的结果为:" + Math.sum(1, 2, 3) + "\nMath.sum([2,4,6])的结果为:" + Math.sum([2, 4, 6]) + "\n您也可选择自行打开控制台测试。");
+    }
+</script>
+
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模拟搜索框</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        .container {
+            width: 800px;
+            margin: 20px auto;
+        }
+        
+        .search-wrap {
+            width: 600px;
+            margin: 10px auto;
+        }
+        
+        .search-bar {
+            width: fit-content;
+            margin: 20px auto;
+        }
+        
+        input {
+            height: 30px;
+            padding: 0 4px;
+            /* 文字垂直居中有两种方式*/
+            /* line-height 方式，高度应与自身 width 一致。优点是便于排版 */
+            line-height: 30px;
+            font-size: 16px;
+            vertical-align: bottom;
+        }
+        
+        input[type="text"] {
+            /* padding 方式。优点是不需要给元素设置高度，缺点是元素自身高度取决于多种因素，不便于排版 */
+            /* padding: 2px 4px; */
+            min-width: 300px;
+        }
+        
+        input[type="button"] {
+            margin-left: 16px;
+            cursor: pointer;
+        }
+        
+        table {
+            width: 80%;
+            margin: 20px auto;
+            text-align: center;
+            /* 去除 cellpadding */
+            border-collapse: collapse;
+        }
+        
+        tr>td:nth-child(n+2) {
+            /* 每列的内边框 */
+            border-left: 1px solid gainsboro;
+        }
+        
+        th {
+            border: 2px solid gainsboro;
+            background-color: #ffcccd;
+        }
+        
+        table tr:nth-child(2n+1) {
+            /* 斑马纹路 */
+            background-color: #f2fbff;
+        }
+    </style>
+    <script src="./asset/js/sreachWrap.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="search-wrap" id="phone-search">
+            <div class="search-bar">
+                <input type="text" placeholder="您想查找什么？">
+                <input type="button" value="搜索">
+            </div>
+            <table>
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="search-wrap" id="fruit-search">
+            <div class="search-bar">
+                <input type="text" placeholder="您想查找什么？">
+                <input type="button" value="搜索">
+            </div>
+            <table>
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</body>
+<script>
+    var phoneSearch, searchPhone, phoneData, fruitSearch, searchFruit, fruitData;
+    phoneSearch = document.querySelector("#phone-search");
+    phoneData = [{ /* 数组首元素存表头 */
+        id: "序号",
+        /* 暂时必须保留 name 属性，因为封装的构造函数里，search 指定搜索 name 属性，考虑后面根据需求做变动 */
+        name: "手机",
+        price: "价格"
+    }, {
+        id: 1,
+        name: "华为",
+        price: 3500
+    }, {
+        id: 2,
+        name: "荣耀",
+        price: 6500
+    }, {
+        id: 3,
+        name: "小米",
+        price: 5500
+    }, {
+        id: 4,
+        name: "红米",
+        price: 4500
+    }, {
+        id: 5,
+        name: "oppo",
+        price: 3500
+    }, {
+        id: 6,
+        name: "Iphone",
+        price: 4000
+    }, {
+        id: 7,
+        name: "苹果",
+        price: 5000
+    }];
+    searchPhone = new searchWrap(phoneSearch, phoneData);
+    searchPhone.init();
+
+    fruitSearch = document.querySelector("#fruit-search");
+    fruitData = [{ /* 数组首元素存表头 */
+            index: "-",
+            /* 暂时必须保留 name 属性，因为封装的构造函数里，search 方法指定搜索 name 属性，考虑后面根据需求做变动 */
+            name: "种类",
+            origin: "产地",
+            taste: "味道"
+        }, {
+            index: 1,
+            name: "苹果",
+            origin: "山东",
+            taste: "又脆又甜"
+        }, {
+            index: 2,
+            name: "香蕉",
+            origin: "海南",
+            taste: "香甜软糯"
+        }, {
+            index: 3,
+            name: "猕猴桃",
+            origin: "四川",
+            taste: "甜蜜生津"
+        }, {
+            index: 4,
+            name: "冻梨",
+            origin: "黑龙江",
+            taste: "冰甜滋润"
+        }, {
+            index: 5,
+            name: "葡萄",
+            origin: "新疆",
+            taste: "酸甜可口"
+        }
+
+    ]
+    searchFruit = new searchWrap(fruitSearch, fruitData);
+    searchFruit.init();
+</script>
+
+</html>

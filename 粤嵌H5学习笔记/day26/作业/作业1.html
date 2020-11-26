@@ -35,8 +35,7 @@
             width: 160px;
             height: 160px;
             margin: 12px;
-            border: 2px solid #820202;
-            box-shadow: 2px 0px 1px 1px #fe6767;
+            box-shadow: 10px 20px 40px 0px #431342;
             position: relative;
             overflow: hidden;
         }
@@ -50,10 +49,7 @@
             height: 40%;
             border: 4px solid rgb(251, 56, 56);
             border-radius: 2px;
-            /* background-color: #034774; */
-            /* background-color: #21e51b; */
             background-color: #e966b054;
-            /* opacity: 0; */
             left: 0;
             top: 0;
             position: absolute;
@@ -63,12 +59,12 @@
         
         .booth:hover .move-box {
             display: block;
-            /* opacity: 0.3; */
         }
         
         .zoomin-box {
             width: 600px;
             height: 600px;
+            margin-left: 50px;
             border: 1px solid gainsboro;
             display: inline-block;
             overflow: hidden;
@@ -77,7 +73,6 @@
         
         .zoomin-box img {
             position: absolute;
-            /* width: 250%; */
         }
     </style>
 </head>
@@ -130,28 +125,42 @@
     zImg = zoominBox.querySelector("img");
     zImgSrc0 = zImg.src;
     // 值得改进之处：
-    // 1.点击的第一下就该放大图片
+    // 1.[建议]点击的第一下就该放大图片=》解决
+    // 2.[严重] [中心方案]出现滚动条并滑动过滚动条后，会导致定位出问题
     function zoomin(e) {
-        e.preventDefault(); /* 防止出现复制事件 */
         var booth, img, moveBox, offsetX, offsetY, x, y;
+        e.preventDefault(); /* 防止出现复制事件 */
         if (e.target.className === "move-box") {
             // console.dir(e.target);
             moveBox = e.target;
             booth = moveBox.parentNode;
             img = booth.querySelector("img");
+            // 点击放大
+            zImg.src = img.src;
+            zImg.style.width = "250%"; /* 为什么 mousedown moveBox 的时候， width 可以改变，而 left 却改变不了=》解决，读取到的 left 是带单位 px 的字符串 */
+            zImg.style.left = -moveBox.style.left.slice(0, -2) * 9.375 + "px";
+            zImg.style.top = -moveBox.style.top.slice(0, -2) * 9.375 + "px";
+            // mouseDown 时，鼠标相对 moveBox 的位置（为 move 做准备）=》还有一种选择是：鼠标始终指向 moveBox 的中心,这里就不需要记录了
             offsetX = e.clientX - moveBox.offsetLeft;
             offsetY = e.clientY - moveBox.offsetTop;
 
+
             function move(e) {
                 var x, y, maxX, maxY;
+                // 记录相对位置方案
                 x = e.clientX - offsetX;
                 y = e.clientY - offsetY;
+                // 指向中心方案
+                // x = e.clientX - booth.offsetLeft - moveBox.offsetWidth / 2;
+                // y = e.clientY - booth.offsetTop - moveBox.offsetHeight / 2;
+                console.log("x:" + x + " " + "y:" + y);
                 x = x < 0 ? 0 : x;
                 y = y < 0 ? 0 : y;
                 maxX = img.offsetLeft + img.offsetWidth - moveBox.offsetWidth;
                 maxY = img.offsetTop + img.offsetHeight - moveBox.offsetHeight;
-                // console.log(img.offsetLeft + img.offsetWidth - moveBox.offsetWidth);
-                // console.log("x:" + x);
+                console.log(img.offsetLeft + img.offsetWidth - moveBox.offsetWidth);
+                console.log("x:" + x);
+                console.log("img.offsetHeight:" + img.offsetHeight);
                 x = x > maxX ? maxX : x;
                 y = y > maxY ? maxY : y;
                 moveBox.style.left = x + "px";
@@ -164,8 +173,6 @@
 
             function stopMove(e) {
                 // 需不需要还原位置？若需要，可再为 booth 添加一个 mouseleave 事件
-                // that.style.left = 0 + "px";
-                // that.style.top = 0 + "px";
                 clearTimeout(executing);
                 document.removeEventListener("mousemove", move);
                 executing = setTimeout(() => { /* 还原 */

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂练习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+        
+        form {
+            width: 800px;
+            height: 150px;
+            margin: 20px auto;
+            padding: 15px;
+            border: 1px solid gainsboro;
+        }
+        
+        input {
+            margin-top: 8px;
+            padding-left: 10px;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            height: 30px;
+        }
+        
+        input[type="button"] {
+            padding: 2px 4px;
+            background-color: ghostwhite;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form action="">
+            <label for="username">用户名：</label>
+            <input type="text" id="username" name="uername">
+            <br>
+            <label for="password">密码：&ensp;&ensp;</label>
+            <input type="password" id="password" name="password">
+            <br>
+            <input type="button" value="登录">
+        </form>
+    </div>
+</body>
+<script>
+</script>
+
+</html>

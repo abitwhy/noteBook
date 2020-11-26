@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>给Date添加自定义方法</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+        
+        #count-down {
+            width: 400px;
+            height: 50px;
+            background-color: orangered;
+            font-size: large;
+            line-height: 50px;
+            text-align: center;
+            left: 50%;
+            margin-left: -100px;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        完善课堂Date构造函数扩展 。 计算给定时间的时间差.. 返回 相差多少个 xx小时 xx分钟 xx秒... 同时添加功能，如果给出的参数传入的时间比当前 时间 大 输出 还剩 xx小时 xx分钟 xx秒... 如果 参数传入的时间 比当前时间 小， 输出 已过 xx小时 xx分钟 xx秒...
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <img src="./asset/images/bg_glider.jpg" alt="" title="图片来源:阮一峰的网络日志-134期">
+</body>
+<script>
+    function between(begin, end) {
+        var result, day1, day2, gap, days, hours, minutes, seconds, MILIISECOND_OF_A_DAY, MILIISECOND_OF_AN_HOUR, MILIISECOND_OF_A_MINUTE, MILIISECOND_OF_A_SECOND;
+        MILIISECOND_OF_A_DAY = 24 * 60 * 60 * 1000;
+        MILIISECOND_OF_AN_HOUR = 60 * 60 * 1000;
+        MILIISECOND_OF_A_MINUTE = 60 * 1000;
+        MILIISECOND_OF_A_SECOND = 1000;
+        if (begin) { /* 有参数 */
+            begin = new Date(begin.split("-").join("/")); /* 创建时间对象，因为“YYYY-MM-DD”格式创建的时间可能会不一致（0点或8点），所以统一转为“YYYY/MM/DD”格式 */
+            end = end ? (result = "相差") && new Date(end.split("-").join("/")) : new Date(); /* 有 end 参数则保留，并同时给 result 赋提示字符，否则赋当前时间 */
+            result = begin == "Invalid Date" || end == "Invalid Date" ? new Date(NaN) : result; /* 创建时间时出错，则将 result 置为 Date 在参数错误时返回的原生对象，否则 result 保持原样 */
+            // 取时差的不同要素
+            // 笨方法
+            // gap = [];
+            // gap[0] = Math.abs(end.getTime() - begin.getTime());
+            // days = parseInt(gap[0] / MILIISECOND_OF_A_DAY);
+            // gap[1] = gap[0] - days * MILIISECOND_OF_A_DAY;
+            // hours = parseInt(gap[1] / MILIISECOND_OF_AN_HOUR);
+            // gap[2] = gap[1] - hours * MILIISECOND_OF_AN_HOUR;
+            // minutes = parseInt(gap[2] / MILIISECOND_OF_A_MINUTE);
+            // gap[3] = gap[2] - minutes * MILIISECOND_OF_A_MINUTE;
+            // seconds = parseInt(gap[3] / MILIISECOND_OF_A_SECOND);
+
+            // 好方法
+            gap = Math.abs(end.getTime() - begin.getTime());
+            days = parseInt(gap / MILIISECOND_OF_A_DAY);
+            hours = (parseInt(gap / MILIISECOND_OF_AN_HOUR)) % 24;
+            minutes = (parseInt(gap / MILIISECOND_OF_A_MINUTE)) % 60;
+            seconds = (parseInt(gap / MILIISECOND_OF_A_SECOND)) % 60;
+
+            result = !result ? end > begin ? "已过" : "还剩" : result; /* 若 result 还从未赋值（即：无 end 参数且创建时间顺利），则根据传入时间关系，给 result 赋提示字符，否则 result 保持原样 */
+            result = result != "Invalid Date" ? result + "：" + days + "天" + hours + "小时" + minutes + "分" + seconds + "秒" : result; /* 若创建时间时顺利，则拼接出最后的结果，否则 result 保持原样  */
+        } else { /* 没有参数 */
+            // result = ""; /* 返回空字符或提示，符合 Date 的风格 */
+            throw new Error("Expect at least one argument."); /* 或报错提示，利于编程 */
+        }
+        return result;
+    }
+    Date.between = between;
+    document.getElementById("answer").onclick = function() {
+        alert("Date.between('2020-10-10', '2020-10-1')的结果为:\n" + Date.between('2020-10-10', '2020-10-1') + "\n您也可选择自行打开控制台测试。");
+    }
+</script>
+
+</html>

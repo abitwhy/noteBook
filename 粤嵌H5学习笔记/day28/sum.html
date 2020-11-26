@@ -1,0 +1,529 @@
+<!-- 由很多页面合到一起的，需要测试自己摘取并cop。看看代码量就好了， 有关图片的地方都会出错 -->
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轮播图（滑动版）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+        
+        li {
+            list-style: none;
+        }
+        
+        img {
+            width: 100%;
+            height: 100%;
+        }
+        
+        h1 {
+            font-size: 50px;
+            text-align: center;
+        }
+        
+        #photo-wrap {
+            width: 50%;
+            height: 630px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pick-list {
+            position: absolute;
+            right: 2%;
+            top: 50px;
+            z-index: 2;
+        }
+        
+        ul.pick-list>li {
+            width: 18px;
+            height: 18px;
+            margin-left: 4px;
+            list-style: none;
+            border: 1px solid white;
+            border-radius: 50%;
+            background-color: transparent;
+            float: left;
+            /* 解决边框宽度变化导致元素跳动 */
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+        
+        ul.pick-list>li:hover {
+            box-shadow: 0px 0px 5px 1px white;
+            border: 2px solid #666fcc;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .picked {
+            /* 类名选择器优先级比较低，更改属性时，需要考虑优先级（添加属性则不需要） */
+            box-shadow: 0px 0px 5px 1px white;
+            border: 2px solid #666fcc !important;
+            background-color: rgba(255, 255, 255, 0.8) !important;
+        }
+        
+        .img-list {
+            height: 100%;
+            position: absolute;
+        }
+        
+        .img-list>a {
+            display: block;
+            height: 100%;
+        }
+        
+        ul.img-list li {
+            /* width: 590px;
+            height: 470px; */
+            width: 600px;
+            height: 500px;
+            /* position: absolute; */
+            float: left;
+            /* opacity: 0; */
+            transition: opacity 1s;
+        }
+        
+        .show {
+            z-index: 1;
+            opacity: 1 !important;
+        }
+    </style>
+    <script src="./asset/js/myAnimation.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>轮播图</h1>
+        <div id="photo-wrap">
+            <ul class="pick-list">
+                <!-- 剩余 li 在 js 里根据 img-list 里的图片数量动态生成。 -->
+                <li></li>
+            </ul>
+            <ul class="img-list">
+                <li>
+                    <a href="javascript:;">
+                        <img src="" alt="" title="">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script>
+    var pickList, pLItem, picks, lastPick, imgList, iLItem, imgs, imgSrcs, lastIterval, excuting, during;
+    pickList = document.querySelector(".pick-list");
+    pLItem = pickList.querySelector("li");
+    lastPick = { /* 上一个被选中按钮，分别记录手动点击的和循环触发的 */
+        manual: 0,
+        auto: 0
+    };
+    imgList = document.querySelector(".img-list");
+    iLItem = imgList.querySelector("li");
+    imgSrcs = ["./asset/images/image1.jpg", "./asset/images/image2.jpg", "./asset/images/image3.jpg", "./asset/images/image4.jpg", "./asset/images/image5.jpg", "./asset/images/image6.jpg"];
+    excuting = false;
+    // during = 0; /* 每段动画执行的时间（ms），希望添加到循环播放的 interval 里=》可能需要异步才能做到 */
+    (function buildNode() { /* 补全节点 */
+        var pickNode, imgNode;
+        for (var i = 0; i < imgSrcs.length; i++) {
+            if (i) {
+                pickNode = pLItem.cloneNode(true); /* 克隆的节点在被添加后会被清空，所以要在循环里克隆 */
+                imgNode = iLItem.cloneNode(true);
+                pickList.appendChild(pickNode);
+                imgNode.querySelector("img").src = imgSrcs[i];
+                imgList.appendChild(imgNode);
+            } else { /* 因为有模板，克隆节点时，跳过第一个 */
+                imgList.querySelector("img").src = imgSrcs[i]; /* 需要设置第一个 img 的地址 */
+                continue;
+            }
+        }
+        // 后续完善
+        imgList.style.width = iLItem.offsetWidth * (imgSrcs.length + 1) + "px"; /* 图片列表增宽，以放下浮动的图片 */
+        picks = pickList.querySelectorAll("li");
+        picks.forEach((item, i) => { /* 给按钮添加索引，方便后面还原前一个按钮样式，以及绑定对应 img 元素等操作 */
+            item.index = i++;
+        }, 0);
+        interimImg = imgList.firstElementChild.cloneNode(true); /* 追加一个图片，作为两端滑动的过渡图片 */
+        imgList.appendChild(interimImg); /* 追加图片 */
+        imgs = imgList.querySelectorAll("li"); /* 获取图片组 */
+    })();
+
+    function changes(e) {
+        if (!excuting) {
+            var vector, interim;
+            excuting = true;
+            interim = false; /* 判断过渡轮 */
+            vector = iLItem.offsetWidth * (lastPick.manual - this.index); /* 移动矢量 */
+            picks[lastPick.manual].classList.remove("picked"); /* 移除上一按钮的选中效果 */
+            if (lastPick.manual == picks.length - 1 && this.index == 0) {
+                interim = true;
+                vector = -iLItem.offsetWidth;
+                lastPick.manual = 0;
+            } else {
+                lastPick.manual = this.index;
+            }
+            // retardedSpeed(imgList, 1, vector, () => { /* 滑动效果（图片列表滑动） */
+            //     if (interim) {
+            //         imgList.style.width = 0;
+            //     }
+            //     excuting = false;
+            // });
+            animateX(imgList, imgList.offsetLeft + vector, 20, () => {
+                if (interim) {
+                    setTimeout(() => { /* debug：此处设置一定比 anmateX 里的设置晚执行 */
+                        imgList.style.left = 0;
+                    }, 0);
+                }
+                excuting = false;
+            });
+            // console.log("vector:" + vector);
+            // console.log(imgList.style.left);
+            picks[lastPick.manual].classList.add("picked"); /* 设置当前按钮的选中效果 */
+            if (lastPick.manual !== lastPick.auto) { /* 手动点击后，重置循环触发 */
+                reDispatchPick(lastPick.manual);
+            }
+        } else {
+            return;
+        }
+    }
+    // 监听按钮点击事件（可以考虑使用事件代理进行优化=》搁置：changes 里的 this 指向代理元素（pickList），导致获取不到当前被点击的子元素=》解决：event.target=》再次告吹：无法自动触发事件。）
+    for (var i = 0; i < picks.length; i++) {
+        picks[i].addEventListener("click", changes, false);
+    }
+    // 循环触发事件
+    function dispatchPick(begin) { /* 普通函数方式，接受触发起始位置参数，实现根据用户点击按钮重置循环 */
+        var intervalId = setInterval(() => { /*  */
+            var eventClick = new Event("click");
+            lastPick.auto = (begin++) % picks.length; /* 更新循环触发的前一个按钮 */
+            picks[lastPick.auto].dispatchEvent(eventClick); /* dispatchEvent 有布尔返回值 */
+        }, 2000);
+        return intervalId;
+    }
+    // 重置循环触发
+    function reDispatchPick(current) { /* 清除前轮询，执行新轮询。*/
+        // 可以改成传双参，但需要给首参 last 赋传址类型的变量，并对 lastInterval 和 reDispatchPick 做相应改变  
+        clearInterval(lastInterval);
+        lastInterval = dispatchPick(current);
+        // console.log("current:" + current + "," + "lastInterval:" + lastInterval);
+    }
+    // 鼠标悬浮暂停轮询 （有点bug：点击按钮会重新轮询=》已解决：添加 excuting 布尔变量）
+    (function nap() {
+        imgList.onmouseenter = function() {
+            clearInterval(lastInterval);
+        };
+        imgList.onmouseleave = function() {
+            reDispatchPick(lastPick.manual); /* 也可以考虑从自动点击位置开始 */
+        };
+    })();
+    // 初始化（并非赋初值，注意区分）
+    (function init() { /* 某些初始化可以在 HTML 里进行，这里为了提高函数的重用性，选择在 js 里初始化 */
+        picks[lastPick.manual].classList.add("picked");
+        lastInterval = dispatchPick(0);
+    })();
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>遮罩效果</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        img {
+            width: 100%;
+        }
+        
+        .container {
+            width: 800px;
+            margin: 20px auto;
+        }
+        
+        .img-wrap {
+            width: 280px;
+            height: 300px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .content {
+            width: 100%;
+            height: 100px;
+            background-color: #ffffff85;
+            top: 294px;
+            position: absolute;
+            /* 测试是 94px */
+        }
+        
+        .content>span {
+            height: 50px;
+            padding-left: 10px;
+            font-size: 30px;
+            line-height: 50px;
+            color: white;
+            display: block;
+        }
+    </style>
+    <script src="./asset/js/myAnimation.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="img-wrap">
+            <img src="./asset/images/suit.png" alt="">
+            <div class="content">
+                <span>时尚西装</span>
+                <span>Fashion suit</span>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var imgWrap, content;
+    imgWrap = document.querySelector(".img-wrap");
+    content = imgWrap.querySelector(".content");
+    imgWrap.onmouseenter = function(e) {
+        animateY(content, 194, 20);
+    };
+    imgWrap.onmouseleave = function() {
+        animateY(content, 294, 10);
+    };
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂练习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+        
+        form {
+            width: 800px;
+            height: 150px;
+            margin: 20px auto;
+            padding: 15px;
+            border: 1px solid gainsboro;
+        }
+        
+        input {
+            margin-top: 8px;
+            padding-left: 10px;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            height: 30px;
+        }
+        
+        input[type="button"] {
+            padding: 2px 4px;
+            background-color: ghostwhite;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form action="">
+            <label for="username">用户名：</label>
+            <input type="text" id="username" name="uername">
+            <br>
+            <label for="password">密码：&ensp;&ensp;</label>
+            <input type="password" id="password" name="password">
+            <br>
+            <input type="button" value="登录">
+        </form>
+    </div>
+</body>
+<script>
+</script>
+
+</html>
+<script>
+    // 匀速
+    function constantSpeed(node, speed, end, callback) { /* 实际的速度与 interval 有关。应该等于 speed*(1000/interval) */
+        var time, s, tId;
+        s = 0;
+        time = 0;
+        node.style.marginLeft = 0 + "px"; /* 归零，以重复执行 */
+        tId = setInterval(() => {
+            if (s < end) {
+                s = speed * time++; /* 匀速直线运动路程公式 */
+                node.style.marginLeft = s + "px";
+            } else {
+                clearInterval(tId);
+                callback && callback();
+            }
+        }, 10);
+    }
+    // 匀减速 Uniformly retarded，效果不佳
+    function retardedSpeed(node, a, end, callback) { /* a 代表加速度速率，建议 a 的范围在 0-0.2 区间，否则需要改偏差 */
+        var time, s, start, v0, tId;
+        time = 0;
+        s = 0;
+        start = +node.style.left.slice(0, -2);
+        // 计算初速度：根据 2as=vt^2-v0^2,其中 vt=0。得： v0=sqrt(-2as)
+        // v0 = Math.ceil(Math.sqrt(-2 * a * end) * 10) / 10; /* 方案1： 向上保留1为小数，解决 s 到达不了end 的问题，同时减小了计算精度=》缺点：更改 a 容易失灵，动画效果不细腻 */
+        a = end < 0 ? a : -a; /* 匀减速加速度方向要与位移矢量方向相反 */
+        //  console.log("a:" + a);
+        v0 = Math.sqrt(-2 * a * end * 1.01); /* 方案2：给 end 加一个0.01倍的偏差 */
+        v0 = end > 0 ? v0 : -v0; /* 匀减速初速度方向要与位移矢量方向一致 */
+        //  console.log("v0:" + v0);
+        //  node.style.left = 0 + "px"; /* 归零，以重复执行 */
+        tId = setInterval(() => {
+            console.log("s:" + s);
+            if (Math.abs(s) < Math.abs(end)) { /* 计算的结果不准确，不能直接 s<end =》改进后可以了*/
+                s = (v0 * time) + 0.5 * a * time++ ** 2; /* 匀加速直线运动路程公式 */
+                node.style.left = start + s + "px";
+            } else {
+                node.style.left = start + end + "px"; /* debug：强行取端点值 */
+                clearInterval(tId);
+                callback && callback(); /* 如果callback参数有传入那就执行 */
+                during = Date.now() - during;
+            }
+        }, 10);
+    }
+
+    //  所有需要获取 offsetLeft/offsetTop 的动画都会因为浏览器缩放而出问题（可能只对竖直方向运动有影响），到达不了终止状态而陷入死循环。
+    function animate(obj, space, funtime, callback) {
+        clearInterval(obj.intervalID); //把定时器的id存入对象. 对象始终只有一个同名属性,如果点击了多次,后面id会覆盖前面的id
+        obj.intervalID = setInterval(function() {
+            var left = obj.offsetLeft; //获取当前对象距左边的距离
+            var speed = (space - left) / 10; //动态计算速度
+            //console.log('未取整的结果==>',speed);
+            speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed); //速度要向上取整.   4.5  ==> 5  -4.5==>-4  -5
+            left += speed; //左边位移要加上速度
+            ///console.log("距离左边的位移",left,"每次移动的位移:",speed);
+            if (left == space) { //如果位移达到了目标距离 就停止动画
+                clearInterval(obj.intervalID); //清除定时器.
+                callback && callback(); //如果callback参数有传入那就执行 短路就不执行.
+            }
+            obj.style.left = left + "px";
+        }, funtime);
+    }
+    //  水平运动动画
+    function animateX(targetNode, terminus, speed, callback) {
+        /* 参数说明：
+            targetNode-目标节点（必要）：需要移动的元素； 
+            termius-终点（必要）：目标节点需要移动到的指定 offsetLeft 位置；
+            speed-速度（非必要）：动画执行的快慢，单位 ms，取值应为1~100的整数；
+            callback-回调函数（非必要）：需要在动画结束后执行的代码。
+        */
+        var left, increment, during;
+        during = Date.now(); /* during 是动画执行的时间，考虑作为返回值备用 */
+        speed = speed ? speed : 10; /* 默认速度 */
+        clearInterval(targetNode.intervalID); /* 把定时器的id存入对象，（类似）防抖 */
+        targetNode.intervalID = setInterval(function() {
+            left = targetNode.offsetLeft;
+            increment = (terminus - left) / 10;
+            increment = increment > 0 ? Math.ceil(increment) : Math.floor(increment); /* 速度要向上取整 */
+            left += increment;
+            //  console.log(left);
+            if (left == terminus) {
+                clearInterval(targetNode.intervalID);
+                callback && callback();
+                console.log("during:" + (Date.now() - during));
+            }
+            targetNode.style.left = left + "px";
+        }, speed);
+    }
+    //  竖直运动动画
+    function animateY(targetNode, terminus, speed, callback) { /* 老师的方案，效果很好，但有两处未搞懂 */
+        /* 参数说明：
+            targetNode-目标节点（必要）：需要移动的元素； 
+            termius-终点（必要）：目标节点需要移动到的指定 offsetTop 位置；
+            speed-速度（非必要）：动画执行的快慢，单位 ms，取值应为1~100的整数；
+            callback-回调函数（非必要）：需要在动画结束后执行的代码。
+        */
+        var top, increment, during;
+        during = Date.now();
+        speed = speed ? speed : 10; /* 默认速度 */
+        clearInterval(targetNode.intervalID);
+        targetNode.intervalID = setInterval(function() {
+            top = targetNode.offsetTop;
+            console.log("ot:", top);
+            increment = (terminus - top) / 10; /* 为什么这里取10，如果这里变化也会改变动画快慢 */
+            console.log("increment1:", increment);
+            increment = increment > 0 ? Math.ceil(increment) : Math.floor(increment);
+            console.log("increment2:", increment);
+            top += increment;
+            console.log(top);
+            if (top == terminus) {
+                clearInterval(targetNode.intervalID);
+                callback && callback();
+                console.log("during:" + (Date.now() - during));
+            }
+            targetNode.style.top = top + "px";
+            console.log("st:", targetNode.style.top);
+        }, speed); /* 为什么这里决定速度 */
+    }
+    //  改动版
+    function animateY2(targetNode, terminus, speed, callback) { /* 太过平滑了 */
+        /* 参数说明：
+            targetNode-目标节点（必要）：需要移动的元素； 
+            termius-终点（必要）：目标节点需要移动到的指定 offsetTop 位置；
+            speed-速度（非必要）：动画执行的快慢，单位 ms，取值应为1~100的整数；
+            callback-回调函数（非必要）：需要在动画结束后执行的代码。
+        */
+        /* 发现的问题：
+            speed 小于10，鼠标快进快出/鼠标极快滑有几率出现跳动 bug
+            speed 小于20，鼠标极快滑过有几率出现跳动 bug
+
+         */
+        var top, increment, during;
+        top = targetNode.offsetTop;
+        during = Date.now();
+        speed = speed ? speed : 10; /* 默认速度 */
+        speed = Math.abs(terminus - top) * speed / 100; /* 百分比化 */
+        clearInterval(targetNode.intervalID);
+        targetNode.intervalID = setInterval(function() {
+            top = targetNode.offsetTop;
+            console.log("ot:", top);
+            increment = (terminus - top) / speed;
+            console.log("increment1:", increment);
+            increment = increment > 0 ? Math.ceil(increment) : Math.floor(increment);
+            console.log("increment2:", increment);
+            top += increment;
+            console.log(top);
+            if (top == terminus) {
+                clearInterval(targetNode.intervalID);
+                callback && callback();
+                console.log("during:" + (Date.now() - during));
+            }
+            targetNode.style.top = top + "px";
+            console.log("st:", targetNode.style.top);
+        }, 10);
+    }
+</script>

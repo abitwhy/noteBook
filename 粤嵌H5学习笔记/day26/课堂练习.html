@@ -124,7 +124,7 @@
         offsetY = e.clientY - this.offsetTop;
         that = this;
 
-        function innerMove(ev) {
+        function innerLocate(ev) { /* 内部鼠标相对盒子定位 */
             var x, y, minX, minY;
             x = ev.clientX - offsetX;
             y = ev.clientY - offsetY;
@@ -135,9 +135,9 @@
         }
 
         function stopMove(evt) {
-            document.removeEventListener("mousemove", innerMove);
+            document.removeEventListener("mousemove", innerLocate);
         }
-        document.addEventListener("mousemove", innerMove);
+        document.addEventListener("mousemove", innerLocate);
         document.addEventListener("mouseup", stopMove);
     }
     moveBox2.addEventListener("mousedown", move);
