@@ -27,7 +27,7 @@ searchWrap.prototype.search = function() { /* 查找 */
     query = this.node.querySelector("input[type='button']");
     tbody = this.node.querySelector("tbody");
     result = this.data.slice(1).filter(function(value) {
-        if (value["name"].indexOf(searching.value) > -1) {
+        if (value["name"].indexOf(searching.value) > -1) { /* 查询方式有待优化：考虑使用正则方式，及支持查询任意数据项 */
             return true;
         } else {
             return false;

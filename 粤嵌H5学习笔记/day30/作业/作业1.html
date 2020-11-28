@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计数、随机数及邮箱格式</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        .container {
+            width: 800px;
+            margin: 20px auto;
+        }
+        
+        .container>div {
+            margin: 20px auto;
+            text-align: center;
+        }
+        
+        form {
+            text-align: center;
+        }
+        
+        label {
+            vertical-align: top;
+            line-height: 30px;
+        }
+        
+        input {
+            height: 30px;
+            /* 必需通过 margin-bottom 留出一行提示信息的位置 */
+            margin-bottom: 30px;
+            padding: 0 4px;
+            font-size: 16px;
+            line-height: 30px;
+            vertical-align: bottom;
+        }
+        
+        input[type="text"] {
+            min-width: 260px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="count">
+            <button>赞(<span>0</span>)</button>
+            <button>赞(<span>0</span>)</button>
+            <button>赞(<span>0</span>)</button>
+            <button>赞(<span>0</span>)</button>
+        </div>
+        <div class="radom">
+        </div>
+        <div class="login">
+            <form id="login" action="">
+                <label for="uername">用户名:</label>
+                <input name="username" type="text" placeholder="用户名"><br>
+                <label for="email">邮&emsp;箱:</label>
+                <input name="email" type="text" placeholder="邮箱"><br>
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+    (function hw1() { /* 计数 */
+        function count(begin) {
+            var num = begin;
+
+            function sum() {
+                return num++;
+            }
+            return sum;
+        }
+        var btns = document.querySelectorAll("button");
+
+        btns.forEach(function(btn) {
+            // btn.setAttribute("data-count",""); /* 弃用：这是为了修改 css 样式的，用起来也不方便 */
+            btn.count = count(1);
+
+            function add() {
+                this.querySelector("span").innerText = this.count();
+            }
+            btn.addEventListener("click", add);
+        })
+    })();
+    (function hw2() { /* 随机数 */
+        function hello() {
+            var radomNum = Math.floor(Math.random() * 101)
+            return function closure() {
+                return radomNum;
+            }
+        }
+        var fun = hello();
+        for (var i = 0; i < fun(); i++) {
+            console.log("第" + i + "次执行fun()：" + fun());
+        }
+        // setInterval(() => {
+        //     var i = 0;
+        //     (function() {
+        //         console.log("第" + i++ + "次执行fun()：" + fun());
+        //     })(i);
+        // }, 1000);
+    })();
+    (function hw3() { /* 表单格式预检 */
+        var form = document.querySelector("form");
+        var inputs = form.querySelectorAll("input[type='text']");
+        var data = [{
+            reg: /^\w{6,18}$/,
+            msg: "长度应为6~18个字符！"
+        }, {
+            reg: /^\w+@\w+(?:\.\w+)+$/,
+            msg: "邮件地址格式错误！"
+        }, ];
+
+        function invalid(target, reg) {
+            return reg.test(target.value);
+        }
+
+        function tips(target, message) { /* 适用于非绝对定位，并且通过 margin（-bottom） 布局的 input */
+            var tip = document.createElement("div");
+            var computedStyle = window.getComputedStyle(target); /* 获取元素 css 计算属性  */
+            tip.innerText = target.value ? message : target.nameZH + "不能为空！";
+            tip.style.width = target.offsetWidth + "px";
+            tip.style.height = "0px";
+            tip.style.marginLeft = target.offsetLeft - target.parentNode.offsetLeft + "px";
+            // 如果有函数能获取下一个指定 nodeName 的元素节点，那么下一行代码的可用性将提高，并更加简明
+            tip.style.marginBottom = computedStyle.marginBottom || target.nextElementSibling.nextElementSibling.nextElementSibling.offsetTop - target.offsetTop - target.offsetHeight + "px";
+            tip.style.color = "red";
+            target.style.marginBottom = "0px";
+            // 如果有函数能获取下一个指定 nodeName 的元素节点，那么下一行代码的可用性将提高，并更加简明
+            target.parentNode.insertBefore(tip, target.nextSibling.nextSibling); /* 最好能判断一下有无 <br> */
+            return tip;
+        }
+
+        (function addProperty() {
+            var count = 0;
+            inputs.forEach(function(item) {
+                var input, label;
+                input = {};
+                label = item.previousElementSibling; /* 假设为 label */
+                // 单独存属性方案
+                // input["name"] = item.name;
+                // input["nameZH"] = label.nodeName == "LABEL" ? label.innerText.slice(0, -1) : item.placeholder;
+                // data.push(input);
+
+                // 给 node 节点添加属性方案（这里好像也可以封装）
+                item.nameZH = label.nodeName == "LABEL" ? label.innerText.split(" ") /* 注意这里是全角空格 */ .join("").slice(0, -1) : item.placeholder;
+                item.reg = data[count].reg;
+                item.msg = data[count++].msg;
+            });
+        })();
+
+        function showTips(e) {
+            var tgt = e.target;
+            if (tgt.nodeName == "INPUT" && tgt.type == "text") {
+                tgt.tip = invalid(tgt, tgt.reg) ? null : tips(tgt, tgt.msg);
+            }
+        }
+
+        function removeTips(e) {
+            var tgt = e.target;
+            if (tgt.nodeName == "INPUT" && tgt.type == "text") {
+                tgt.tip ? (tgt.style.marginBottom = tgt.tip.style.marginBottom) && tgt.tip.parentNode.removeChild(tgt.tip) : null;
+            }
+        }
+        form.addEventListener("blur", showTips, true); /* 由于 focus 和 blur 事件不会冒泡，只能在捕获阶段触发，所以addEventListener方法的第三个参数需要设为true */
+        form.addEventListener("focus", removeTips, true);
+
+    })();
+</script>
+
+</html>

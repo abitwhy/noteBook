@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂练习</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    var menu = [{
+        id: 100,
+        name: "一级菜单1",
+        submenu: [{
+            id: 110,
+            name: "一级菜单1-二级菜单1",
+            submenu: [{
+                id: 111,
+                name: "一级菜单1-二级菜单1-三级菜单1",
+                submenu: []
+            }]
+        }, {
+            id: 120,
+            name: "一级菜单1-二级菜单2",
+            submenu: []
+        }, {
+            id: 130,
+            name: "一级菜单1-二级菜单3",
+            submenu: []
+        }]
+    }, {
+        id: 200,
+        name: "一级菜单2",
+        submenu: [{
+            id: 201,
+            name: "一级菜单2-二级菜单1",
+            submenu: []
+        }]
+    }]
+
+    function getSubMenuById(id, menu) {
+        var result; /* 必须定义此中间变量，不能在 for-in 中 return （会导致 for-in 循环不会遍历完整） */
+        for (var item in menu) {
+            console.log(menu[item]);
+            if (menu[item].id == id) {
+                result = menu[item].name;
+            } else if (menu[item].submenu.length) {
+                result = getSubMenuById(id, menu[item].submenu);
+            } else {
+                // result = menu[item].submenu;
+                result = "未找到";
+            }
+        }
+        return result;
+    }
+    var rst = getSubMenuById(2100, menu);
+    console.log(rst);
+</script>
+
+</html>
