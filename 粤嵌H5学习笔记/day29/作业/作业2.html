@@ -84,8 +84,8 @@
         } else { /* 有两个及以上参数 */
             try {
                 args.forEach((item) => {
-                    result += +item; /* 无论元素是何类型，都强转为数字 */
-                    if (isNaN(result)) { /* 中间结果一旦为 NaN 则可停止计算 */
+                    result += +item;
+                    if (isNaN(result)) {
                         throw new Error("breakForEach");
                     }
                 });

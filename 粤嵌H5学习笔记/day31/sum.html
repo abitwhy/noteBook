@@ -1,0 +1,638 @@
+<!-- 由很多页面合到一起的，需要测试自己摘取并cop。看看代码量就好了， 有关图片的地方都会出错 -->
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        .container {
+            width: 800px;
+            margin: 20px auto;
+        }
+        
+        form {
+            text-align: center;
+        }
+        
+        label {
+            vertical-align: top;
+            line-height: 30px;
+        }
+        
+        input {
+            height: 30px;
+            /* 必需通过 margin-bottom 留出一行提示信息的位置 */
+            margin-bottom: 30px;
+            padding: 0 4px;
+            font-size: 16px;
+            line-height: 30px;
+            vertical-align: bottom;
+        }
+        
+        input[type="text"] {
+            min-width: 260px;
+        }
+    </style>
+    <script src="./作业/asset/js/unit.js"></script>
+    <script src="./作业/asset/js/preinvalid.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <form id="login" action="">
+            <label for="uername">用户名:</label>
+            <input id="username" name="username" type="text" placeholder="用户名"><br>
+            <label for="email">邮&emsp;箱:</label>
+            <input id="email" name="email" type="text" placeholder="邮箱"><br>
+            <label for="phone">手机号:</label>
+            <input id="phone" name="phone" type="text" placeholder="手机号"><br>
+        </form>
+        <hr>
+        <form id="questionnaire" action="">
+            <label for="foo">你的信仰:</label>
+            <input id="foo" name="foo" type="text" placeholder="做个有信仰的人"><br>
+            <label for="bar">你的偶像:</label>
+            <input id="bar" name="bar" type="text" placeholder="鼓舞你不断前行的人"><br>
+        </form>
+    </div>
+</body>
+<script>
+    // 登录表单
+    var login = document.querySelector("#login");
+    var data = [{
+        reg: /^\w{6,18}$/,
+        msg: "长度应为6~18个字符！"
+    }, {
+        reg: /^\w+@\w+(?:\.\w+)+$/,
+        msg: "邮件地址格式错误！"
+    }, {
+        reg: /^1[3456789]\d{9}$/,
+        msg: "请填写正确的手机号码！"
+    }, ];
+    var pivLogin = new Preinvalid(login, data);
+    pivLogin.init();
+
+    // 表单2
+    var questionnaire = document.querySelector("#questionnaire");
+    var data = [{
+        reg: /^.{5,}$/,
+        msg: "请填写5字以上！"
+    }, {
+        reg: /^.{5,}$/,
+        msg: "请填写5字以上！"
+    }, ];
+    var pivQuestionnaire = new Preinvalid(questionnaire, data);
+    pivQuestionnaire.init();
+</script>
+
+</html>
+<script>
+    // （登录/注册）表单预校验
+    function Preinvalid(node, data) {
+        this.node = node || null;
+        this.data = data || [];
+    }
+    Preinvalid.prototype.init = function() {
+        var piv;
+        piv = this;
+        piv.addProperty();
+        piv.node.addEventListener("blur", piv.showTips.bind(piv), true); /* 由于 focus 和 blur 事件不会冒泡，只能在捕获阶段触发，所以是否在冒泡阶段触发需要设为 true */
+        piv.node.addEventListener("focus", piv.removeTips, true);
+    };
+    Preinvalid.prototype.invalid = function(target, regExp) { /* 校验 */
+        return regExp.test(target.value);
+    };
+    // Preinvalid.prototype.getNextElementOf = function getNextElementOf(node, name) { /* 查找下一个指定类型元素节点（集成进来，否则单独引入）=》最终选择了单独引入，注释代码，保留备用 */
+    //     if (name ? node.nextElementSibling.nodeName == name.toUpperCase() : true) {
+    //         return node.nextElementSibling;
+    //     } else if (node.nextElementSibling.nextElementSibling) {
+    //         return getNextElementOf(node.nextElementSibling, name);
+    //     } else {
+    //         return null;
+    //     }
+    // }
+    Preinvalid.prototype.addProperty = function() { /* 为[tips]做准备 */
+        var piv, inputs, count = 0;
+        piv = this;
+        inputs = piv.node.querySelectorAll("input");
+        inputs.forEach(function(item) {
+            var input, label;
+            input = {};
+            label = item.previousElementSibling; /* 假设为 label */
+            // 单独存属性方案
+            // input["name"] = item.name;
+            // input["nameZH"] = label.nodeName == "LABEL" ? label.innerText.slice(0, -1) : item.placeholder;
+            // data.push(input);
+
+            // 给 node 节点添加属性方案（这里好像也可以封装）
+            item.nameZH = label.nodeName == "LABEL" ? label.innerText.split(" ") /* 注意这里是全角空格 */ .join("").slice(0, -1) : item.placeholder;
+            item.reg = piv.data[count].reg;
+            item.msg = piv.data[count++].msg;
+        });
+    };
+    Preinvalid.prototype.tips = function(target, message) {
+        var tip = document.createElement("div");
+        var computedStyle = window.getComputedStyle(target); /* 获取元素 css 计算属性  */
+        tip.innerText = target.value ? message : target.nameZH + "不能为空！";
+        tip.style.width = target.offsetWidth + "px";
+        tip.style.height = "0px";
+        tip.style.marginLeft = target.offsetLeft - target.parentNode.offsetLeft + "px";
+        // 如果有函数能获取下一个指定 nodeName 的元素节点，那么下一行代码的可用性将提高，并更加简明
+        // tip.style.marginBottom = computedStyle.marginBottom || target.nextElementSibling.nextElementSibling.nextElementSibling.offsetTop - target.offsetTop - target.offsetHeight + "px";
+        // tip.style.marginBottom = computedStyle.marginBottom || this.getNextElementOf(target, "input").offsetTop - target.offsetTop - target.offsetHeight + "px"; /* 改进1 */
+        tip.style.marginBottom = computedStyle.marginBottom || getNextElementOf(target, "input").offsetTop - target.offsetTop - target.offsetHeight + "px"; /* 改进2 */
+        tip.style.color = "red";
+        target.style.marginBottom = "0px";
+        // 如果有函数能获取下一个指定 nodeName 的元素节点，那么下一行代码的可用性将提高，并更加简明
+        // target.parentNode.insertBefore(tip, this.getNextElementOf(target, "label")); /* 改进1 */
+        target.parentNode.insertBefore(tip, getNextElementOf(target, "label")); /* 改进2 */
+        return tip;
+    };
+    Preinvalid.prototype.showTips = function(e) {
+        var tgt = e.target;
+        if (tgt.nodeName == "INPUT" && tgt.type == "text") {
+            // tgt.tip = this.invalid(tgt, tgt.reg) ? null : this.tips.bind(this)(tgt, tgt.msg); /* 改进1=》 若 getNextElementOf 为静态方法，则不需要 bind，代码逻辑也更简明 */
+            tgt.tip = this.invalid(tgt, tgt.reg) ? null : this.tips(tgt, tgt.msg); /* 改进2 */
+        }
+    };
+    Preinvalid.prototype.removeTips = function(e) {
+        var tgt = e.target;
+        if (tgt.nodeName == "INPUT" && tgt.type == "text") {
+            tgt.tip ? (tgt.style.marginBottom = tgt.tip.style.marginBottom) && tgt.tip.parentNode.removeChild(tgt.tip) : null;
+        }
+    };
+
+    /* ----------------------------------HTML example---------------------------------- */
+    /*     
+        <body>
+            <form id="login" action="">
+                <label for="uername">用户名:</label>
+                <input id="username" name="username" type="text" placeholder="用户名"><br>
+                <label for="email">邮&emsp;箱:</label>
+                <input id="email" name="email" type="text" placeholder="邮箱"><br>
+            </form>
+        </body>
+     */
+
+    /* ----------------------------------CSS example---------------------------------- */
+    // * {
+    //     margin: 0;
+    //     padding: 0;
+    // }
+
+    // form {
+    //     text-align: center;
+    // }
+
+    // label {
+    //     vertical-align: top;
+    //     line-height: 30px;
+    // }
+
+    // input {
+    //     height: 30px;
+    //     /* 必需通过 margin-bottom 留出一行提示信息的位置 */
+    //     margin-bottom: 30px;
+    //     padding: 0 4px;
+    //     font-size: 16px;
+    //     line-height: 30px;
+    //     vertical-align: bottom;
+    // }
+
+    // input[type="text"] {
+    //     min-width: 260px;
+    // }
+</script>
+<script>
+    function getNextElementOf(node, name) { /* 查找下一个指定类型元素节点 */
+        if (name ? node.nextElementSibling.nodeName == name.toUpperCase() : true) {
+            return node.nextElementSibling;
+        } else if (node.nextElementSibling.nextElementSibling) {
+            return getNextElementOf(node.nextElementSibling, name);
+        } else {
+            return null;
+        }
+    }
+</script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计数、随机数及邮箱格式</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        .container {
+            width: 800px;
+            margin: 20px auto;
+        }
+        
+        .container>div {
+            margin: 20px auto;
+            text-align: center;
+        }
+        
+        form {
+            text-align: center;
+        }
+        
+        label {
+            vertical-align: top;
+            line-height: 30px;
+        }
+        
+        input {
+            height: 30px;
+            /* 必需通过 margin-bottom 留出一行提示信息的位置 */
+            margin-bottom: 30px;
+            padding: 0 4px;
+            font-size: 16px;
+            line-height: 30px;
+            vertical-align: bottom;
+        }
+        
+        input[type="text"] {
+            min-width: 260px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="count">
+            <button>赞(<span>0</span>)</button>
+            <button>赞(<span>0</span>)</button>
+            <button>赞(<span>0</span>)</button>
+            <button>赞(<span>0</span>)</button>
+        </div>
+        <div class="radom">
+        </div>
+        <div class="login">
+            <form id="login" action="">
+                <label for="uername">用户名:</label>
+                <input name="username" type="text" placeholder="用户名"><br>
+                <label for="email">邮&emsp;箱:</label>
+                <input name="email" type="text" placeholder="邮箱"><br>
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+    (function hw1() { /* 计数 */
+        function count(begin) {
+            var num = begin;
+
+            function sum() {
+                return num++;
+            }
+            return sum;
+        }
+        var btns = document.querySelectorAll("button");
+
+        btns.forEach(function(btn) {
+            // btn.setAttribute("data-count",""); /* 弃用：这是为了修改 css 样式的，用起来也不方便 */
+            btn.count = count(1);
+
+            function add() {
+                this.querySelector("span").innerText = this.count();
+            }
+            btn.addEventListener("click", add);
+        })
+    })();
+    (function hw2() { /* 随机数 */
+        function hello() {
+            var radomNum = Math.floor(Math.random() * 101)
+            return function closure() {
+                return radomNum;
+            }
+        }
+        var fun = hello();
+        for (var i = 0; i < fun(); i++) {
+            console.log("第" + i + "次执行fun()：" + fun());
+        }
+        // setInterval(() => {
+        //     var i = 0;
+        //     (function() {
+        //         console.log("第" + i++ + "次执行fun()：" + fun());
+        //     })(i);
+        // }, 1000);
+    })();
+    (function hw3() { /* 表单格式预检 */
+        var form = document.querySelector("form");
+        var inputs = form.querySelectorAll("input[type='text']");
+        var data = [{
+            reg: /^\w{6,18}$/,
+            msg: "长度应为6~18个字符！"
+        }, {
+            reg: /^\w+@\w+(?:\.\w+)+$/,
+            msg: "邮件地址格式错误！"
+        }, ];
+
+        function invalid(target, reg) {
+            return reg.test(target.value);
+        }
+
+        function tips(target, message) { /* 适用于非绝对定位，并且通过 margin（-bottom） 布局的 input */
+            var tip = document.createElement("div");
+            var computedStyle = window.getComputedStyle(target); /* 获取元素 css 计算属性  */
+            tip.innerText = target.value ? message : target.nameZH + "不能为空！";
+            tip.style.width = target.offsetWidth + "px";
+            tip.style.height = "0px";
+            tip.style.marginLeft = target.offsetLeft - target.parentNode.offsetLeft + "px";
+            // 如果有函数能获取下一个指定 nodeName 的元素节点，那么下一行代码的可用性将提高，并更加简明
+            tip.style.marginBottom = computedStyle.marginBottom || target.nextElementSibling.nextElementSibling.nextElementSibling.offsetTop - target.offsetTop - target.offsetHeight + "px";
+            tip.style.color = "red";
+            target.style.marginBottom = "0px";
+            // 如果有函数能获取下一个指定 nodeName 的元素节点，那么下一行代码的可用性将提高，并更加简明
+            target.parentNode.insertBefore(tip, target.nextSibling.nextSibling); /* 最好能判断一下有无 <br> */
+            return tip;
+        }
+
+        (function addProperty() {
+            var count = 0;
+            inputs.forEach(function(item) {
+                var input, label;
+                input = {};
+                label = item.previousElementSibling; /* 假设为 label */
+                // 单独存属性方案
+                // input["name"] = item.name;
+                // input["nameZH"] = label.nodeName == "LABEL" ? label.innerText.slice(0, -1) : item.placeholder;
+                // data.push(input);
+
+                // 给 node 节点添加属性方案（这里好像也可以封装）
+                item.nameZH = label.nodeName == "LABEL" ? label.innerText.split(" ") /* 注意这里是全角空格 */ .join("").slice(0, -1) : item.placeholder;
+                item.reg = data[count].reg;
+                item.msg = data[count++].msg;
+            });
+        })();
+
+        function showTips(e) {
+            var tgt = e.target;
+            if (tgt.nodeName == "INPUT" && tgt.type == "text") {
+                tgt.tip = invalid(tgt, tgt.reg) ? null : tips(tgt, tgt.msg);
+            }
+        }
+
+        function removeTips(e) {
+            var tgt = e.target;
+            if (tgt.nodeName == "INPUT" && tgt.type == "text") {
+                tgt.tip ? (tgt.style.marginBottom = tgt.tip.style.marginBottom) && tgt.tip.parentNode.removeChild(tgt.tip) : null;
+            }
+        }
+        form.addEventListener("blur", showTips, true); /* 由于 focus 和 blur 事件不会冒泡，只能在捕获阶段触发，所以 addEventListener 方法的第三个参数需要设为true */
+        form.addEventListener("focus", removeTips, true);
+
+    })();
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轮播图（滑动版）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+        
+        li {
+            list-style: none;
+        }
+        
+        img {
+            width: 100%;
+            height: 100%;
+        }
+        
+        h1 {
+            font-size: 50px;
+            text-align: center;
+        }
+        
+        #photo-wrap {
+            width: 50%;
+            height: 500px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pick-list {
+            position: absolute;
+            right: 2%;
+            top: 50px;
+            z-index: 2;
+        }
+        
+        ul.pick-list>li {
+            width: 18px;
+            height: 18px;
+            margin-left: 4px;
+            list-style: none;
+            border: 1px solid white;
+            border-radius: 50%;
+            background-color: transparent;
+            float: left;
+            /* 解决边框宽度变化导致元素跳动 */
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+        
+        ul.pick-list>li:hover {
+            box-shadow: 0px 0px 5px 1px white;
+            border: 2px solid #666fcc;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .picked {
+            /* 类名选择器优先级比较低，更改属性时，需要考虑优先级（添加属性则不需要） */
+            box-shadow: 0px 0px 5px 1px white;
+            border: 2px solid #666fcc !important;
+            background-color: rgba(255, 255, 255, 0.8) !important;
+        }
+        
+        .img-list {
+            height: 100%;
+            position: absolute;
+        }
+        
+        ul.img-list li {
+            /* width: 590px;
+            height: 470px; */
+            width: 600px;
+            height: 500px;
+            /* position: absolute; */
+            /* float: left; [横向滑动]*/
+            /* opacity: 0; */
+            transition: opacity 1s;
+        }
+        
+        .img-list>li>a {
+            display: block;
+            height: 100%;
+        }
+        
+        .show {
+            z-index: 1;
+            opacity: 1 !important;
+        }
+    </style>
+    <script src="./asset/js/myAnimation.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>轮播图</h1>
+        <div id="photo-wrap">
+            <ul class="pick-list">
+                <!-- 剩余 li 在 js 里根据 img-list 里的图片数量动态生成。 -->
+                <li></li>
+            </ul>
+            <ul class="img-list">
+                <li>
+                    <a href="javascript:;">
+                        <img src="" alt="" title="">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script>
+    function ScrollImg(node, data) {
+        this.node = node || null;
+        this.data = data || [];
+    }
+
+    ScrollImg.prototype.init = function() { /* 初始化 */
+        this.predefine();
+        this.buildNode();
+
+
+        // 监听按钮点击事件（可以考虑使用事件代理进行优化=》搁置：changes 里的 this 指向代理元素（pickList），导致获取不到当前被点击的子元素=》解决：event.target=》再次告吹：无法自动触发事件。）
+        for (var i = 0; i < this.picks.length; i++) {
+            this.picks[i].addEventListener("click", this.changes.bind(this), false); /* 需要绑定 this ，以获得 picks */
+        }
+    };
+    ScrollImg.prototype.predefine = function() {
+        var picks, lastPick, imgs, lastIterval, excuting;
+        this.picks = null; /* 被选中的按钮 */
+        this.lastPick = { /* 上一个被选中按钮，分别记录手动点击的和循环触发的 */
+            manual: 0,
+            auto: 0
+        };
+        this.imgs = null; /* 图片组（暂未使用） */
+        this.lastIterval = -1; /* 上一个执行的自动播放 */
+        this.excuting = false;
+    };
+    ScrollImg.prototype.buildNode = function() {
+        var pickList, imgList, pickNode, imgNode;
+        pickList = this.node.querySelector(".pick-list");
+        pLItem = pickList.querySelector("li");
+        imgList = this.node.querySelector(".img-list");
+        iLItem = imgList.querySelector("li");
+        for (var i = 0; i < this.data.length; i++) {
+            if (i) { /* 因为有模板，克隆节点时，跳过第一个 */
+                pickNode = pLItem.cloneNode(true); /* 克隆的节点在被添加后会被清空，所以要在循环里克隆 */
+                imgNode = iLItem.cloneNode(true);
+                pickList.appendChild(pickNode);
+                imgNode.querySelector("img").src = this.data[i];
+                imgList.appendChild(imgNode);
+            } else {
+                imgList.querySelector("img").src = this.data[i]; /* 需要设置第一个 img 的地址 */
+                continue;
+            }
+        }
+        // 后续完善
+        // imgList.style.width = iLItem.offsetWidth * (this.data.length + 1) + "px"; /* [横向滑动]图片列表增宽，以放下浮动的图片 */
+        imgList.style.height = iLItem.offsetHeight * (this.data.length + 1) + "px"; /* [横向滑动]图片列表增宽，以放下浮动的图片（加一是为了无缝过渡） */
+        this.picks = pickList.querySelectorAll("li");
+        this.picks.forEach((item, i) => { /* 给按钮添加索引，方便后面还原前一个按钮样式，以及绑定对应 img 元素等操作 */
+            item.index = i++;
+        }, 0);
+        interimImg = imgList.firstElementChild.cloneNode(true); /* 追加一个图片，作为两端滑动的过渡图片 */
+        imgList.appendChild(interimImg); /* 追加图片 */
+        imgs = imgList.querySelectorAll("li"); /* 获取图片组（暂未使用） */
+    };
+    ScrollImg.prototype.changes = function(e) {
+        var target, picks, lastPick, imgList, excuting;
+        target = e.target; /* this 被外部更改，还好可以使用 e.target */
+        picks = this.picks;
+        console.log(picks === this.picks);
+        lastPick = this.lastPick;
+        imgList = this.node.querySelector(".img-list");
+        excuting = this.excuting;
+        console.log(lastPick);
+        if (!excuting) {
+            var vector, interim;
+            excuting = true;
+            interim = false; /* 判断过渡轮 */
+            vector = iLItem.offsetWidth * (lastPick.manual - target.index); /* 移动矢量 */
+            picks[lastPick.manual].classList.remove("picked"); /* 移除上一按钮的选中效果 */
+            if (lastPick.manual == picks.length - 1 && target.index == 0) {
+                interim = true;
+                vector = -iLItem.offsetWidth;
+                lastPick.manual = 0;
+            } else {
+                lastPick.manual = target.index;
+            }
+            // retardedSpeed(imgList, 1, vector, () => { /* 滑动效果（图片列表滑动） */
+            //     if (interim) {
+            //         imgList.style.width = 0;
+            //     }
+            //     excuting = false;
+            // });
+            animateX(imgList, imgList.offsetLeft + vector, 20, () => {
+                if (interim) {
+                    setTimeout(() => { /* debug：此处设置一定比 anmateX 里的设置晚执行 */
+                        imgList.style.left = 0;
+                    }, 0);
+                }
+                excuting = false;
+            });
+            // console.log("vector:" + vector);
+            // console.log(imgList.style.left);
+            picks[lastPick.manual].classList.add("picked"); /* 设置当前按钮的选中效果 */
+            if (lastPick.manual !== lastPick.auto) { /* 手动点击后，重置循环触发 */
+                reDispatchPick(lastPick.manual);
+            }
+        } else {
+            return;
+        }
+    };
+    ScrollImg.prototype.reDispatchPick = function() {
+
+    };
+    ScrollImg.prototype.nap = function() {
+
+    };
+    var photoWrap = document.querySelector("#photo-wrap");
+    imgSrcs = ["./asset/images/image1.jpg", "./asset/images/image2.jpg", "./asset/images/image3.jpg", "./asset/images/image4.jpg", "./asset/images/image5.jpg", "./asset/images/image6.jpg"];
+    var scrollPW = new ScrollImg(photoWrap, imgSrcs);
+    scrollPW.init();
+</script>
+
+</html>

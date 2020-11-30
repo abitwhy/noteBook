@@ -1,14 +1,3 @@
-```js
-function getNextElement(node) { /* 查找下一个元素节点 */
-    if (node.nextSibling.nodeType == 1) {
-        return node.nextSibling;
-    }
-    if (node.nextSibling.nextSibling) {
-        return getNextElement(node.nextSibling);
-    }
-    return null;
-}
-
 function getNextElementOf(node, name) { /* 查找下一个指定类型元素节点 */
     if (name ? node.nextElementSibling.nodeName == name.toUpperCase() : true) {
         return node.nextElementSibling;
@@ -18,5 +7,3 @@ function getNextElementOf(node, name) { /* 查找下一个指定类型元素节�
         return null;
     }
 }
-```
-

@@ -169,7 +169,7 @@
                 tgt.tip ? (tgt.style.marginBottom = tgt.tip.style.marginBottom) && tgt.tip.parentNode.removeChild(tgt.tip) : null;
             }
         }
-        form.addEventListener("blur", showTips, true); /* 由于 focus 和 blur 事件不会冒泡，只能在捕获阶段触发，所以addEventListener方法的第三个参数需要设为true */
+        form.addEventListener("blur", showTips, true); /* 由于 focus 和 blur 事件不会冒泡，只能在捕获阶段触发，所以 addEventListener 方法的第三个参数需要设为true */
         form.addEventListener("focus", removeTips, true);
 
     })();

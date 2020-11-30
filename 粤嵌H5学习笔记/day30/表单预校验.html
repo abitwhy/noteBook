@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        .container {
+            width: 800px;
+            margin: 20px auto;
+        }
+        
+        form {
+            text-align: center;
+        }
+        
+        label {
+            vertical-align: top;
+            line-height: 30px;
+        }
+        
+        input {
+            height: 30px;
+            /* 必需通过 margin-bottom 留出一行提示信息的位置 */
+            margin-bottom: 30px;
+            padding: 0 4px;
+            font-size: 16px;
+            line-height: 30px;
+            vertical-align: bottom;
+        }
+        
+        input[type="text"] {
+            min-width: 260px;
+        }
+    </style>
+    <script src="./作业/asset/js/unit.js"></script>
+    <script src="./作业/asset/js/preinvalid.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <form id="login" action="">
+            <label for="uername">用户名:</label>
+            <input id="username" name="username" type="text" placeholder="用户名"><br>
+            <label for="email">邮&emsp;箱:</label>
+            <input id="email" name="email" type="text" placeholder="邮箱"><br>
+            <label for="phone">手机号:</label>
+            <input id="phone" name="phone" type="text" placeholder="手机号"><br>
+        </form>
+        <hr>
+        <form id="questionnaire" action="">
+            <label for="foo">你的信仰:</label>
+            <input id="foo" name="foo" type="text" placeholder="做个有信仰的人"><br>
+            <label for="bar">你的偶像:</label>
+            <input id="bar" name="bar" type="text" placeholder="鼓舞你不断前行的人"><br>
+        </form>
+    </div>
+</body>
+<script>
+    // 登录表单
+    var login = document.querySelector("#login");
+    var data = [{
+        reg: /^\w{6,18}$/,
+        msg: "长度应为6~18个字符！"
+    }, {
+        reg: /^\w+@\w+(?:\.\w+)+$/,
+        msg: "邮件地址格式错误！"
+    }, {
+        reg: /^1[3456789]\d{9}$/,
+        msg: "请填写正确的手机号码！"
+    }, ];
+    var pivLogin = new Preinvalid(login, data);
+    pivLogin.init();
+
+    // 表单2
+    var questionnaire = document.querySelector("#questionnaire");
+    var data = [{
+        reg: /^.{5,}$/,
+        msg: "请填写5字以上！"
+    }, {
+        reg: /^.{5,}$/,
+        msg: "请填写5字以上！"
+    }, ];
+    var pivQuestionnaire = new Preinvalid(questionnaire, data);
+    pivQuestionnaire.init();
+</script>
+
+</html>

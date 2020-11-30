@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>验证压缩文件</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        验证一个文件名称是否是 压缩包格式 比如 : abc.zip bcd.rar 是压缩文件 压缩文件后缀: zip rar gz z arj。
+
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <img src="./asset/images/bg_ruyi-bridge.jpg" alt="" title="图片来源:阮一峰的网络日志-135期">
+</body>
+<script>
+    function isCompressedFiles(str) {
+        var suffixReg = /\w+(\.zip|\.rar|\.gz|\.z|\.arj)$/;
+        return suffixReg.test(str);
+    }
+    document.getElementById("answer").onclick = function() {
+        var input = prompt("请输入需要测试的文件名：", "");
+        alert('"' + input + '"' + (isCompressedFiles(input) ? "" : "不") + "属于压缩文件。");
+    }
+</script>
+
+</html>

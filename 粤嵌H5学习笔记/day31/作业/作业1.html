@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提取电子邮箱</title>
+    <style>
+        span#answer {
+            margin: 20px auto;
+            background-color: orange;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        小明：大神么么哒，正好是我想要的，我的邮箱是xiaoming@qq.com小红：我老公最爱看这个了，我想给他 一个惊喜，么么么哒，邮箱是xiaohong@sina.com我：好人一生平安，邮箱是wuyou@163.com'中所有的邮 箱号码提取出来 用字符串的match 函数 正则全局匹配邮箱.
+        <span id="answer"> 让我试试看</span>
+    </h1>
+    <img src="./asset/images/bg_ruyi-bridge.jpg" alt="" title="图片来源:阮一峰的网络日志-135期">
+</body>
+<script>
+    function matchEmails(str) {
+        var emailReg = /\w+@\w+(?:\.\w+)+/g;
+        return str.match(emailReg);
+    }
+    document.getElementById("answer").onclick = function() {
+        var input = prompt("请输入需要查找邮箱的字串：", "");
+        alert("题目的匹配结果为:" + matchEmails(input).join("、"));
+    }
+</script>
+
+</html>
