@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简约表格</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        .container {
+            width: 800px;
+            margin: 20px auto;
+            padding: 50px;
+        }
+        
+        table {
+            width: 80%;
+            margin: 20px auto;
+            text-align: center;
+            /* 去除 cellpadding */
+            border-collapse: collapse;
+        }
+        
+        tr {
+            border: 1px solid rgb(186, 186, 186);
+        }
+        
+        tr>td:nth-child(n+2) {
+            /* 每列的内边框 */
+            border-left: 1px solid rgb(186, 186, 186);
+        }
+    </style>
+    <script src="./asset/js/jQuery.min(3.3.1).js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Firtname</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>喜羊羊</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>美羊羊</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>懒羊羊</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>沸羊羊</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>慢羊羊</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>灰太狼</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>小灰灰</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>
+    $("tBody").children("tr:even").css("backgroundColor", " rgb(238, 238, 238)");
+    $("tBody").children("tr").hover(
+        function() {
+            // var index = $(this).index();
+            if ($(this).index() % 2 == 0) {
+                $(this).css("backgroundColor", " rgb(228, 228, 228)");
+            } else {
+                $(this).css("backgroundColor", " rgb(248, 248, 248)");
+            }
+        },
+        function() {
+            if ($(this).index() % 2 == 0) {
+                $(this).css("backgroundColor", "rgb(238, 238, 238)");
+            } else {
+                $(this).css("backgroundColor", " white");
+            }
+        }
+    );
+</script>
+
+</html>

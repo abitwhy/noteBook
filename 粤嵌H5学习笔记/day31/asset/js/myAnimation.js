@@ -94,26 +94,26 @@
          callback-回调函数（非必要）：需要在动画结束后执行的代码。
      */
      var top, increment, during;
-     //  during = Date.now();
+     during = Date.now();
      speed = speed ? speed : 10; /* 默认速度 */
      clearInterval(targetNode.intervalID);
      targetNode.intervalID = setInterval(function() {
          top = targetNode.offsetTop; /* 缩放会出问题 */
          //  top = +targetNode.style.top.slice(0, -2); /* 解决缩放问题（尝试） */
-         console.log("ot:", top);
+         //  console.log("ot:", top);
          increment = (terminus - top) / 10; /* 为什么这里取10，如果这里变化也会改变动画快慢 */
-         console.log("increment1:", increment);
+         //  console.log("increment1:", increment);
          increment = increment > 0 ? Math.ceil(increment) : Math.floor(increment);
-         console.log("increment2:", increment);
+         //  console.log("increment2:", increment);
          top += increment;
-         console.log(top);
+         //  console.log(top);
          if (top == terminus) {
              clearInterval(targetNode.intervalID);
              callback && callback();
-             //  console.log("during:" + (Date.now() - during));
+             console.log("during:" + (during = Date.now() - during));
          }
          targetNode.style.top = top + "px";
-         console.log("st:", targetNode.style.top);
+         //  console.log("st:", targetNode.style.top);
      }, speed); /* 为什么这里决定速度 */
  }
  //  改动版

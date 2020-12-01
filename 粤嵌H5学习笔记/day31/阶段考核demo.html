@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, playial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>轮播图（滑动版）</title>
     <style>
         * {
@@ -72,12 +72,37 @@
             background-color: rgba(255, 255, 255, 0.8) !important;
         }
         
+        .toggle-list {
+            /* left: 92%; */
+            /* top: 80%; */
+            right: 0;
+            bottom: 0;
+            position: absolute;
+            z-index: 2;
+        }
+        
+        .toggle-list>li {
+            width: 48px;
+            height: 48px;
+            margin-top: 2px;
+            background-color: #ffa2005e;
+            cursor: pointer;
+        }
+        
+        .toggle-list>li:nth-child(1) {
+            background-image: url(./asset/images/arrow_up.png);
+        }
+        
+        .toggle-list>li:nth-child(2) {
+            background-image: url(./asset/images/arrow_down.png);
+        }
+        
         .img-list {
             height: 100%;
             position: absolute;
         }
         
-        ul.img-list li {
+        .img-list>li {
             /* width: 590px;
             height: 470px; */
             width: 600px;
@@ -99,6 +124,7 @@
         }
     </style>
     <script src="./asset/js/myAnimation.js"></script>
+    <script src="./asset/js/ScrollImg.js"></script>
 </head>
 
 <body>
@@ -107,6 +133,10 @@
         <div id="photo-wrap">
             <ul class="pick-list">
                 <!-- 剩余 li 在 js 里根据 img-list 里的图片数量动态生成。 -->
+                <li></li>
+            </ul>
+            <ul class="toggle-list">
+                <li></li>
                 <li></li>
             </ul>
             <ul class="img-list">
@@ -120,149 +150,6 @@
     </div>
 </body>
 <script>
-    function ScrollImg(node, data) {
-        this.node = node || null;
-        this.data = data || [];
-    }
-
-    ScrollImg.prototype.play = function() { /* 初始化 */
-        this.predefine();
-        this.buildNode();
-        this.picks[this.lastPick.manual].classList.add("picked");
-        this.lastIterval = this.dispatchPick(0);
-
-        // 监听按钮点击事件（可以考虑使用事件代理进行优化=》搁置：changes 里的 this 指向代理元素（pickList），导致获取不到当前被点击的子元素=》解决：event.target=》再次告吹：无法自动触发事件。）
-        for (var i = 0; i < this.picks.length; i++) {
-            this.picks[i].addEventListener("click", this.changes.bind(this), false); /* 需要绑定 this ，以获得 picks */
-        }
-        this.nap();
-    };
-    ScrollImg.prototype.predefine = function() {
-        var picks, lastPick, imgs, lastIterval, excuting;
-        this.picks = null; /* 被选中的按钮 */
-        this.lastPick = { /* 上一个被选中按钮，分别记录手动点击的和循环触发的 */
-            manual: 0,
-            auto: 0
-        };
-        this.imgs = null; /* 图片组（暂未使用） */
-        this.lastIterval = -1; /* 上一个执行的自动播放 */
-        this.excuting = false;
-    };
-    ScrollImg.prototype.buildNode = function() {
-        var pickList, imgList, pickNode, imgNode;
-        pickList = this.node.querySelector(".pick-list");
-        pLItem = pickList.querySelector("li");
-        imgList = this.node.querySelector(".img-list");
-        iLItem = imgList.querySelector("li");
-        for (var i = 0; i < this.data.length; i++) {
-            if (i) { /* 因为有模板，克隆节点时，跳过第一个 */
-                pickNode = pLItem.cloneNode(true); /* 克隆的节点在被添加后会被清空，所以要在循环里克隆 */
-                imgNode = iLItem.cloneNode(true);
-                pickList.appendChild(pickNode);
-                imgNode.querySelector("img").src = this.data[i];
-                imgList.appendChild(imgNode);
-            } else {
-                imgList.querySelector("img").src = this.data[i]; /* 需要设置第一个 img 的地址 */
-                continue;
-            }
-        }
-        // 后续完善
-        // imgList.style.width = iLItem.offsetWidth * (this.data.length + 1) + "px"; /* [横向滑动]图片列表增宽，以放下浮动的图片 */
-        imgList.style.height = iLItem.offsetHeight * (this.data.length + 1) + "px"; /* [横向滑动]图片列表增宽，以放下浮动的图片（加一是为了无缝过渡） */
-        this.picks = pickList.querySelectorAll("li");
-        this.picks.forEach((item, i) => { /* 给按钮添加索引，方便后面还原前一个按钮样式，以及绑定对应 img 元素等操作 */
-            item.index = i++;
-        }, 0);
-        interimImg = imgList.firstElementChild.cloneNode(true); /* 追加一个图片，作为两端滑动的过渡图片 */
-        imgList.appendChild(interimImg); /* 追加图片 */
-        imgs = imgList.querySelectorAll("li"); /* 获取图片组（暂未使用） */
-    };
-    ScrollImg.prototype.changes = function(e) {
-        var target, picks, lastPick, imgList, excuting;
-        target = e.target; /* this 被外部更改，还好可以使用 e.target */
-        picks = this.picks;
-        lastPick = this.lastPick;
-        imgList = this.node.querySelector(".img-list");
-        excuting = this.excuting;
-        if (!excuting) {
-            var vector, interim;
-            excuting = true;
-            interim = false; /* 判断过渡轮 */
-            // vector = iLItem.offsetWidth * (lastPick.manual - target.index); /* 移动矢量 */
-            vector = iLItem.offsetHeight * (lastPick.manual - target.index); /* 移动矢量 */
-            picks[lastPick.manual].classList.remove("picked"); /* 移除上一按钮的选中效果 */
-            if (lastPick.manual == picks.length - 1 && target.index == 0) {
-                interim = true;
-                // vector = -iLItem.offsetWidth;
-                vector = -iLItem.offsetHeight;
-                lastPick.manual = 0;
-            } else {
-                lastPick.manual = target.index;
-            }
-            // retardedSpeed(imgList, 1, vector, () => { /* 滑动效果（图片列表滑动） */
-            //     if (interim) {
-            //         imgList.style.width = 0;
-            //     }
-            //     excuting = false;
-            // });
-
-            // animateX(imgList, imgList.offsetLeft + vector, 20, () => {
-            //     if (interim) {
-            //         setTimeout(() => { /* debug：此处设置一定比 anmateX 里的设置晚执行 */
-            //             imgList.style.left = 0;
-            //         }, 0);
-            //     }
-            //     excuting = false;
-            // });
-
-            animateY(imgList, imgList.offsetTop + vector, 20, () => {
-                if (interim) {
-                    setTimeout(() => { /* debug：此处设置一定比 anmateY 里的设置晚执行 */
-                        imgList.style.top = 0;
-                    }, 0);
-                }
-                excuting = false;
-            });
-
-            // console.log("vector:" + vector);
-            // console.log(imgList.style.left);
-            picks[lastPick.manual].classList.add("picked"); /* 设置当前按钮的选中效果 */
-            if (lastPick.manual !== lastPick.auto) { /* 手动点击后，重置循环触发 */
-                reDispatchPick(lastPick.manual);
-            }
-        } else {
-            return;
-        }
-    };
-    ScrollImg.prototype.dispatchPick = function(begin) {
-        var lastPick, picks;
-        lastPick = this.lastPick;
-        picks = this.picks;
-        var intervalId = setInterval(() => { /*  */
-            var eventClick = new Event("click");
-            lastPick.auto = (begin++) % picks.length; /* 更新循环触发的前一个按钮 */
-            picks[lastPick.auto].dispatchEvent(eventClick); /* dispatchEvent 有布尔返回值 */
-        }, 2000);
-        return intervalId;
-    };
-    // 重置循环触发
-    ScrollImg.prototype.reDispatchPick = function(current) {
-        var lastIterval = this.lastIterval;
-        clearInterval(lastIterval);
-        lastIterval = this.dispatchPick(current);
-    };
-    // 鼠标悬浮暂停轮询 （有点bug：点击按钮会重新轮询=》已解决：添加 excuting 布尔变量）
-    ScrollImg.prototype.nap = function() {
-        var piv, imgList;
-        piv = this;
-        imgList = piv.node.querySelector(".img-list");
-        imgList.onmouseenter = function() {
-            clearInterval(piv.lastInterval);
-        };
-        imgList.onmouseleave = function() {
-            piv.reDispatchPick(piv.lastPick.manual); /* 也可以考虑从自动点击位置开始 */
-        };
-    };
     var photoWrap = document.querySelector("#photo-wrap");
     imgSrcs = ["./asset/images/image1.jpg", "./asset/images/image2.jpg", "./asset/images/image3.jpg", "./asset/images/image4.jpg", "./asset/images/image5.jpg", "./asset/images/image6.jpg"];
     var scrollPW = new ScrollImg(photoWrap, imgSrcs);

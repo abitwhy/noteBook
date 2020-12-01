@@ -29,7 +29,7 @@
 </body>
 <script>
     function isCompressedFiles(str) {
-        var suffixReg = /\w+(\.zip|\.rar|\.gz|\.z|\.arj)$/;
+        var suffixReg = /\w+(\.zip|\.rar|\.gz|\.z|\.arj)$/i;
         return suffixReg.test(str);
     }
     document.getElementById("answer").onclick = function() {
