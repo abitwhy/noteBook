@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ajax 入门</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // ajax  也是一个 js 对象
+    // 使用 ajax 步骤如下：
+    // 1. 创建 ajax 对象
+    var xhr = new XMLHttpRequest();
+    // console.dir(xhr);
+    // 2. 初始化 ajax 对象
+    // xhr.open("请求方式 get 或 post","请求地址或文件所在地址")
+    // 读取文件需要使用 get 请求
+    xhr.send();
+    // 4. 处理响应数据
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+
+        }
+    }
+</script>
+
+</html>

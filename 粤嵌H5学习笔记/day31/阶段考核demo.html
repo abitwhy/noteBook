@@ -30,8 +30,9 @@
             text-align: center;
         }
         
-        #photo-wrap {
+        .photo-wrap {
             width: 50%;
+            /* width: 600px; */
             height: 500px;
             margin: 0 auto;
             position: relative;
@@ -39,27 +40,27 @@
         }
         
         .pick-list {
-            position: absolute;
             right: 2%;
             top: 50px;
+            position: absolute;
             z-index: 2;
+            /* z-index: 1; */
         }
         
-        ul.pick-list>li {
+        .pick-list>li {
             width: 18px;
             height: 18px;
             margin-left: 4px;
-            list-style: none;
             border: 1px solid white;
             border-radius: 50%;
             background-color: transparent;
             float: left;
             /* 解决边框宽度变化导致元素跳动 */
-            box-sizing: border-box;
+            /* box-sizing: border-box; */
             cursor: pointer;
         }
         
-        ul.pick-list>li:hover {
+        .pick-list>li:hover {
             box-shadow: 0px 0px 5px 1px white;
             border: 2px solid #666fcc;
             background-color: rgba(255, 255, 255, 0.8);
@@ -73,12 +74,11 @@
         }
         
         .toggle-list {
-            /* left: 92%; */
-            /* top: 80%; */
             right: 0;
             bottom: 0;
             position: absolute;
             z-index: 2;
+            /* z-index: 1; */
         }
         
         .toggle-list>li {
@@ -98,30 +98,25 @@
         }
         
         .img-list {
-            height: 100%;
             position: absolute;
         }
         
         .img-list>li {
-            /* width: 590px;
-            height: 470px; */
-            width: 600px;
             height: 500px;
-            /* position: absolute; */
             /* float: left; [横向滑动]*/
-            /* opacity: 0; */
-            transition: opacity 1s;
+            /* opacity: 0; [显隐效果] */
+            /* transition: opacity 1s; [显隐效果] */
         }
         
         .img-list>li>a {
-            display: block;
             height: 100%;
+            display: block;
         }
-        
-        .show {
+        /* 显隐效果 */
+        /* .show { 
             z-index: 1;
             opacity: 1 !important;
-        }
+        } */
     </style>
     <script src="./asset/js/myAnimation.js"></script>
     <script src="./asset/js/ScrollImg.js"></script>
@@ -130,7 +125,7 @@
 <body>
     <div class="container">
         <h1>轮播图</h1>
-        <div id="photo-wrap">
+        <div id="photo-wrap" class="photo-wrap">
             <ul class="pick-list">
                 <!-- 剩余 li 在 js 里根据 img-list 里的图片数量动态生成。 -->
                 <li></li>
@@ -147,13 +142,34 @@
                 </li>
             </ul>
         </div>
+        <!-- <div id="photo-wrap2" class="photo-wrap">
+            <ul class="pick-list">
+                <li></li>
+            </ul>
+            <ul class="toggle-list">
+                <li></li>
+                <li></li>
+            </ul>
+            <ul class="img-list">
+                <li>
+                    <a href="javascript:;">
+                        <img src="" alt="" title="">
+                    </a>
+                </li>
+            </ul>
+        </div> -->
     </div>
 </body>
+
 <script>
     var photoWrap = document.querySelector("#photo-wrap");
     imgSrcs = ["./asset/images/image1.jpg", "./asset/images/image2.jpg", "./asset/images/image3.jpg", "./asset/images/image4.jpg", "./asset/images/image5.jpg", "./asset/images/image6.jpg"];
     var scrollPW = new ScrollImg(photoWrap, imgSrcs);
     scrollPW.play();
+    // var photoWrap2 = document.querySelector("#photo-wrap2");
+    // imgSrcs2 = ["./asset/images/image1.jpg", "./asset/images/image2.jpg", "./asset/images/image3.jpg", "./asset/images/image4.jpg", "./asset/images/image5.jpg", "./asset/images/image6.jpg"];
+    // var scrollPW2 = new ScrollImg(photoWrap2, imgSrcs2);
+    // scrollPW2.play();
 </script>
 
 </html>

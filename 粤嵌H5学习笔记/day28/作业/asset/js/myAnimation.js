@@ -93,28 +93,27 @@
          speed-速度（非必要）：动画执行的快慢，单位 ms，取值应为1~100的整数；
          callback-回调函数（非必要）：需要在动画结束后执行的代码。
      */
-     console.log(terminus);
-     //  var top, increment, during;
-     //  during = Date.now();
-     //  speed = speed ? speed : 10; /* 默认速度 */
-     //  clearInterval(targetNode.intervalID);
-     //  targetNode.intervalID = setInterval(function() {
-     //      top = targetNode.offsetTop;
-     //      console.log("ot:", top);
-     //      increment = (terminus - top) / 10; /* 为什么这里取10，如果这里变化也会改变动画快慢 */
-     //      console.log("increment1:", increment);
-     //      increment = increment > 0 ? Math.ceil(increment) : Math.floor(increment);
-     //      console.log("increment2:", increment);
-     //      top += increment;
-     //      console.log(top);
-     //      if (top == terminus) {
-     //          clearInterval(targetNode.intervalID);
-     //          callback && callback();
-     //          console.log("during:" + (Date.now() - during));
-     //      }
-     //      targetNode.style.top = top + "px";
-     //      console.log("st:", targetNode.style.top);
-     //  }, speed); /* 为什么这里决定速度 */
+     var top, increment, during;
+     during = Date.now();
+     speed = speed ? speed : 10; /* 默认速度 */
+     clearInterval(targetNode.intervalID);
+     targetNode.intervalID = setInterval(function() {
+         top = targetNode.offsetTop;
+         console.log("ot:", top);
+         increment = (terminus - top) / 10; /* 为什么这里取10，如果这里变化也会改变动画快慢 */
+         console.log("increment1:", increment);
+         increment = increment > 0 ? Math.ceil(increment) : Math.floor(increment);
+         console.log("increment2:", increment);
+         top += increment;
+         console.log(top);
+         if (top == terminus) {
+             clearInterval(targetNode.intervalID);
+             callback && callback();
+             console.log("during:" + (Date.now() - during));
+         }
+         targetNode.style.top = top + "px";
+         console.log("st:", targetNode.style.top);
+     }, speed); /* 为什么这里决定速度 */
  }
  //  改动版
  function animateY2(targetNode, terminus, speed, callback) { /* 太过平滑了 */

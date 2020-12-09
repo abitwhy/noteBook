@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="data.js"></script>
+    <script src="jquery.js"></script>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+        
+        body {
+            overflow-x: hidden;
+        }
+        
+        .cart {
+            width: 300px;
+            /* margin-right: -300px; */
+            border-left: 6px solid #f00;
+            background-color: white;
+            position: fixed;
+            right: 0px;
+            height: 100%;
+            z-index: 99;
+        }
+        
+        .cart ul {
+            height: 650px;
+            padding: 1px;
+            overflow: auto;
+        }
+        
+        .cart span {
+            font-size: 12px;
+        }
+        
+        .cart button {
+            border: none;
+            color: white;
+            background-color: #F00;
+            line-height: 36px;
+            outline: none;
+            text-align: left;
+        }
+        
+        .cart>button {
+            position: absolute;
+            width: 80px;
+            left: -80px;
+            top: 50%;
+            border: none;
+            margin-top: -20px;
+        }
+        
+        .cart .bottom {
+            line-height: 50px;
+        }
+        
+        .cart .bottom>button {
+            width: 70px;
+            text-align: center;
+            line-height: 40px;
+            float: right;
+            margin: 5px 10px 0px 0px;
+        }
+        
+        .cart>button span {
+            position: absolute;
+            color: white;
+            border-radius: 12px;
+            min-width: 24px;
+            text-align: center;
+            background-color: tomato;
+            line-height: 24px;
+            left: 8px;
+            top: -12px;
+        }
+        
+        .cart>button::before {
+            content: '';
+            display: block;
+            float: left;
+            width: 28px;
+            height: 36px;
+            background: url(https://static.360buyimg.com/devfe/toolbar/1.0.0/css/i/toolbars.png) #F00 no-repeat -50px 0px;
+        }
+        
+        .cart h6 {
+            line-height: 50px;
+            background-color: chocolate;
+            color: #FFF;
+        }
+        
+        .cart h6::before {
+            content: '';
+            display: block;
+            float: left;
+            width: 28px;
+            height: 28px;
+            margin: 7px 0px 0px 0px;
+            background: url(https://static.360buyimg.com/devfe/toolbar/1.0.0/css/i/toolbars.png) chocolate no-repeat -50px 0px;
+        }
+        
+        .cart .clear {
+            width: 2em !important;
+            margin: 18px;
+            background-color: unset !important;
+            float: right;
+        }
+        
+        .cart .clear:hover {
+            font-weight: bold;
+        }
+        
+        .cart ul img {
+            width: 60px;
+        }
+        
+        .cart ul li {
+            width: 100%;
+            border: 1px solid #dfdede;
+            float: left;
+            box-sizing: border-box;
+        }
+        
+        .cart ul img {
+            width: 60px;
+            float: left;
+        }
+        
+        .cart .title {
+            font-weight: bold;
+        }
+        
+        .cart .describe {
+            width: 8em;
+            font-size: 12px;
+            line-height: 20px;
+            color: #999999;
+            display: inline-block;
+        }
+        
+        .cart .btn {
+            width: 15px;
+            height: 15px;
+            background-color: gainsboro;
+            color: #000;
+            text-align: center;
+            line-height: 15px;
+            cursor: pointer;
+        }
+        
+        .price,
+        .amount,
+        .total {
+            font-size: 14px !important;
+            color: red;
+        }
+        
+        .amount {
+            padding: 0 4px;
+        }
+        
+        .cart .bottom {
+            position: absolute;
+            bottom: 0px;
+            width: 100%;
+            height: 50px;
+            background-color: chocolate;
+            color: #FFF;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #000;
+        }
+        
+        ul {
+            list-style: none;
+            overflow: hidden;
+            clear: both;
+        }
+        
+        .prolist {
+            width: 820px;
+            margin: 0 auto;
+        }
+        
+        .prolist li {
+            float: left;
+            border: 1px solid #f00;
+            margin-left: 10px;
+            margin-top: 10px;
+            padding: 5px;
+            width: 142px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .prolist li a,
+        .prolist li span {
+            display: block;
+            color: black;
+            font-size: 14px;
+        }
+        
+        .prolist li a img {
+            width: 130px;
+            height: 130px;
+        }
+        
+        .prolist li a.img {
+            height: 140px;
+        }
+        
+        .prolist li a.title {
+            margin-top: 10px;
+            font-weight: bold;
+            line-height: 30px;
+        }
+        
+        .prolist li span {
+            font-weight: bold;
+            color: red;
+        }
+        
+        .prolist li:hover img {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            left: 0px;
+            z-index: 9;
+        }
+        
+        .prolist li a.addcart {
+            text-align: center;
+            width: 100px;
+            margin: 0 auto;
+            line-height: 30px;
+            background-color: tomato;
+            color: #fff;
+        }
+        
+        .model {
+            display: none;
+        }
+    </style>
+    <script src="./asset/js/jQuery.min(3.3.1).js"></script>
+    <script src="./asset/js/data.js"></script>
+</head>
+
+<body>
+    <div class="cart">
+        <button id="cartBtn">购物车<span class="sum">12</span></button>
+        <h6>购物车
+            <button class="clear btn">清空</button>
+        </h6>
+        <ul class="cartlist">
+            <li class="model">
+                <!-- 购物车商品模板 -->
+                <a href="#">
+                    <img src="http://img12.360buyimg.com/n1/s130x130_jfs/t3013/181/252505015/481710/6a6ee10a/57983914Nf3b91795.jpg" alt="">
+                </a>
+                <a class="title" href="#">阳澄湖大闸蟹</a>
+                <br>
+                <a class="describe" href="#">阳澄湖大闸蟹描述</a>
+                <span class="price">￥255</span><span>&ensp;数量:</span><button class="minus btn">-</button><span class="amount">1</span><button class="add btn">+</button>
+            </li>
+        </ul>
+        <div class="bottom">
+            总计:￥<span class="total">0.00</span><button>结算</button>
+        </div>
+    </div>
+    <ul class="prolist">
+        <li class="model">
+            <!-- 商品列表商品模板 -->
+            <a href="#" class="img">
+                <img src="http://img12.360buyimg.com/n1/s130x130_jfs/t3013/181/252505015/481710/6a6ee10a/57983914Nf3b91795.jpg" alt="">
+            </a>
+            <a href="#" class="title">阳澄湖大闸蟹</a>
+            <span class="price">￥120.00</span>
+            <a href="#" class="addcart">加入购物车</a>
+        </li>
+    </ul>
+    <script>
+        $(function() {
+            function render(target, data) { /* 可考虑添加 model 参数 */
+                $(data).each(function(index, item) {
+                    target = $(target); /* 包装一遍，处理传入原生 DOM 的情况 */
+                    var newLi = target.find("li").first().clone(true);
+                    // newLi.css("display", "block"); /* 或选择移除类名 */
+                    newLi.removeClass("model");
+                    newLi.data("id", item.id);
+                    newLi.data("amount", 1); /* 购物车里记录数量 */
+                    newLi.data("subtotal", item.price); /* 购物车里记录单种商品总价小计 */
+                    newLi.find("img").attr("src", item.img);
+                    newLi.find(".title").text(item.title);
+                    newLi.find(".describe").text(item.describe);
+                    newLi.find(".price").text("￥" + item.price);
+                    // index ? target.append(newLi) : null; /* 不添加第一个 */
+                    target.append(newLi);
+                });
+            }
+            render($('.prolist'), products);
+
+            // function slidLeft(target, width, delay) { /* 向左滑出 */
+            //     target = $(target); /* 包装一遍，处理传入原生 DOM 的情况 */
+            //     width = width ? width : target.css("width");
+            //     delay = delay ? delay : 300;
+            //     if (+target.css("width").slice(0, -2)) {
+            //         $(target).stop(true).animate({
+            //             width: 0
+            //         }, delay);
+            //     } else {
+            //         $(target).stop(true).animate({
+            //             width: width + "px"
+            //         }, delay);
+            //     }
+            // };
+            // $("#cartBtn").on("click", function(e) {
+            //     slidLeft($(".cart"), 300); /* 动画时，.cart 里的文本是混乱的 */
+            // });
+
+            // $("#cartBtn").on("click", function(e) { /* 点击方式 */
+            //     if (+$(".cart").css("margin-right").slice(0, -2)) {
+            //         $(".cart").stop(true).animate({
+            //             marginRight: 0
+            //         }, 500);
+            //     } else {
+            //         $(".cart").stop(true).animate({
+            //             marginRight: "-300px"
+            //         }, 500);
+            //     }
+            // });
+
+            $("#cartBtn").on("mouseenter", function(e) { /* 悬浮方式 */
+                $(".cart").stop(true).animate({
+                    marginRight: 0
+                }, 1000)
+            });
+            $(".cart").on("mouseleave", function(e) {
+                $(".cart").stop(true).animate({
+                    marginRight: "-300px"
+                }, 1000)
+            });
+
+            // $(".clear").on("click", function(e) { /* 清空购物车 */
+            //     $(".cartlist .model").siblings("li").remove();
+            // });
+
+            // 单独存购物车 li 的 id 方案=》告吹 
+            // var picked = [];
+            // function isInArray(subject,arr) { /* 目标是否在数组里 */
+            //     var match=arr.filter(function (item) {
+            //         return item ==this;
+            //     },subject);
+            //     return match.length?true:false;
+            // }
+
+            function increaseData(target, prop, reverse, increment) { /* jQuery 中，自增/减 data() 存取的属性。reverse 为布尔类型，若为 true 值，则递减 */
+                target = $(target); /* 处理传入原生 DOM 的情况 */
+                var data = target.data(prop);
+                increment = increment ? increment : 1; /* increment 为增量 */
+                reverse ? (data -= increment) : (data += increment);
+                target.data(prop, data);
+                return data;
+            }
+
+            function valuation() { /* 计价总价 */
+
+            }
+            $(".prolist").on("click", ".addcart", function(e) { /* 加入购物车 （暂未计总价）*/
+                var id = $(this).parent().data("id");
+                var finded = null;
+                $(".cartlist li").each(function(index, item) {
+                    if ($(item).data("id") == id) {
+                        finded = $(item);
+                        return false;
+                    }
+                });
+                // finded ? finded.data("amount", finded.data("amount") + 1) && finded.find(".amount").text(finded.data("amount")) : render($(".cartlist"), products[id]);
+                if (finded) { /* 找到则改对应数量 */
+                    finded.find(".amount").text(increaseData(finded, "amount"));
+                } else { /* 否则新增 */
+                    render($(".cartlist"), products[id]);
+                }
+
+            });
+            $(".cart").on("click", ".btn", function(e) {
+                if ($(this).is($(".add"))) { /* 加购 */
+                    var li = $(this).parent();
+                    var amount = increaseData(li, "amount");
+                    var subtotal = amount * (products[li.data("id")].price);
+                    li.data("subtotal", subtotal);
+                    li.find(".price").text("￥" + subtotal) /* 单种商品价格 */
+                    var total = 0; /* 商品总价 */
+                    $(".cartlist .model").siblings("li").each(function(index, item) {
+                        total += +$(item).data("subtotal");
+                    });
+                    $(".total").text(total)
+                    li.find(".amount").text(amount);
+                } else if ($(this).is($(".minus"))) { /* 减少 */
+                    var li = $(this).parent();
+                    var amount = increaseData(li, "amount", true);
+                    var subtotal = amount * (products[li.data("id")].price);
+                    li.data("subtotal", subtotal);
+                    li.find(".price").text("￥" + amount * (products[li.data("id")].price)) /* 单种商品价格 */
+                    var total = 0; /* 商品总价 */
+                    $(".cartlist .model").siblings("li").each(function(index, item) {
+                        total += +$(item).data("subtotal");
+                    });
+                    $(".total").text(total)
+                    amount ? li.find(".amount").text(amount) : li.remove(); /* 特别处理 0 的情况 */
+                } else if ($(this).is(".clear")) { /* 清空购物车 */
+                    $(".cartlist .model").siblings("li").remove();
+                }
+            })
+
+        });
+    </script>
+</body>
+
+</html>

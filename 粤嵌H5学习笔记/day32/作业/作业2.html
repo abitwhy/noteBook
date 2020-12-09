@@ -26,6 +26,11 @@
             border-collapse: collapse;
         }
         
+        th {
+            border: 2px solid #9E9E9E;
+            background-color: #d4d4d4;
+        }
+        
         tr {
             border: 1px solid rgb(186, 186, 186);
         }
@@ -83,15 +88,17 @@
 <script>
     $("tBody").children("tr:even").css("backgroundColor", " rgb(238, 238, 238)");
     $("tBody").children("tr").hover(
-        function() {
-            // var index = $(this).index();
-            if ($(this).index() % 2 == 0) {
-                $(this).css("backgroundColor", " rgb(228, 228, 228)");
-            } else {
-                $(this).css("backgroundColor", " rgb(248, 248, 248)");
-            }
+        function() { /* 变色 */
+            // 分别变色方案
+            // if ($(this).index() % 2 == 0) {
+            //     $(this).css("backgroundColor", " rgb(228, 228, 228)");
+            // } else {
+            //     $(this).css("backgroundColor", " rgb(248, 248, 248)");
+            // }
+            // 统一变色方案
+            $(this).css("backgroundColor", "rgb(228, 246, 255)");
         },
-        function() {
+        function() { /* 还原 */
             if ($(this).index() % 2 == 0) {
                 $(this).css("backgroundColor", "rgb(238, 238, 238)");
             } else {

@@ -15,7 +15,9 @@ a {
     /* 去除下划线 */
 }
 
-img {}
+img {
+    width: 100%;
+}
 
 body {
     font-family: normal Arial, "微软雅黑"，"楷体" Helvetica, sans-serif, ;
@@ -44,6 +46,15 @@ body {
     /* 将元素隐藏 */
     clear: both;
     /* 清除浮动 */
+}
+
+
+/* 容器 */
+
+.container {
+    width: 800px;
+    margin: 20px auto;
+    padding: 50px;
 }
 
 

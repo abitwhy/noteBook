@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出现次数最多的字符</title>
+</head>
+
+<body>
+</body>
+<script>
+    function mostFrequecyChar(str) {
+        console.time("mfc");
+        var max, current, rest, currentLength, result;
+        max = 0;
+        while (str.length > 0 && str[0] != "") {
+            current = str.charAt(0);
+            rest = str.split(current).join("");
+            currentLength = str.length - rest.length;
+            str = rest;
+        }
+        console.timeEnd("mfc");
+        return max;
+    }
+
+    function chartChar(str) {
+        console.time("charChar took");
+        var max, current, rest, currentLength, result;
+        max = 0;
+        result = [];
+        while (str.length > 0 && str[0] != "") {
+            current = str.charAt(0);
+            rest = str.split(current).join("");
+            currentLength = str.length - rest.length;
+            max = currentLength > max ? currentLength : max;
+            var temp = {};
+            temp[current] = currentLength;
+            result.push(temp);
+            str = rest;
+        }
+        console.timeEnd("charChar took");
+        // 待优化=>统计并返回每一个字符的频率（顺序为字符首次出现顺序）
+        result.frequencyChar = max;
+        return result;
+    }
+</script>
+
+</html>

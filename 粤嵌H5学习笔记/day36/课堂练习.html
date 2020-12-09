@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂练习</title>
+    <style>
+        /* 总结：
+                1. 端点取值，尽量取整百整十及偶数；
+                2. 这里设置的值不会真的被设置到 offsetWidth、clientWidth 上
+        */
+        
+        @media screen and (max-width: 576px) {
+            /* 不包含端点值 */
+            .container {
+                width: 100% !important;
+            }
+        }
+        
+        @media screen and (min-width: 576px) {
+            .container {
+                width: 540px !important;
+            }
+        }
+        
+        @media screen and (min-width:768px) {
+            .container {
+                width: 720px !important;
+            }
+        }
+        
+        @media screen and (min-width: 992px) {
+            .container {
+                width: 960px !important;
+            }
+        }
+        
+        @media screen and (min-width: 1200px) {
+            .container {
+                width: 1140px !important;
+            }
+        }
+        
+        div {
+            background-color: chartreuse;
+        }
+    </style>
+    <link rel="stylesheet" href="../base.css">
+</head>
+
+<body>
+    <div class="container"></div>
+</body>
+<script>
+    var resizeMethod = function() {
+        if (document.body.clientWidth < 768) {
+            console.log("offsetWidth:" + document.querySelector("div").offsetWidth);
+            console.log("clientWidth:" + document.querySelector("div").clientWidth);
+        }
+    };
+
+    window.addEventListener('resize', resizeMethod, true);
+</script>
+
+</html>

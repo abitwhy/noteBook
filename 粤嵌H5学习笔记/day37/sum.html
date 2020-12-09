@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./asset/css/bootstrap.css">
+    <title>现代浏览器</title>
+    <style>
+        .navbar-mine {
+            padding: 0 !important;
+            border-bottom: 1px solid black;
+            background-color: #222 !important;
+        }
+        
+        .nav-item {
+            font-size: 14px;
+        }
+        
+        .nav-item:not(.disable):hover,
+        .nav-item.active {
+            background-color: #000;
+        }
+        
+        .navbar-brand {
+            /* 本来应该由下面计算得出，但因转换不了单位告吹 */
+            /* padding: calc(((50px - 26.384px) / 18) / 2); */
+            padding: 0.656em 0;
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+        
+        .navbar-brand:hover {
+            color: #fff !important;
+        }
+        
+        .navbar-toggler:focus {
+            outline: none;
+            background-color: #333;
+        }
+        
+        .border-row {
+            margin: 0 !important;
+        }
+        
+        .collapse-boder-top {
+            padding: 5px 0;
+            border-top: 1px solid black;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
+        }
+        
+        .nav-link {
+            height: 100%;
+            /* 由下式计算得出 */
+            /* padding: calc(((50px - 20.8px) / 14) / 2); */
+            padding: 1.043em !important;
+        }
+        
+        #carouselOfBrowser {
+            height: 500px;
+            background-color: #000;
+        }
+        
+        #carouselOfBrowser .carousel-item {
+            height: 500px;
+        }
+        
+        .carousel-caption {
+            /* height: 120px;
+            width: 700px;
+            margin: 0 auto;
+            border-radius: 10px;
+            background-color: #1a0000cc;
+            top: 300px; */
+        }
+        
+        .carousel-item img {
+            /* margin-top: -100px; */
+        }
+        
+        .carousel-item:nth-child(1)>.carousel-caption {
+            color: #fff;
+        }
+        
+        .carousel-item:nth-child(2)>.carousel-caption {
+            color: #69e1fe;
+        }
+        
+        .carousel-item:nth-child(3)>.carousel-caption {
+            color: #ff9191;
+        }
+        
+        .carousel-item:nth-child(4)>.carousel-caption {
+            color: #ff0000;
+        }
+        
+        .carousel-item:nth-child(5)>.carousel-caption {
+            color: #ffed00;
+        }
+        
+        .abstract {
+            margin: 20px 0 !important;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .abstract p {
+            margin-bottom: 4px;
+            display: inline-block;
+            min-height: 84px;
+        }
+        
+        .abstract .btn {
+            border: 1px solid gainsboro;
+        }
+        
+        #tabContentOfBroswer p {
+            color: #798189;
+        }
+        
+        span.h1 {
+            margin-right: 6px;
+            color: #1a89ff;
+        }
+        
+        .tab-content .row {
+            margin-top: 10px;
+        }
+    </style>
+    <script src="./asset/js/jQuery(3.4.1).js"></script>
+    <script src="./asset/js/bootstrap.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-fixed-top navbar-dark bg-dark navbar-mine">
+        <div class="container">
+            <!-- <div class="container-fluid"> -->
+            <a href="#" class="navbar-brand">现代浏览器博物馆</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapseContent" aria-controls="navbarCollapseContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapseContent">
+                <div class="row border-row">
+                    <!-- 添加一个头部分割线 -->
+                    <div class="col-md collapse-boder-top"></div>
+                </div>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a href="#" class="nav-link">综述</a>
+                    </li>
+                    <li class="nav-item disable">
+                        <a href="#" class="nav-link">简述</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" id="dropdownTrait" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">特点</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownTrait">
+                            <a href="#" class="dropdown-item">Chorme</a>
+                            <a href="#" class="dropdown-item">Firefox</a>
+                            <a href="#" class="dropdown-item">IE</a>
+                            <a href="#" class="dropdown-item">Safari</a>
+                            <a href="#" class="dropdown-item">Opera</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">关于</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- </div> -->
+        </div>
+    </nav>
+    <div id="carouselOfBrowser" class="carousel slide" data-ride="carousel">
+        <!-- data-ride="carousel" -->
+        <ol class="carousel-indicators">
+            <li data-target="#carouselOfBrowser" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselOfBrowser" data-slide-to="1"></li>
+            <li data-target="#carouselOfBrowser" data-slide-to="2"></li>
+            <li data-target="#carouselOfBrowser" data-slide-to="3"></li>
+            <li data-target="#carouselOfBrowser" data-slide-to="4"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active">
+                <img class="d-block w-100" src="./asset/images/chrome-big.jpg" alt="chrome">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Chrome</h3>
+                    <p>Google Chrome 是一款快速、简单且安全的网络浏览器,能很好地满足新型网站对浏览器的要求。</p>
+                    <a href="#chrome" class="btn btn-primary">点我下载</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="./asset/images/firefox-big.jpg" alt="firefox">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Firefox</h3>
+                    <p>Mozilla Firefox，中文名通常称为“火狐”或“火狐浏览器”，是一个开源网页浏览器。</p>
+                    <a href="#firefox" class="btn btn-primary">点我下载</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="./asset/images/ie-big.jpg" alt="IE">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>IE</h3>
+                    <p>Internet Explorer8，简称IE8。IE8是为全世界所广泛使用的IE浏览器系列的最新版本....</p>
+                    <a href="" class="btn btn-primary">点我下载</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="./asset/images/safari-big.jpg" alt="safari">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Safari</h3>
+                    <p>Safari，是苹果计算机的最新操作系统 Mac OS X 中的浏览器。</p>
+                    <a href="" class="btn btn-primary">点我下载</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="./asset/images/opera-big.jpg" alt="opera">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Opera</h3>
+                    <p>Opera 浏览器，是一款挪威 Opera Software ASA 公司制作的支持多页面标签式浏览的网络浏览器。</p>
+                    <a href="" class="btn btn-primary">点我下载</a>
+                </div>
+            </div>
+        </div>
+        <a href="#carouselOfBrowser" class="carousel-control-prev" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon " aria-hidden="true "></span>
+            <span class="sr-only ">Previous</span>
+        </a>
+        <a href="#carouselOfBrowser" class="carousel-control-next" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <div class="container">
+        <div class="row align-items-start abstract">
+            <div class="col-6 col-sm-4 col-md-3 col-lg justify-content-between">
+                <img class="d-block w-100" src="./asset/images/chrome-logo-small.jpg" alt="chrome">
+                <h2>Chrome</h2>
+                <p>Google Chrome，又称 Google 浏览器，是一个由 Google（谷歌）公司开发的网页浏览器。</p>
+                <a href="javascript:;" class="btn btn-light">点我下载</a>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 col-lg ">
+                <img class="d-block w-100" src="./asset/images/firefox-logo-small.jpg" alt="firefox">
+                <h2>Firefox</h2>
+                <p>Mozilla Firefox，中文名通常称为“火狐”或“火狐浏览器”，是一个开源网页浏览器。</p>
+                <a href="javascript:;" class="btn btn-light">点我下载</a>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 col-lg ">
+                <img class="d-block w-100" src="./asset/images/ie-logo-small.jpg" alt="ie">
+                <h2>IE</h2>
+                <p>Internet Explorer，简称 IE，是微软公司推出的一款网页浏览器。</p>
+                <a href="javascript:;" class="btn btn-light">点我下载</a>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 col-lg ">
+                <img class="d-block w-100" src="./asset/images/safari-logo-small.jpg" alt="safari">
+                <h2>Safari</h2>
+                <p>Safari，是苹果计算机的最新操作系统 Mac OS X中的浏览器。</p>
+                <a href="javascript:;" class="btn btn-light">点我下载</a>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 col-lg justify-content-between">
+                <img class="d-block w-100" src="./asset/images/opera-logo-small.jpg" alt="opera">
+                <h2>Opera</h2>
+                <p>Opera 浏览器，是一款挪威 Opera Software ASA 公司制作的支持多页面标签式浏览的网络浏览器。</p>
+                <a href="javascript:;" class="btn btn-light">点我下载</a>
+            </div>
+        </div>
+        <hr>
+        <ul class="nav nav-tabs" id="tabOfBroswer" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="tabOfChrome" data-toggle="tab" href="#chrome" role="tab" aria-controls="chrome" aria-selected="true">Chrome</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="tabOfFirefox" data-toggle="tab" href="#firefox" role="tab" aria-controls="firefox" aria-selected="false">Firefox</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="tabOfIE" data-toggle="tab" href="#ie" role="tab" aria-controls="ie" aria-selected="false">IE</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="tabOfSafariTab" data-toggle="tab" href="#safari" role="tab" aria-controls="safari" aria-selected="false">Safari</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="tabOfOpera" data-toggle="tab" href="#opera" role="tab" aria-controls="opera" aria-selected="false">Opera</a>
+            </li>
+            <!-- <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li> -->
+        </ul>
+        <div class="tab-content" id="tabContentOfBroswer">
+            <div class="tab-pane fade show active" id="chrome" role="tabpanel" aria-labelledby="tabOfChrome">
+                <div class="row">
+                    <div class="col-md-7">
+                        <p class="h5">
+                            <span class="h1">Google Chrome</span>使用最广的浏览器
+                        </p>
+                        <p>Google Chrome，又称Google浏览器，是一个由Google（谷歌）公司开发的网页浏览器。 该浏览器是基于其他开源软件所撰写，包括WebKit，目标是提升稳定性、速度和安全性，并创造出简单且有效率的使用者界面。</p>
+                    </div>
+                    <div class="col-md-5">
+                        <img class="d-block w-100" src="./asset/images/chrome-logo.jpg" alt="chrome">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="firefox" role="tabpanel" aria-labelledby="tabOfFirefox">
+                <div class="row">
+                    <div class="col-md-7">
+                        <p class="h5">
+                            <span class="h1">Mozilla Firefox</span>美丽的狐狸
+                        </p>
+                        <p>Mozilla Firefox，中文名通常称为“火狐”或“火狐浏览器”，是一个开源网页浏览器， 使用Gecko引擎（非ie内核），支持多种操作系统如Windows、Mac和linux。</p>
+                    </div>
+                    <div class="col-md-5">
+                        <img class="d-block w-100" src="./asset/images/firefox-logo.jpg" alt="firefox">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="ie" role="tabpanel" aria-labelledby="tabOfIE">
+                <div class="row">
+                    <div class="col-md-7">
+                        <p class="h5">
+                            <span class="h1">IE</span>你懂的
+                        </p>
+                        <p>Internet Explorer，原称Microsoft Internet Explorer(6版本以前)和Windows Internet Explorer(7，8，9，10版本)， 简称IE，是美国微软公司推出的一款网页浏览器。它采用的排版引擎(俗称内核)为Trident。</p>
+                    </div>
+                    <div class="col-md-5">
+                        <img class="d-block w-100" src="./asset/images/ie-logo.jpg" alt="ie">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="safari" role="tabpanel" aria-labelledby="tabOfSafari">
+                <div class="row">
+                    <div class="col-md-7">
+                        <p class="h5">
+                            <span class="h1">Safari</span>Mac用户首选
+                        </p>
+                        <p>Safari，是苹果计算机的最新操作系统Mac OS X中的浏览器，使用了KDE的KHTML作为浏览器的运算核心。 Safari在2003年1月7日首度发行测试版，并成为Mac OS X v10.3与之后的默认浏览器，也是iPhone与IPAD和iPod touch的指定浏览器。</p>
+                    </div>
+                    <div class="col-md-5">
+                        <img class="d-block w-100" src="./asset/images/safari-logo.jpg" alt="safari">
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="opera" role="tabpanel" aria-labelledby="tabOfOpera">
+                <div class="row">
+                    <div class="col-md-7">
+                        <p class="h5">
+                            <span class="h1">Opera</span>小众但易用
+                        </p>
+                        <p>Opera浏览器，是一款挪威Opera Software ASA公司制作的支持多页面标签式浏览的网络浏览器。 是跨平台浏览器可以在Windows、Mac和Linux三个操作系统平台上运行。</p>
+                    </div>
+                    <div class="col-md-5">
+                        <img class="d-block w-100" src="./asset/images/opera-logo.jpg" alt="opera">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row justify-content-between">
+            <div class="col-auto">&copy;2020 H5</div>
+            <div class="col-auto">
+                <a href="#">回到顶部</a>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $(function() {
+        console.log($("#carouselOfBrowser"));
+        // $(".carousel ").carousel('pause'); /* 为什么么生效？ */
+    });
+</script>
+
+</html>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bootstrap起步</title>
+    <link rel="stylesheet" href="../z-global/bootstrap-4.5.3-dist/css/bootstrap.css">
+    <style>
+        body {
+            background-color: purple;
+        }
+        
+        body>div {
+            min-height: 30px;
+            margin: 5px;
+            background-color: orange;
+        }
+        
+        .container>* {
+            /* margin: 5px; */
+            background-color: powderblue;
+        }
+        
+        .row {
+            margin: 2px;
+        }
+        
+        .row>div {
+            border: 5px solid aqua;
+            background-color: plum;
+        }
+        
+        hr {
+            border-color: black;
+            border-width: 10px;
+        }
+    </style>
+    <script src="../z-global/jQuery/jQuery(3.4.1).js"></script>
+    <script src="../z-global/bootstrap-4.5.3-dist/js/bootstrap.js"></script>
+</head>
+
+<body>
+    <!-- 认识容器：响应不同设备尺寸 -->
+    <div class="container">breakpoints xs:&lt;576px</div>
+    <div class="container-sm">breakpoints sm:≥576px</div>
+    <div class="container-md">breakpoints md:≥768px</div>
+    <div class="container-lg">breakpoints lg:≥992px</div>
+    <div class="container-xl">breakpoints xl:≥1200px</div>
+    <div class="container-fluid">breakpoints fluid: \</div>
+    <hr>
+    <!-- 认识栅格化布局 -->
+    <div class="container py-1">
+        <!-- 基础均分式 -->
+        <div class="row">
+            <!-- col 是 col-1 的省略写法，可推而广之 -->
+            <div class="col">1 of 3</div>
+            <div class="col">2 of 3</div>
+            <div class="col">3 of 3</div>
+        </div>
+        <!-- 打断均分 -->
+        <div class="row">
+            <div class="col">1 of 4</div>
+            <div class="col">2 of 4</div>
+            <!-- w-100 即宽度100%的元素会打断这种默认平分排布 -->
+            <div class="w-100"></div>
+            <!-- 设置 col- 的元素不应再设置 w-100，会被覆盖 -->
+            <div class="col w-100">3 of 4</div>
+            <!-- 设置100以外的宽度也会失效 -->
+            <div class="w-80"></div>
+            <div class="col">4 of 4</div>
+        </div>
+        <!-- 分配栅格 -->
+        <div class="row">
+            <div class="col-2">2 of 12</div>
+            <div class="col-4">4 of 12</div>
+            <div class="col-6">6 of 12</div>
+            <!-- 多余的会被打断放到下一行，但分配的栅格依然有效 -->
+            <div class="col-5">addition</div>
+        </div>
+        <!-- 响应+栅格 -->
+        <div class="row">
+            <!-- 特别地，若不设置更小尺寸的某断点，则默认占12。如下面未设置 col -->
+            <div class="col-sm col-md col-lg col-xl">1 of 6</div>
+            <div class="col-sm col-md col-lg col-xl">2 of 6</div>
+            <div class="col-sm col-md col-lg-2 col-xl">3 of 6</div>
+            <div class="col-sm col-md-3 col-lg-2 col-xl-2">4 of 6</div>
+            <div class="col-sm col-md-3 col-lg-3 col-xl-3">5 of 6</div>
+            <div class="col-sm col-md-3 col-lg-3 col-xl-4">6 of 6</div>
+        </div>
+        <!-- 响应-栅格-文本可视 -->
+        <div class="row">
+            <div class="col-lg"></div>
+            <div class="col-md-auto col-lg">Variable width content</div>
+            <div class="col-lg"></div>
+        </div>
+    </div>
+
+</body>
+
+</html>

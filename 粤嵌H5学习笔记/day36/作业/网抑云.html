@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网抑云</title>
+    <!-- <link rel="stylesheet" href="./asset/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="./asset/css/bootstrap.css">
+    <style>
+        @media screen and ( max-width: 1200px) {
+            form button {
+                display: none;
+            }
+            .form-inline button {
+                display: none;
+            }
+            .form-inline input[type="search"] {
+                display: none;
+            }
+            .form-inline::before {
+                display: none;
+            }
+        }
+        
+        .mynav {
+            height: 80px;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            background-color: rgb(46, 45, 45) !important;
+        }
+        
+        .mynav * {
+            /* height: 100% !important; */
+            line-height: 60px;
+        }
+        
+        .mynav a {
+            height: 80px !important;
+            color: #fff !important;
+        }
+        
+        .mynav a:hover {
+            background-color: black;
+        }
+        
+        a[title="netease"] {
+            display: block;
+            width: 170px;
+            height: 40px;
+            background-image: url(./asset/images/topbar.png);
+            /* background-position: 10px -14px; */
+        }
+        
+        form::before {
+            width: 25px;
+            height: 25px;
+            background: url(./asset/images/topbar.png) no-repeat -7px -102px;
+            content: "";
+            position: absolute;
+        }
+        
+        form input,
+        form button {
+            height: 70% !important;
+            border-radius: 99px !important;
+        }
+        
+        input[type="search"] {
+            padding-left: 20px;
+        }
+        
+        form button {
+            height: 40px !important;
+            border-color: white !important;
+            /* background: rgb(46, 45, 45); */
+            color: white !important;
+            line-height: 24px !important;
+        }
+        
+        .hot::after {
+            width: 20px;
+            height: 20px;
+            margin-left: 4px;
+            border-radius: 15%;
+            background: url(./asset/images/topbar.png) no-repeat -195px 0px;
+            content: "";
+            display: inline-block;
+        }
+        
+        .navbar-toggler {
+            background-color: white !important;
+        }
+        
+        .navbar-toggler:focus {
+            outline: none !important;
+            background-color: gainsboro !important;
+        }
+        
+        .nav-link {
+            /* padding-left: 10px !important; */
+            background-color: rgb(46, 45, 45) !important;
+            text-align: center;
+            opacity: 0.9;
+        }
+        
+        .nav-link:hover {
+            background-color: black !important;
+        }
+        
+        .form-inline .load {
+            padding: 0 10px;
+            line-height: 80px !important;
+            color: #d7d2d2 !important;
+            text-decoration: none !important;
+        }
+    </style>
+
+    <script src="./asset/js/jQuery.min(3.3.1).js"></script>
+    <!-- <script src="./asset/js/jQuery(3.4.1).js"></script> -->
+    <!-- <script src="./asset/js/bootstrap.min.js"></script> -->
+    <script src="./asset/js/bootstrap.js"></script>
+</head>
+
+
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mynav">
+        <div class="container">
+            <div class="container-fluid">
+                <a class="navbar-brand my-brand" href="#" title="netease"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">发现音乐 <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">我的音乐</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">朋友</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">商城</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">音乐人</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link hot" href="#">下载客户端</a>
+                        </li>
+                        <!-- <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Dropdown
+                                </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#">Disabled</a>
+                        </li> -->
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="音乐/视频/电台/用户" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="button">创作者中心</button>
+                        <a href="#" class="load ml-sm-2">登录</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </nav>
+</body>
+<!-- <body>
+    <nav class="navbar navbar-night">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" title="netease"></a>
+            </div>
+            <ul class="nav">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">Active</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Link</a>
+                </li>
+                <li class="nav-item disabled">
+                    <a href="#" class="nav-link">Disabled</a>
+                </li>
+            </ul>
+            <div class="collapse navbar-collapse">
+            </div>
+        </div>
+    </nav>
+</body> -->
+
+</html>

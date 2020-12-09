@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车</title>
+    <style>
+        ul {
+            padding: 2px;
+            overflow: hidden;
+        }
+        
+        li {
+            padding: 2px;
+            text-align: center;
+            float: left;
+        }
+        
+        a {
+            color: black;
+        }
+        
+        button {
+            padding: 2px 5px;
+            border: none;
+            background-color: tomato;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .container {
+            background-color: black;
+        }
+        
+        .model {
+            display: none !important;
+        }
+        
+        .title {
+            max-width: 12em;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .details {
+            font-size: 12px;
+        }
+        
+        .describe {
+            font-size: 12px;
+            color: #999999;
+        }
+        
+        .price {
+            font-size: 12px;
+            font-weight: unset;
+        }
+        
+        .amount {
+            font-size: larger;
+            font-weight: bold;
+            color: red;
+        }
+        
+        .hall {
+            border: 1px solid white;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: center;
+            justify-content: center;
+        }
+        
+        .hall>li {
+            width: 150px;
+            margin: 10px;
+            background-color: white;
+        }
+        
+        .hall>li a {
+            display: block;
+        }
+        
+        .cart {
+            width: 300px;
+            height: 100%;
+            border-left: 6px solid #f00;
+            background-color: white;
+            right: 0;
+            top: 0;
+            z-index: 1;
+            position: fixed;
+        }
+        
+        .cart button {
+            background-color: #F00;
+        }
+        
+        .cart .header,
+        .cart .footer {
+            padding: 10px;
+            background-color: chocolate;
+        }
+        
+        .header::before {
+            width: 28px;
+            height: 28px;
+            background: url(https://static.360buyimg.com/devfe/toolbar/1.0.0/css/i/toolbars.png) no-repeat -54px -4px;
+            content: "";
+            float: left;
+        }
+        
+        .header .title {
+            color: white;
+            line-height: 28px;
+        }
+        
+        .header .clear {
+            float: right;
+        }
+        
+        .cart .main {
+            height: 80%;
+            overflow: auto;
+        }
+        
+        .cart #callCart {
+            width: 80px;
+            height: 40px;
+            line-height: 40px;
+            left: -80px;
+            top: 50%;
+            position: absolute;
+        }
+        
+        #callCart::before {
+            width: 28px;
+            height: 28px;
+            margin-top: 4px;
+            background: url(https://static.360buyimg.com/devfe/toolbar/1.0.0/css/i/toolbars.png) no-repeat -54px -4px;
+            content: "";
+            float: left;
+        }
+        
+        #callCart .amount {
+            width: 25px;
+            height: 25px;
+            background-color: tomato;
+            border-radius: 50%;
+            font-size: 10px;
+            color: white;
+            line-height: 25px;
+            top: -15px;
+            left: 10%;
+            position: absolute;
+        }
+        
+        .cart .want-goods {
+            width: 100%;
+            border: 1px solid gainsboro;
+            text-align: left;
+        }
+        
+        .want-goods * {
+            vertical-align: bottom;
+        }
+        
+        .want-goods a {
+            display: inline-block;
+        }
+        
+        .want-goods .poster {
+            float: left;
+        }
+        
+        .want-goods .poster-img {
+            width: 60px;
+        }
+        
+        .want-goods .describe {
+            min-width: 6em;
+            max-width: 10em;
+            height: 2em;
+        }
+        
+        .want-goods .remove {
+            float: right;
+        }
+        
+        .want-goods .price {
+            float: right;
+        }
+        
+        .want-goods .alter {
+            font-size: 12px;
+        }
+        
+        .alter button {
+            width: 15px;
+            height: 15px;
+            padding: 0px;
+            background-color: gainsboro;
+            color: black;
+            line-height: 15px;
+        }
+        
+        .alter input[name="amount"] {
+            max-width: 24px;
+            border: none;
+            text-align: center;
+        }
+        
+        .cart .footer {
+            width: 100%;
+            bottom: 0px;
+            position: absolute;
+        }
+    </style>
+    <link rel="stylesheet" href="./asset/css/base.css">
+    <script src="./asset/js/data.js"></script>
+    <script src="./asset/js/jQuery(3.4.1).js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <ul class="hall">
+            <li class="booth model">
+                <a href="javascript" class="poster goods-poster">
+                    <img class="poster-img" src="http://img12.360buyimg.com/n1/s130x130_jfs/t3013/181/252505015/481710/6a6ee10a/57983914Nf3b91795.jpg" alt="">
+                </a>
+                <div class="details">
+                    <a class="title goods-title" href="javascript:;">商品名</a>
+                    <a class="describe" href="javascript:;">商品描述</a>
+                    <span class="price title">价格:
+                        <span class="money">￥<span class="amount">0.00</span></span>
+                    </span>
+                </div>
+                <button class="buy">加入购物车</button>
+            </li>
+        </ul>
+        <div class="cart">
+            <div class="header">
+                <span class="title">购物车</span>
+                <button class="clear">清空</button>
+            </div>
+            <div class="main">
+                <button id="callCart">购物车
+                    <span id="total-amount" class="amount">99+</span>
+                </button>
+                <ul class="cart-list">
+                    <li class="want-goods model">
+                        <a class="poster goods-poster" href="javascript:;">
+                            <img class="poster-img" src="http://img12.360buyimg.com/n1/s130x130_jfs/t3013/181/252505015/481710/6a6ee10a/57983914Nf3b91795.jpg" alt="">
+                        </a>
+                        <a class="title goods-title" href="javascript:;">商品名</a>
+                        <br>
+                        <a class="describe" href="javascript:;">商品描述</a>
+                        <button class="remove">移出购物车</button>
+                        <br>
+                        <span class="price title">合计:
+                            <span class="money">￥<span class="subtotal amount">0.00</span></span>
+                        </span>
+                        <span class="alter title">数量:
+                            <button class="minus">-</button><input name="amount" type="text" value="1"><button class="add">+</button>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer">
+                <span class="price title">总计：
+                    <span class="money">￥<span id="total-price" class="amount">0.00</span></span>
+                </span>
+                <button>结算</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // 渲染产品
+    function render(target, data) { /* 可考虑添加 model 参数 */
+        target = $(target); /* 包装一遍，处理传入原生 DOM 的情况 */
+        var newLis = []; /* 返回手动创建的节点数组，配合[有参数版]更新价格 */
+        $(data).each(function(index, item) {
+            var newLi = target.find("li").first().clone(true);
+            // newLi.css("display", "block"); /* 或选择移除类名 */
+            newLi.removeClass("model");
+            newLi.data("id", item.id); /* 记录商品 id */
+            newLi.data("price", item.price); /* 购物车里记录单种商品价格 */
+            newLi.data("subtotal", item.price); /* 购物车里记录单种商品总价小计（预记录） */
+            newLi.find("img").attr("src", item.img);
+            newLi.find(".goods-title").text(item.title);
+            newLi.find(".describe").text(item.describe);
+            newLi.find(".price .amount").text(item.price);
+            // index ? target.append(newLi) : null; /* 不添加第一个 */
+            target.append(newLi);
+            newLis.push(newLi.get(0));
+        });
+        // target.append(newLis);
+        return newLis; /* 返回原生 DOM 节点数组 */
+    }
+    render($('.hall'), products);
+
+    // 呼出购物车
+    $("#callCart").on("click", function(e) { /* 点击方式 */
+        if (+$(".cart").css("margin-right").slice(0, -2)) {
+            $(".cart").stop(true).animate({
+                marginRight: 0
+            }, 500);
+        } else {
+            $(".cart").stop(true).animate({
+                marginRight: "-300px"
+            }, 500);
+        }
+    });
+    // $("#callCart").on("mouseenter", function(e) { /* 悬浮方式-呼出 */
+    //     $(".cart").stop(true).animate({
+    //         marginRight: 0
+    //     }, 1000)
+    // });
+    // $(".cart").on("mouseleave", function(e) { /* 悬浮方式-关闭 */
+    //     $(".cart").stop(true).animate({
+    //         marginRight: "-300px"
+    //     }, 1000)
+    // });
+    // function slidLeft(target, width, delay) { /* 向左滑出 */
+    //     target = $(target); /* 包装一遍，处理传入原生 DOM 的情况 */
+    //     // 三种尺寸
+    //     // console.log(target.css("width")); /* 包含 border */
+    //     // console.log(taeget[0].offsetWidth) /* 上面的原生 js 写法 */
+    //     console.log(target.innerWidth()); /* 不包含 border */
+    //     // console.log(target[0].clientWidth); /* 上面的原生 js 写法 */
+    //     width = width ? width : target.innerWidth();
+    //     delay = delay ? delay : 300;
+    //     if (target.innerWidth()) {
+    //         target.stop(true).animate({
+    //             width: 0 /* box-sizing 模式下，动画设置的宽度将不包括 border，即 border仍可见 */
+    //         }, delay);
+    //     } else {
+    //         target.stop(true).animate({
+    //             width: width + "px"
+    //         }, delay);
+    //     }
+    // };
+    // $("#callCart").on("click", function(e) { /* 点击方式-滑动 */
+    //     slidLeft($(".cart"), 300); /* 动画时，.cart 里的文本是混乱的 */
+    // });
+
+    // 加入购物车
+    // 更新总价格
+    function updateTotal(addition) { /* 无参版比有参版有参数接口更简单，有参数比无参数性能更优秀 */
+        // 无参数版
+        // var totalPrice = 0;
+        // $(".want-goods").not(".model").each(function(index, item) {
+        //     totalPrice += +$(item).find(".subtotal").text();
+        // });
+        // $("#total-price").text(totalPrice);
+
+        // 有参数版
+        var totalPrice = +$("#total-price").text();
+        isNaN(+addition) ? null : $("#total-price").text(totalPrice + addition);
+    }
+    // 更新单价商品总价
+    function updateSingle(target) { /* 非手动修改不会触发 change 事件，且 change 事件不能代理 */
+        // 无参数版
+        // $(".want-goods").not(".model").each(function(index, item) {
+        //     $(item).find(".subtotal").text(+$(item).data("price") * +$(item).find("input[name='amount']").val());
+        //     console.log($(item));
+        //     // console.log($(item).find(".subtotal"));
+        //     console.log($(item).data("price"));
+        // });
+        // updateTotal();
+
+        // 有参数版
+        target = $(target); /* 处理原生 DOM */
+        var subtotal = +target.find(".subtotal").text();
+        var addition = target.data("subtotal") - subtotal;
+        target.find(".subtotal").text(target.data("subtotal"));
+        updateTotal(addition);
+    }
+    $(".booth").on("click", ".buy", function(e) {
+        var id = $(this).parent().data("id");
+        var finded = null;
+        $(".want-goods").each(function(index, item) { /* 查找是否已存在 */
+            if ($(item).data("id") == id) {
+                finded = $(item);
+                return false; /* 中断 each */
+            }
+        });
+        if (finded) { /* 找到则改数量 */
+            finded.find("input[name='amount']").val(function() {
+                finded.data("subtotal", finded.data("price") * (+this.value + 1)); /* 先改变 subtotal 属性 */
+                return +this.value + 1; /* 需先转数字 */
+            });
+            // updateSingle(finded); /* ② */
+        } else { /* 否则加入购物车 */
+            finded = render($(".cart-list"), products[id]); /* 优化：需要能根据 id 查数据，而不是单纯取数组的第几个 */
+            $(finded).find(".subtotal").text(0); /* debug:[总价异常]=》①购物车里预显示的初始价格置零 */
+            // updateTotal($(finded).data("price")); /* debug:[总价异常]=》或②只更新总价 */
+        }
+        // updateSingle();
+        updateSingle(finded);
+    });
+
+    $(".want-goods").each(function(index, item) { /* change 事件不能进行事件代理，且操作 DOM 更改 value 不会触发 change 事件 */
+        $(item).find("input[name='amount']").change(function(e) { /* 手动填写数量，需要预校验大于0 */
+            // updateSingle();
+            var wantGoods = $(this).parents(".want-goods");
+            wantGoods.data("subtotal", $(this).val() * wantGoods.data("price"));
+            updateSingle(wantGoods);
+        });
+    });
+
+    $(".cart").on("click", "button", function(e) {
+        if ($(this).is($(".clear"))) { /* 清空购物车 */
+            $(".cart .model").siblings("li").remove(); /* 注意保留模板 */
+            // updateTotal();
+            updateTotal(-$("#total-price").text());
+        } else if ($(this).is($(".remove"))) { /* 移除商品 */
+            // updateTotal();
+            var wantGoods = $(this).parents(".want-goods");
+            updateTotal(-wantGoods.data("subtotal"));
+            wantGoods.remove();
+        } else if ($(this).is($(".alter button"))) { /* 按钮修改数量，需要预校验大于0 */
+            var wantGoods = $(this).parents(".want-goods");
+            var input = wantGoods.find("input[name='amount']");
+            var pom = $(this).is(".add") ? 1 : -1; /* plus or minus */
+            input.val(function() {
+                return +this.value + pom;
+            });
+            // updateSingle();
+            wantGoods.data("subtotal", wantGoods.data("price") * input.val());
+            updateSingle(wantGoods);
+        }
+    });
+
+    function battle(stage, player) { /* 凸显效果 */
+        stage = $(stage);
+        stage.on("mouseenter", player, function(e) {
+            var winner = $(this);
+            winner.css("boder", "2px solid red"); /* 改变 css 属性更好的方式是添加类名，配合 css 实现 */
+            // winner.siblings().css("opacity", "0.5"); /* 无动画版 */
+            winner.siblings().fadeTo(500, 0.5);
+        });
+        stage.on("mouseleave", player, function(e) {
+            var winner = $(this);
+            winner.siblings().stop(true);
+            winner.css("border", "none");
+            winner.siblings().css("opacity", "1");
+        });
+    }
+    battle($(".hall"), 'li');
+</script>
+
+</html>

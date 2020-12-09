@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂练习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        .container {
+            width: 800px;
+            margin: 20px auto;
+            padding: 50px;
+        }
+        
+        form {
+            margin: 0 auto;
+        }
+        
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        label {
+            vertical-align: top;
+        }
+        
+        .ready::after {
+            width: 17px;
+            height: 17px;
+            border-radius: 2px;
+            background-color: rgb(82, 255, 221);
+            left: 1px;
+            top: 1px;
+            position: absolute;
+            display: inline-block;
+            content: "";
+        }
+    </style>
+    <script src="./asset/js/jQuery.min(3.3.1).js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <form action="">
+            <input type="checkbox" name="hobby" id="all"><label>全选</label><br>
+            <input type="checkbox" name="hobby" id="basketball"><label for="basketball">篮球</label>
+            <input type="checkbox" name="hobby" id="football"><label for="football">足球</label>
+            <input type="checkbox" name="hobby" id="volleyball"><label for="volleyball">排球</label>
+            <input type="checkbox" name="hobby" id="chess"><label for="chess">下棋</label>
+            <input type="checkbox" name="hobby" id="painting"><label for="painting">绘画</label>
+            <input type="checkbox" name="hobby" id="sing"><label for="sing">唱歌</label>
+        </form>
+    </div>
+</body>
+<script>
+    var setAll = $("input").first();
+    var data = setAll.siblings("input");
+    setAll.change(function(e) {
+        if ($(this).prop("checked")) {
+            data.prop("checked", true);
+            $(this).removeClass("ready");
+        } else {
+            data.prop("checked", false);
+            $(this).addClass("ready");
+        }
+    });
+    // 指定集合中，每个元素的每个指定属性，是否都为真（或为指定值）
+    function everyPropOfIs(elements, prop, value) { /* 该函数应用范围应该更广泛，不过难点在于如何传入 express */
+        elements = $(elements); /* 处理传入原生 DOM 情况 */
+        value = value ? value : true;
+        // 不包装返回值
+        // var first = elements.first();
+        // return first.prop(prop) /* express */ && everyPropOfIs(first.nextAll("input").first());
+
+        // 包装返回值
+        var result = (function inner(first) { /* 若兄弟元素中有不符合 express 则返回 false，否则返回 undefined。因此需要包装一下返回值 */
+            console.log(first.prop(prop));
+            return first.prop(prop) /* express */ && inner(first.nextAll("input").first());
+        })(elements.first());
+        result = result === undefined ? true : false;
+        return result;
+    }
+    data.each(function() {
+        $(this).change(function(e) {
+            if (everyPropOfIs(data, "checked")) {
+                setAll.prop("checked", true);
+                setAll.removeClass("ready");
+            } else {
+                setAll.prop("checked", false);
+                setAll.addClass("ready");
+            }
+        })
+    });
+</script>
+
+</html>

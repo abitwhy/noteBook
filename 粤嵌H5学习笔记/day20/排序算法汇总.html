@@ -21,7 +21,6 @@
                 for (var j = 0; j < arr.length - i; j++) {
                     if (arr[j] > arr[i]) { /* 升序 ，逆序交换 */
                         temp = arr[i];
-                        console.log(temp);
                         arr[i] = arr[j];
                         arr[j] = temp;
                     }
@@ -51,7 +50,6 @@
                     }
                 }
                 if (extremum != i) { /* 极值不是默认值则交换 */
-                    console.log(extremum);
                     temp = arr[i];
                     arr[i] = arr[extremum];
                     arr[extremum] = temp;

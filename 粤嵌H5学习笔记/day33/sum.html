@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出现次数最多的字符</title>
+</head>
+
+<body>
+</body>
+<script>
+    function mostFrequecyChar(str) {
+        console.time("mfc");
+        var max, current, rest, currentLength;
+        max = 0;
+        while (str.length > 0 && str[0] != "") {
+            current = str.charAt(0);
+            rest = str.split(current).join("");
+            currentLength = str.length - rest.length
+            max = currentLength > max ? currentLength : max;
+            str = rest;
+        }
+        console.timeEnd("mfc");
+        return max;
+        // 待优化
+    }
+</script>
+<script>
+    $(function() {
+        (function render(target, data) {
+            $(data).each(function(index, item) {
+                target = $(target); /* 包装一遍，处理传入原生 DOM 的情况 */
+                var newLi = target.find("li").first().clone(true);
+                newLi.find("img").attr("src", item.img);
+                newLi.find("span").text("￥" + item.price);
+                index ? target.append(newLi) : null; /* 不添加第一个 */
+            });
+        })($('.prolist'), products);
+
+        // function slidLeft(target, width, delay) { /* 向左滑出 */
+        //     target = $(target); /* 包装一遍，处理传入原生 DOM 的情况 */
+        //     width = width ? width : target.css("width");
+        //     delay = delay ? delay : 300;
+        //     if (+target.css("width").slice(0, -2)) {
+        //         $(target).stop(true).animate({
+        //             width: 0
+        //         }, delay);
+        //     } else {
+        //         $(target).stop(true).animate({
+        //             width: width + "px"
+        //         }, delay);
+        //     }
+        // };
+        // $("button").on("click", function(e) {
+        //     slidLeft($(".cart"), 300); /* 动画时，.cart 里的文本是混乱的 */
+        // });
+
+        // $("button").on("click", function(e) { /* 点击方式 */
+        //     if (+$(".cart").css("margin-right").slice(0, -2)) {
+        //         $(".cart").stop(true).animate({
+        //             marginRight: 0
+        //         }, 500);
+        //     } else {
+        //         $(".cart").stop(true).animate({
+        //             marginRight: "-300px"
+        //         }, 500);
+        //     }
+        // });
+        $("button").on("mouseenter", function(e) { /* 悬浮方式 */
+            $(".cart").stop(true).animate({
+                marginRight: 0
+            }, 1000)
+        });
+        $(".cart").on("mouseleave", function(e) {
+            $(".cart").stop(true).animate({
+                marginRight: "-300px"
+            }, 1000)
+        });
+
+    });
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>认识jQuery</title>
+    <!-- 在线 jQuery -->
+    <!-- <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script> -->
+    <!-- 本地 jQuery -->
+    <script src="./asset/js/jquery.min(3.3.1).js"></script>
+</head>
+
+<body>
+    <div>jQuery</div>
+    <div class="context">
+        <div>jQuery([selector,[context]])</div>
+    </div>
+    <ul>
+        <li>
+            <div>foo</div>
+            <a href="javascript:;">foo</a>
+        </li>
+        <li>
+            <a href="javascript:;">foo</a>
+        </li>
+        <li>
+            <a href="javascript:;">foo</a>
+        </li>
+    </ul>
+</body>
+<script>
+    // // 代码加载顺序
+    // // 结论：②先于③④，③④先于①，③④顺序取为代码出现顺序
+    // // 另外：$ 是 jQuery 的别名，jQuery 是 jQuery 里的顶级对象
+    // window.onload = function() { /* ① */
+    //     alert("window.onload");
+    // }
+    // window.addEventListener("DOMContentLoaded", function() {
+    //     alert("DOMContentLoaded"); /* ② */
+    // });
+
+    // $(function() { /* ③ */
+    //     alert("jQuery 回调函数方式");
+    // });
+    // 等价于
+    // $(document).ready(function() { /* ④ */
+    //     alert("jQuery document.ready 方式");
+    // });
+
+    // 获取元素 - $([selector,[context]]) —— （在指定范围）查找并返回匹配 css 选择器（jQuery 对其有封装式扩充）的 DOM 节点。
+    var divQ = $("div"); /* jQuery 方式 */
+    console.log("divQ:", divQ);
+    // 类似但区别于
+    var divO = document.querySelector("div"); /* 原生 js querySelector 方式 */
+    console.log("divO:", divO);
+    // 转化
+    var divQ2O = divQ[0]; /* jQuery 转原生（单个元素） */
+    console.log("divQ2O:", divQ2O);
+    var divO2Q = $(divO); /* 不完全一样，没有 prevObject 属性 */
+    console.log("divO2Q:", divO2Q);
+    // 还支持二参 context，指定搜索范围（返回元素顺序取决于其在 context 中的顺序）
+    var divInContext = $("div", $(".context"));
+    console.log("divInContext:", divInContext);
+
+    // 创建元素 - $(html,[props]) —— 动态创建由 jQuery 对象包装的 DOM 元素。（同时设置一系列的属性、事件等。）
+    var createElement = $("<div>$(html,[props])</div>").insertAfter(divInContext.parent()); /* 首参接受 HTML 字符串，用以解析出（jQuery 包装过的）DOM 文档片段 */
+    var createInput = $("<input type='button'>").insertAfter(createElement); /* 若为 input 标签，必须同时设置 type 属性 */
+    var createElementWithProps = $("<span/>", { /* 同时添加属性、事件，注意：一旦 HTML 标签中同时设置了任何属性，都会使第二个对象参数失效 */
+        text: "props",
+        "class": "foo",
+        click: function() {
+            alert(this.innerText);
+            // console.log(this.innerText);
+        }
+    }).insertAfter(createInput);
+    var createElementWithPropsBadExample = $("<div id='cewpbe'>HTML code</div>", { /* 失效的属性设置。因此，若需要属性参数，HTML 字符串参数完全可以简写成闭合单标签 */
+        text: "这里设置的属性会失效",
+        click: function() {
+            alert("事件也同样会失效")
+        },
+        "class": "all-lose-efficacy"
+    }).insertAfter(createElementWithProps);
+
+    // 遍历指定集合，并执行回调函数 - each(callback) —— 相当于 js 原生的 forEach
+    // 区别：each 回调函数相较于 js 原生 forEach 的回调函数:
+    //      1.回调里的参数不同：参数不包含了数组本身 array；item 与 index 交换了位置；
+    //      2.回调里的 return 作用不同：return 返回 true\false，相当于 continue\break 遍历，而不只是单一地 continue 遍历
+    //      3.返回值不同：有了返回值，返回执行 each 的集合。
+    var divs = $("div").each(function(index, item) {
+        console.log(index);
+        console.log(item === this);
+        if ($(this).is(createElement)) {
+            $(this).css("backgroundColor", "orange");
+            return true;
+        }
+        $(this).css({
+            "width": "300px",
+            "border": "1px solid black"
+        });
+    });
+    console.log(divs);
+
+    // 集合长度属性 - length
+    console.log("length:" + $("div").length);
+
+    // 参数集合 - context —— 没什么用的样子
+    console.log("context:");
+    console.dir($("div", $(".context")));
+
+    // 获取集合中的（指定） DOM 节点 - 	get([index]) —— 等价于 $(...)[index]
+    console.log("jQuery to DOM array:"); /* jQuery 转 DOM 数组（注意：不是原生的 NodeList 或 HTMLCollection） */
+    console.dir($("div").get());
+    console.log("$(...)get(index) equals $(...)[index]? ——", $("div").get(2) === $("div")[2]);
+
+    // 隐式迭代
+    var lis = document.querySelectorAll("li");
+    lis.forEach(function(item, index) { /* 可以看出，原生方式有一定的优势（操作粒度更细） */
+        item.innerText = index; /* 发现 innerText 被当成了 innerHTML，为什么？是因为引入了 jQuery 吗？ */
+    });
+    $("li").css({ /* 隐式地将 css 设置给每一个集合里的元素 */
+        color: "orange",
+        textAlign: "center",
+        listStyle: "none"
+    });
+    // 另一种更常见的 css 参数写法
+    $("li").css("backgroundColor", "purple");
+
+    // jQuery 特有的筛选器
+    $("li:first").css("fontSize", "20px");
+    $("li:last").css("opacity", "0.5");
+    $("li:eq(1)").css("width", "200px"); /* 下标式的，从0算起 */
+    $("li:odd").css("border", "5px solid yellow"); /* 同上 */
+    $("li:even").css("border", "5px solid blue"); /* 同上 */
+
+
+    // 结点查找
+    $("li").parent().css("border", "5px solid gray");
+    $("li").children("a").css("textStyle", "none");
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轮播图（滑动版）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+        
+        li {
+            list-style: none;
+        }
+        
+        img {
+            width: 100%;
+            height: 100%;
+        }
+        
+        h1 {
+            font-size: 50px;
+            text-align: center;
+        }
+        
+        .photo-wrap {
+            width: 50%;
+            /* width: 600px; */
+            height: 500px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pick-list {
+            right: 2%;
+            top: 50px;
+            position: absolute;
+            z-index: 2;
+            /* z-index: 1; */
+        }
+        
+        .pick-list>li {
+            width: 18px;
+            height: 18px;
+            margin-left: 4px;
+            border: 1px solid white;
+            border-radius: 50%;
+            background-color: transparent;
+            float: left;
+            /* 解决边框宽度变化导致元素跳动 */
+            /* box-sizing: border-box; */
+            cursor: pointer;
+        }
+        
+        .pick-list>li:hover {
+            box-shadow: 0px 0px 5px 1px white;
+            border: 2px solid #666fcc;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .picked {
+            /* 类名选择器优先级比较低，更改属性时，需要考虑优先级（添加属性则不需要） */
+            box-shadow: 0px 0px 5px 1px white;
+            border: 2px solid #666fcc !important;
+            background-color: rgba(255, 255, 255, 0.8) !important;
+        }
+        
+        .toggle-list {
+            right: 0;
+            bottom: 0;
+            position: absolute;
+            z-index: 2;
+            /* z-index: 1; */
+        }
+        
+        .toggle-list>li {
+            width: 48px;
+            height: 48px;
+            margin-top: 2px;
+            background-color: #ffa2005e;
+            cursor: pointer;
+        }
+        
+        .toggle-list>li:nth-child(1) {
+            background-image: url(./asset/images/arrow_up.png);
+        }
+        
+        .toggle-list>li:nth-child(2) {
+            background-image: url(./asset/images/arrow_down.png);
+        }
+        
+        .img-list {
+            position: absolute;
+        }
+        
+        .img-list>li {
+            height: 500px;
+            /* float: left; [横向滑动]*/
+            /* opacity: 0; [显隐效果] */
+            /* transition: opacity 1s; [显隐效果] */
+        }
+        
+        .img-list>li>a {
+            height: 100%;
+            display: block;
+        }
+        /* 显隐效果 */
+        /* .show { 
+            z-index: 1;
+            opacity: 1 !important;
+        } */
+    </style>
+    <script src="./asset/js/myAnimation.js"></script>
+    <script src="./asset/js/ScrollImg.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>轮播图</h1>
+        <div id="photo-wrap" class="photo-wrap">
+            <ul class="pick-list">
+                <!-- 剩余 li 在 js 里根据 img-list 里的图片数量动态生成。 -->
+                <li></li>
+            </ul>
+            <ul class="toggle-list">
+                <li></li>
+                <li></li>
+            </ul>
+            <ul class="img-list">
+                <li>
+                    <a href="javascript:;">
+                        <img src="" alt="" title="">
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- <div id="photo-wrap2" class="photo-wrap">
+            <ul class="pick-list">
+                <li></li>
+            </ul>
+            <ul class="toggle-list">
+                <li></li>
+                <li></li>
+            </ul>
+            <ul class="img-list">
+                <li>
+                    <a href="javascript:;">
+                        <img src="" alt="" title="">
+                    </a>
+                </li>
+            </ul>
+        </div> -->
+    </div>
+</body>
+
+<script>
+    var photoWrap = document.querySelector("#photo-wrap");
+    imgSrcs = ["./asset/images/image1.jpg", "./asset/images/image2.jpg", "./asset/images/image3.jpg", "./asset/images/image4.jpg", "./asset/images/image5.jpg", "./asset/images/image6.jpg"];
+    var scrollPW = new ScrollImg(photoWrap, imgSrcs);
+    scrollPW.play();
+    // var photoWrap2 = document.querySelector("#photo-wrap2");
+    // imgSrcs2 = ["./asset/images/image1.jpg", "./asset/images/image2.jpg", "./asset/images/image3.jpg", "./asset/images/image4.jpg", "./asset/images/image5.jpg", "./asset/images/image6.jpg"];
+    // var scrollPW2 = new ScrollImg(photoWrap2, imgSrcs2);
+    // scrollPW2.play();
+</script>
+
+</html>
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>winner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+            /* 本例不设置会出现抖动 */
+            box-sizing: border-box;
+        }
+        
+        .container {
+            width: 800px;
+            margin: 20px auto;
+            padding: 50px;
+            background-color: black;
+        }
+        
+        li {
+            list-style: none;
+        }
+        
+        a {
+            display: block;
+        }
+        
+        .stage {
+            border: 1px solid white;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: center;
+            justify-content: center;
+        }
+        
+        .stage>li {
+            width: 200px;
+            height: 200px;
+            margin: 10px;
+        }
+        
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="./asset/js/jQuery.min(3.3.1).js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <ul id="stage" class="stage">
+            <li>
+                <a href="javascript:;"><img src="./asset/images/01.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="javascript:;"><img src="./asset/images/02.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="javascript:;"><img src="./asset/images/03.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="javascript:;"><img src="./asset/images/04.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="javascript:;"><img src="./asset/images/05.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="javascript:;"><img src="./asset/images/06.jpg" alt=""></a>
+            </li>
+        </ul>
+    </div>
+</body>
+<script>
+    // 总结：
+    // 1.是否可以 jQuery 代码与原生 js 代码穿插？
+    // 2.是否选择函数式代码风格？
+    // 3.既然事件代理并不意味着高性能，那么该何时使用事件代理？
+
+    // $(".stage").children("li").hover( /* 接受两个函数分别作为，事件执行的函数，及回调函数 */
+    //     function(e) { /* 还可以选择将样式封装在 css 类里面，仅在 jQuery 里更改类名 */
+    //         $(this).css("border", "2px solid red");
+    //         // $(this).siblings().css("opacity", "0.5"); /* 无动画 */
+    //         $(this).siblings().fadeTo(500, 0.5); /* 不能移动太快 */
+
+    //         // 函数式编程风格
+    //         // $(this).css("border", "2px solid red")
+    //         //     .siblings().fadeTo(500, 0.5);
+    //         // 思考：考虑回调会因父函数而出现等待（持疑：js 本就是单线程的，异步是通过任务队列+事件循环实现的），而某些回调在逻辑上实际应与父函数同步执行，写成回调仅仅为了简化代码，这可能是一个严重的坏习惯
+    //     },
+    //     function(e) {
+    //         $(this).siblings().stop(true, false); /* debug：[不能移动太快]=》回调函数里 stop 停止动画 */
+    //         // 停止动画队列 - stop([clearQueue],[jumpToEnd]) —— 两个布尔类型参数，clearQueue 指定是否清除动画队列（默认 false）；jumpToEnd 指定是否直接执行完动画队列里的所有动画（默认 true）。
+    //         // 可以理解为：前者设置动画样式是否中断，后者主要设置数据是否中断（因为添加的自定义动画，实际是一个回调函数，完全可以在里面修改某些与展示无关的数据。当然，与样式有关的也会被直接执行完毕）。
+    //         $(this).css("border", "none");
+    //         $(this).siblings().css("opacity", "1");
+
+    //         // 函数式编程风格
+    //         // $(this).css("border", "none")
+    //         //     .siblings().stop(true, false)
+    //         //     .css("opacity", "1");
+    //     }
+    // );
+
+    // 改进为事件代理（历经了：纯 js 思路 =》 delegate =》 on）
+    // $(".stage").hover( /* 失败：hover 事件可能是不冒泡的 */
+    //     function(e) {
+    //         console.log(e.target);
+    //         if ($(e.target).is($(this).children("a"))) {
+    //             $(e.target).css("border", "2px solid red");
+    //             $(e.target).siblings().fadeTo(500, 0.5);
+    //         }
+    //     },
+    //     function(e) {
+    //         if ($(e.target).is($(this).children("a"))) {
+    //             $(e.target).siblings().stop(true, false);
+    //             $(e.target).css("border", "none");
+    //             $(e.target).siblings().css("opacity", "1");
+    //         }
+    //     }
+    // )
+
+    // $(".stage").delegate(".stage li", "mouseenter", function(e) { /* 失败：可能只能在 document 上做代理 */
+    //     $(this).css("border", "2px solid red");
+    //     $(this).siblings().fadeTo(500, 0.5);
+    // });
+    // $(".stage").delegate(".stage li", "mouseleave", function(e) {
+    //     $(this).siblings().stop(true, false);
+    //     $(this).css("border", "none");
+    //     $(this).siblings().css("opacity", "1");
+    // });
+
+    // $(document).delegate(".stage li", "mouseenter", function(e) { /* 问题：反而更耗性能了 */
+    //     $(this).css("border", "2px solid red");
+    //     $(this).siblings().fadeTo(500, 0.5);
+    // });
+    // $(document).delegate(".stage li", "mouseleave", function(e) {
+    //     $(this).siblings().stop(true, false);
+    //     $(this).css("border", "none");
+    //     $(this).siblings().css("opacity", "1");
+    // });
+
+    // $(".stage").on("mouseenter", ".stage li", function(e) { /* 失败：因为不了解接口 */
+    //     console.log(e.target);
+    //     $(this).css("border", "2px solid red");
+    //     $(this).siblings().fadeTo(500, 0.5);
+    // });
+    // $(".stage").on("mouseleave", ".stage li", function(e) {
+    //     $(this).siblings().stop(true, false);
+    //     $(this).css("border", "none");
+    //     $(this).siblings().css("opacity", "1");
+    // });
+
+    // $(".stage li").on("mouseenter", function(e) { /* 困惑： 这也不是事件代理啊 */
+    //     $(this).css("border", "2px solid red");
+    //     $(this).siblings().fadeTo(500, 0.5);
+    // });
+    // $(".stage li").on("mouseleave", function(e) {
+    //     $(this).siblings().stop(true, false);
+    //     $(this).css("border", "none");
+    //     $(this).siblings().css("opacity", "1");
+    // });
+
+    $(".stage").on("mouseenter", "li", function(e) { /* debug：[不了解接口] => selector 是指以绑定事件的节点（.stage）为参考，搜索其后代节点，而不是绝对的 css 选择器 */
+        $(this).css("border", "2px solid red");
+        // $(this).siblings().css("opacity", "0.5"); /* 无动画 */
+        $(this).siblings().fadeTo(500, 0.5);
+    });
+    $(".stage").on("mouseleave", "li", function(e) {
+        $(this).siblings().stop(true, false);
+        $(this).css("border", "none");
+        $(this).siblings().css("opacity", "1");
+    });
+</script>
+
+</html>

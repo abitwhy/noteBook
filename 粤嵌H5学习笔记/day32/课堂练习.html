@@ -6,13 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>认识jQuery</title>
     <!-- 在线 jQuery -->
-    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
+    <!-- <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script> -->
     <!-- 本地 jQuery -->
     <script src="./asset/js/jquery.min(3.3.1).js"></script>
 </head>
 
 <body>
     <div>jQuery</div>
+    <div class="context">
+        <div>jQuery([selector,[context]])</div>
+    </div>
     <ul>
         <li>
             <div>foo</div>
@@ -40,21 +43,75 @@
     // $(function() { /* ③ */
     //     alert("jQuery 回调函数方式");
     // });
+    // 等价于
     // $(document).ready(function() { /* ④ */
     //     alert("jQuery document.ready 方式");
     // });
 
-    // 获取元素
+    // 获取元素 - $([selector,[context]]) —— （在指定范围）查找并返回匹配 css 选择器（jQuery 对其有封装式扩充）的 DOM 节点。
     var divQ = $("div"); /* jQuery 方式 */
     console.log("divQ:", divQ);
     // 类似但区别于
-    divO = document.querySelector("div"); /* 原生 js querySelector 方式 */
+    var divO = document.querySelector("div"); /* 原生 js querySelector 方式 */
     console.log("divO:", divO);
     // 转化
-    divQ2O = divQ[0]; /* jQuery 转原生（单个元素） */
+    var divQ2O = divQ[0]; /* jQuery 转原生（单个元素） */
     console.log("divQ2O:", divQ2O);
-    divO2Q = $(divO); /* 不完全一样，没有 prevObject 属性 */
+    var divO2Q = $(divO); /* 不完全一样，没有 prevObject 属性 */
     console.log("divO2Q:", divO2Q);
+    // 还支持二参 context，指定搜索范围（返回元素顺序取决于其在 context 中的顺序）
+    var divInContext = $("div", $(".context"));
+    console.log("divInContext:", divInContext);
+
+    // 创建元素 - $(html,[props]) —— 动态创建由 jQuery 对象包装的 DOM 元素。（同时设置一系列的属性、事件等。）
+    var createElement = $("<div>$(html,[props])</div>").insertAfter(divInContext.parent()); /* 首参接受 HTML 字符串，用以解析出（jQuery 包装过的）DOM 文档片段 */
+    var createInput = $("<input type='button'>").insertAfter(createElement); /* 若为 input 标签，必须同时设置 type 属性 */
+    var createElementWithProps = $("<span/>", { /* 同时添加属性、事件，注意：一旦 HTML 标签中同时设置了任何属性，都会使第二个对象参数失效 */
+        text: "props",
+        "class": "foo",
+        click: function() {
+            alert(this.innerText);
+            // console.log(this.innerText);
+        }
+    }).insertAfter(createInput);
+    var createElementWithPropsBadExample = $("<div id='cewpbe'>HTML code</div>", { /* 失效的属性设置。因此，若需要属性参数，HTML 字符串参数完全可以简写成闭合单标签 */
+        text: "这里设置的属性会失效",
+        click: function() {
+            alert("事件也同样会失效")
+        },
+        "class": "all-lose-efficacy"
+    }).insertAfter(createElementWithProps);
+
+    // 遍历指定集合，并执行回调函数 - each(callback) —— 相当于 js 原生的 forEach
+    // 区别：each 回调函数相较于 js 原生 forEach 的回调函数:
+    //      1.回调里的参数不同：参数不包含了数组本身 array；item 与 index 交换了位置；
+    //      2.回调里的 return 作用不同：return 返回 true\false，相当于 continue\break 遍历，而不只是单一地 continue 遍历
+    //      3.返回值不同：有了返回值，返回执行 each 的集合。
+    var divs = $("div").each(function(index, item) {
+        console.log(index);
+        console.log(item === this);
+        if ($(this).is(createElement)) {
+            $(this).css("backgroundColor", "orange");
+            return true;
+        }
+        $(this).css({
+            "width": "300px",
+            "border": "1px solid black"
+        });
+    });
+    console.log(divs);
+
+    // 集合长度属性 - length
+    console.log("length:" + $("div").length);
+
+    // 参数集合 - context —— 没什么用的样子
+    console.log("context:");
+    console.dir($("div", $(".context")));
+
+    // 获取集合中的（指定） DOM 节点 - 	get([index]) —— 等价于 $(...)[index]
+    console.log("jQuery to DOM array:"); /* jQuery 转 DOM 数组（注意：不是原生的 NodeList 或 HTMLCollection） */
+    console.dir($("div").get());
+    console.log("$(...)get(index) equals $(...)[index]? ——", $("div").get(2) === $("div")[2]);
 
     // 隐式迭代
     var lis = document.querySelectorAll("li");
@@ -75,6 +132,7 @@
     $("li:eq(1)").css("width", "200px"); /* 下标式的，从0算起 */
     $("li:odd").css("border", "5px solid yellow"); /* 同上 */
     $("li:even").css("border", "5px solid blue"); /* 同上 */
+
 
     // 结点查找
     $("li").parent().css("border", "5px solid gray");

@@ -1650,6 +1650,45 @@ document.body.contentEditable = true;
 // 可以想到的一种好处：直接将某些网站作为静态HTML模板，还可以是作为图片模板。不过,毫无疑问,这是一种极致懒堕且可耻的行为，还很愚昧。
 ```
 
+- 统计字符
+
+```js
+function mostFrequecyChar(str) { /* 统计最多字符 */
+    console.time("mfc");
+    var max, current, rest, currentLength, result;
+    max = 0;
+    while (str.length > 0 && str[0] != "") {
+        current = str.charAt(0);
+        rest = str.split(current).join("");
+        currentLength = str.length - rest.length;
+        str = rest;
+    }
+    console.timeEnd("mfc");
+    return max;
+}
+
+function chartChar(str) { /* 统计字符 */
+    console.time("charChar took");
+    var max, current, rest, currentLength, result;
+    max = 0;
+    result = [];
+    while (str.length > 0 && str[0] != "") {
+        current = str.charAt(0);
+        rest = str.split(current).join("");
+        currentLength = str.length - rest.length;
+        max = currentLength > max ? currentLength : max;
+        var temp = {};
+        temp[current] = currentLength;
+        result.push(temp);
+        str = rest;
+    }
+    console.timeEnd("charChar took");
+    // 待优化=>统计并返回每一个字符的频率（顺序为字符首次出现顺序）
+    result.frequencyChar = max;
+    return result;
+}
+```
+
 
 
 

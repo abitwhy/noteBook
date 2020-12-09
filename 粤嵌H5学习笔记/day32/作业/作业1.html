@@ -10,6 +10,8 @@
             margin: 0;
             padding: 0;
             /* border: 1px solid red; */
+            /* 本例不设置会出现抖动 */
+            box-sizing: border-box;
         }
         
         .container {
@@ -23,16 +25,16 @@
             list-style: none;
         }
         
+        a {
+            display: block;
+        }
+        
         .stage {
-            /* width: 600px; */
-            /* height: 800px; */
-            /* margin: 50px; */
             border: 1px solid white;
             display: flex;
             flex-flow: row wrap;
             justify-content: center;
             justify-content: center;
-            /* overflow: hidden; */
         }
         
         .stage>li {
@@ -51,39 +53,146 @@
 
 <body>
     <div class="container">
-        <ul class="stage">
+        <ul id="stage" class="stage">
             <li>
-                <a href=""><img src="./asset/images/01.jpg" alt=""></a>
+                <a href="javascript:;"><img src="./asset/images/01.jpg" alt=""></a>
             </li>
             <li>
-                <a href=""><img src="./asset/images/02.jpg" alt=""></a>
+                <a href="javascript:;"><img src="./asset/images/02.jpg" alt=""></a>
             </li>
             <li>
-                <a href=""><img src="./asset/images/03.jpg" alt=""></a>
+                <a href="javascript:;"><img src="./asset/images/03.jpg" alt=""></a>
             </li>
             <li>
-                <a href=""><img src="./asset/images/04.jpg" alt=""></a>
+                <a href="javascript:;"><img src="./asset/images/04.jpg" alt=""></a>
             </li>
             <li>
-                <a href=""><img src="./asset/images/05.jpg" alt=""></a>
+                <a href="javascript:;"><img src="./asset/images/05.jpg" alt=""></a>
             </li>
             <li>
-                <a href=""><img src="./asset/images/06.jpg" alt=""></a>
+                <a href="javascript:;"><img src="./asset/images/06.jpg" alt=""></a>
             </li>
         </ul>
     </div>
 </body>
 <script>
-    $(".stage").children("li").hover( /* 接受两个函数分别作为，事件执行的函数，及回调函数 */
-        function() { /* 还可以选择将样式封装在 css 类里面，仅在 jQuery 里更改类名 */
-            $(this).css("border", "2px solid red");
-            $(this).siblings().css("opacity", "0.5");
-        },
-        function() {
-            $(this).css("border", "none");
-            $(this).siblings().css("opacity", "1");
-        }
-    );
+    // 总结：
+    // 1.是否可以 jQuery 代码与原生 js 代码穿插？
+    // 2.是否选择函数式代码风格？
+    // 3.既然事件代理并不意味着高性能，那么该何时使用事件代理？
+
+    // $(".stage").children("li").hover( /* 接受两个函数分别作为，事件执行的函数，及回调函数 */
+    //     function(e) { /* 还可以选择将样式封装在 css 类里面，仅在 jQuery 里更改类名 */
+    //         $(this).css("border", "2px solid red");
+    //         // $(this).siblings().css("opacity", "0.5"); /* 无动画 */
+    //         $(this).siblings().fadeTo(500, 0.5); /* 不能移动太快 */
+
+    //         // 函数式编程风格
+    //         // $(this).css("border", "2px solid red")
+    //         //     .siblings().fadeTo(500, 0.5);
+    //         // 思考：考虑回调会因父函数而出现等待（持疑：js 本就是单线程的，异步是通过任务队列+事件循环实现的），而某些回调在逻辑上实际应与父函数同步执行，写成回调仅仅为了简化代码，这可能是一个严重的坏习惯
+    //     },
+    //     function(e) {
+    //         $(this).siblings().stop(true, false); /* debug：[不能移动太快]=》回调函数里 stop 停止动画 */
+    //         // 停止动画队列 - stop([clearQueue],[jumpToEnd]) —— 两个布尔类型参数，clearQueue 指定是否清除动画队列（默认 false）；jumpToEnd 指定是否直接执行完动画队列里的所有动画（默认 true）。
+    //         // 可以理解为：前者设置动画样式是否中断，后者主要设置数据是否中断（因为添加的自定义动画里面，完全可以在里面修改某些与展示无关的数据。当然，与样式有关的也会被直接执行完毕）。
+    //         $(this).css("border", "none");
+    //         $(this).siblings().css("opacity", "1");
+
+    //         // 函数式编程风格
+    //         // $(this).css("border", "none")
+    //         //     .siblings().stop(true, false)
+    //         //     .css("opacity", "1");
+    //     }
+    // );
+
+    // 改进为事件代理（历经了：纯 js 思路 =》 delegate =》 on）
+    // $(".stage").hover( /* 失败：hover 事件可能是不冒泡的 */
+    //     function(e) {
+    //         console.log(e.target);
+    //         if ($(e.target).is($(this).children("a"))) {
+    //             $(e.target).css("border", "2px solid red");
+    //             $(e.target).siblings().fadeTo(500, 0.5);
+    //         }
+    //     },
+    //     function(e) {
+    //         if ($(e.target).is($(this).children("a"))) {
+    //             $(e.target).siblings().stop(true, false);
+    //             $(e.target).css("border", "none");
+    //             $(e.target).siblings().css("opacity", "1");
+    //         }
+    //     }
+    // )
+
+    // $(".stage").delegate(".stage li", "mouseenter", function(e) { /* 失败：可能只能在 document 上做代理 */
+    //     $(this).css("border", "2px solid red");
+    //     $(this).siblings().fadeTo(500, 0.5);
+    // });
+    // $(".stage").delegate(".stage li", "mouseleave", function(e) {
+    //     $(this).siblings().stop(true, false);
+    //     $(this).css("border", "none");
+    //     $(this).siblings().css("opacity", "1");
+    // });
+
+    // $(document).delegate(".stage li", "mouseenter", function(e) { /* 问题：反而更耗性能了 */
+    //     $(this).css("border", "2px solid red");
+    //     $(this).siblings().fadeTo(500, 0.5);
+    // });
+    // $(document).delegate(".stage li", "mouseleave", function(e) {
+    //     $(this).siblings().stop(true, false);
+    //     $(this).css("border", "none");
+    //     $(this).siblings().css("opacity", "1");
+    // });
+
+    // $(".stage").on("mouseenter", ".stage li", function(e) { /* 失败：因为不了解接口 */
+    //     console.log(e.target);
+    //     $(this).css("border", "2px solid red");
+    //     $(this).siblings().fadeTo(500, 0.5);
+    // });
+    // $(".stage").on("mouseleave", ".stage li", function(e) {
+    //     $(this).siblings().stop(true, false);
+    //     $(this).css("border", "none");
+    //     $(this).siblings().css("opacity", "1");
+    // });
+
+    // $(".stage li").on("mouseenter", function(e) { /* 困惑： 这也不是事件代理啊 */
+    //     $(this).css("border", "2px solid red");
+    //     $(this).siblings().fadeTo(500, 0.5);
+    // });
+    // $(".stage li").on("mouseleave", function(e) {
+    //     $(this).siblings().stop(true, false);
+    //     $(this).css("border", "none");
+    //     $(this).siblings().css("opacity", "1");
+    // });
+
+    // $(".stage").on("mouseenter", "li", function(e) { /* debug：[不了解接口] => selector 是指以绑定事件的节点（.stage）为参考，搜索其后代节点，而不是绝对的 css 选择器 */
+    //     $(this).css("border", "2px solid red");
+    //     // $(this).siblings().css("opacity", "0.5"); /* 无动画 */
+    //     $(this).siblings().fadeTo(500, 0.5);
+    // });
+    // $(".stage").on("mouseleave", "li", function(e) {
+    //     $(this).siblings().stop(true);
+    //     $(this).css("border", "none");
+    //     $(this).siblings().css("opacity", "1");
+    // });
+
+    // 封装为函数
+    function battle(stage, player) {
+        stage = $(stage);
+        stage.on("mouseenter", player, function(e) {
+            var winner = $(this);
+            winner.css("boder", "2px solid red"); /* 改变 css 属性更好的方式是添加类名，配合 css 实现 */
+            // winner.siblings().css("opacity", "0.5"); /* 无动画版 */
+            winner.siblings().fadeTo(500, 0.5);
+        });
+        stage.on("mouseleave", player, function(e) {
+            var winner = $(this);
+            winner.siblings().stop(true);
+            winner.css("border", "none");
+            winner.siblings().css("opacity", "1");
+        });
+    }
+    battle($(".stage"), 'li');
 </script>
 
 </html>
