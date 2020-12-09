@@ -259,6 +259,7 @@ ScrollImg.prototype.nap = function() { /* 鼠标在图片上移动暂停轮询 *
 //     border-radius: 50%;
 //     background-color: transparent;
 //     float: left;
+//     box-sizing: border-box;
 //     cursor: pointer;
 // }
 
