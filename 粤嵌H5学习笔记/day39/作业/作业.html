@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>笑话分页</title>
+    <link rel="stylesheet" href="./asset/css/bootstrap.css">
+    <script src="./asset/js/jQuery(3.4.1).js"></script>
+    <script src="./asset/js/bootstrap.js"></script>
+    <script src="./asset/js/ajax.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 分页头 -->
+        <nav aria-label="show jokes">
+            <ul id="pageBtns" class="pagination my-4 justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                <li class="page-item"><a class="page-link" href="#">6</a></li>
+                <li class="page-item"><a class="page-link" href="#">7</a></li>
+                <li class="page-item"><a class="page-link" href="#">8</a></li>
+                <li class="page-item"><a class="page-link" href="#">9</a></li>
+                <li class="page-item"><a class="page-link" href="#">10</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- 数据列表 -->
+        <ul id="pageList" class="list-group">
+            <li class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">title</h5>
+                    <small>date</small>
+                </div>
+                <p class="mb-1">content</p>
+            </li>
+            <li class="list-group-item list-group-item-action list-group-item-primary">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">title</h5>
+                    <small>date</small>
+                </div>
+                <p class="mb-1">content</p>
+            </li>
+            <li class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">title</h5>
+                    <small>date</small>
+                </div>
+                <p class="mb-1">content</p>
+            </li>
+            <li class="list-group-item list-group-item-action list-group-item-primary">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">title</h5>
+                    <small>date</small>
+                </div>
+                <p class="mb-1">content</p>
+            </li>
+            <li class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">title</h5>
+                    <small>date</small>
+                </div>
+                <p class="mb-1">content</p>
+            </li>
+            <li class="list-group-item list-group-item-action list-group-item-primary">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">title</h5>
+                    <small>date</small>
+                </div>
+                <p class="mb-1">content</p>
+            </li>
+            <li class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">title</h5>
+                    <small>date</small>
+                </div>
+                <p class="mb-1">content</p>
+            </li>
+            <li class="list-group-item list-group-item-action list-group-item-primary">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">title</h5>
+                    <small>date</small>
+                </div>
+                <p class="mb-1">content</p>
+            </li>
+        </ul>
+    </div>
+
+</body>
+<script>
+    // util
+    function render(nodeSet, dataArr) { /* 简单的渲染数据 */
+        nodeSet.each((index, item) => {
+            $(item).text(dataArr[index]);
+        });
+    }
+
+    function debounce(fn, delay) { /* 防抖函数 */
+        var timer = null; // 声明计时器
+        return function() {
+            var context = this;
+            var args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+                fn.apply(context, args);
+            }, delay);
+        };
+    }
+
+    // 全局变量
+    var pageBtns = $("#pageBtns");
+    var pageList = $("#pageList");
+    var pNodes = pageList.find(".list-group-item");
+    var lastPage = null; /* 历史页 */
+    var currentPage = null; /* 当前页 */
+
+    // 翻页
+    // 值得优化的地方：
+    // 1.页按钮列表不应固定，而是动态改值（那么，翻页是否失效的逻辑需要改变，会更简单）
+    function paging(e) {
+        var prv = $(".page-item").first();
+        var next = $(".page-item").last();
+        var others = $(this).siblings(".page-item").not(prv).not(next);
+        lastPage = $(".page-item+.active"); /* 更新历史页 */
+        // 翻页组逻辑（固定按钮版）
+        if ($(this).is(prv)) {
+            if (!prv.hasClass("disabled")) {
+                lastPage.removeClass("active");
+                lastPage.prev().addClass("active");
+                lastPage.prev().prev().is(prv) ? prv.addClass("disabled") : null; /* 注意到 jQuery 里的 not 与 is 的返回值截然不同！！！ */
+            }
+            lastPage.next().next().is(next) ? null : next.removeClass("disabled"); /* 恢复下一页 */
+        } else if ($(this).is(next)) {
+            if (!next.hasClass("disabled")) {
+                lastPage.removeClass("active");
+                lastPage.next().addClass("active");
+                lastPage.next().next().is(next) ? next.addClass("disabled") : null; /* 注意：需要连两个 next */
+            }
+            lastPage.prev().prev().is(prv) ? null : prv.removeClass("disabled"); /* 恢复上一页 */
+        } else {
+            others.removeClass("active");
+            $(this).addClass("active");
+            $(this).prev().is(prv) ? prv.addClass("disabled") : prv.removeClass("disabled");
+            $(this).next().is(next) ? next.addClass("disabled") : next.removeClass("disabled");
+        }
+        // TODO
+        // 翻页组逻辑（固定按钮版）
+        currentPage = $(".page-item+.active"); /* 更新当前页 */
+        // 请求数据
+        if (lastPage != currentPage) { /* 进行了翻页 */
+            ajax({
+                url: "https://v1.alapi.cn/api/joke?token=A0nLvHpn2mK85lPAhwEN",
+                data: {
+                    num: 8,
+                    page: currentPage.text()
+                },
+                success: function(result) {
+                    var jokes = [];
+                    data = result.data.data;
+                    data.forEach(item => {
+                        jokes.push([item.title, item.date, item.content.split(/<p>|<\/p>/).join("")]); /* 需要去除 p 标签 */
+                    });
+                    pNodes.each((index, item) => {
+                        render($(item).find("h5,small,p"), jokes[index]);
+                    });
+                }
+            });
+        }
+    }
+    pageBtns.on("click", ".page-item", debounce(paging, 500));
+
+    // 初始化
+    $(".page-item+.active").trigger("click"); /* 初始页面数据 */
+</script>
+
+</html>

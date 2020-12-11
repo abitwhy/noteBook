@@ -41,7 +41,7 @@
         }
     </style>
     <script src="./作业/asset/js/unit.js"></script>
-    <script src="./作业/asset/js/preinvalid.js"></script>
+    <script src="./作业/asset/js/prevalid.js"></script>
 </head>
 
 <body>
@@ -76,7 +76,7 @@
         reg: /^1[3456789]\d{9}$/,
         msg: "请填写正确的手机号码！"
     }, ];
-    var pivLogin = new Preinvalid(login, data);
+    var pivLogin = new Prevalid(login, data);
     pivLogin.init();
 
     // 表单2
@@ -88,7 +88,7 @@
         reg: /^.{5,}$/,
         msg: "请填写5字以上！"
     }, ];
-    var pivQuestionnaire = new Preinvalid(questionnaire, data);
+    var pivQuestionnaire = new Prevalid(questionnaire, data);
     pivQuestionnaire.init();
 </script>
 

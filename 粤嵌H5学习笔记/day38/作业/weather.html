@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>城市天气查询</title>
+    <link rel="stylesheet" href="./asset/css/bootstrap.css">
+    <style>
+        form {
+            height: 60px;
+        }
+        
+        h6 {
+            clear: both;
+        }
+        
+        .clear,
+        .date {
+            right: 0;
+            top: 0;
+        }
+        
+        .date {
+            font-size: small;
+        }
+        
+        .weather-poem {
+            opacity: 0.6;
+        }
+    </style>
+    <script src="./asset/js/jQuery(3.4.1).js"></script>
+    <script src="./asset/js/bootstrap.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 查询框 -->
+        <form class="my-4 mx-auto w-50" action="javascript:;">
+            <div class="input-group">
+                <input id="city" type="search" class="form-control" placeholder="输入需要查询的城市" aria-label="输入需要查询的城市" aria-describedby="checkWeather" value="">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="checkWeather">查询天气</button>
+                </div>
+                <div class="valid-feedback">查询可能需要花些时间…</div>
+                <div class="invalid-feedback">请检查输入！</div>
+            </div>
+        </form>
+        <!-- 查询结果 -->
+        <div class="current w-50 m-auto text-center">
+            <div class="card w-100" style="width: 18rem;">
+                <div class="card-body d-none">
+                    <h4 class="city card-title mb-0">城市</h4>
+                    <p class="date-week mb-0 text-muted font-weight-light float-right">日期-星期</p>
+                    <h6 class="card-subtitle mb-3 text-muted font-weight-bold"><span>&emsp;&emsp;</span><span class="weather">天气(晴雨阴温度范围)</span><span class="badge ml-3">冷</span></h6>
+                    <p class="honey-dog card-text bg-light font-weight-light text-left">舔狗正在火速赶来……</p>
+                    <div class="row">
+                        <div class="col-sm-4 col-lg px-0 py-1">
+                            <span class="air p-1 bg-info text-light font-weight-light">空气质量</span>
+                        </div>
+                        <div class="col-sm-4 col-lg px-0 py-1">
+                            <span class="win p-1 bg-info text-light font-weight-light">风向-风力</span>
+                        </div>
+                        <div class="col-sm-4 col-lg px-0 py-1">
+                            <span class="humidity p-1 bg-info text-light font-weight-light">湿度</span>
+                        </div>
+                        <div class="col-sm-4 col-lg px-0 py-1">
+                            <span class="alarm p-1 bg-info text-light font-weight-light">预警有无（类型-等级）</span>
+                        </div>
+                    </div>
+                    <div class="mt-2 d-flex justify-content-around">
+                        <a href="#" class="card-link detail" target="_blank">详情</a>
+                        <a href="#" class="card-link more" target="_blank">更多</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 历史记录 -->
+        <div class="history row my-4  text-center">
+            <div class="col-12">
+                <h2>查询历史</h2>
+                <button class="clear btn btn-danger position-absolute">清空</button>
+            </div>
+            <div class="store col-sm-6 col-md-4 col-lg-3 col-xl d-none">
+                <div class="card mx-auto my-2" style="width:10rem;">
+                    <div class="card-body shadow">
+                        <h5 class="city card-title">城市</h5>
+                        <p class="date text-muted font-weight-light position-absolute">日期</p>
+                        <h6 class="card-subtitle mb-2 text-body font-weight-bold"><span>&emsp;&emsp;</span><span class="subweather">天气</span><span class="badge ml-3">冷</span></h6>
+                        <p class="weather-poem card-text text-muted font-weight-light mx-auto bg-light">诗歌还在加载中……</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // util
+    function render(nodeSet, dataArr) {
+        nodeSet.each((index, item) => {
+            $(item).text(dataArr[index]);
+        });
+    }
+
+    function debounce(fn, delay) { /* 防抖函数 */
+        var timer = null; // 声明计时器
+        return function() {
+            var context = this;
+            var args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+                fn.apply(context, args);
+            }, delay);
+        };
+    }
+
+    // 全局变量
+    // 温度提示数组 /* 温度由低到高 */
+    var weatherTips = ["badge-primary", "badge-success", "badge-warning", "badge-danger"];
+    var weatherTipsText = ["cld", "cft", "wrm", "hot"];
+    var weatherBg = ["aliceblue", "palegreen", "lightgoldenrodyellow", "antiquewhite"];
+    var city = $("#city");
+    var checkWeather = $("#checkWeather");
+    var invalidFeedback = $(".invalid-feedback");
+    var originInvalid = invalidFeedback.text();
+
+    // 预校验
+    function prevalid() {
+        var cityName = city.val();
+        console.log(cityName);
+        var reg = /^[\u4e00-\u9fa5]{2,}$/; /* 无法校验字长 */
+        if (reg.test(cityName) && cityName.length < 7) { /* 此处校验字长 */
+            city.removeClass("is-invalid");
+            city.addClass("is-valid");
+            checkWeather.prop("disabled", false);
+        } else {
+            invalidFeedback.text(originInvalid);
+            city.removeClass("is-valid");
+            city.addClass("is-invalid");
+            checkWeather.prop("disabled", true);
+        }
+    }
+    city.blur(prevalid); /* 单独监听 blur 必须要鼠标点击别处才校验，且一旦发生校验失败，就永远无法无参查询 */
+    city.change(prevalid); /* 单独监听 change 校验可以无参查询，但会有校验提示失灵的 bug */
+    // 组合监听解决了除无参查询 bug 以外的上述 bug/不良体验,该 bug 应归咎于控制清除校验提示的 focus 事件
+    city.focus(() => {
+        city.removeClass(["is-valid", "is-invalid"]);
+    });
+
+    // 查询天气
+    function queryWeather() {
+        if (!checkWeather.prop("disabled")) {
+            city.removeClass(["is-valid", "is-invalid"]); /* 移除校验提示 */
+            var cityNameP = "&city=" + city.val();
+            // ajax 请求 js 原生方式
+            // var xhr = new XMLHttpRequest();
+            // xhr.open("get", "https://v0.yiketianqi.com/api?version=v61&appid=33183228&appsecret=4Q5KbqdF" + cityNameP);
+            // xhr.send();
+            // xhr.onreadystatechange = function(result) {
+            //     if (xhr.readyState == 4 && xhr.status == 200) {
+            //         var res = xhr.responseText;
+            //         var data = JSON.parse(res);
+            //         console.log(data);
+            //     }
+            // }
+
+            // ajax 请求 jQuery 方式
+            $.getJSON("https://v0.yiketianqi.com/api?version=v61&appid=33183228&appsecret=4Q5KbqdF" + cityNameP, function(result) {
+                try { /* 用 try-catch 很不规范！！！jQuery 实际该如何处理呢 */
+                    // 数据预处理
+                    var alarm = result.alarm.alarm_type ? result.alarm.alarm_type + result.alarm.alarm_level + "预警" : "无预警";
+                    var level = parseInt((result.tem1 - 10) / 9 + 1);
+                    var badgeClass = weatherTips[level];
+                    var badgeText = weatherTipsText[level];
+                    var badgeBg = weatherBg[level];
+
+                    // current 构建
+                    var cModle = $(".current .d-none");
+                    cModle.siblings(".card-body").remove();
+                    var current = cModle.clone(true, true);
+                    current.removeClass("d-none");
+                    current.find(".badge").addClass(badgeClass);
+                    current.find(".badge").text(badgeText);
+                    var cNodes = current.find(".city,.date-week,.weather,.air,.win,.humidity,.alarm");
+                    var cDatas = [result.city, result.date + result.week, result.wea + '(' + result.tem2 + '~' + result.tem1 + '℃)', result.air_level, result.win + result.win_speed, "湿度" + result.humidity, alarm];
+                    render(cNodes, cDatas);
+                    // 舔狗日记
+                    var toDayToken = "?token=" + "A0nLvHpn2mK85lPAhwEN";
+                    $.getJSON("https://v1.alapi.cn/api/dog" + toDayToken, function(rst) {
+                        current.find(".honey-dog").html("&emsp;&emsp;" + rst.data.content);
+                    });
+                    // 详情与更多
+                    current.find(".detail").prop("href", "http://www.weather.com.cn/weather/" + result.cityid + ".shtml");
+                    current.find(".more").prop("href", "https://www.baidu.com/s?ie=UTF-8&wd=" + result.city + "&tn=88093251_75_hao_pg");
+
+                    // history 构建
+                    $(".history").prev("hr").length ? null : $("<hr>").insertBefore($(".history")); /* 添加（一次）分割线 */
+                    var hModle = $(".history .d-none");
+                    var history = hModle.clone(true, true);
+                    history.removeClass("d-none");
+                    history.find(".badge").addClass(badgeClass);
+                    history.find(".badge").text(badgeText);
+                    history.find(".card-body").css("background-color", badgeBg);
+                    var hNodes = history.find(".city,.date,.subweather");
+                    var hDatas = [result.city, result.date, result.wea];
+                    render(hNodes, hDatas);
+                    // 天气诗歌
+                    $.getJSON("https://v1.alapi.cn/api/shici" + toDayToken + "&type=tianqi" + toDayToken, function(rst) {
+                        console.log(rst);
+                        var weatherPoem = history.find(".weather-poem");
+                        var poem = rst.data.content;
+                        // poem = poem.split("，").length > 1 ? poem.split("，") : poem.split("，").join("").split("。"); /* 返回的诗句可能是‘。’分割的 */
+                        poem = poem.split(/，|。|、|；|？/); /* 取句子 */
+                        poem.pop(); /* 除末尾空字符 */
+                        poemHtml = "";
+                        poem.forEach((item, index) => {
+                            poemHtml += (index ? "<br>" : "") + item; /* 第一个不需要换行 */
+                        });
+                        weatherPoem.html(poemHtml);
+                    });
+
+                    // 渲染
+                    cModle.parent().append(current);
+                    hModle.parent().append(history);
+                } catch (error) { /* 服务端错误 */
+                    var serverTip = "未能查询到结果！";
+                    invalidFeedback.text(serverTip);
+                    city.removeClass("is-valid");
+                    city.addClass("is-invalid");
+                    checkWeather.prop("disabled", true);
+                }
+            });
+        }
+    }
+    checkWeather.click(debounce(queryWeather, 600));
+
+    // 清空历史
+    $(".history .clear").click(() => {
+        $(".history .d-none").siblings(".store").remove();
+    });
+</script>
+
+</html>

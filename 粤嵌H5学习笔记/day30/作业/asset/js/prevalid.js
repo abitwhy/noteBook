@@ -1,19 +1,19 @@
     // （登录/注册）表单预校验
-    function Preinvalid(node, data) {
+    function Prevalid(node, data) {
         this.node = node || null;
         this.data = data || [];
     }
-    Preinvalid.prototype.init = function() {
+    Prevalid.prototype.init = function() {
         var piv;
         piv = this;
         piv.addProperty();
         piv.node.addEventListener("blur", piv.showTips.bind(piv), true); /* 由于 focus 和 blur 事件不会冒泡，只能在捕获阶段触发，所以是否在冒泡阶段触发需要设为 true */
         piv.node.addEventListener("focus", piv.removeTips, true);
     };
-    Preinvalid.prototype.invalid = function(target, regExp) { /* 校验 */
+    Prevalid.prototype.valid = function(target, regExp) { /* 校验 */
         return regExp.test(target.value);
     };
-    // Preinvalid.prototype.getNextElementOf = function getNextElementOf(node, name) { /* 查找下一个指定类型元素节点（集成进来，否则单独引入）=》最终选择了单独引入，注释代码，保留备用 */
+    // Prevalid.prototype.getNextElementOf = function getNextElementOf(node, name) { /* 查找下一个指定类型元素节点（集成进来，否则单独引入）=》最终选择了单独引入，注释代码，保留备用 */
     //     if (name ? node.nextElementSibling.nodeName == name.toUpperCase() : true) {
     //         return node.nextElementSibling;
     //     } else if (node.nextElementSibling.nextElementSibling) {
@@ -22,7 +22,7 @@
     //         return null;
     //     }
     // }
-    Preinvalid.prototype.addProperty = function() { /* 为[tips]做准备 */
+    Prevalid.prototype.addProperty = function() { /* 为[tips]做准备 */
         var piv, inputs, count = 0;
         piv = this;
         inputs = piv.node.querySelectorAll("input");
@@ -41,7 +41,7 @@
             item.msg = piv.data[count++].msg;
         });
     };
-    Preinvalid.prototype.tips = function(target, message) {
+    Prevalid.prototype.tips = function(target, message) {
         var tip = document.createElement("div");
         var computedStyle = window.getComputedStyle(target); /* 获取元素 css 计算属性  */
         tip.innerText = target.value ? message : target.nameZH + "不能为空！";
@@ -59,14 +59,14 @@
         target.parentNode.insertBefore(tip, getNextElementOf(target, "label")); /* 改进2 */
         return tip;
     };
-    Preinvalid.prototype.showTips = function(e) {
+    Prevalid.prototype.showTips = function(e) {
         var tgt = e.target;
         if (tgt.nodeName == "INPUT" && tgt.type == "text") {
-            // tgt.tip = this.invalid(tgt, tgt.reg) ? null : this.tips.bind(this)(tgt, tgt.msg); /* 改进1=》 若 getNextElementOf 为静态方法，则不需要 bind，代码逻辑也更简明 */
-            tgt.tip = this.invalid(tgt, tgt.reg) ? null : this.tips(tgt, tgt.msg); /* 改进2 */
+            // tgt.tip = this.valid(tgt, tgt.reg) ? null : this.tips.bind(this)(tgt, tgt.msg); /* 改进1=》 若 getNextElementOf 为静态方法，则不需要 bind，代码逻辑也更简明 */
+            tgt.tip = this.valid(tgt, tgt.reg) ? null : this.tips(tgt, tgt.msg); /* 改进2 */
         }
     };
-    Preinvalid.prototype.removeTips = function(e) {
+    Prevalid.prototype.removeTips = function(e) {
         var tgt = e.target;
         if (tgt.nodeName == "INPUT" && tgt.type == "text") {
             tgt.tip ? (tgt.style.marginBottom = tgt.tip.style.marginBottom) && tgt.tip.parentNode.removeChild(tgt.tip) : null;

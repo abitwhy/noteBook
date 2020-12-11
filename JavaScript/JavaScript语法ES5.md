@@ -1582,12 +1582,19 @@ console.log(3); // 同步任务在本轮事件循环
    优先级是由 `A` 、`B`、`C`、`D` 的值来决定的，其中它们的值计算规则如下：
 
    0. A~B 之间的权重：`A` >`B`>`C`>`D`，比较时总是依次逐级比较。
-
-   1. 如果存在内联样式，那么 `A = 1`, 否则 `A = 0`;
+1. 如果存在内联样式，那么 `A = 1`, 否则 `A = 0`;
    2. `B` 的值等于 `ID选择器` 出现的次数;
    3. `C` 的值等于 `类选择器` 和 `属性选择器` 和 `伪类` 出现的总次数;
    4. `D` 的值等于 `标签选择器` 和 `伪元素` 出现的总次数 。
    5. `!important`拥有最高优先级（超过内联样式，不过又支持在内敛样式中使用），important 关键字还可替换为数字（如 `!1`），这样又拓展了一级优先级比较。
+   
+9. `Object.assign` - 合并对象，常用于设置函数对象参数默认值
+
+   ```js
+   
+   ```
+
+   
 
 ------
 
@@ -1686,6 +1693,22 @@ function chartChar(str) { /* 统计字符 */
     // 待优化=>统计并返回每一个字符的频率（顺序为字符首次出现顺序）
     result.frequencyChar = max;
     return result;
+}
+```
+
+- `debounce`-防抖函数
+
+```js
+function debounce(fn, delay){
+  var timer = null; // 声明计时器
+  return function() {
+    var context = this;
+    var args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      fn.apply(context, args);
+    }, delay);
+  };
 }
 ```
 
