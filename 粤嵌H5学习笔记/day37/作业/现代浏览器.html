@@ -73,12 +73,6 @@
         .carousel-caption {
             /* 阻止轮播图标题默认自动消失 */
             display: block !important;
-            /* height: 120px;
-            width: 700px;
-            margin: 0 auto;
-            border-radius: 10px;
-            background-color: #1a0000cc;
-            top: 300px; */
         }
         /* 轮播图标题加色彩（可有可无） */
         
@@ -390,15 +384,17 @@
     </div>
 </body>
 <script>
+    //[注意]跳转功能还没写，也不好写 
+
     $(function() {
         console.log($("#carouselOfBrowser"));
-        // $(".carousel ").carousel('pause'); /* 为什么么生效？ */
+        // $(".carousel ").carousel('pause'); /* 为什没么生效？ */
     });
 
     $('#myNavbar a').click(function() {
         var href = $(this).attr("href");
         $("#tab-list a[href='" + href + "']").tab("show");
-    })
+    });
 </script>
 
 </html>

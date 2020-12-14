@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>安卓机器人</title>
+    <style>
+        .wrap {
+            width: 328px;
+            height: 328px;
+            margin: 20px auto;
+            background-color: white;
+            position: relative;
+        }
+        
+        .wrap * {
+            margin: 0 auto;
+            background-color: #68b545;
+        }
+        
+        .wrap::before {
+            width: 15px;
+            height: 15px;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: calc(328px / 2 - 120px + 15px * 2) 0 0 white;
+            left: 120px;
+            top: 30px;
+            content: "";
+            display: block;
+            position: absolute;
+        }
+        
+        .wrap::after {
+            width: 35px;
+            height: 64px;
+            border-radius: 0 0 35px 35px;
+            /* 下面有问题 */
+            box-shadow: calc(328px / 2 - 105px + 25px) 0 0 #68b545;
+            background-color: #68b545;
+            left: 105px;
+            bottom: 5px;
+            content: "";
+            display: block;
+            position: absolute;
+        }
+        
+        .warp::after {
+            content: "";
+            display: block;
+            position: absolute;
+        }
+        
+        .head {
+            width: 178px;
+            height: 76px;
+            margin-bottom: 5px;
+            border-radius: 76px 76px 0 0;
+        }
+        
+        .head::before {
+            width: 10px;
+            height: 30px;
+            border-radius: 10px;
+            background-color: #68b545;
+            transform: rotate(-30deg);
+            left: 106px;
+            top: -15px;
+            content: "";
+            display: block;
+            position: absolute;
+        }
+        
+        .head::after {
+            width: 10px;
+            height: 30px;
+            border-radius: 10px;
+            background-color: #68b545;
+            transform: rotate(30deg);
+            right: 106px;
+            top: -15px;
+            content: "";
+            display: block;
+            position: absolute;
+        }
+        
+        .body {
+            width: 178px;
+            height: 178px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+        
+        .body::before {
+            width: 35px;
+            height: 148px;
+            margin-left: -45px;
+            border-radius: 35px;
+            box-shadow: calc(35px + (45px - 35px) * 2 + 178px) 0 0 #68b545;
+            background-color: #68b545;
+            content: "";
+            display: block;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="head"></div>
+        <div class="body"></div>
+    </div>
+</body>
+
+</html>

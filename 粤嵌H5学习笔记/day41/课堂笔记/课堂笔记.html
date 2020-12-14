@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ajax - jQuery 写法</title>
+    <script src="./asset/js/jQuery(3.4.1).js"></script>
+</head>
+
+<body>
+    <button>getTest01</button>
+    <button>getTest01</button>
+    <button>getTest01</button>
+</body>
+<script>
+    var btns = $("button");
+    console.log(btns.eq(0));
+    btns.eq(0).click(function() {
+        // 多参形式
+        $.get(
+            /* url:待载入页面的URL地址 */
+            "http://localhost:3000/getTest01",
+            /* data:待发送 Key/value 参数。 */
+            {
+                p0: "foo",
+                p1: "bar"
+            },
+            /* callback:载入成功时回调函数。 */
+            function(result) {
+                console.log(result);
+            },
+            /* type:返回内容格式，xml, html, script, json, text, _default。 */
+            // "json"
+        )
+    })
+</script>
+
+</html>

@@ -1690,7 +1690,6 @@ function chartChar(str) { /* 统计字符 */
         str = rest;
     }
     console.timeEnd("charChar took");
-    // 待优化=>统计并返回每一个字符的频率（顺序为字符首次出现顺序）
     result.frequencyChar = max;
     return result;
 }
@@ -1710,6 +1709,48 @@ function debounce(fn, delay){
     }, delay);
   };
 }
+```
+
+- 手动求 Π
+
+```js
+function roundPI(n) { /* 不足近似 */
+    // 公式：π=4*(1-1/3+1/5-1/7+...)
+    // var qtr_precision = eval("1e-" + n) / 4; /* 四分之一精度，eval 会拖慢程序运算速度 */
+    var qtr_precision = 1e-1 ** n / 4; /* 没有上面的准确，虽然 js 浮点运算本身就有误差 */
+    var qtr_pi = 0; /* 四分之一 PI */
+    var pom = 1; /* plus or minus */
+    if (n < 0) {
+        return NaN;
+    } else if (n > 11) { /* 测试发现，超过11会计算过长时间 */
+        return -1;
+    }
+    console.time("roundPI-" + n);
+    for (var i = 1; 1 / i > qtr_precision; i += 2) {
+        qtr_pi += pom * (1 / i);
+        pom *= -1;
+    }
+    console.timeEnd("roundPI-" + n);
+    return +(qtr_pi * 4).toFixed(n);
+
+function roundPI2(n) { /* 过剩近似。 测试发现，超过8将不会得到更精确的值了（为什么？） */
+    // 公式：π^2/8=1/1^2+1/3^2+1/5^2+...+1/(2n-1)^2+...
+    // var calc_precision = eval("1e-" + n) ** 2 / 8; /* 测试发现 eval 竟然会拖慢程序运算速度，即使不在耗时的循环里 */
+    var calc_precision = 1e-1 ** (2 * n) / 8;
+    var calc_pi = 0;
+    console.time("roundPI2-" + n);
+    for (var i = 1; 1 / (i * i) > calc_precision; i += 2) {
+        calc_pi += 1 / (i * i);
+    }
+    console.timeEnd("roundPI2-" + n);
+    return +Math.sqrt(calc_pi * 8).toFixed(n);
+
+// for (var i = 0; i < 11; i++) {
+//     console.log(roundPI(i));
+// }
+var tn = 9;
+console.log(roundPI(tn));
+console.log(roundPI2(tn));
 ```
 
 

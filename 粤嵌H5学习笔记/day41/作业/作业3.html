@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拖动条改变透明度</title>
+    <style>
+        .container {
+            width: 600px;
+            margin: 0 auto;
+        }
+        
+        ul {
+            width: 450px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        ul li {
+            width: 50px;
+            height: 50px;
+            list-style: none;
+            float: left;
+        }
+        
+        li:nth-child(odd) {
+            background-color: #31b0d1;
+        }
+        
+        li:nth-child(even) {
+            background-color: #f3abae;
+        }
+        /* li:nth-child(4n+1) {
+            background-color: #31b0d1;
+        }
+        
+        li:nth-child(4n+2) {
+            background-color: #f3abae;
+        }
+        
+        li:nth-child(4n+3) {
+            background-color: #99d743;
+        }
+        
+        li:nth-child(4n+4) {
+            background-color: #d7e343;
+        } */
+        
+        .range {
+            height: 10px;
+            width: 100%;
+            margin: 20px 0;
+            border-radius: 10px;
+            border: 2px solid #b18136;
+            background-color: #5b2f40;
+            position: relative;
+        }
+        
+        .track {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            background-color: #cfdb40;
+        }
+        
+        .train {
+            width: 10px;
+            height: 20px;
+            background-color: #c4352c;
+            top: -5px;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="mosaic">
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+        <div class="range">
+            <div class="track"></div>
+            <div class="train"></div>
+        </div>
+    </div>
+</body>
+<script>
+</script>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>求Π的近似值</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function roundPI(n) { /* 不足近似 */
+        // 公式：π=4*(1-1/3+1/5-1/7+...)
+        // var qtr_precision = eval("1e-" + n) / 4; /* 四分之一精度，eval 会拖慢程序运算速度！ */
+        var qtr_precision = 1e-1 ** n / 4; /* 没有上面的准确，虽然 js 浮点运算本身就有误差 */
+        // var rcpr_qtr_precision = 1 / (1e-1 ** n / 4); /* 改进判断：四分之一精度的倒数（reciprocal）=》优化失败 */
+        var qtr_pi = 0; /* 四分之一 PI */
+        var pom = 1; /* plus or minus */
+        if (n < 0) {
+            return NaN;
+        } else if (n > 11) { /* 测试发现，超过11会计算过长时间 */
+            return -1;
+        }
+        console.time("roundPI-" + n);
+        for (var i = 1; 1 / i > qtr_precision; i += 2) {
+            // for (var i = 1; i < rcpr_qtr_precision; i += 2) { /* 测试发现，耗时更长。推测：即使在判断时少做一步除法运算，js 将整数转浮点数的处理依旧会拖累效率 */
+            qtr_pi += pom * (1 / i);
+            pom *= -1;
+        }
+        console.timeEnd("roundPI-" + n);
+        return +(qtr_pi * 4).toFixed(n);
+    }
+
+    function roundPI2(n) { /* 过剩近似。 测试发现，超过8将不会得到更精确的值了（为什么？） */
+        // 公式：π^2/8=1/1^2+1/3^2+1/5^2+...+1/(2n-1)^2+...
+        // var calc_precision = eval("1e-" + n) ** 2 / 8; /* 测试发现 eval 竟然会拖慢程序运算速度，即使不在耗时的循环里 */
+        var calc_precision = 1e-1 ** (n * 2) / 8;
+        var calc_pi = 0;
+        console.time("roundPI2-" + n);
+        for (var i = 1; 1 / (i * i) > calc_precision; i += 2) {
+            calc_pi += 1 / (i * i);
+        }
+        console.timeEnd("roundPI2-" + n);
+        return +Math.sqrt(calc_pi * 8).toFixed(n);
+    }
+
+
+    // for (var i = 0; i < 11; i++) {
+    //     console.log(roundPI(i));
+    // }
+    var tn = 8;
+    console.log(roundPI(tn));
+    console.log(roundPI2(tn));
+</script>
+
+</html>

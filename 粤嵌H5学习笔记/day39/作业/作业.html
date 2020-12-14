@@ -42,59 +42,67 @@
         <ul id="pageList" class="list-group">
             <li class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
+                    <small>第<span class="index">index</span>条</small>
                     <h5 class="mb-1">title</h5>
-                    <small>date</small>
+                    <small class="date">date</small>
                 </div>
-                <p class="mb-1">content</p>
+                <p class="mb-1 px-5">content</p>
             </li>
             <li class="list-group-item list-group-item-action list-group-item-primary">
                 <div class="d-flex w-100 justify-content-between">
+                    <small>第<span class="index">index</span>条</small>
                     <h5 class="mb-1">title</h5>
-                    <small>date</small>
+                    <small class="date">date</small>
                 </div>
-                <p class="mb-1">content</p>
+                <p class="mb-1 px-5">content</p>
             </li>
             <li class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
+                    <small>第<span class="index">index</span>条</small>
                     <h5 class="mb-1">title</h5>
-                    <small>date</small>
+                    <small class="date">date</small>
                 </div>
-                <p class="mb-1">content</p>
+                <p class="mb-1 px-5">content</p>
             </li>
             <li class="list-group-item list-group-item-action list-group-item-primary">
                 <div class="d-flex w-100 justify-content-between">
+                    <small>第<span class="index">index</span>条</small>
                     <h5 class="mb-1">title</h5>
-                    <small>date</small>
+                    <small class="date">date</small>
                 </div>
-                <p class="mb-1">content</p>
+                <p class="mb-1 px-5">content</p>
             </li>
             <li class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
+                    <small>第<span class="index">index</span>条</small>
                     <h5 class="mb-1">title</h5>
-                    <small>date</small>
+                    <small class="date">date</small>
                 </div>
-                <p class="mb-1">content</p>
+                <p class="mb-1 px-5">content</p>
             </li>
             <li class="list-group-item list-group-item-action list-group-item-primary">
                 <div class="d-flex w-100 justify-content-between">
+                    <small>第<span class="index">index</span>条</small>
                     <h5 class="mb-1">title</h5>
-                    <small>date</small>
+                    <small class="date">date</small>
                 </div>
-                <p class="mb-1">content</p>
+                <p class="mb-1 px-5">content</p>
             </li>
             <li class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
+                    <small>第<span class="index">index</span>条</small>
                     <h5 class="mb-1">title</h5>
-                    <small>date</small>
+                    <small class="date">date</small>
                 </div>
-                <p class="mb-1">content</p>
+                <p class="mb-1 px-5">content</p>
             </li>
             <li class="list-group-item list-group-item-action list-group-item-primary">
                 <div class="d-flex w-100 justify-content-between">
+                    <small>第<span class="index">index</span>条</small>
                     <h5 class="mb-1">title</h5>
-                    <small>date</small>
+                    <small class="date">date</small>
                 </div>
-                <p class="mb-1">content</p>
+                <p class="mb-1 px-5">content</p>
             </li>
         </ul>
     </div>
@@ -102,13 +110,31 @@
 </body>
 <script>
     // util
-    function render(nodeSet, dataArr) { /* 简单的渲染数据 */
-        nodeSet.each((index, item) => {
-            $(item).text(dataArr[index]);
+    function render(nodeSet, dataArr) { /* [jQuery]批量数据渲染 */
+        $(nodeSet).each((index, item) => {
+            // text 方案
+            // $(item).text(dataArr[index]);
+
+            // html 方案
+            // $(item).html(dataArr[index]); /* 基础版 */
+
+            // 思考：$.html 可以接受节点参数，那么 dataArr 里面也可以是结点，不过需要考虑是否是需要 clone
+            // 支持渲染节点版
+            if (dataArr[index] instanceof Node /* 原生 Node */ || dataArr[index].get ? dataArr[index].get(0) instanceof Node : false /* $(Node) */ ) { /* 目前已知插入 document、document.body 这样的顶级节点会使网页崩溃 */
+                $(item).html($(dataArr[index]).clone(true, true)); /* 考虑不 clone 会导致网页原有节点被移动（可能会有该需求，暂不考虑），所以渲染原节点的复制品 */
+            } else {
+                $(item).html(dataArr[index]);
+            }
         });
+
+        // [对比]原生 js 实现
+        // nodeSet.forEach((item, index) => {
+        //     // item.innerText=dataArr[index]; /* text 方案 */
+        //     item.innerHTML = dataArr[index]; /* html 方案 */
+        // });
     }
 
-    function debounce(fn, delay) { /* 防抖函数 */
+    function debounce(fn, delay) { /* [js]防抖函数 */
         var timer = null; // 声明计时器
         return function() {
             var context = this;
@@ -135,7 +161,7 @@
         var next = $(".page-item").last();
         var others = $(this).siblings(".page-item").not(prv).not(next);
         lastPage = $(".page-item+.active"); /* 更新历史页 */
-        // 翻页组逻辑（固定按钮版）
+        // 翻页组逻辑（固定按钮版 ，指固定数字文本，而不是固定 DOM 节点，按钮节点本就该固定）
         if ($(this).is(prv)) {
             if (!prv.hasClass("disabled")) {
                 lastPage.removeClass("active");
@@ -157,7 +183,7 @@
             $(this).next().is(next) ? next.addClass("disabled") : next.removeClass("disabled");
         }
         // TODO
-        // 翻页组逻辑（固定按钮版）
+        // 翻页组逻辑（动态按钮版）
         currentPage = $(".page-item+.active"); /* 更新当前页 */
         // 请求数据
         if (lastPage != currentPage) { /* 进行了翻页 */
@@ -167,14 +193,16 @@
                     num: 8,
                     page: currentPage.text()
                 },
-                success: function(result) {
+                success: function(result) { /* 渲染数据 */
                     var jokes = [];
+                    // console.log(result);
                     data = result.data.data;
-                    data.forEach(item => {
-                        jokes.push([item.title, item.date, item.content.split(/<p>|<\/p>/).join("")]); /* 需要去除 p 标签 */
+                    data.forEach((item, index) => {
+                        // jokes.push([result.data.from + index, item.title, item.date, item.content.split(/<\w+>|<\/\w+>|<\w+\/>/).join("")]); /* 去除 html 标签方案 */
+                        jokes.push([result.data.from + index, item.title, item.date, item.content]); /* 保留 html 方案 */
                     });
                     pNodes.each((index, item) => {
-                        render($(item).find("h5,small,p"), jokes[index]);
+                        render($(item).find(".index,h5,.date,p"), jokes[index]);
                     });
                 }
             });

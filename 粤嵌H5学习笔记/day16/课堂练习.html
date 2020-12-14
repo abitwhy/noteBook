@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>课堂练习</title>
+    <title>数字转汉字大写</title>
 </head>
 
 <body>
@@ -25,10 +25,10 @@
         digitalUnit = ["个", "十", "百", "千", "万", "十万", "百万", "千万", "亿", "十亿", "百亿", "千亿", "万亿", "十万亿", "百万亿", "千万亿", "兆"];
         result = new Array();
         for (var i = 0; i < String(numbers).length; i++) {
-            result.unshift(digitalUnit[i] + "位：" + String(numbers)[i]);
+            result.unshift(digitalUnit[String(numbers).length - 1 - i] + "位：" + String(numbers)[i]);
         }
         while (result.length != 0) {
-            console.log(result.shift());
+            console.log(result.pop());
         }
     }
     console.log("123214434245的各位分别是：")

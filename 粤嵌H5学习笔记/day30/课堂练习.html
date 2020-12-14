@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>课堂练习</title>
+    <title>递归访问子菜单</title>
 </head>
 
 <body>
@@ -35,29 +35,127 @@
         id: 200,
         name: "一级菜单2",
         submenu: [{
-            id: 201,
+            id: 210,
             name: "一级菜单2-二级菜单1",
-            submenu: []
+            submenu: [{
+                id: 211,
+                name: "一级菜单2-二级菜单1-三级菜单1",
+                submenu: []
+            }, {
+                id: 220,
+                name: "一级菜单2-二级菜单2",
+                submenu: []
+            }]
         }]
+    }, {
+        id: 300,
+        name: "一级菜单3",
+        submenu: []
     }]
 
-    function getSubMenuById(id, menu) {
-        var result; /* 必须定义此中间变量，不能在 for-in 中 return （会导致 for-in 循环不会遍历完整） */
-        for (var item in menu) {
-            console.log(menu[item]);
+    // function getSubMenuById(id, menu) { /* 查找指定 id 的子菜单的菜单名=》失败 */
+    //     var result; /* 必须定义此中间变量，不能在 for-in 中 return （会导致 for-in 循环不会遍历完整） */
+    //     for (var item in menu) {
+    //         console.log(menu[item].id);
+    //         console.log("search-id:" + id);
+    //         if (menu[item].id == id) {
+    //             result = menu[item].name;
+    //             console.log("result:" + result);
+    //             break;
+    //             // return menu[item].name;
+    //         } else if (menu[item].submenu.length) {
+    //             result = getSubMenuById(id, menu[item].submenu);
+    //             // return getSubMenuById(id, menu[item].submenu);
+    //         } else {
+    //             // result = menu[item].submenu;
+    //             console.log("result:" + result);
+    //             result = "未找到";
+    //             // return "未找到";
+    //         }
+    //     }
+    //     return result;
+    // }
+    // var rst = getSubMenuById(130, menu);
+    // console.log(rst);
+
+    // 总结：因为使用的是递归遍历，内层返回值总会覆盖上层的返回值，导致匹配结果被覆盖，所以无法以单个递归函数返回查找结果。
+    //       考虑套一层外部函数，在外部函数中记录匹配结果。
+
+    function getSubMenuById(id, menu) { /* 初步改进版 */
+        var result;
+        (function traversal(id, menu) { /* 递归遍历（一层一层地找，而不是挨个找，这是有优势吗？） */
+            var sub; /* 必须定义此中间变量，不能在 for-in 中 return，会导致 for-in 循环不能遍历完整 */
+            for (var item in menu) {
+                // console.log(menu[item].id);
+                // console.log("search-id:" + id);
+                if (menu[item].id == id) {
+                    result = menu[item].name;
+                    return;
+                } else /*  if (menu[item].submenu.length)  */ {
+                    sub = traversal(id, menu[item].submenu);
+                }
+            }
+            return sub;
+        })(id, menu)
+        return result ? result : "未找到";
+    }
+    var rst = [];
+    // rst.push(getSubMenuById(100, menu));
+    // rst.push(getSubMenuById(110, menu));
+    // rst.push(getSubMenuById(111, menu));
+    // rst.push(getSubMenuById(120, menu));
+    // rst.push(getSubMenuById(130, menu));
+    // rst.push(getSubMenuById(200, menu));
+    // rst.push(getSubMenuById(210, menu));
+    // console.log(rst);
+    // console.log(getSubMenuById(-1, menu)); /* 发现可以遍历 id */
+
+    // 考虑解耦，并拓展通过递归遍历实现的查找功能
+    function traversal(menu, callback) { /* 递归遍历递归数组 */
+        var sub = null; /* 必须定义 sub 中间变量，不能在 for-in 中 return，会导致 for-in 循环不能遍历完整 */
+        var _continue = true; /* 为了提高性能，添加了_continue，通过 callback 的返回值判断是否继续遍历 */
+        for (var item in menu) { /* 递归遍历（一层一层地找，而不是一个一个找，这样有优势吗？） */
+            callback && (_continue = callback(menu, item)); /* callback 用以拓展搜索功能， 默认接收 menu 及 item 参数 */
+            if (!_continue) { /* 终止遍历 */
+                return;
+            }
+            sub = traversal(menu[item].submenu, callback);
+        }
+        return sub;
+    }
+
+    function getIds(menu) { /* 获取全部 id */
+        var ids = [];
+
+        function addId(menu, item) {
+            ids.push(menu[item].id);
+            return true; /* 返回布尔值，控制递归遍历是否提前结束（true 继续，false终止） */
+        }
+        traversal(menu, addId);
+        return ids;
+    }
+    // console.log(getIds(menu));
+
+    function getSubMenuById(menu, id) { /* 查找指定 id 的子菜单 */
+        var submenu = [];
+
+        function querySubMenuById(menu, item) {
             if (menu[item].id == id) {
-                result = menu[item].name;
-            } else if (menu[item].submenu.length) {
-                result = getSubMenuById(id, menu[item].submenu);
+                submenu = menu[item];
+                return false;
             } else {
-                // result = menu[item].submenu;
-                result = "未找到";
+                return true;
             }
         }
-        return result;
+        traversal(menu, querySubMenuById);
+        return submenu;
     }
-    var rst = getSubMenuById(2100, menu);
-    console.log(rst);
+    var ids = getIds(menu);
+    ids.forEach(id => {
+        console.log(getSubMenuById(menu, id));
+    });
+
+    // 功能待拓展。。。
 </script>
 
 </html>

@@ -84,6 +84,7 @@
         .cart {
             width: 300px;
             height: 100%;
+            margin-right: -300px;
             border-left: 6px solid #f00;
             background-color: white;
             right: 0;
@@ -276,6 +277,8 @@
     </div>
 </body>
 <script>
+    // [注意]网络图片数据可能会挂掉
+
     // 渲染产品
     function render(target, data) { /* 可考虑添加 model 参数 */
         target = $(target); /* 包装一遍，处理传入原生 DOM 的情况 */
@@ -393,7 +396,7 @@
             });
             // updateSingle(finded); /* ② */
         } else { /* 否则加入购物车 */
-            finded = render($(".cart-list"), products[id]); /* 优化：需要能根据 id 查数据，而不是单纯取数组的第几个 */
+            finded = render($(".cart-list"), products[id]); /* [严重]：需要能根据 id 查数据，而不是单纯取数组的第几个 */
             $(finded).find(".subtotal").text(0); /* debug:[总价异常]=》①购物车里预显示的初始价格置零 */
             // updateTotal($(finded).data("price")); /* debug:[总价异常]=》或②只更新总价 */
         }

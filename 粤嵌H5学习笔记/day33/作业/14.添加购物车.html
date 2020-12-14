@@ -19,7 +19,7 @@
         
         .cart {
             width: 300px;
-            /* margin-right: -300px; */
+            margin-right: -300px;
             border-left: 6px solid #f00;
             background-color: white;
             position: fixed;
@@ -287,6 +287,7 @@
         </li>
     </ul>
     <script>
+        // [注意]网络图片数据可能会挂掉
         $(function() {
             function render(target, data) { /* 可考虑添加 model 参数 */
                 $(data).each(function(index, item) {
@@ -325,28 +326,28 @@
             //     slidLeft($(".cart"), 300); /* 动画时，.cart 里的文本是混乱的 */
             // });
 
-            // $("#cartBtn").on("click", function(e) { /* 点击方式 */
-            //     if (+$(".cart").css("margin-right").slice(0, -2)) {
-            //         $(".cart").stop(true).animate({
-            //             marginRight: 0
-            //         }, 500);
-            //     } else {
-            //         $(".cart").stop(true).animate({
-            //             marginRight: "-300px"
-            //         }, 500);
-            //     }
-            // });
+            $("#cartBtn").on("click", function(e) { /* 点击方式 */
+                if (+$(".cart").css("margin-right").slice(0, -2)) {
+                    $(".cart").stop(true).animate({
+                        marginRight: 0
+                    }, 500);
+                } else {
+                    $(".cart").stop(true).animate({
+                        marginRight: "-300px"
+                    }, 500);
+                }
+            });
 
-            $("#cartBtn").on("mouseenter", function(e) { /* 悬浮方式 */
-                $(".cart").stop(true).animate({
-                    marginRight: 0
-                }, 1000)
-            });
-            $(".cart").on("mouseleave", function(e) {
-                $(".cart").stop(true).animate({
-                    marginRight: "-300px"
-                }, 1000)
-            });
+            // $("#cartBtn").on("mouseenter", function(e) { /* 悬浮方式 */
+            //     $(".cart").stop(true).animate({
+            //         marginRight: 0
+            //     }, 1000)
+            // });
+            // $(".cart").on("mouseleave", function(e) {
+            //     $(".cart").stop(true).animate({
+            //         marginRight: "-300px"
+            //     }, 1000)
+            // });
 
             // $(".clear").on("click", function(e) { /* 清空购物车 */
             //     $(".cartlist .model").siblings("li").remove();

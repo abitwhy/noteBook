@@ -127,7 +127,6 @@
     // 预校验
     function prevalid() {
         var cityName = city.val();
-        console.log(cityName);
         var reg = /^[\u4e00-\u9fa5]{2,}$/; /* 无法校验字长 */
         if (reg.test(cityName) && cityName.length < 7) { /* 此处校验字长 */
             city.removeClass("is-invalid");
@@ -206,7 +205,6 @@
                     render(hNodes, hDatas);
                     // 天气诗歌
                     $.getJSON("https://v1.alapi.cn/api/shici" + toDayToken + "&type=tianqi" + toDayToken, function(rst) {
-                        console.log(rst);
                         var weatherPoem = history.find(".weather-poem");
                         var poem = rst.data.content;
                         // poem = poem.split("，").length > 1 ? poem.split("，") : poem.split("，").join("").split("。"); /* 返回的诗句可能是‘。’分割的 */
