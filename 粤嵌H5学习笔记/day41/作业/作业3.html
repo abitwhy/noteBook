@@ -14,24 +14,27 @@
         ul {
             width: 450px;
             margin: 0 auto;
+            padding: 0;
+            background-color: #98df42;
             overflow: hidden;
         }
         
         ul li {
             width: 50px;
             height: 50px;
+            border-radius: 10px;
             list-style: none;
             float: left;
         }
-        
-        li:nth-child(odd) {
+        /* li:nth-child(odd) {
             background-color: #31b0d1;
         }
         
         li:nth-child(even) {
             background-color: #f3abae;
-        }
-        /* li:nth-child(4n+1) {
+        } */
+        
+        li:nth-child(4n+1) {
             background-color: #31b0d1;
         }
         
@@ -40,12 +43,12 @@
         }
         
         li:nth-child(4n+3) {
-            background-color: #99d743;
+            opacity: 0;
         }
         
         li:nth-child(4n+4) {
             background-color: #d7e343;
-        } */
+        }
         
         .range {
             height: 10px;
@@ -61,7 +64,7 @@
             width: 100%;
             height: 100%;
             border-radius: 10px;
-            background-color: #cfdb40;
+            background-color: #d8dd4f;
         }
         
         .train {
@@ -69,6 +72,7 @@
             height: 20px;
             background-color: #c4352c;
             top: -5px;
+            right: 0;
             position: absolute;
         }
     </style>
@@ -132,6 +136,34 @@
     </div>
 </body>
 <script>
+    var mosaic = document.querySelector(".mosaic");
+    var range = document.querySelector(".range");
+    var track = document.querySelector(".track");
+    var train = document.querySelector(".train");
+
+    function changeRange(e) {
+        if (e.target.className === "train") {
+            offsetX = e.clientX - train.offsetLeft;
+
+            function move(e) {
+                var x, y, maxX, maxY;
+                x = e.clientX - offsetX;
+                x = x < 0 ? 0 : x;
+                maxX = range.offsetWidth - train.offsetWidth;
+                x = x > maxX ? maxX : x;
+                train.style.left = x + "px";
+                track.style.width = (101 * x / range.offsetWidth).toFixed(1) + "%";
+                mosaic.style.opacity = x / range.offsetWidth;
+            }
+
+            function stopMove() {
+                document.removeEventListener("mousemove", move);
+            }
+            document.addEventListener("mousemove", move);
+            document.addEventListener("mouseup", stopMove);
+        }
+    }
+    range.addEventListener("mousedown", changeRange);
 </script>
 
 </html>

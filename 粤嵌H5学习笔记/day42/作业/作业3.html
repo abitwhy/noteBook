@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>太极</title>
+    <style>
+        body {
+            background-color: whitesmoke;
+        }
+        
+        .taiji {
+            width: 121.5px;
+            height: 121.5px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: fixed;
+            left: calc(50% - 121.5px);
+            top: calc(50% - 121.5px);
+            animation: route 4s infinite linear;
+        }
+        
+        .taiji::before {
+            width: 50%;
+            height: 50%;
+            border-radius: 50%;
+            box-shadow: 0 60.8px 0 black;
+            background-color: white;
+            left: 25%;
+            position: absolute;
+            content: "";
+        }
+        
+        .taiji::after {
+            width: 14%;
+            height: 14%;
+            border-radius: 50%;
+            box-shadow: 0 61px 0 white;
+            background-color: black;
+            left: 43%;
+            top: 19%;
+            position: absolute;
+            content: "";
+        }
+        
+        @keyframes route {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .taiji>div {
+            width: 50%;
+            height: 100%;
+            float: left;
+        }
+        
+        .yin {
+            background-color: black;
+        }
+        
+        .yang {
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="taiji">
+        <div class="yang"></div>
+        <div class="yin"></div>
+    </div>
+</body>
+
+</html>

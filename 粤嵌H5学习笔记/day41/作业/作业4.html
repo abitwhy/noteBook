@@ -4,11 +4,326 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>安卓机器人</title>
+    <title>百度首页</title>
+    <link rel="stylesheet" href="./asset/css/bootstrap.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            background-color: white;
+        }
+        
+        a {
+            color: #000;
+        }
+        
+        a:hover {
+            text-decoration: none;
+        }
+        
+        nav {
+            width: 100%;
+            min-width: 1000px;
+            z-index: 100;
+        }
+        
+        nav a {
+            font-size: 13px;
+        }
+        
+        nav button {
+            padding: 10px !important;
+            line-height: 0 !important;
+        }
+        
+        main {
+            height: 600px;
+            min-height: 314px;
+            max-height: 510px;
+            position: relative;
+        }
+        
+        #top {
+            height: 60%;
+        }
+        
+        #top img {
+            width: 270px;
+            margin-left: -135px;
+            left: 50%;
+            bottom: -15px;
+            position: absolute;
+        }
+        
+        .input-group {
+            width: 600px !important;
+        }
+        
+        #baidu input {
+            width: 500px;
+            outline: none;
+            border-width: 2px;
+            flex-grow: 0;
+            /* 解决 wrap 对不齐 */
+        }
+        
+        #baidu button {
+            width: 100px;
+            padding: 0;
+        }
+        
+        #baidu input:hover {
+            border-color: gray;
+        }
+        
+        #baidu input:focus {
+            /* border-color: gray; */
+            border: 2px solid #007bff;
+            box-shadow: none;
+        }
+        
+        #baidu input:focus+.tips-wrap {
+            display: block !important;
+        }
+        
+        #baidu input::after {
+            width: 10px;
+            height: 10px;
+            content: "";
+            display: block;
+        }
+        
+        .tips-wrap {
+            /* width: 85.3%; */
+            width: 500px;
+            height: 300px;
+            padding: 0 10px;
+            border: 2px solid #007bff;
+            border-top: none;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            top: 35px;
+            z-index: 200;
+            position: absolute;
+            display: none;
+        }
+        
+        ul li {
+            list-style: none;
+        }
+        
+        .tips {
+            width: 100%;
+            height: 100%;
+            border-top: 2px solid #f5f5f6;
+            position: relative;
+        }
+        
+        .tips li {
+            height: 10%;
+        }
+        
+        .pick {
+            color: #007bff;
+        }
+        
+        footer {
+            width: 100%;
+            border: 1px solid grey;
+            bottom: 0;
+            position: fixed;
+            z-index: 300;
+        }
+    </style>
+    <script src="./asset/js/jQuery(3.4.1).js"></script>
+    <script src="./asset/js/bootstrap.js"></script>
+
 </head>
 
 <body>
-
+    <header>
+        <nav class="d-flex justify-content-between position-absolute top-0">
+            <div class="nav nav-left">
+                <a class="nav-link" href="#">新闻</a>
+                <a class="nav-link" href="#">好123</a>
+                <a class="nav-link" href="#">地图</a>
+                <a class="nav-link" href="#">视频</a>
+                <a class="nav-link" href="#">贴吧</a>
+                <a class="nav-link" href="#">贴吧</a>
+                <a class="nav-link" href="#">学术</a>
+                <a class="nav-link" href="#">更多</a>
+            </div>
+            <div class="nav nav-right">
+                <a class="nav-link " href="#">设置</a>
+                <button class="btn btn-primary h-50 my-auto mr-4">登录</button>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="container h-50">
+            <div id="top" class="position-relative">
+                <a href="#" class="img">
+                    <img src="https://www.baidu.com/img/fddong_e2dd633ee46695630e60156c91cda80a.gif" alt="">
+                </a>
+            </div>
+            <div id="baidu" class="input-group mx-auto my-4">
+                <input type="search" class="form-control" value="">
+                <div class="tips-wrap">
+                    <ul class="tips font-weight-lighter">
+                        <li>
+                            <a href="#">本地缓存的搜索记录</a>
+                        </li>
+                        <li>
+                            <a href="#">本地缓存的搜索记录</a>
+                        </li>
+                        <li>
+                            <a href="#">本地缓存的搜索记录</a>
+                        </li>
+                        <li>
+                            <a href="#">本地缓存的搜索记录</a>
+                        </li>
+                        <li>
+                            <a href="#">本地缓存的搜索记录</a>
+                        </li>
+                        <li>
+                            <a href="#">本地缓存的搜索记录</a>
+                        </li>
+                        <li>
+                            <a href="#">本地缓存的搜索记录</a>
+                        </li>
+                        <li>
+                            <a href="#">本地缓存的搜索记录</a>
+                        </li>
+                        <li>
+                            <a href="#">本地缓存的搜索记录</a>
+                        </li>
+                        <li class="clear">
+                            <a class="float-right" href="#">关闭历史</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" id="checkBaidu">百度一下</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <nav class="d-flex justify-content-between">
+            <div class="nav nav-left">
+                <a class="nav-link text-muted" href="#">设为首页</a>
+                <a class="nav-link text-muted" href="#">关于百度</a>
+                <a class="nav-link text-muted" href="#">about Baidu</a>
+                <a class="nav-link text-muted" href="#">百度营销</a>
+                <a class="nav-link text-muted" href="#">用户须知</a>
+                <a class="nav-link text-muted" href="#">意见反馈</a>
+                <a class="nav-link text-muted" href="#">帮助中心</a>
+                <a class="nav-link text-muted font-weight-bold" href="#">有奖调查</a>
+            </div>
+            <div class="nav nav-right">
+                <a class="nav-link disabled text-secondary" href="#">©2020 Baidu</a>
+                <a class="nav-link disabled text-secondary" href="#">(京)-经营性-2017-0020</a>
+                <a class="nav-link text-secondary" href="#">京公网安备11000002000001号</a>
+                <a class="nav-link disabled text-secondary" href="#">京ICP证030173号</a>
+            </div>
+        </nav>
+    </footer>
 </body>
+<script>
+    // util
+    function render(nodeSet, dataArr, callback) { /* [jQuery]批量数据渲染 */
+        $(nodeSet).each((index, item) => {
+            // text 方案
+            // $(item).text(dataArr[index]);
+
+            // html 方案
+            // $(item).html(dataArr[index]); /* 基础版 */
+
+            // 思考：$.html 可以接受节点参数，那么 dataArr 里面也可以是结点，不过需要考虑是否是需要 clone
+            // 支持渲染节点版
+            if (dataArr[index]) { /* 改进：支持数据个数不足的情况 */
+                if (dataArr[index] instanceof Node /* 原生 Node */ || dataArr[index].get ? dataArr[index].get(0) instanceof Node : false /* $(Node) */ ) { /* 目前已知插入 document、document.body 这样的顶级节点会使网页崩溃 */
+                    $(item).html($(dataArr[index]).clone(true, true)); /* 考虑不 clone 会导致网页原有节点被移动（可能会有该需求，暂不考虑），所以渲染原节点的复制品 */
+                } else {
+                    $(item).html(dataArr[index]);
+                    callback && callback(item); /* 成功时的回调函数，用于添加除 */
+                }
+            } else {
+                // return true; /* 不做操作 */
+                $(item).html(""); /* 渲染空字串 */
+
+            }
+        });
+
+        // [对比]原生 js 实现
+        // nodeSet.forEach((item, index) => {
+        //     // item.innerText=dataArr[index]; /* text 方案 */
+        //     item.innerHTML = dataArr[index]; /* html 方案 */
+        // });
+    }
+
+    // var baidu = $("#baidu");
+    var baiduIpt = $(" #baidu input");
+    var baiduBtn = $(" #baidu button");
+    // var keyword = baiduIpt.val();
+    var tips = $(".tips");
+    var tipsLis = tips.find("li").not(".clear").find("a");
+    console.log(tipsLis);
+
+    function presearch(e) {
+        console.log(e.code);
+        var keyword = baiduIpt.val();
+        var pick = 0;
+        // 按键选中备选
+        if (e.code == "ArrowUp") {
+            keyword = tipsLis.text;
+        } else if (e.code == "ArrowDown") {
+
+        }
+
+        function renderTips(data, textStatus, jqXHR) {
+            console.log(data.s);
+            render(tipsLis, data.s, function(item) {
+                console.log(item);
+                var baiduHref = "https://www.baidu.com/s?ie=UTF-8&wd=" + $(item).text() + "&tn=88093251_75_hao_pg";
+                $(item).prop("href", baiduHref);
+            });
+            $(".clear a").text("反馈");
+        }
+        $.ajax({
+            type: "get",
+            url: "http://suggestion.baidu.com/su",
+            data: {
+                wd: keyword
+            },
+            beforeSend: function() {
+                console.log(keyword);
+                if (!keyword) { /* 无关键字不查询 */
+                    return false;
+                }
+            },
+            dataType: "jsonp",
+            jsonp: "cb",
+            // jsonpCallback: "getResult",
+            success: renderTips,
+            error: function(xhr, textStatus, errorThrown) {
+                console.log("------------success-callback----------");
+                console.log(textStatus);
+                console.log(errorThrown);
+            },
+        })
+
+
+        function searchTips() {
+
+        }
+    }
+    baiduIpt.keyup(presearch);
+
+    function search() {
+
+    }
+    baiduBtn.click();
+</script>
 
 </html>

@@ -16,7 +16,7 @@
         
         .wrap * {
             margin: 0 auto;
-            background-color: #68b545;
+            background-color: #A4C639;
         }
         
         .wrap::before {
@@ -24,7 +24,7 @@
             height: 15px;
             background-color: white;
             border-radius: 50%;
-            box-shadow: calc(328px / 2 - 120px + 15px * 2) 0 0 white;
+            box-shadow: calc(328px - 120px * 2 - 15px) 0 0 white;
             left: 120px;
             top: 30px;
             content: "";
@@ -36,17 +36,10 @@
             width: 35px;
             height: 64px;
             border-radius: 0 0 35px 35px;
-            /* 下面有问题 */
-            box-shadow: calc(328px / 2 - 105px + 25px) 0 0 #68b545;
-            background-color: #68b545;
+            box-shadow: calc(328px - 105px * 2 - 35px) 0 0 #A4C639;
+            background-color: #A4C639;
             left: 105px;
             bottom: 5px;
-            content: "";
-            display: block;
-            position: absolute;
-        }
-        
-        .warp::after {
             content: "";
             display: block;
             position: absolute;
@@ -63,7 +56,7 @@
             width: 10px;
             height: 30px;
             border-radius: 10px;
-            background-color: #68b545;
+            background-color: #A4C639;
             transform: rotate(-30deg);
             left: 106px;
             top: -15px;
@@ -76,7 +69,7 @@
             width: 10px;
             height: 30px;
             border-radius: 10px;
-            background-color: #68b545;
+            background-color: #A4C639;
             transform: rotate(30deg);
             right: 106px;
             top: -15px;
@@ -97,8 +90,9 @@
             height: 148px;
             margin-left: -45px;
             border-radius: 35px;
-            box-shadow: calc(35px + (45px - 35px) * 2 + 178px) 0 0 #68b545;
-            background-color: #68b545;
+            /* border-radius: 0 148px; */
+            box-shadow: calc(35px + (45px - 35px) * 2 + 178px) 0 0 #A4C639;
+            background-color: #A4C639;
             content: "";
             display: block;
             position: absolute;
@@ -107,7 +101,7 @@
 </head>
 
 <body>
-    <div class="wrap">
+    <div class="wrap" title="I am Android">
         <div class="head"></div>
         <div class="body"></div>
     </div>
