@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开门红</title>
+    <style>
+        body {
+            background-color: #81c9ed;
+            perspective: 1000px;
+        }
+        
+        .door {
+            width: 300px;
+            height: 400px;
+            margin: 50px auto;
+            border: 20px solid rgb(80, 36, 0);
+            background: url(./images/yuanxiao_choku.jpg) no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+        
+        .part {
+            width: 50%;
+            height: 100%;
+            /* round 属性会先自动缩放背景的 size 以适应元素；space 属性会在 round 的基础上，再添加一些空间 */
+            background: url(./images/door-bg.png) round;
+            position: absolute;
+            transition: all 1s;
+        }
+        
+        .left {
+            border-right: 5px solid rgb(80, 36, 0);
+            transform-origin: left;
+        }
+        
+        .left::before {
+            width: 10%;
+            height: 5%;
+            border: 2px solid rgb(80, 36, 0);
+            border-radius: 50%;
+            background-color: brown;
+            right: 10%;
+            top: 50%;
+            content: "";
+            position: absolute;
+        }
+        
+        .door:hover .left {
+            transform: rotate3d(0, 1, 0, -180deg);
+        }
+        
+        .door:hover .right {
+            transform: rotate3d(0, 1, 0, 180deg);
+        }
+        
+        .right::before {
+            width: 10%;
+            height: 5%;
+            border: 2px solid rgb(80, 36, 0);
+            border-radius: 50%;
+            background-color: brown;
+            left: 10%;
+            top: 50%;
+            content: "";
+            position: absolute;
+        }
+        
+        .right {
+            border-left: 5px solid rgb(80, 36, 0);
+            right: 0;
+            transform-origin: right;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="door">
+        <div class="part left"></div>
+        <div class="part right"></div>
+    </div>
+</body>
+
+</html>

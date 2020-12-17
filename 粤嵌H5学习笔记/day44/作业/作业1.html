@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>洗剪吹</title>
+    <style>
+        .flash {
+            width: 100px;
+            height: 400px;
+            margin: 100px auto;
+            box-shadow: 0 0 8px;
+            background: repeating-linear-gradient( 45deg, white 0%, white 10%, black 10%, black 20%) repeat-y;
+            animation: change-bg-position 1s linear infinite;
+        }
+        
+        @keyframes change-bg-position {
+            from {
+                background-position-y: 0;
+            }
+            to {
+                background-position-y: -100px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flash"></div>
+</body>
+
+</html>

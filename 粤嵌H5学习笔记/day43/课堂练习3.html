@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美队盾牌</title>
+    <style>
+        .shield {
+            width: 122.6px;
+            height: 122.6px;
+            margin: 50px auto;
+            border-radius: 50%;
+            /* radial-gradient - 径向渐变 */
+            background: radial-gradient( farthest-side ellipse at center, /* 第一个参数设置 大小 形状 位置 */
+            #01468f 40%, #cd2f3e 40%, #cd2f3e 60%, white 60%, white 80%, #cd2f3e 80%/* 剩余参数设置 颜色 渐变区间开始端点 */
+            );
+            position: relative;
+        }
+        
+        .shield::before {
+            width: 100%;
+            height: 100%;
+            font-size: 380%;
+            color: white;
+            text-align: center;
+            line-height: 188%;
+            content: "★";
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="shield"></div>
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>雷霆领主</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            /* perspective - 透视/视距，推荐写在 body 上，常取 1000px 和 500px 两个值 */
+            perspective: 1000px;
+        }
+        
+        .wrap {
+            width: 1536px;
+            height: 400px;
+            margin: 50px auto;
+            position: relative;
+        }
+        
+        .wrap div {
+            position: absolute;
+            bottom: 0;
+        }
+        
+        .bg {
+            width: 100%;
+            height: calc(569px * 0.4);
+        }
+        
+        .bg-black {
+            background: url(./img/bear-bg1.png) repeat-x;
+            /* background-size 必须与 background 同时设置，单独设置（如设置到上面的 .bg 样式里）无效 */
+            background-size: 100%;
+            animation: change-since2 10s linear 4s infinite;
+        }
+        
+        .bg-white {
+            background: url(./img/bear-bg2.png) repeat-x;
+            background-size: 100%;
+            background-position-y: 100px;
+            animation: change-since2 8s linear 4s infinite;
+        }
+        
+        .bear {
+            background: url(./img/bear.png) no-repeat;
+            width: 200px;
+            height: 100px;
+            animation: change-since 1.6s steps(8) infinite, move-x 4s linear 1 forwards;
+        }
+        
+        @keyframes change-since {
+            form {
+                background-position-x: 0;
+            }
+            to {
+                background-position-x: -1600px;
+            }
+        }
+        
+        @keyframes change-since2 {
+            form {
+                background-position-x: 0;
+            }
+            to {
+                background-position-x: -1536px;
+            }
+        }
+        
+        @keyframes move-x {
+            0% {
+                left: 0;
+                transform: translateX(0);
+            }
+            99% {
+                left: 0;
+                /* translateX 里的50%指的是执行动画元素的宽度 */
+                transform: translateX( calc(1536px / 2 - 50%));
+            }
+            /* [debug]:缩放不居中=》多加最后一帧设置 left 使元素居中 */
+            100% {
+                transform: translateX(0);
+                /* left 里的50%指的是父元素的宽度 */
+                left: calc(50% - 200px / 2);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="bg bg-black"></div>
+        <div class="bg bg-white"></div>
+        <div class="bear"></div>
+    </div>
+
+</body>
+
+</html>

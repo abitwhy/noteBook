@@ -66,6 +66,31 @@
         .yang {
             background-color: white;
         }
+        /* 一个 div 方法 */
+        
+        .taiji2 {
+            width: 60.8px;
+            height: 121.6px;
+            background-color: black;
+            border-radius: 50%;
+            border-left: 60.8px solid white;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            animation: route 4s infinite linear;
+        }
+        
+        .taiji2::before {
+            width: 20%;
+            height: 10%;
+            background-color: black;
+            border-radius: 50%;
+            border: calc(60.8px * 0.8 / 2) solid white;
+            box-shadow: 0 60.8px 0 calc(-60.8px * 0.8 / 2) white, 0 60.8px 0 black;
+            content: "";
+            position: absolute;
+            left: -50%;
+        }
     </style>
 </head>
 
@@ -74,6 +99,7 @@
         <div class="yang"></div>
         <div class="yin"></div>
     </div>
+    <div class="taiji2"></div>
 </body>
 
 </html>

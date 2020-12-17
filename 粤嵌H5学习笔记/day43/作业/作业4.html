@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加载</title>
+    <style>
+        body {
+            background-color: #81c9ed;
+            perspective: 1000px;
+        }
+        
+        .loading {
+            width: 0px;
+            height: 0px;
+            margin: 50px auto;
+            border: 50px solid #ffe100;
+            border-radius: 50%;
+            box-shadow: 0px 0px 4px 0px;
+            position: relative;
+            transform: rotate(45deg);
+            animation: change-border 4s steps(1) infinite;
+        }
+        
+        .loading::before {
+            border: 50px solid #181917;
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-radius: 50%;
+            left: -50px;
+            top: -50px;
+            content: "";
+            position: absolute;
+            animation: circling 4s linear infinite;
+        }
+        
+        .loading::after {
+            border-width: 50px;
+            border-style: solid;
+            border-top-color: #ffe100;
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-radius: 50%;
+            left: -50px;
+            top: -50px;
+            content: "";
+            position: absolute;
+            animation: show-after 4s steps(1) infinite;
+        }
+        
+        @keyframes change-border {
+            0% {
+                border-color: #181917;
+                border-top-color: #ffe100;
+            }
+            25% {
+                border-right-color: #ffe100;
+            }
+            50% {
+                border-bottom-color: #ffe100;
+            }
+            75% {
+                border-left-color: #ffe100;
+            }
+            100% {
+                border-color: #ffe100;
+            }
+        }
+        
+        @keyframes circling {
+            from {
+                transform: rotate(0);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes show-after {
+            0% {
+                opacity: 0;
+            }
+            75% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        
+        .inner {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #181917;
+            box-shadow: 0px 0px 4px 0px black inset;
+            font-size: 16px;
+            color: #ffe100;
+            text-shadow: 0 0 4px #ffe100;
+            text-align: center;
+            line-height: 100px;
+            top: -50px;
+            left: -50px;
+            position: absolute;
+            z-index: 1;
+            transform: scale(0.94) rotate(-45deg);
+        }
+        
+        .inner::before {
+            width: 10px;
+            height: 10px;
+            background-color: #ffe100;
+            border-radius: 50%;
+            box-shadow: 0 0 4px #ffe100;
+            left: 45px;
+            top: -7px;
+            content: "";
+            position: absolute;
+            transform-origin: 5px 56px;
+            animation: circling 4s linear infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loading">
+        <div class="inner">LOADING</div>
+    </div>
+</body>
+
+</html>

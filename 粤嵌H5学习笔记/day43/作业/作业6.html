@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星系</title>
+    <style>
+        body {
+            background: url(./images/bling.jpg);
+            background-size: cover;
+            perspective: 1000px;
+        }
+        
+        .galaxy {
+            width: 300px;
+            height: 300px;
+            margin: 100px auto;
+            border-radius: 50%;
+            /* background: repeating-radial-gradient( farthest-side ellipse at center, transparent 0%, transparent 10%, silver 10%, silver 11%); */
+            background: radial-gradient( farthest-side ellipse at center, /* 第一个参数设置 大小 形状 位置 */
+            #fff000 5%, transparent 14%, transparent 14%, transparent 19%, silver 19%, silver 20%, transparent 20%, transparent 29%, silver 29%, silver 30%, transparent 30%, transparent 39%, silver 39%, silver 40%, transparent 40%, transparent 49%, silver 49%, silver 50%, transparent 50%, transparent 59%, silver 59%, silver 60%, transparent 60%, transparent 69%, silver 69%, silver 70%, transparent 70%, transparent 79%, silver 79%, silver 80%, transparent 80%, transparent 89%, silver 89%, silver 90%, transparent 90%, transparent 99%, silver 99%, silver 100%/* 剩余参数设置 颜色 渐变区间开始端点 */
+            );
+            position: relative;
+            transition: 3s all;
+            /* skew 与 rotate 同时用时，需要将 skew 写在前面 */
+            transform: skew(-60deg) rotatex(60deg);
+        }
+        
+        .planet {
+            width: 4%;
+            height: 4%;
+            /* border: 1px solid red; */
+            border-radius: 50%;
+            position: absolute;
+            left: calc((100% - 4%) / 2);
+            /* top: calc((100% - 4%) / 2); */
+            animation: circling linear infinite;
+            -webkit-transform-origin-x: 50%;
+        }
+        
+        .planet:nth-child(1) {
+            top: calc((100% - 4%) / 2 - 10%);
+            background-color: #f39b55;
+            -webkit-transform-origin-y: 290%;
+            animation-duration: 9s;
+        }
+        
+        .planet:nth-child(2) {
+            top: calc((100% - 4%) / 2 - 15%);
+            background-color: #b8915c;
+            -webkit-transform-origin-y: 415%;
+            animation-duration: 8.5s;
+        }
+        
+        .planet:nth-child(3) {
+            top: calc((100% - 4%) / 2 - 20%);
+            background-color: #00b3be;
+            -webkit-transform-origin-y: 540%;
+            animation-duration: 8s;
+        }
+        
+        .planet:nth-child(4) {
+            top: calc((100% - 4%) / 2 - 25%);
+            background-color: #c83118;
+            -webkit-transform-origin-y: 665%;
+            animation-duration: 7.5s;
+        }
+        
+        .planet:nth-child(5) {
+            box-shadow: 0 0 3px 8px #fdcf58;
+            top: calc((100% - 4%) / 2 - 30%);
+            background-color: #fdcf58;
+            -webkit-transform-origin-y: 790%;
+            animation-duration: 7s;
+        }
+        
+        .planet:nth-child(6) {
+            box-shadow: 0 0 3px 6px #f5896d;
+            top: calc((100% - 4%) / 2 - 35%);
+            background-color: #f5896d;
+            -webkit-transform-origin-y: 915%;
+            animation-duration: 6.5s;
+        }
+        
+        .planet:nth-child(7) {
+            box-shadow: 0 0 3px 1px #91e3e5;
+            top: calc((100% - 4%) / 2 - 40%);
+            background-color: #91e3e5;
+            -webkit-transform-origin-y: 1040%;
+            animation-duration: 6s;
+        }
+        
+        .planet:nth-child(8) {
+            box-shadow: 0 0 3px 1px #0f3d98;
+            top: calc((100% - 4%) / 2 - 45%);
+            background-color: #0f3d98;
+            -webkit-transform-origin-y: 1165%;
+            animation-duration: 5.5s;
+        }
+        
+        .planet:nth-child(9) {
+            top: calc((100% - 4%) / 2 - 50%);
+            background-color: #595681;
+            -webkit-transform-origin-y: 1290%;
+            animation-duration: 5s;
+        }
+        
+        @keyframes circling {
+            from {
+                transform: rotate(0);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="galaxy">
+        <div class="planet"></div>
+        <div class="planet"></div>
+        <div class="planet"></div>
+        <div class="planet"></div>
+        <div class="planet"></div>
+        <div class="planet"></div>
+        <div class="planet"></div>
+        <div class="planet"></div>
+        <div class="planet"></div>
+    </div>
+</body>
+
+</html>
