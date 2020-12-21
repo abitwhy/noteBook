@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英雄联盟轮播图</title>
+    <link rel="stylesheet" href="./asset/css/bootstrap.min.css">
+    <style>
+        .carousel {
+            width: 820px;
+            height: 380px;
+        }
+        
+        .titles .title {
+            flex: 1;
+            height: 40px;
+            border: 0;
+            background-color: #e3e2e2;
+            line-height: 40px;
+            text-align: center;
+            text-indent: unset;
+            opacity: 1;
+            box-sizing: border-box;
+        }
+        
+        .carousel .active {
+            border-bottom: 2px solid #cea861;
+            background: linear-gradient(to top, #ece1ce, #f7f6f6);
+        }
+        
+        .carousel-item {
+            transition-duration: 0.2s;
+        }
+    </style>
+    <script src="./asset/js/jQuery.min(3.3.1).js"></script>
+    <script src="./asset/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <!-- caroursel - 轮播图 -->
+    <div class="container">
+        <div class="carousel slide mt-4 mx-auto" id="carouselOfBrowser" data-ride="carousel">
+            <ol class="titles carousel-indicators w-100 m-0 d-flex">
+                <li class="title m-0 active" data-target="#carouselOfBrowser" data-slide-to="0">女帝</li>
+                <li class="title m-0 " data-target="#carouselOfBrowser" data-slide-to="1">女帝无双通行证</li>
+                <li class="title m-0 " data-target="#carouselOfBrowser" data-slide-to="2">守护者公益计划</li>
+                <li class="title m-0 " data-target="#carouselOfBrowser" data-slide-to="3">答谢季·萌芽有礼</li>
+                <li class="title m-0 " data-target="#carouselOfBrowser" data-slide-to="4">冰雪节周边限定</li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+                <div class="carousel-item active">
+                    <img class="d-block w-100" src="./asset/images/lol/1.jpg" alt="chrome">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="./asset/images//lol/2.jpg" alt="firefox">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="./asset/images/lol/3.jpg" alt="IE">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="./asset/images/lol/4.jpg" alt="safari">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="./asset/images/lol/5.jpg" alt="opera">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    $('.carousel').carousel({
+        interval: 3000 /* 轮播间隔 */ ,
+        pause: false /* 鼠标悬浮不暂停 */
+    });
+    $('.titles').on('mouseenter', '.title', function() { /* mouseenter 触发跳转 */
+        $('.carousel').carousel($(this).data("slide-to"));
+    });
+</script>
+
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #282828;
+        }
+        
+        li {
+            list-style: none;
+        }
+        
+        .container {
+            width: 800px;
+            margin: 50px auto;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-between;
+        }
+        
+        .type {
+            width: 200px;
+            margin: 20px;
+        }
+        
+        h2 {
+            text-align: center;
+            /* color: #05fc44; 绿字配色方案 */
+            color: #e7e7e7;
+        }
+        
+        .content {
+            padding: 5%;
+            border: 2px solid #e7e7e7;
+            border-radius: 5px;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .side {
+            width: 50px;
+            height: 50px;
+            padding: 2%;
+            border-radius: 5px;
+            background-color: #ffda35;
+            float: left;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .side:nth-child(n+4) {
+            /* 这里的4为第一个换行的元素，当换行元素变化时，应随之变化 */
+            margin-top: 5%;
+        }
+        
+        .row {
+            width: 100%;
+            height: 30%;
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #282828;
+        }
+        
+        .t2 .side:nth-child(1) .row {
+            justify-content: space-between;
+        }
+        
+        .t2 .side:nth-child(2) .row {
+            justify-content: flex-start;
+        }
+        
+        .t2 .side:nth-child(3) .row {
+            justify-content: center;
+        }
+        
+        .t2 .side:nth-child(4) .row {
+            justify-content: flex-end;
+        }
+        
+        .t2 .side:nth-child(5) {
+            justify-content: flex-start;
+        }
+        
+        .t2 .side:nth-child(5) .row:nth-child(2) {
+            justify-content: center;
+        }
+        
+        .t2 .side:nth-child(6) .row:last-child {
+            justify-content: flex-end;
+        }
+        
+        .t3 .row:nth-child(2) {
+            justify-content: center;
+        }
+        
+        .t3 .row:nth-child(3) {
+            justify-content: flex-end;
+        }
+        
+        .t4 .side:nth-child(1) .row:nth-child(2) {
+            justify-content: flex-end;
+        }
+        
+        .t5 .side:nth-child(1) .row:nth-child(2) {
+            justify-content: center;
+        }
+        
+        .t6 .side:nth-child(3) .row:nth-child(2) {
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="type t1">
+            <h2>一点</h2>
+            <ul class="content">
+                <li class="side">
+                    <div class="row">
+                        <div class="dot"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="type t2">
+            <h2>两点</h2>
+            <ul class="content">
+                <li class="side">
+                    <div class="row">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </li>
+                <li class="side">
+                    <div class="row">
+                        <div class="dot"></div>
+                    </div>
+                    <div class="row">
+                        <div class="dot"></div>
+                    </div>
+                </li>
+                <li class="side">
+                    <div class="row">
+                        <div class="dot"></div>
+                    </div>
+                    <div class="row">
+                        <div class="dot"></div>
+                    </div>
+                </li>
+                <li class="side">
+                    <div class="row">
+                        <div class="dot"></div>
+                    </div>
+                    <div class="row">
+                        <div class="dot"></div>
+                    </div>
+                </li>
+                <li class="side">
+                    <div class="row">
+                        <div class="dot"></div>
+                    </div>
+                    <div class="row">
+                        <div class="dot"></div>
+                    </div>
+                </li>
+                <li class="side">
+                    <div class="row">
+                        <div class="dot"></div>
+                    </div>
+                    <div class="row">
+                        <div class="dot"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="type t3">
+            <h2>三点</h2>
+            <ul class="content">
+                <li class="side">
+                    <div class="row">
+                        <div class="dot"></div>
+                    </div>
+                    <div class="row">
+                        <div class="dot"></div>
+                    </div>
+                    <div class="row">
+                        <div class="dot"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="type t4">
+            <h2>四点</h2>
+            <ul class="content">
+                <li class="side">
+                    <div class="row">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    <div class="row">
+                        <div class="dot"></div>
+                    </div>
+                </li>
+                <li class="side">
+                    <div class="row">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    <div class="row">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="type t5">
+            <h2>五点</h2>
+            <ul class="content">
+                <li class="side">
+                    <div class="row">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    <div class="row">
+                        <div class="dot"></div>
+                    </div>
+                    <div class="row">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="type t6">
+            <h2>六点</h2>
+            <ul class="content">
+                <li class="side">
+                    <div class="row">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    <div class="row">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </li>
+                <li class="side">
+                    <div class="row">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    <div class="row">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    <div class="row">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </li>
+                <li class="side">
+                    <div class="row">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    <div class="row">
+                        <div class="dot"></div>
+                    </div>
+                    <div class="row">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="type t9">
+            <h2>九点</h2>
+            <ul class="content">
+                <li class="side">
+                    <div class="row">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    <div class="row">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    <div class="row">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>

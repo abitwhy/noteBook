@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>骰子</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        body {
+            background-color: #81c9ed;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+        
+        li {
+            list-style: none;
+        }
+        
+        .dice {
+            width: 100px;
+            height: 100px;
+            margin: 200px auto;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotate3d(1, 0.5, -0.5, 60deg);
+            animation: swing 6s 0.5s infinite alternate;
+        }
+        
+        .side {
+            width: 100%;
+            height: 100%;
+            border-radius: 10%;
+            box-shadow: 0 0 2px white, 0 0 10px #dfdfdf inset;
+            background-color: #f1f5f6;
+            /* float: left; */
+            position: absolute;
+            transform-style: preserve-3d;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: space-around;
+            align-items: center;
+        }
+        /* 点数布局 */
+        
+        .row {
+            width: 100%;
+            height: 30%;
+            display: flex;
+            /* flex-flow: row nowrap; */
+            justify-content: space-around;
+        }
+        
+        .dot {
+            width: 30%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow: 0 0 5px black inset;
+            background-color: blue;
+        }
+        
+        .side:nth-child(1) .dot,
+        .side:nth-child(4) .dot {
+            background-color: red;
+        }
+        
+        .side:nth-child(3) .row:first-child,
+        .side:nth-child(5) .row:first-child {
+            /* 还可以设置 end，效果与 flex-end 相反，即，与 flex-strat 相同 ，那么end 是什么含义 */
+            justify-content: flex-end;
+        }
+        
+        .side:nth-child(3) .row:nth-last-child(2),
+        .side:nth-child(5) .row:nth-last-child(2) {
+            justify-content: flex-start;
+        }
+        
+        .side:nth-child(3) .row:first-child .dot,
+        .side:nth-child(5) .row:first-child .dot,
+        .side:nth-child(3) .row:nth-last-child(2) .dot,
+        .side:nth-child(5) .row:nth-last-child(2) .dot {
+            margin: 0px 10%;
+        }
+        /* 3D 效果 */
+        
+        .side:nth-child(1) {
+            transform: translateZ(calc(100px /2));
+        }
+        
+        .side:nth-child(2) {
+            transform: translateZ(calc(-100px /2)) rotateY(180deg);
+        }
+        
+        .side:nth-child(3) {
+            transform: translateX(50%) rotateY(90deg);
+        }
+        
+        .side:nth-child(4) {
+            transform: translateX(-50%) rotateY(-90deg);
+        }
+        
+        .side:nth-child(5) {
+            transform: translateY(50%) rotateX(-90deg);
+        }
+        
+        .side:nth-child(6) {
+            transform: translateY(-50%) rotateX(90deg);
+        }
+        
+        @keyframes swing {
+            from {
+                transform: rotate3d(1, 0.5, -0.5, 60deg);
+            }
+            to {
+                transform: rotate3d(1, 0.5, -0.5, 720deg);
+            }
+        }
+        /* 完善细节 */
+        
+        .mask {
+            width: 99%;
+            height: 99%;
+            background-color: #f6f5f0;
+            opacity: 0.8;
+            position: absolute;
+            transform: translateZ(-10px);
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="dice">
+        <li class="side top">
+            <div class="row">
+                <div class="dot"></div>
+            </div>
+            <div class="mask"></div>
+        </li>
+        <li class="side bottom">
+            <div class="row">
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <div class="row">
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <div class="row">
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <div class="mask"></div>
+        </li>
+        <li class="side left">
+            <div class="row">
+                <div class="dot"></div>
+            </div>
+            <div class="row">
+                <div class="dot"></div>
+            </div>
+            <div class="mask"></div>
+        </li>
+        <li class="side right">
+            <div class="row">
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <div class="row">
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <div class="mask"></div>
+        </li>
+        <li class="side front">
+            <div class="row">
+                <div class="dot"></div>
+            </div>
+            <div class="row">
+                <div class="dot"></div>
+            </div>
+            <div class="row">
+                <div class="dot"></div>
+            </div>
+            <div class="mask"></div>
+        </li>
+        <li class="side back">
+            <div class="row">
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <div class="row">
+                <div class="dot"></div>
+            </div>
+            <div class="row">
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <div class="mask"></div>
+        </li>
+    </ul>
+    <br>
+    <button>掷骰子</button>
+</body>
+<script>
+    /* 掷骰子 */
+</script>
+
+</html>

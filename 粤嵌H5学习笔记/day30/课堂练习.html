@@ -113,10 +113,10 @@
     // 考虑解耦，并拓展通过递归遍历实现的查找功能
     function traversal(menu, callback) { /* 递归遍历递归数组 */
         var sub = null; /* 必须定义 sub 中间变量，不能在 for-in 中 return，会导致 for-in 循环不能遍历完整 */
-        var _continue = true; /* 为了提高性能，添加了_continue，通过 callback 的返回值判断是否继续遍历 */
+        var quit = true; /* 为了提高性能，添加了quit，通过 callback 的返回值判断是否继续遍历 */
         for (var item in menu) { /* 递归遍历（一层一层地找，而不是一个一个找，这样有优势吗？） */
-            callback && (_continue = callback(menu, item)); /* callback 用以拓展搜索功能， 默认接收 menu 及 item 参数 */
-            if (!_continue) { /* 终止遍历 */
+            callback && (quit = callback(menu, item)); /* callback 用以拓展搜索功能， 默认接收 menu 及 item 参数 */
+            if (quit) { /* 终止遍历 */
                 return;
             }
             sub = traversal(menu[item].submenu, callback);
@@ -129,33 +129,42 @@
 
         function addId(menu, item) {
             ids.push(menu[item].id);
-            return true; /* 返回布尔值，控制递归遍历是否提前结束（true 继续，false终止） */
         }
         traversal(menu, addId);
         return ids;
     }
     // console.log(getIds(menu));
 
-    function getSubMenuById(menu, id) { /* 查找指定 id 的子菜单 */
+    function getSubmenuById(menu, id) { /* 查找指定 id 的子菜单 */
         var submenu = [];
 
-        function querySubMenuById(menu, item) {
+        function querySubmenuById(menu, item) {
             if (menu[item].id == id) {
                 submenu = menu[item];
-                return false;
-            } else {
-                return true;
+                return true; /* 返回布尔值，控制递归遍历是否提前结束（true 终止，false 或没有返回将继续） */
             }
         }
-        traversal(menu, querySubMenuById);
+        traversal(menu, querySubmenuById);
         return submenu;
     }
     var ids = getIds(menu);
     ids.forEach(id => {
-        console.log(getSubMenuById(menu, id));
+        console.log(getSubmenuById(menu, id));
     });
 
     // 功能待拓展。。。
+    function getSubmenuByName(menu, name) {
+        var submenu = [];
+
+        function querySubmenuByName(menu, item) {
+            if (menu[item].name == name) {
+                submenu.push(menu[item]);
+            }
+        }
+        traversal(menu, querySubmenuByName);
+        return submenu;
+    }
+    console.log("gsmbn:", getSubmenuByName(menu, "一级菜单2"));
 </script>
 
 </html>
