@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tab标签页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            width: 1000px;
+            margin: 5vh auto;
+        }
+        
+        ul li {
+            list-style: none;
+        }
+        
+        .tab {
+            width: 50%;
+            margin: 0 auto;
+            border: 1px solid #b0b0b0;
+            box-sizing: border-box;
+        }
+        
+        .tab-nav {
+            display: flex;
+            text-align: center;
+        }
+        
+        .tab-nav li {
+            flex: 1;
+            padding: 5px 0;
+            background-color: #77b391;
+            cursor: pointer;
+        }
+        
+        .tab-nav li+li {
+            margin-left: 1px;
+        }
+        
+        .tab-nav li:hover,
+        .tab-nav li.actived {
+            color: white;
+            opacity: 0.9;
+        }
+        
+        .tab-contents {
+            height: 400px;
+            padding: 10px 30px;
+            position: relative;
+        }
+        
+        .tab-content {
+            position: absolute;
+            visibility: hidden;
+        }
+        
+        .tab-content li {
+            margin: 10px 0;
+        }
+        
+        .show {
+            visibility: visible;
+        }
+    </style>
+    <script src="./asset/js/jQuery.min(3.3.1).js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="tab">
+            <ul class="tab-nav">
+                <li data-type="internal">国内新闻</li>
+                <li data-type="international">国际新闻</li>
+                <li data-type="sport">体育新闻</li>
+                <li data-type="entertainment">娱乐新闻</li>
+            </ul>
+            <div class="tab-contents">
+                <ol id="internal" class="tab-content show">
+                    <li>internal1</li>
+                    <li>internal2</li>
+                    <li>internal3</li>
+                    <li>internal4</li>
+                    <li>internal5</li>
+                    <li>internal6</li>
+                </ol>
+                <ol id="international" class="tab-content">
+                    <li>international1</li>
+                    <li>international2</li>
+                    <li>international3</li>
+                    <li>international4</li>
+                    <li>international5</li>
+                    <li>international6</li>
+                </ol>
+                <ol id="sport" class="tab-content">
+                    <li>sport1</li>
+                    <li>sport2</li>
+                    <li>sport3</li>
+                    <li>sport4</li>
+                    <li>sport5</li>
+                    <li>sport6</li>
+                </ol>
+                <ol id="entertainment" class="tab-content">
+                    <li>entertainment1</li>
+                    <li>entertainment2</li>
+                    <li>entertainment3</li>
+                    <li>entertainment4</li>
+                    <li>entertainment5</li>
+                    <li>entertainment6</li>
+                </ol>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+<script>
+    var tabNav = $('.tab-nav');
+    tabNav.on('click', 'li', function() {
+        $(this).siblings('li').removeClass('actived');
+        $(this).addClass('actived');
+        $('#' + $(this).data('type')).siblings('ol').removeClass('show');
+        $('#' + $(this).data('type')).addClass('show');
+    });
+</script>
+
+</html>

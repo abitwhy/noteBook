@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>剑网三-国风大世界</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        ul li {
+            list-style: none;
+        }
+        /* 全屏显示 container 的标准样式 */
+        
+        .container {
+            min-width: 1360PX;
+            max-width: 1920PX;
+            margin: 0 auto;
+            overflow-x: hidden;
+        }
+        
+        .base-mask {
+            width: calc(1360px - 15px);
+        }
+        
+        .base-p-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section {
+            /* 相对定位元素高度必须设置 */
+            height: 973px;
+            background: url(./asset/images/bg01.png);
+            background-size: cover;
+            position: relative;
+        }
+        
+        .header {
+            height: 234px;
+            background: url(./asset/images/title_bg.png)center center;
+            background-size: cover;
+        }
+        
+        .video-wrap {
+            width: 100%;
+            /* 全屏高度 */
+            height: 720px;
+            position: absolute;
+            top: 234px;
+        }
+        
+        .video-mask {
+            z-index: 1;
+        }
+        
+        .video-nav {
+            /* position 可有可无，有则宽度100%，无则宽度自适应 */
+            position: absolute;
+            /* 配合动画效果 */
+            overflow: hidden;
+        }
+        
+        .video-nav li {
+            width: 40px;
+            height: 282px;
+            background: url(./asset/images/dashijie.png)no-repeat;
+            transition: transform 0.6s;
+            float: left;
+        }
+        
+        .video-nav li+li {
+            margin-left: 10px;
+        }
+        
+        .video-nav li:nth-child(1) {
+            background-position: -1px 0;
+        }
+        
+        .video-nav li:nth-child(2) {
+            background-position: -60px 0;
+        }
+        
+        .video-nav li:nth-child(3) {
+            background-position: -115px 0;
+        }
+        
+        .video-nav li:nth-child(4) {
+            background-position: -170px 0;
+        }
+        
+        .video-nav li:nth-child(5) {
+            background-position: -225px 0;
+        }
+        
+        .video-nav li:nth-child(6) {
+            background-position: -280px 0;
+        }
+        
+        .video-nav li:hover,
+        .picked {
+            /* 同一个元素无法同时设置 scale 和 translate */
+            /* transform: scaleY(1%) translateY(1%); */
+            /* 解决方案：内嵌一个子元素，父子元素分别执行两个动画，配合使用=》失败：恢复动画会产生短线 bug，并且由此产生了很多麻烦 */
+            /* 官方的方式是改变 margin-top，并配合定位使用 */
+            margin-top: -4%;
+            /* 结合自己的代码，配合 transform 也可 */
+            transform: translateY(4%);
+        }
+        
+        .video-nav li:nth-child(1):hover,
+        li:nth-child(1).picked {
+            background-position: -369px 0;
+        }
+        
+        .video-nav li:nth-child(2):hover,
+        li:nth-child(2).picked {
+            background-position: -428px 0;
+        }
+        
+        .video-nav li:nth-child(3):hover,
+        li:nth-child(3).picked {
+            background-position: -483px 0;
+        }
+        
+        .video-nav li:nth-child(4):hover,
+        li:nth-child(4).picked {
+            background-position: -538px 0;
+        }
+        
+        .video-nav li:nth-child(5):hover,
+        li:nth-child(5).picked {
+            background-position: -594px 0;
+        }
+        
+        .video-nav li:nth-child(6):hover,
+        li:nth-child(6).picked {
+            background-position: -649px 0;
+        }
+        
+        .video-content {
+            width: 100%;
+        }
+        
+        .video-content video {
+            /* 音视频只需设置一个宽度或高度（同时设置时，宽度优先级更高） */
+            height: 100%;
+            /* visibility: hidden; */
+            display: inline-block;
+        }
+        /*         
+        .show {
+            visibility: visible !important;
+        } */
+    </style>
+    <script src="./asset/js/jQuery.min(3.3.1).js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div id="guofeng" class="section">
+            <div class="header base-mask base-p-center"></div>
+            <div class="video-wrap">
+                <div class="video-content base-p-center">
+                    <!-- 不用担心过多的网络请求，浏览器会自动缓存视频 -->
+                    <video id="guofengVideo" src="./asset/media/gfsj_zy.mp4" autoplay muted poster="" data-current="0" class="show"></video>
+                </div>
+                <div class="video-mask base-mask base-p-center">
+                    <ul class="video-nav">
+                        <li data-index="0" class="picked"></li>
+                        <li data-index="1"></li>
+                        <li data-index="2"></li>
+                        <li data-index="3"></li>
+                        <li data-index="4"></li>
+                        <li data-index="5"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // 全局变量
+    var videoNav = $('.video-nav');
+    // var videoContent = $('.video-content');
+    var guofengVideo = $('#guofengVideo');
+    var videoSrcs = ['./asset/media/gfsj_zy.mp4', './asset/media/gfsj_xj.mp4', './asset/media/gfsj_gy.mp4', './asset/media/gfsj_sl.mp4', './asset/media/gfsj_hh.mp4', './asset/media/gfsj_sc.mp4'];
+    // 点选
+    function playVideo(e) {
+        $(this).siblings('li').removeClass('picked');
+        $(this).addClass('picked');
+        var current = $(this).data('index');
+        guofengVideo.prop('src', videoSrcs[current]);
+        guofengVideo.data('current', current); /* 手动打断轮播，注释此行则不打断 */
+    }
+    videoNav.on('click', 'li', playVideo);
+    // 轮播
+    guofengVideo.on('ended', function(e) {
+        var current = $(this).data('current');
+        current = ++current % videoNav.find('li').length;
+        videoNav.find('li').eq(current).trigger('click');
+        $(this).data('current', current);
+    });
+</script>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>伸缩菜单项</title>
+    <style>
+        ul {
+            width: 800px;
+            height: 500px;
+            margin: 0 auto;
+            padding: 0;
+            border: 1px solid gainsboro;
+            text-align: center;
+            display: flex;
+        }
+        
+        li {
+            flex: 1;
+            height: 40px;
+            line-height: 40px;
+            background-color: powderblue;
+            list-style: none;
+        }
+        
+        li+li {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li>首页</li>
+        <li>商品分类</li>
+        <li>我的订单</li>
+        <li>最新商品</li>
+        <li>联系我们</li>
+    </ul>
+</body>
+<script>
+    document.querySelector('ul').addEventListener('click', function(e) {
+        if (e.target.nodeName == 'LI') {
+            if (document.querySelectorAll('li').length > 1) {
+                e.target.remove();
+            }
+        }
+    });
+</script>
+
+</html>

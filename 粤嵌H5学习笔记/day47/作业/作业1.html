@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>淘宝搜索提示</title>
+    <style>
+        .container {
+            width: 300px;
+            margin: 5vh auto;
+            text-align: center;
+        }
+        
+        .model {
+            display: none;
+        }
+        
+        input {
+            width: 200px;
+            height: 30px;
+            font-size: 18px;
+        }
+    </style>
+    <script src="./asset/js/jQuery.min(3.3.1).js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <datalist id="tips">
+            <option class="model" value=""></option>
+        </datalist>
+        <input name="keyword" type="text" list="tips">
+    </div>
+</body>
+<script>
+    // 全局变量
+    var inputKeyWord = $('input[name="keyword"');
+    var tips = $('#tips');
+
+    function getTips() {
+        // $.ajax({
+        //     // 解决跨域方案1：第三方网站代理=》太慢了
+        //     url: 'http://api.kele8.cn/agent/http://suggest.taobao.com/sug?code=utf-8',
+        //     data: {
+        //         q: '手机'
+        //     },
+        //     context: $('#tips'),
+        //     success: function(data, textStatus, jqXHR) {
+        //         console.log(data);
+        //     }
+        // });
+        $.ajax({
+            url: 'http://suggest.taobao.com/sug?code=utf-8',
+            data: {
+                q: inputKeyWord.val()
+            },
+            context: tips,
+            success: function(data, textStatus, jqXHR) {
+                // 预处理
+                $('.model').siblings('option').remove();
+                data.result.forEach(element => {
+                    // 准备数据
+                    var model = $('.model').clone(true, true);
+                    model.toggleClass('model');
+                    model.val(element[0]);
+                    // 渲染数据
+                    $(this).append(model.val(element[0]))
+                });
+            },
+            // 解决跨域方案2：jsonp
+            dataType: 'jsonp',
+            jsonp: 'callback' /* 必须写成 callback ，应该是淘宝服务端的默认设置 */ ,
+        });
+    }
+    inputKeyWord.keyup(getTips);
+</script>
+
+</html>

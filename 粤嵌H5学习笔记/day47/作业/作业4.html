@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H5表单练习</title>
+    <style>
+        form {
+            width: 400px;
+            margin: 0 auto;
+        }
+        
+        input,
+        meter {
+            width: 100%;
+        }
+        
+        input {
+            height: 30px;
+            /* debug：input 设置 padding 会使 input 不居中=》负 margin 调整 */
+            margin: 0 -4px;
+            padding: 0 4px;
+            border: none;
+            border-radius: 2px;
+            box-shadow: 0 0 2px;
+            font-size: 16px;
+        }
+        
+        meter {
+            border-radius: 50%;
+        }
+    </style>
+    <script src="./asset/js/jQuery.min(3.3.1).js"></script>
+</head>
+
+<body>
+    <form action="javascript: void(0)">
+        <fieldset>
+            <legend>学生档案</legend>
+            <datalist id="subjectOptions">
+                <option value="CSS3" label="层叠样式表3"></option>
+                <option value="HTML5" label="超文本标记语言第五版"></option>
+                <option value="JavaScript" label="脚本语言"></option>
+                <option value="jQuery" label="js 函数库"></option>
+            </datalist>
+            <p>
+                <label for="username">姓名：</label><br>
+                <input id="username" type="text" placeholder="请输入用户名">
+            </p>
+            <p>
+                <label for="phone">手机号码：</label><br>
+                <input id="phone" type="tel">
+            </p>
+            <p>
+                <label for="email">邮箱地址：</label><br>
+                <input id="email" type="email">
+            </p>
+            <p>
+                <label for="subject">所属学院：</label><br>
+                <input id="subject" type="text" list="subjectOptions">
+            </p>
+            <p>
+                <label for="grade">入学成绩：</label><br>
+                <!-- pattern 里的正则不需要正则标识符，不过这里使用了 number 类型，不能配合 pattern -->
+                <input id="grade" type="number" value="0">
+            </p>
+            <p>基础水平：<br>
+                <meter id="level" max="100" min="0" low="60" high="80" value="0"></meter>
+            </p>
+            <p>
+                <label for="begin">入学日期：</label><br>
+                <input id="begin" type="date">
+            </p>
+            <p>
+                <label for="until">毕业日期：</label><br>
+                <input id="until" type="date">
+            </p>
+            <p><input type="submit"></p>
+        </fieldset>
+    </form>
+</body>
+<script>
+    console.log($('#level').prop('min'));
+    var min = $('#level').prop('min');
+    var max = $('#level').prop('max');
+    // 尝试校验数值范围，因为 jQuery 没有 invalid 事件，只能用原生 js 事件来写
+    // function invalidGrade(e) {
+    //     console.log(e.target);
+    //     e.target.setCustomValidity('成绩范围为：' + min + '~' + max + '！');
+    // }
+    $('#grade').get(0).addEventListener('invalid', invalidGrade);
+    $('#grade').change(function(e) {
+        // 校验=》失败
+        // if ($(this).val() < min || $(this).val() > max) { /* 因为通过正则式判断数值范围很麻烦，这里尝试手动触发事件=》失败，时机有很大问题，一旦校验失败过，即使改正，也会触发提示 */
+        //     $('#grade').get(0).dispatchEvent(new Event('invalid'), invalidGrade);
+        // }
+        $('#level').val($(this).val());
+    });
+</script>
+
+</html>

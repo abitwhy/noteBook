@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>调节背景颜色</title>
+    <style>
+        .container {
+            width: 300px;
+            margin: 5vh auto;
+            text-align: center;
+        }
+        
+        label,
+        span {
+            display: inline-block;
+            width: 3em;
+            background-color: white;
+            text-align: center;
+        }
+        
+        label[for='red'] {
+            color: red;
+        }
+        
+        label[for='green'] {
+            color: green;
+        }
+        
+        label[for='blue'] {
+            color: blue;
+        }
+    </style>
+    <script src="./asset/js/jQuery.min(3.3.1).js"></script>
+</head>
+
+<body style="min-height:500px">
+    <div class="container">
+        <p>
+            <label for="red">红：</label>
+            <!-- value 仅供设置默认值（空字符串时，默认值为 max-min 的一半），不会动态改变 -->
+            <input id="red" type="range" min="0" max="255" value="">
+            <span></span>
+        </p>
+        <p>
+            <label for="green">绿：</label>
+            <input id="green" type="range" min="0" max="255" value="">
+            <span></span>
+        </p>
+        <p>
+            <label for="blue">蓝：</label>
+            <input id="blue" type="range" min="0" max="255" value="">
+            <span></span>
+        </p>
+    </div>
+</body>
+<script>
+    // util
+    var rgb2hex = function(r, g, b) {
+        return '#' + ((1 << 24) + (r << 16) + (g << 8) + b)
+            .toString(16) // 先转成十六进制，然后返回字符串
+            .substr(1); // 去除字符串的最高位，返回后面六个字符串
+    };
+    // change 改变背景颜色
+    $('input[type="range"]').change(function(e) {
+        var red = +$('#red').val();
+        var green = +$('#green').val();
+        var blue = +$('#blue').val();
+        $('body').css('backgroundColor', rgb2hex(red, green, blue));
+        $(this).siblings('span').text($(this).val());
+    });
+    $('input[type="range"]').trigger('change'); /* 初始化 */
+</script>
+
+</html>

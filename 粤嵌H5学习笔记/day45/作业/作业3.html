@@ -36,19 +36,17 @@
             align-items: flex-end;
         }
         
-        .top-tab h2 {
+        .top-tab h4 {
             width: 5em;
-            font-size: 24px;
         }
         
-        .top-tab h2::before {
+        .top-tab h4::before {
             width: 4px;
             height: 100%;
             background-color: #1da6ba;
             content: "";
             position: absolute;
             left: -12px;
-            bottom: 0;
         }
         
         .titles {
@@ -57,8 +55,6 @@
         }
         
         .title {
-            width: auto;
-            position: relative;
             cursor: pointer;
         }
         
@@ -88,11 +84,6 @@
             to {
                 transform: scaleX(1);
             }
-        }
-        
-        .more {
-            float: right;
-            /* position: relative; */
         }
         
         .more a {
@@ -136,15 +127,14 @@
             }
         }
         
-        .content {
-            /* justify-content: space-between; */
-        }
-        
         .card {
             width: 24%;
             font-size: 14px;
             color: black;
-            transition: all 0.3s;
+            /* 设置 all 可能导致动画无限触发 */
+            /* transition: all 0.3s; */
+            /* 单独设置 transform 则不会，为什么？ */
+            transition: transform 0.3s;
         }
         
         .card:hover {
@@ -190,12 +180,12 @@
     <div class="container">
         <div id="hot" class="section m-auto">
             <div class="top-tab d-flex">
-                <h2 class="m-0 position-relative">热门活动</h2>
+                <h4 class="m-0 position-relative">热门活动</h4>
                 <ul class="titles h-100 m-0">
-                    <li class="title mr-3 h-100" data-activity="current">正在进行</li>
-                    <li class="title mr-3 h-100" data-activity="sale">商城特惠</li>
-                    <li class="title mr-3 h-100" data-activity="long-term">长期活动</li>
-                    <li class="more h-100 position-relative">
+                    <li class="title mr-3 h-100 position-relative" data-activity="current">正在进行</li>
+                    <li class="title mr-3 h-100 position-relative" data-activity="sale">商城特惠</li>
+                    <li class="title mr-3 h-100 position-relative" data-activity="long-term">长期活动</li>
+                    <li class="more h-100 float-right position-relative">
                         <a href="javascript;:"><small>更多</small></a>
                     </li>
                 </ul>
@@ -209,7 +199,7 @@
                         <p class="card-text text-info"><span>时限提示</span><span class="badge float-right mt-1 d-none">New</span></p>
                     </div>
                     <div class="mask px-2 w-100 text-center position-absolute d-flex flex-column justify-content-center">
-                        <h5 class="title">标题</h5>
+                        <h6 class="title">标题</h6>
                         <p class="text mb-0">详情</p>
                         <p class="during mb-0">活动期间</p>
                     </div>
@@ -280,22 +270,23 @@
         until: "2020-07-10",
         link: "#"
     }, {
+
         id: 6,
         type: "sale",
         img: "./asset/images/lol2/6.jpg",
-        title: "奥术师 座椅 至臻",
-        detail: "100至臻点（2020）兑换",
-        begin: "2020-07-10",
-        until: "2020-07-29",
+        title: "战队皮肤限时销售",
+        detail: "英雄联盟全明星赛 历届战队皮肤限时销售",
+        begin: "2020-12-18",
+        until: "2020-12-31",
         link: "#"
     }, {
         id: 7,
         type: "sale",
         img: "./asset/images/lol2/7.jpg",
-        title: "战队皮肤限时销售",
-        detail: "英雄联盟全明星赛 历届战队皮肤限时销售",
-        begin: "2020-12-18",
-        until: "2020-12-31",
+        title: "每周半价",
+        detail: "皮肤英雄限时折扣",
+        begin: "2020-12-04",
+        until: "2020-12-07",
         link: "#"
     }, {
         id: 8,
@@ -310,27 +301,27 @@
         id: 9,
         type: "long-term",
         img: "./asset/images/lol2/9.jpg",
-        title: "每周半价",
-        detail: "皮肤英雄限时折扣",
-        begin: "2020-12-04",
-        until: "2020-12-07",
-        link: "#"
-    }, {
-        id: 10,
-        type: "long-term",
-        img: "./asset/images/lol2/10.jpg",
         title: "K/DA系列 小小英雄",
         detail: "使用点券可在客户端直接购买各形态1星小小英雄",
         begin: "2020-11-13",
         until: "",
         link: "#"
     }, {
-        id: 11,
+        id: 10,
         type: "long-term",
-        img: "./asset/images/lol2/11.jpg",
+        img: "./asset/images/lol2/10.jpg",
         title: "LOL组队专区",
         detail: "无兄弟，不游戏；兄弟没空？何不妨多找几个，一起组战召唤师峡谷~冲鸭！",
         begin: "2020-07-21",
+        until: "",
+        link: "#"
+    }, {
+        id: 11,
+        type: "long-term",
+        img: "./asset/images/lol2/11.jpg",
+        title: "英雄联盟：永恒星碑",
+        detail: "即刻解锁，记录你的英雄精彩时刻",
+        begin: "2020-05-29",
         until: "",
         link: "#"
     }, {
@@ -350,20 +341,22 @@
         $(this).siblings('.title').removeClass('picked');
         $(this).addClass('picked');
         // 渲染数据
+        hot.find('.card').remove(); /* 清空历史 */
         var type = $(this).data('activity');
-        var dataSelected = data.filter(function(item) {
+        var dataSelected = data.filter(function(item) { /* 在数据中查找指定类型数据。若使用 ajax 获取数据，则此步骤可选择在服务端执行，前端只需传 type 参数 */
             return item.type == type;
         });
-        hot.find('.card').remove(); /* 清空历史 */
         dataSelected.forEach(function(elem) {
             var newCard = modelCard.clone(true, true);
-            newCard.removeClass('d-none'); /* 展示 */
+            newCard.removeClass('d-none'); /* 展示（因为 modelCard 默认不展示） */
             newCard.id = ''; /* 清除 id */
-            // var nodes = [newCard.find('img'), newCard.find('.card-title'), newCard.find('.card-text'), newCard.find('.mask .title'), newCard.find('.mask .text'), newCard.find('.mask .during')];
             var nodes = newCard.find('.card-title,.card-text span:first,.mask .title,.mask .text,.mask .during');
             nodes.each(function(index, item) {
+                newCard.prop('href', elem.link); /* 单独渲染链接 */
+                newCard.find('img').prop('src', elem.img); /* 单独渲染图片 */
                 var gap = daysBetween(elem.begin, elem.until);
                 var gapTips = '';
+                var during = elem.begin + ' - ' + elem.until;
                 if (gap > 0) {
                     gapTips = gap + "天后结束";
                 } else if (gap == 0) {
@@ -372,12 +365,11 @@
                     gapTips = "已结束";
                 } else { /* until 不存在， daysBetween 会返回 NaN */
                     gapTips = "长期有效";
+                    during = "开启时间：" + elem.begin;
                 }
-                newCard.prop('href', elem.link); /* 单独渲染链接 */
-                newCard.find('img').prop('src', elem.img); /* 单独渲染图片 */
-                var dataRender = [elem.title, gapTips, elem.title, elem.detail, elem.begin + ' - ' + elem.until];
+                var dataRender = [elem.title, gapTips, elem.title, elem.detail, during];
                 render(nodes, dataRender);
-                if (daysBetween(elem.begin, '2020-12-13') < 6) { /* new 徽章，这里为了展示效果，给了固定时间，实际使用时，应取当前时间 */
+                if (daysBetween(elem.begin, '2020-12-13') < 6) { /* 展示 new 徽章。这里为了展示效果，给了固定时间'2020-12-13'，实际使用时，应取当前时间 */
                     newCard.find('.badge').removeClass('d-none');
                 }
             });

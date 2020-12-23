@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宽度自适应</title>
+    <style>
+        header {
+            height: 100px;
+            background-color: orange;
+        }
+        
+        main {
+            height: 400px;
+            display: flex;
+        }
+        
+        .left {
+            width: 300px;
+            background-color: palegreen;
+        }
+        
+        .right {
+            flex: 1;
+            background-color: paleturquoise;
+        }
+        
+        footer {
+            height: 100px;
+            background-color: palevioletred;
+        }
+    </style>
+</head>
+
+<body>
+    <header>header</header>
+    <main>
+        <div class="left">left</div>
+        <div class="right">right</div>
+    </main>
+    <footer>footer</footer>
+</body>
+
+</html>
