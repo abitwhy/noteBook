@@ -35,7 +35,8 @@
 </head>
 
 <body>
-    <form action="javascript: void(0)">
+    <!-- <form action="javascript: void(0)"> -->
+    <form action="">
         <fieldset>
             <legend>学生档案</legend>
             <datalist id="subjectOptions">
@@ -46,7 +47,7 @@
             </datalist>
             <p>
                 <label for="username">姓名：</label><br>
-                <input id="username" type="text" placeholder="请输入用户名">
+                <input id="username" type="text" placeholder="请输入用户名" required>
             </p>
             <p>
                 <label for="phone">手机号码：</label><br>
@@ -54,7 +55,7 @@
             </p>
             <p>
                 <label for="email">邮箱地址：</label><br>
-                <input id="email" type="email">
+                <input id="email" type="email" required>
             </p>
             <p>
                 <label for="subject">所属学院：</label><br>
@@ -89,7 +90,7 @@
     //     console.log(e.target);
     //     e.target.setCustomValidity('成绩范围为：' + min + '~' + max + '！');
     // }
-    $('#grade').get(0).addEventListener('invalid', invalidGrade);
+    // $('#grade').get(0).addEventListener('invalid', invalidGrade);
     $('#grade').change(function(e) {
         // 校验=》失败
         // if ($(this).val() < min || $(this).val() > max) { /* 因为通过正则式判断数值范围很麻烦，这里尝试手动触发事件=》失败，时机有很大问题，一旦校验失败过，即使改正，也会触发提示 */

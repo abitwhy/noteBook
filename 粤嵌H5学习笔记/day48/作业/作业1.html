@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>元素拖拽</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: rgb(121, 230, 213);
+        }
+        
+        h5 {
+            margin-bottom: 10px;
+            background-color: rgba(128, 128, 128, 0.231);
+        }
+        
+        .container {
+            width: 1000px;
+            margin: 5vh auto;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        div.drag-area {
+            width: 200px;
+            min-height: 200px;
+            padding: 5px;
+            border: 2px solid blueviolet;
+            text-align: center;
+        }
+        
+        div.drag-area:nth-child(1) {
+            background-color: chartreuse;
+        }
+        
+        div.drag-area:nth-child(2) {
+            background-color: rgb(255, 225, 0);
+        }
+        
+        div.drag-area:nth-child(3) {
+            background-color: rgb(236, 56, 56);
+        }
+        
+        p {
+            border: 1px solid gainsboro;
+            background-color: snow;
+        }
+        
+        .picked {
+            box-shadow: 0 0 10px 4px rgb(132, 0, 255);
+        }
+        
+        .drag-item {
+            width: 100%;
+            min-width: 100px;
+        }
+        
+        .drag-item::before {
+            float: left;
+            content: '☆';
+        }
+    </style>
+    <script src="./asset/js/jQuery.min(3.3.1).js"></script>
+</head>
+
+<body class="drag-area" draggable="true">
+    <div class="container">
+        <div class="drag-area">
+            <h5>蔬菜</h5>
+            <p draggable="true" class="drag-item">牛肉</p>
+            <p draggable="true" class="drag-item">白菜</p>
+        </div>
+        <div class="drag-area">
+            <h5>水果</h5>
+            <p draggable="true" class="drag-item">金针菇</p>
+        </div>
+        <div class="drag-area">
+            <h5>肉类</h5>
+            <p draggable="true" class="drag-item">武昌鱼</p>
+            <p draggable="true" class="drag-item">香蕉</p>
+        </div>
+    </div>
+
+</body>
+<script>
+    var currentDrag = null;
+    $('.drag-area').on('dragstart', function(e) {
+        e.stopPropagation(); /* 阻止冒泡，以便准确地放置拖拽元素、显示拖拽和放置区域 */
+        currentDrag = e.target;
+        $(this).addClass('picked');
+    });
+    $('.drag-area').on('dragover', function(e) {
+        e.stopPropagation();
+        if (!$(currentDrag).is($(this).parents())) { /* 拖拽的节点不应是放置节点的父节点 */
+            e.preventDefault(); /* 阻止默认禁止 drop */
+        }
+        $('.drag-area').removeClass('picked');
+        $(this).addClass('picked');
+    });
+    $('.drag-area').on('drop', function(e) {
+        e.stopPropagation();
+        $(this).removeClass('picked');
+        $(this).append(currentDrag);
+    });
+</script>
+
+</html>

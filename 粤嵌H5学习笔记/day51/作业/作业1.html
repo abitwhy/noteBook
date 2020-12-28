@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>触摸事件-拖动demo</title>
+    <style>
+        body {
+            background-color: white;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+        
+        .container {
+            width: 800px;
+            min-height: 400px;
+            margin: 5vh auto;
+            background-color: #81c9ed;
+            text-align: center;
+            position: relative;
+        }
+        
+        .move-item {
+            width: 88px;
+            height: 88px;
+            background-color: wheat;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container move-area">
+        <div class="move-item"></div>
+    </div>
+</body>
+<script>
+    var moveArea = document.querySelector('.move-area');
+
+    function touchToMove(e) { /* 触摸事件定义在 document 上！！！ */
+        if (e.target.className == 'move-item') {
+            e.preventDefault(); /* 阻止默认滚动事件 */
+            // console.log(e); /* TouchEvent 事件对象 */
+            // console.log(e.touches); /* touches 类数组对象（顾名思义，可能会同时有多个触点），用以存储触点信息，触点信息主要包含目标节点（无论是否在 DOM 上），以及相关位置信息 */
+            // console.log("pageX=>", e.touches[0].pageX, "pageY=>", e.touches[0].pageY); /* pageX,pageY是包含滚动条的距离当前窗口左上角坐标 */
+            // console.log("clientX=>", e.touches[0].clientX, "clientY=>", e.touches[0].clientY); /* clientX，clientY是以当前的窗口的左上角为坐标原点 */
+            var offsetX = e.touches[0].clientX - e.target.offsetLeft;
+            var offsetY = e.touches[0].clientY - e.target.offsetTop;
+            var moveArea = this; /* 暂存 this 指针 */
+
+            function move(e) { /* 触摸移动 */
+                var x, y, maxX, maxY;
+                x = e.touches[0].clientX - offsetX;
+                y = e.touches[0].clientY - offsetY;
+                x = x < 0 ? 0 : x;
+                y = y < 0 ? 0 : y;
+                maxX = moveArea.style.offsetWidth - e.target.offsetWidth;
+                maxY = moveArea.style.offsetHeight - e.target.offsetHeight;
+                x = x > maxX ? maxX : x;
+                y = y > maxY ? maxY : y;
+                e.target.style.left = x + 'px';
+                e.target.style.top = y + 'px';
+            }
+            document.addEventListener('touchmove', move);
+
+            function stopMove(e) { /* touchend 事件发生在结束触摸时刻，若需要在此事件后获取触点信息列表，需要使用 changedTouches */
+                // console.log(e.touches);
+                // console.log(e.changedTouches);
+                document.removeEventListener('touchmove', move);
+            }
+            document.addEventListener('touchend', stopMove);
+        }
+    }
+    moveArea.addEventListener('touchstart', touchToMove);
+</script>
+
+</html>

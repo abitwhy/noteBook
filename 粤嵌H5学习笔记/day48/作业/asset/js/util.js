@@ -1,4 +1,4 @@
-function getNextElementOf(node, name) { /* 查找下一个指定类型元素节点 */
+function getNextElementOf(node, name) { /* [js]查找下一个指定类型元素节点 */
     if (name ? node.nextElementSibling.nodeName == name.toUpperCase() : true) {
         return node.nextElementSibling;
     } else if (node.nextElementSibling.nextElementSibling) {
@@ -32,7 +32,7 @@ function render(nodeSet, dataArr) { /* [jQuery]批量数据渲染 */
     // });
 }
 
-function debounce(fn, delay) { /* 防抖函数 */
+function debounce(fn, delay) { /* [js]防抖函数 */
     var timer = null; // 声明计时器
     return function() {
         var context = this;
@@ -44,34 +44,15 @@ function debounce(fn, delay) { /* 防抖函数 */
     };
 }
 
-function traversal(array, callback) { /* 递归遍历嵌套数组 */
+function traversal(array, callback) { /* 递归遍历递归数组 */
     var sub = null; /* 必须定义 sub 中间变量，不能在 for-in 中 return，会导致 for-in 循环不能遍历完整 */
     var quit = true; /* 为了提高性能，添加了quit，通过 callback 的返回值判断是否继续遍历 */
-    for (var index in array) { /* 递归遍历（一层一层地找，而不是一个一个找，这样有优势吗？） */
-        callback && (quit = callback(array, index)); /* callback 用以拓展搜索功能， 默认接收 array 及 index 参数 */
+    for (var item in array) { /* 递归遍历（一层一层地找，而不是一个一个找，这样有优势吗？） */
+        callback && (quit = callback(array, item)); /* callback 用以拓展搜索功能， 默认接收 array 及 item 参数 */
         if (quit) { /* 终止遍历 */
             return;
         }
-        sub = traversal(array[index].subarray, callback);
+        sub = traversal(array[item].subarray, callback);
     }
-    // array.forEach((element,index) => {
-    //     callback && (quit = callback(array, index)); /* callback 用以拓展搜索功能， 默认接收 array 及 index 参数 */
-    //     if (quit) { /* 终止遍历 */
-    //         return;
-    //     }
-    //     sub = traversal(array[index].subarray, callback);
-    // });
     return sub;
 }
-
-
-function randomInt(min, max) { /* 随机整数 */
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-// 颜色
-function rgb2hex(r, g, b) { /* rgb 转十六进制 */
-    // 返回十六进制
-    return '#' + ((1 << 24) + (r << 16) + (g << 8) + b)
-        .toString(16) // 先转成十六进制，然后返回字符串
-        .substr(1); // 去除字符串的最高位，返回后面六个字符串
-};

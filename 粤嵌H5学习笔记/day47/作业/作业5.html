@@ -6,9 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>剑网三-国风大世界</title>
     <style>
+        /* 总结：
+                1.不知道如何解决手机端尺寸问题,特别是切换动画时产生变动
+         */
+        
         * {
             margin: 0;
             padding: 0;
+        }
+        
+        body {
+            background-color: #000;
         }
         
         ul li {
@@ -35,24 +43,25 @@
         
         .section {
             /* 相对定位元素高度必须设置 */
-            height: 973px;
+            /* height: 790px; */
+            height: 100vh;
             background: url(./asset/images/bg01.png);
             background-size: cover;
             position: relative;
         }
         
         .header {
-            height: 234px;
-            background: url(./asset/images/title_bg.png)center center;
+            height: 170px;
+            background: url(./asset/images/title_bg.png) center -70px;
             background-size: cover;
         }
         
         .video-wrap {
             width: 100%;
-            /* 全屏高度 */
-            height: 720px;
+            /* 接近全屏高度 */
+            /* height: 720px; */
             position: absolute;
-            top: 234px;
+            top: 170px;
         }
         
         .video-mask {
@@ -143,13 +152,11 @@
             background-position: -649px 0;
         }
         
-        .video-content {
-            width: 100%;
-        }
-        
         .video-content video {
             /* 音视频只需设置一个宽度或高度（同时设置时，宽度优先级更高） */
-            height: 100%;
+            /* height: 100%; */
+            /* [debug]: video 标签 poster 属性展示的图片尺寸和 video 标签尺寸有出入=》给 video 标签设置像素尺寸（而不是百分比尺寸） */
+            height: 610px;
             /* visibility: hidden; */
             display: inline-block;
         }
@@ -168,7 +175,7 @@
             <div class="video-wrap">
                 <div class="video-content base-p-center">
                     <!-- 不用担心过多的网络请求，浏览器会自动缓存视频 -->
-                    <video id="guofengVideo" src="./asset/media/gfsj_zy.mp4" autoplay muted poster="" data-current="0" class="show"></video>
+                    <video id="guofengVideo" src="./asset/media/gfsj_zy.mp4" autoplay muted poster="./asset/images/gfsj_zy.jpg.webp" data-current="0" class="show"></video>
                 </div>
                 <div class="video-mask base-mask base-p-center">
                     <ul class="video-nav">
@@ -190,11 +197,13 @@
     // var videoContent = $('.video-content');
     var guofengVideo = $('#guofengVideo');
     var videoSrcs = ['./asset/media/gfsj_zy.mp4', './asset/media/gfsj_xj.mp4', './asset/media/gfsj_gy.mp4', './asset/media/gfsj_sl.mp4', './asset/media/gfsj_hh.mp4', './asset/media/gfsj_sc.mp4'];
+    var videoPosters = ['./asset/images/gfsj_zy.jpg.webp', './asset/images/gfsj_xj.jpg.webp', './asset/images/gfsj_gy.jpg.webp', './asset/images/gfsj_sl.jpg.webp', './asset/images/gfsj_hh.jpg.webp', './asset/images/gfsj_sc.jpg.webp'];
     // 点选
     function playVideo(e) {
         $(this).siblings('li').removeClass('picked');
         $(this).addClass('picked');
         var current = $(this).data('index');
+        guofengVideo.prop('poster', videoPosters[current]);
         guofengVideo.prop('src', videoSrcs[current]);
         guofengVideo.data('current', current); /* 手动打断轮播，注释此行则不打断 */
     }

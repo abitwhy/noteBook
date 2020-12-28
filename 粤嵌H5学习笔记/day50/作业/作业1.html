@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>canvas饼图</title>
+    <style>
+        .container {
+            width: 1000px;
+            margin: 5vh auto;
+            /* 父元素设置 flex，margin 居中才有效 */
+            display: flex;
+        }
+        
+        canvas {
+            /* 单独设置 margin 居中无效 */
+            margin: 0 auto;
+            border: 1px solid red;
+        }
+    </style>
+    <script src="./asset/js/util.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <canvas width="600" height="400"></canvas>
+    </div>
+</body>
+<script>
+    // until
+    function randomRgb() { /* 随机颜色 */
+        var r = randomInt(0, 255);
+        var g = randomInt(0, 255);
+        var b = randomInt(0, 255);
+        // return [r, g, b];
+        return rgb2hex(r, g, b); /* 返回十六进制字符串 */
+        // return `rgb(${r},${g},${b})`; /* 返回 rgb 函数字符串（ES6 方式） */
+    }
+
+    // function compoundColors(color, num) { /* 调和色=》失败 */
+    //     num = num || 2;
+    //     // var total = num + num * (num - 1) / 2; /* 首项为1，公差为1的等差数列前 n 项和 */
+    //     // var colors = [color.concat()];
+    //     var colors = [rgb2hex(color[0], color[1], color[2])];
+    //     for (var i = 1; i < num; i++) {
+    //         console.log(color);
+    //         color.forEach(function(item, index) {
+    //             // color[index] = Math.floor((item + 255 * (2 * i - 1) / total) % 255); /* 计算调和颜色 */
+    //             color[index] = Math.floor((item + 255 / num) % 255); /* 计算调和颜色 */
+
+    //         });
+    //         // color[0] = Math.floor((color[0] + 255 * (2 * i - 1) / total) % 255);
+    //         // colors.push(color.concat());
+    //         colors[i] = rgb2hex(color[0], color[1], color[2]);
+    //     };
+    //     console.log(colors);
+    //     return colors;
+    // }
+
+    // 全局变量
+    // var data = [7, 10, 20, 24, 13];
+    var data = [{
+        name: '15-20岁',
+        value: 7
+    }, {
+        name: '20-25岁',
+        value: 10
+    }, {
+        name: '25-30岁',
+        value: 20
+    }, {
+        name: '30-35岁',
+        value: 8
+    }, {
+        name: '35-40岁',
+        value: 15
+    }, {
+        name: '40-45岁',
+        value: 30
+    }, {
+        name: '55-50岁',
+        value: 20
+    }, {
+        name: '60岁以上',
+        value: 4
+    }];
+    var canvas = document.querySelector('canvas'); /* 获取 canvas 元素 */
+    var ctx = canvas.getContext('2d'); /* 获取绘图工具上下文（暂时只可以设置 2d） */
+    // 基准坐标及尺寸（可调整）
+    var cWidth = ctx.canvas.width;
+    var cHeight = ctx.canvas.height;
+    var baseX = cWidth / 2;
+    var baseY = cHeight / 2;
+    var baseLength = 120;
+    var padding = 30;
+    // var baseLineWidth = 1;
+    // ctx.lineWidth = baseLineWidth;
+    // 求和
+    var total = 0;
+    data.forEach(function(item) {
+        total += item.value;
+    });
+    // 计算占比
+    var angles = [];
+    data.forEach(function(item) {
+        angles.push(item.value / total * Math.PI * 2);
+    });
+
+    console.log(angles);
+    // 作图
+    var raduis = baseLength;
+    var tempAngle = 0; /* 中间弧度，上一个扇形的终止角度，下一个扇形的初始角度 */
+    angles.forEach(function(item, index) {
+        var rRgb = randomRgb();
+        // 画弧度
+        ctx.beginPath(); /* 每次画弧必须开辟新路径 */
+        ctx.moveTo(baseX, baseY);
+        ctx.arc(baseX, baseY, raduis, tempAngle, tempAngle + item); /* arc 画弧，参数依次为：圆心 x 坐标，圆心 y 坐标，半径（radius，正数），起始角度（startAngle，正/负），终止角度（endAngle，正/负） */
+        ctx.closePath(); /* 闭合路径 */
+        ctx.fillStyle = rRgb;
+        console.log(rRgb);
+        ctx.fill();
+        // 画图例
+        ctx.fillRect(padding, padding * (index + 1), baseLength / 5, baseLength / 10);
+        ctx.direction = 'ltr'; /* 设置文字绘制方向，可选值：inherit（默认），rtl，ltr */
+        ctx.textAlign = 'left'; /* 设置文字对齐方式（单次填充有效），可选值：start（默认），end， left， right，center */
+        ctx.textBaseline = 'bottom'; /* 设置基线对齐方式（单次有效），可选值：alphabetic（默认），top，bottom，hanging，ideographic */
+        ctx.font = '10px Arial'; /* 设置字体(单次描边有效)，参数(必须按此顺序设置)：[字体倾斜] [字体加粗] 字体大小 字体名称 */
+        ctx.fillText(data[index].name, padding * 1.2 + baseLength / 5, padding * (index + 1) + baseLength / 10); /* fliiText 绘制文本，参数依次为：文本，起点 x 坐标，起点 y 坐标，[最大宽度] */
+        // 标注
+        var raduis2 = raduis * 1.2;
+        var center = tempAngle + item / 2;
+        // ctx.beginPath();
+        ctx.moveTo(baseX, baseY);
+        ctx.arc(baseX, baseY, raduis * 1.2, center, center);
+        ctx.font = 'bold 16px 宋体';
+        var fontWidth = ctx.measureText(data[index].name).width; /* measureText 测量渲染的文本属性 */
+        var ltr = Math.cos(center) < 0 ? false : true; /* 绘制横线及文字的方向，在一四象限（即右半边） cos 恒为正,在二三象限为负  */
+        if (ltr) {
+            // 标线
+            ctx.lineTo(baseX + raduis2 * Math.cos(center) + fontWidth, baseY + raduis2 * Math.sin(center));
+            // console.log(raduis2 * Math.cos(center));
+        } else {
+            ctx.direction = 'rtl';
+            ctx.textAlign = 'right';
+            // 标线
+            ctx.lineTo(baseX + raduis2 * Math.cos(center) - fontWidth, baseY + raduis2 * Math.sin(center));
+        }
+        // 文字
+        ctx.fillText(data[index].name, baseX + raduis2 * Math.cos(center), baseY + raduis2 * Math.sin(center));
+        // ctx.closePath();
+        ctx.strokeStyle = rRgb;
+        ctx.stroke();
+
+        tempAngle += item;
+    });
+</script>
+
+</html>

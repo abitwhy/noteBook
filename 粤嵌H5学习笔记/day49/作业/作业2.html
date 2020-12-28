@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>canvas折线图</title>
+    <style>
+        .container {
+            width: 1000px;
+            margin: 5vh auto;
+            /* 父元素设置 flex，margin 居中才有效 */
+            display: flex;
+        }
+        
+        canvas {
+            /* 单独设置 margin 居中无效 */
+            margin: 0 auto;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <canvas width="600" height="400"></canvas>
+    </div>
+</body>
+<script>
+    var canvas = document.querySelector('canvas'); /* 获取 canvas 元素 */
+    var ctx = canvas.getContext('2d'); /* 获取绘图工具上下文（暂时只可以设置 2d） */
+    // 基准坐标及尺寸（可调整尺寸）
+    var cWidth = ctx.canvas.width;
+    var cHeight = ctx.canvas.height;
+    var baseScale = 10; /* 刻度（间隔） */
+    var wider = true; /* 默认更宽，先绘制竖线 */
+    var max = cWidth > cHeight ? cWidth : (wider = false) || cHeight;
+    // var max = cWidth > cHeight ? cWidth : ((wider = false), cHeight); /* 逗号判别式写法也可 */
+    var min = max == cWidth ? cHeight : cWidth;
+    max /= baseScale;
+    min /= baseScale;
+    // console.log(max, min, wider);
+    // 画网格
+    for (var i = 1; i < max; i++) {
+        var offset = baseScale * i + 0.5; /* + 0.5 是为了优化线段描边效果 */
+        if (wider) {
+            ctx.moveTo(offset, 0);
+            ctx.lineTo(offset, cHeight);
+            i < min ? (ctx.moveTo(0, offset), ctx.lineTo(cWidth, offset)) : null;
+        } else {
+            ctx.moveTo(0, offset);
+            ctx.lineTo(cWidth, offset);
+            i < min ? (ctx.moveTo(offset, 0), ctx.lineTo(offset, cHeight)) : null;
+        }
+    }
+    // 描边
+    ctx.strokeStyle = 'gainsboro';
+    ctx.stroke();
+    // 画坐标轴
+    ctx.beginPath();
+    ctx.moveTo(baseScale * 2 + 0.5, cHeight - baseScale * 2);
+    ctx.lineTo(baseScale * 2 + 0.5, baseScale * 2);
+    ctx.moveTo(baseScale * 2, cHeight - baseScale * 2 + 0.5);
+    ctx.lineTo(cWidth - baseScale * 2, cHeight - baseScale * 2 + 0.5);
+    ctx.strokeStyle = 'black';
+    ctx.stroke();
+    // 坐标轴箭头
+    ctx.moveTo(baseScale * 2 + 0.5, baseScale * 2);
+    ctx.lineTo(baseScale * 2 + 0.5 - baseScale * 0.5, baseScale * 3);
+    ctx.lineTo(baseScale * 2 + 0.5 + baseScale * 0.5, baseScale * 3);
+    ctx.closePath();
+    ctx.moveTo(cWidth - baseScale * 2, cHeight - baseScale * 2 + 0.5);
+    ctx.lineTo(cWidth - baseScale * 3, cHeight - baseScale * 2 + 0.5 - baseScale * 0.5);
+    ctx.lineTo(cWidth - baseScale * 3, cHeight - baseScale * 2 + 0.5 + baseScale * 0.5);
+    ctx.closePath();
+    ctx.fill();
+    // 画折线
+    ctx.moveTo(baseScale * 2 + 0.5, cHeight - baseScale * 2);
+    ctx.lineTo(baseScale * 12 + 0.5, cHeight - baseScale * 14);
+    ctx.lineTo(baseScale * 22 + 0.5, cHeight - baseScale * 18);
+    ctx.lineTo(baseScale * 30 + 0.5, cHeight - baseScale * 26);
+    ctx.lineTo(baseScale * 40 + 0.5, cHeight - baseScale * 36);
+    ctx.lineTo(baseScale * 54 + 0.5, cHeight - baseScale * 10);
+    ctx.stroke();
+    // 标坐标
+    ctx.fillRect(baseScale * 12 + 0.5 - baseScale * 0.25, cHeight - baseScale * 14 - baseScale * 0.25, 5, 5);
+    ctx.fillRect(baseScale * 22 + 0.5 - baseScale * 0.25, cHeight - baseScale * 18 - baseScale * 0.25, 5, 5);
+    ctx.fillRect(baseScale * 30 + 0.5 - baseScale * 0.25, cHeight - baseScale * 26 - baseScale * 0.25, 5, 5);
+    ctx.fillRect(baseScale * 40 + 0.5 - baseScale * 0.25, cHeight - baseScale * 36 - baseScale * 0.25, 5, 5);
+    ctx.fillRect(baseScale * 54 + 0.5 - baseScale * 0.25, cHeight - baseScale * 10 - baseScale * 0.25, 5, 5);
+</script>
+
+</html>

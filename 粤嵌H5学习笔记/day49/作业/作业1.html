@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>canvas小屋</title>
+    <style>
+        .container {
+            width: 1000px;
+            margin: 5vh auto;
+            /* 父元素设置 flex，margin 居中才有效 */
+            display: flex;
+        }
+        
+        canvas {
+            /* 单独设置 margin 居中无效 */
+            margin: 0 auto;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <canvas width="600" height="400"></canvas>
+    </div>
+</body>
+<script>
+    var canvas = document.querySelector('canvas'); /* 获取 canvas 元素 */
+    var ctx = canvas.getContext('2d'); /* 获取绘图工具上下文（暂时只可以设置 2d） */
+    // 基准坐标及尺寸（可调整尺寸）
+    var baseX = ctx.canvas.width / 2; /* 基准坐标，暂设为画布中心 */
+    var baseY = ctx.canvas.height / 2;
+    var baseLength = 150;
+    var baseLineWidth = 10;
+    ctx.lineWidth = baseLineWidth; /* 设置线宽，默认 1px（会有模糊问题，通过坐标加/减0.5解决） */
+    // 画墙
+    var wallWidth = baseLength;
+    var wallHeight = baseLength * 0.8;
+    // 调整样式（不是全局的，只对单次描边/填充有效，需要在描边/填充之前进行）
+    ctx.strokeStyle = 'skyblue'; /* 更改颜色，默认黑色 */
+    // ctx.lineCap = 'square' /* 设置线末端类型（对闭合的线无效）。可选值：(butt默认)、round、square */
+    ctx.lineJoin = 'round'; /* 设置相交线的拐点（对填充无效）。可选值：miter(默认)、round、bevel */
+    ctx.strokeRect(baseX - wallWidth / 2, baseY - wallHeight / 2, wallWidth, wallHeight);
+    // 画门
+    var doorWidth = baseLength * 0.3;
+    var doorHeight = baseLength * 0.4;
+    var doorOffsetY = doorHeight / 2; /* y 轴偏移量（较 baseY 的偏移） */
+    // 调整样式
+    ctx.fillStyle = 'skyblue';
+    ctx.fillRect(baseX - doorWidth / 2, baseY - doorHeight / 2 + doorOffsetY, doorWidth, doorHeight);
+    // 画屋顶
+    var roofWidth = baseLength * 1.4;
+    var roofHeight = baseLength * 0.6;
+    var roofOffsetY = (wallHeight + roofHeight) / 2;
+    var roofSelfCenterX = baseX;
+    var roofSelfCenterY = baseY - roofOffsetY;
+    ctx.moveTo(roofSelfCenterX, roofSelfCenterY - roofHeight / 2);
+    ctx.lineTo(roofSelfCenterX - roofWidth / 2, roofSelfCenterY + roofHeight / 2);
+    ctx.lineTo(roofSelfCenterX + roofWidth / 2, roofSelfCenterY + roofHeight / 2);
+    ctx.closePath(); /* 自动闭合曲线，比手动闭合的曲线拐点的效果更好 */
+    // 调整样式
+    ctx.strokeStyle = 'skyblue';
+    ctx.stroke();
+</script>
+
+</html>

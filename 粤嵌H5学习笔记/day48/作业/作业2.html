@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视屏播放插件（未完成）</title>
+    <style>
+        * {
+            /* border: 1px solid red; */
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: black;
+        }
+        
+        .container {
+            width: 1000px;
+            margin: 5vh auto;
+        }
+        
+        .video-player {
+            width: 800px;
+            /* height: 100vh; */
+            height: 400px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+        }
+        
+        video {
+            /* 视频宽高都设置100%，就会在父元素内居中 */
+            width: 100%;
+            height: 100%;
+        }
+        
+        .controls {
+            min-width: 600px;
+            width: 98%;
+            height: 50px;
+            padding: 0 10px;
+            border-radius: 5px;
+            background-color: rgba(255, 254, 254, 0.4);
+            position: absolute;
+            left: 50%;
+            bottom: 1%;
+            transform: translateX(-50%);
+            display: inline-flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .unit {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            background-color: white;
+            /* flex: 0 0 40px; */
+            /* display: inline-block; */
+        }
+        
+        .unit+.unit {
+            margin-left: 20px;
+        }
+        
+        .play-toggle {
+            background: url(./asset/images/shose2.png) no-repeat center;
+            background-size: contain;
+        }
+        
+        .process {
+            width: 300px;
+            height: 20px;
+            border-radius: 5px;
+            background-color: rgba(76, 75, 75, 0.8);
+            flex: 1;
+            /* overflow: hidden; */
+        }
+        
+        .current-process {
+            height: 100%;
+            width: 0%;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            background-color: turquoise;
+            /* 优化进度条动画效果 */
+            transition: width 0.2s linear;
+            position: relative;
+        }
+        
+        .train {
+            width: 30px;
+            height: 30px;
+            /* background-color: gainsboro; */
+            background: url(./asset/images/football.png) no-repeat center;
+            background-size: contain;
+            transform: translateY(calc(-1 * (30px - 20px)/2));
+            position: absolute;
+            right: -25px;
+            cursor: pointer;
+        }
+        
+        .process-info {
+            min-width: 9em;
+            width: fit-content;
+            font-size: 20px;
+            color: white;
+            background-color: transparent;
+        }
+        
+        .fullscreen-toggle {
+            /* background: url(./asset/images/sofa.png) no-repeat center; */
+            /* background: url(./asset/images/filed.png) no-repeat center; */
+            /* background-size: cover; */
+        }
+        
+        .sofa {
+            background: url(./asset/images/sofa.png) no-repeat center;
+            background-size: cover;
+        }
+        
+        .filed {
+            background: url(./asset/images/filed.png) no-repeat center;
+            background-size: cover;
+        }
+        
+        .kick {
+            animation: kick 0.6s;
+        }
+        
+        @keyframes kick {
+            0% {
+                transform: rotate(0);
+            }
+            80% {
+                transform: rotate(60deg);
+            }
+            100% {
+                transform: rotate(-45deg);
+            }
+        }
+        
+        .stamp {
+            animation: stamp 0.6s forwards;
+        }
+        
+        @keyframes stamp {
+            0% {
+                transform: translateY(0);
+            }
+            80% {
+                transform: translateY(-20%) rotate(-45deg);
+            }
+            100% {
+                transform: translateY(-10%) rotate(-45deg);
+            }
+        }
+        
+        .roll {
+            /* 修正动画使绝对定位元素的下沉 */
+            top: -6px;
+            animation: roll 1s linear infinite;
+        }
+        
+        @keyframes roll {
+            from {
+                transform: rotate(0);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+    <script src="./asset/js/jQuery.min(3.3.1).js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="video-player">
+            <video src="./asset/media/gfsj_gy.mp4"></video>
+            <div class="controls">
+                <!-- <div class="unit previous"></div> -->
+                <div class="unit play-toggle"></div>
+                <!-- <div class="unit next"></div> -->
+                <div class="unit process">
+                    <div class="current-process">
+                        <div class="train"></div>
+                    </div>
+                </div>
+                <div class="unit process-info"><span class="current-time">00:00:00</span>/<span class="duration-time">00:00:00</span></div>
+                <div class="unit fullscreen-toggle sofa"></div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // util
+    function secondsFormat(totalSeconds) {
+        var result, hours, minutes, seconds, SECOND_OF_AN_HOUR, SECOND_OF_A_MINUTE;
+        SECOND_OF_AN_HOUR = 60 * 60;
+        SECOND_OF_A_MINUTE = 60;
+        hours = (parseInt(totalSeconds / SECOND_OF_AN_HOUR));
+        minutes = (parseInt(totalSeconds / SECOND_OF_A_MINUTE)) % 60;
+        seconds = totalSeconds % 60;
+        result = [hours, minutes, seconds];
+        result.forEach(function(item, index) { /* 补零 */
+            // item < 10 ? result[index] = '0' + item : null;
+            result[index] = item < 10 ? '0' + parseInt(item) : parseInt(item);
+        });
+        result = result.join(':');
+        return result;
+    }
+    // 全局变量
+    var videoPlayer = $('.video-player');
+    var video = videoPlayer.find('video');
+    var playToggle = videoPlayer.find('.play-toggle');
+    var process = videoPlayer.find('.current-process');
+    var train = videoPlayer.find('.train');
+    var duration = NaN;
+    // 播放预处理
+    video.on('canplay', function() { /* video 相关事件不可代理 */
+        duration = video.get(0).duration;
+        // 初始总时长
+        videoPlayer.find('.duration-time').text(secondsFormat(duration));
+
+    });
+    // 播放
+    videoPlayer.on('click', '.play-toggle', function(e) { /* 播放/暂停 */
+        // video.get(0).paused ? video.get(0).play() : video.get(0).pause();
+        if (video.get(0).paused) {
+            video.get(0).play(); /* 播放 */
+            // 动画
+            $(this).addClass('kick');
+            $(this).removeClass('stamp');
+            train.addClass('roll');
+        } else {
+            video.get(0).pause(); /* 暂停 */
+            // 动画
+            $(this).removeClass('kick');
+            $(this).addClass('stamp');
+            train.removeClass('roll');
+        }
+    });
+    video.on('timeupdate', function() {
+        // console.log(this.currentTime);
+        // 更新当前播放时间
+        videoPlayer.find('.current-time').text(secondsFormat(this.currentTime));
+        // 更新进度条
+        var currentPercent = this.currentTime / duration * 100;
+        console.log(currentPercent);
+        process.css('width', currentPercent + '%');
+
+    });
+    // 改变播放进度
+    // process.() { /* 点进度条改进度 */
+
+    // }
+    video.on('ended', function() {
+        train.removeClass('roll');
+        // videoPlayer.find('.duration-time,.current-time').text('00:00:00');
+        // setTimeout(function() {
+        //     videoPlayer.find('.duration-time,.current-time').text('00:00:00');
+        // }, 200);
+    });
+
+    // 全屏
+    videoPlayer.find('.fullscreen-toggle').on('click', function(e) {
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+            $(this).removeClass('filed');
+            $(this).addClass('sofa');
+
+        } else {
+            videoPlayer.get(0).requestFullscreen();
+            $(this).removeClass('sofa');
+            $(this).addClass('filed');
+        }
+    });
+</script>
+
+</html>
