@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>箭头函数-数组里查找指定元素索引</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    let monthes = [{
+        month: 'January',
+        days: 31
+    }, {
+        month: 'February',
+        days: 29
+    }, {
+        month: 'March',
+        days: 31
+    }, {
+        month: 'April',
+        days: 30
+    }, {
+        month: 'May',
+        days: 31
+    }, {
+        month: 'June',
+        days: 30
+    }, {
+        month: 'July',
+        days: 31
+    }, {
+        month: 'August',
+        days: 31
+    }, {
+        month: 'September',
+        days: 30
+    }, {
+        month: 'October',
+        days: 31
+    }, {
+        month: 'November',
+        days: 30
+    }, {
+        month: 'December',
+        days: 31
+    }];
+
+    function getIdByElem(arr, prop, value) {
+        var result = -1;
+        arr.some((item, index) => {
+            if (item[prop] == value) {
+                result = index;
+                return true;
+            }
+        });
+        return result;
+    }
+    console.log(getIdByElem(monthes, 'month', 'November'));
+    console.log(getIdByElem(monthes, 'days', 29));
+</script>
+
+</html>

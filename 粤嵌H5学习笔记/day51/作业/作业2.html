@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>京东商品分类页面（实验品）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        header,
+        main,
+        footer,
+        nav,
+        aside,
+        article,
+        section {
+            min-height: 50px;
+            margin: 10px 0;
+            padding: 5px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        header {
+            background-color: lightcoral;
+        }
+        
+        main {
+            background-color: aquamarine;
+            display: flex;
+        }
+        
+        footer {
+            background-color: rgb(79, 79, 79);
+            color: white;
+        }
+        
+        nav {
+            background-color: gold;
+        }
+        
+        aside {
+            width: 100px;
+            float: left;
+            background-color: khaki;
+        }
+        
+        article {
+            flex: 1;
+            float: left;
+            background-color: deepskyblue;
+        }
+        
+        section {
+            background-color: lightcyan;
+            text-align: left;
+        }
+        
+        .tab {
+            text-align: center;
+        }
+        
+        .tab-nav {
+            width: 90%;
+        }
+        
+        .tab-nav li {
+            height: 30px;
+            line-height: 30px;
+            padding: 5px 0;
+            background-color: #77b391;
+            list-style: none;
+        }
+        
+        .tab-nav li:hover,
+        .tab-nav li.actived {
+            color: white;
+            opacity: 0.9;
+        }
+        
+        .tab-contents {
+            height: 400px;
+            padding: 10px 30px;
+            position: relative;
+        }
+        
+        .tab-content {
+            width: 70%;
+            /* visibility: hidden; */
+            opacity: 0;
+            transition: opacity 0.8s;
+            position: absolute;
+        }
+        
+        .show {
+            /* visibility: visible; */
+            opacity: 1;
+        }
+        
+        .move-area {
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .move-item {
+            position: absolute;
+        }
+    </style>
+    <script src="./asset/js/jQuery.min(3.3.1).js"></script>
+</head>
+
+<body>
+    <header>网页头部</header>
+    <main>
+        <aside class="tab move-area">
+            <ul class="tab-nav move-item">
+                <li id="move1" data-type="type1">热门推荐</li>
+                <li id="move2" data-type="type2">手机数码</li>
+                <li id="move3" data-type="type3">电脑办公</li>
+                <li id="move4" data-type="type4">家用电器</li>
+                <li id="move5" data-type="type5">计生情趣</li>
+                <li id="move6" data-type="type6">美妆护肤</li>
+                <li id="move7" data-type="type7">个护清洁</li>
+                <li id="move8" data-type="type8">汽车生活</li>
+                <li id="move9" data-type="type9">京东超市</li>
+                <li id="move10" data-type="type10">男装</li>
+                <li id="move11" data-type="type11">男鞋</li>
+                <li id="move12" data-type="type12">女装</li>
+                <li id="move13" data-type="type13">女鞋</li>
+                <li id="move14" data-type="type14">母婴童装</li>
+                <li id="move15" data-type="type15">图书音像</li>
+                <li id="move16" data-type="type16">运动户外</li>
+                <li id="move17" data-type="type17">内衣配饰</li>
+                <li id="move18" data-type="type18">食品生鲜</li>
+                <li id="move19" data-type="type19">酒水饮料</li>
+                <li id="move20" data-type="type20">家具家装</li>
+                <li id="move21" data-type="type21">家居厨具</li>
+                <li id="move22" data-type="type22">箱包手袋</li>
+                <li id="move23" data-type="type23">钟表珠宝</li>
+                <li id="move24" data-type="type24">玩具乐器</li>
+                <li id="move25" data-type="type25">医药保健</li>
+                <li id="move26" data-type="type26">宠物生活</li>
+                <li id="move27" data-type="type27">礼品鲜花</li>
+                <li id="move28" data-type="type28">农资绿植</li>
+                <li id="move29" data-type="type29">生活旅行</li>
+                <li id="move30" data-type="type30">奢侈品</li>
+                <li id="move31" data-type="type31">京东国际</li>
+                <li id="move32" data-type="type32">艺术邮币</li>
+                <li id="move33" data-type="type33">二手商品</li>
+                <li id="move34" data-type="type34">特产馆</li>
+                <li id="move35" data-type="type35">京东金融</li>
+                <li id="move36" data-type="type36">国际名牌</li>
+                <li id="move37" data-type="type37">拍卖</li>
+                <li id="move38" data-type="type38">房产</li>
+                <li id="move39" data-type="type39">工业品</li>
+                <li id="move40" data-type="type40">排行榜</li>
+            </ul>
+        </aside>
+        <article class="tab-contents">
+            <section id="type1" class="tab-content show">
+                <h1>分类1</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type2" class="tab-content">
+                <h1>分类2</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type3" class="tab-content">
+                <h1>分类3</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type4" class="tab-content">
+                <h1>分类4</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type5" class="tab-content">
+                <h1>分类5</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type6" class="tab-content">
+                <h1>分类6</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type7" class="tab-content">
+                <h1>分类7</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type8" class="tab-content">
+                <h1>分类8</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type9" class="tab-content">
+                <h1>分类9</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type10" class="tab-content">
+                <h1>分类10</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type11" class="tab-content">
+                <h1>分类11</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type12" class="tab-content">
+                <h1>分类12</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type13" class="tab-content">
+                <h1>分类13</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type14" class="tab-content">
+                <h1>分类14</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type15" class="tab-content">
+                <h1>分类15</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type16" class="tab-content">
+                <h1>分类16</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type17" class="tab-content">
+                <h1>分类17</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type18" class="tab-content">
+                <h1>分类18</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type19" class="tab-content">
+                <h1>分类19</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type20" class="tab-content">
+                <h1>分类20</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type21" class="tab-content">
+                <h1>分类21</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type22" class="tab-content">
+                <h1>分类22</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type23" class="tab-content">
+                <h1>分类23</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type24" class="tab-content">
+                <h1>分类24</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type25" class="tab-content">
+                <h1>分类25</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type26" class="tab-content">
+                <h1>分类26</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type27" class="tab-content">
+                <h1>分类27</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type28" class="tab-content">
+                <h1>分类28</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type29" class="tab-content">
+                <h1>分类29</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type30" class="tab-content">
+                <h1>分类30</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type31" class="tab-content">
+                <h1>分类31</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type32" class="tab-content">
+                <h1>分类32</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type33" class="tab-content">
+                <h1>分类33</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type34" class="tab-content">
+                <h1>分类34</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type35" class="tab-content">
+                <h1>分类35</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type36" class="tab-content">
+                <h1>分类36</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type37" class="tab-content">
+                <h1>分类37</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type38" class="tab-content">
+                <h1>分类38</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type39" class="tab-content">
+                <h1>分类39</h1>
+                <p>这里是内容</p>
+            </section>
+            <section id="type40" class="tab-content">
+                <h1>分类40</h1>
+                <p>这里是内容</p>
+            </section>
+        </article>
+    </main>
+    <footer>网页底部</footer>
+</body>
+<script>
+    // util
+    function tap(node, callback) { /* [js]轻触事件（解决了与触摸拖动事件的冲突） */
+        var startTime, endTime, startY, endY;
+        node.ontouchstart = function(e) {
+            startTime = Date.now(); /* 判断触碰时间 */
+            startY = e.touches[0].clientY; /* 暂时只考虑 y 轴拖动 */
+        };
+        node.ontouchend = function(e) { /* on- 方式添加事件意味着，对同一节点只能添加一个 tap 事件 */
+            endTime = Date.now();
+            endY = e.changedTouches[0].clientY;
+            if (endTime - startTime < 200 && startY == endY) {
+                callback && callback(e);
+            }
+        };
+    }
+    // 点击改变样式
+    var tabNav = $('.tab-nav');
+    tabNav.on('click', 'li', function(e) {
+        $(this).siblings('li').removeClass('actived');
+        $(this).addClass('actived');
+        $('#' + $(this).data('type')).siblings('.tab-content').removeClass('show');
+        $('#' + $(this).data('type')).addClass('show');
+    });
+    // 触摸改变样式
+    tap(tabNav.get(0), function(e) {
+        // 样式变换
+        $(e.target).siblings('li').removeClass('actived');
+        $(e.target).addClass('actived');
+        $('#' + $(e.target).data('type')).siblings('.tab-content').removeClass('show');
+        $('#' + $(e.target).data('type')).addClass('show');
+        // 位置居中 TODO
+    });
+
+    var moveArea = document.querySelector('.move-area');
+
+    function touchToMove(e) { /* [js]触摸移动元素(升级版：移动节点不必是目标节点（需要给目标添加 id 或 name 属性，待改进），只需是目标节点的祖先元素) */
+        var moveItem = this.querySelector('.move-item');
+        if (moveItem.children.namedItem(e.target.id)) { /* 目标节点是移动节点的子元素（而不是兄弟节点） */
+            e.preventDefault(); /* 阻止默认滚动事件 */
+            // console.log(e); /* TouchEvent 事件对象 */
+            // console.log(e.touches); /* touches 类数组对象（顾名思义，可能会同时有多个触点），用以存储触点信息，触点信息主要包含目标节点（无论是否在 DOM 上），以及相关位置信息 */
+            // console.log("pageX=>", e.touches[0].pageX, "pageY=>", e.touches[0].pageY); /* pageX,pageY是包含滚动条的距离当前窗口左上角坐标 */
+            // console.log("clientX=>", e.touches[0].clientX, "clientY=>", e.touches[0].clientY); /* clientX，clientY是以当前的窗口的左上角为坐标原点 */
+
+            // var offsetX = e.touches[0].clientX - moveItem.offsetLeft;
+            var offsetY = e.touches[0].clientY - moveItem.offsetTop;
+            var moveArea = this; /* 暂存 this 指针 */
+
+            function move(e) { /* 触摸移动 */
+                // 极值判定 TODO：考虑后面改进为可传参设置，及添加回弹效果
+                var x, y, maxX, maxY;
+                // x = e.touches[0].clientX - offsetX;
+                y = e.touches[0].clientY - offsetY;
+                // minX = moveArea.offsetWidth - moveItem.offsetWidth;
+                minY = moveArea.offsetHeight - moveItem.offsetHeight;
+                // x = x < minX ? minX : x;
+                y = y < minY ? minY : y;
+                // maxX = moveArea.style.offsetWidth - moveItem.offsetWidth;
+                // maxY = moveItem.offsetHeight - moveArea.offsetHeight;
+                maxX = 0;
+                maxY = 0;
+                // x = x > maxX ? maxX : x;
+                y = y > maxY ? maxY : y;
+                // moveItem.style.left = x + 'px';
+                moveItem.style.top = y + 'px';
+            }
+            document.addEventListener('touchmove', move);
+
+            function stopMove(e) { /* touchend 事件发生在结束触摸时刻，若需要在此事件后获取触点信息列表，需要使用 changedTouches */
+                // console.log(e.touches);
+                // console.log(e.changedTouches);
+                document.removeEventListener('touchmove', move);
+            }
+            document.addEventListener('touchend', stopMove);
+        }
+    }
+    moveArea.addEventListener('touchstart', touchToMove);
+</script>
+
+</html>

@@ -53,11 +53,7 @@ ScrollImg.prototype.render = function() {
     // 后续完善
     // imgList.style.width = iLItem.offsetWidth * (this.data.length + 2) + "px"; /* [水平滑动]图片列表增宽，以放下浮动的图片（加2是为了无缝过渡） */
     imgList.style.height = iLItem.offsetHeight * (this.data.length + 2) + "px"; /* [竖直滑动]图片列表增高，以放下浮动的图片（加2是为了无缝过渡） */
-    // this.picks = pickList.querySelectorAll("li");
     picks = pickList.querySelectorAll("li");
-    // this.picks.forEach((item, i) => { /* 给按钮添加索引，方便后面还原前一个按钮样式，以及绑定对应 img 元素等操作 */
-    //     item.index = i++;
-    // }, 0);
     picks.forEach((item, i) => { /* 给按钮添加索引，方便后面还原前一个按钮样式，以及绑定对应 img 元素等操作 */
         item.index = i++;
     }, 0);
@@ -185,7 +181,7 @@ ScrollImg.prototype.nap = function() { /* 鼠标在图片上移动暂停轮询 *
     imgList = piv.node.querySelector(".img-list");
 
     function napEvent(e) {
-        e.stopPropagation(); /* debug：toggle 按钮不属于该事件触发对象 */
+        e.stopPropagation(); /* debug：toggle 按钮不属于该事件的触发对象 */
         if (e.target.nodeName == "IMG" && !piv.napping) {
             clearInterval(piv.lastInterval);
             piv.napping = true;

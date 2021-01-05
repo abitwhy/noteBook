@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简易音乐播放器</title>
+    <style>
+        /* style - 晒太阳了 */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+            box-sizing: border-box;
+        }
+        
+        .container {
+            /* min-width: 1360PX; */
+            /* max-width: 1920PX; */
+            /* min-height: 752px; */
+            min-width: 100vw;
+            min-height: 100vh;
+            margin: 0 auto;
+            background: url(./asset/images/page-bg.jpg) no-repeat;
+            background-size: cover;
+            overflow: hidden;
+        }
+        
+        .player {
+            width: 600px;
+            height: 600px;
+            margin: 0 auto;
+            margin-top: calc((100vh - 600px)/2);
+            position: relative;
+        }
+        
+        .circle {
+            border-radius: 50%;
+            transform: translate3d(-50%, -50%, 0);
+            position: absolute;
+            left: 50%;
+            top: 50%;
+        }
+        
+        .disc {
+            width: 100%;
+            height: 100%;
+            background: url(./asset/images/bg_circle.png) no-repeat;
+            background-size: contain;
+            animation: roll 18s linear infinite paused;
+        }
+        
+        .poster-wrap {
+            width: 65%;
+            height: 65%;
+            overflow: hidden;
+        }
+        
+        .poster {
+            width: 100%;
+            height: 100%;
+            background: url(./asset/images/bg_center.png) no-repeat;
+            background-size: contain;
+            animation: roll 18s linear infinite paused;
+        }
+        
+        marquee {
+            margin-top: 80%;
+            background-color: rgba(0, 0, 0, 0.3);
+            color: white;
+            animation-play-state: paused;
+            position: absolute;
+        }
+        
+        .play-btn {
+            width: 12%;
+            height: 12%;
+            background: url(./asset/images/btn-bg.png) no-repeat;
+            background-size: contain;
+        }
+        
+        .play-btn:hover {
+            box-shadow: 0 0 6px 5px #dd694c inset;
+        }
+        
+        .mask {
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+        
+        .running {
+            animation-play-state: running;
+        }
+        
+        .play {
+            background: url(./asset/images/play.png) no-repeat center;
+            background-size: 50%;
+        }
+        
+        .pause {
+            background: url(./asset/images/pause.png) no-repeat center;
+            background-size: 50%;
+            background-position: 22px;
+        }
+        
+        @keyframes roll {
+            form {
+                transform: translate3d(-50%, -50%, 0) rotate(0);
+            }
+            to {
+                transform: translate3d(-50%, -50%, 0) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 网易云音乐插件 -->
+    <!-- <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=29753390&auto=1&height=66"></iframe> -->
+    <div class="container">
+        <div class="player">
+            <audio src="./asset/audio/那些花儿-朴树.mp3" loop preload="auto"></audio>
+            <div class="circle disc paused"></div>
+            <div class="circle poster-wrap">
+                <div class="circle poster paused"></div>
+                <marquee behavior="scroll" direction="left" scrollamount="5" onmouseenter="this.stop()" onmouseleave="this.start()">那些花儿-朴树</marquee>
+            </div>
+            <div class="circle play-btn">
+                <div class="circle mask pause"></div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // util
+    function addClass(elem, classNames) {
+        classNames.split(' ').forEach(function(item) {
+            elem.className = elem.className.split(item).join('') + item; /* 先清除一遍该类名再加入 */
+        });
+    }
+
+    function removeClass(elem, classNames) {
+        classNames.split(' ').forEach(function(item) {
+            elem.className = elem.className.split(item).join(''); /* 首先清除一遍该类名 */
+        });
+    }
+    var playBtn = document.querySelector('.play-btn');
+    var playMask = playBtn.querySelector('.mask');
+    var audio = document.querySelector('audio');
+    var disc = document.querySelector('.disc');
+    var poster = document.querySelector('.poster');
+    var marquee = document.querySelector('marquee');
+    var audioSrcs = [{
+        info: '那些花儿 - 朴树',
+        src: './asset/audio/那些花儿-朴树.mp3'
+    }, {
+        info: 'sway - Tove Styrke',
+        src: './asset/audio/Sway-Tove Styrke.mp3'
+    }, {
+        info: '500マイル<ラヴソング - 藤原樱',
+        src: './asset/audio/500miles-藤原樱.mp3'
+    }];
+    var current = 0;
+
+    function togglePlay(e) {
+        if (audio.paused) {
+            audio.play();
+            disc.className = disc.className.split('running').join('').split('paused').join('') + 'running'; /* 原始方式增删类名 */
+            poster.className = poster.className.split('running').join('').split('paused').join('') + 'running';
+            removeClass(playMask, 'pause'); /* 使用 util 增删类名 */
+            addClass(playMask, 'play')
+        } else {
+            audio.pause();
+            disc.className = disc.className.split('running').join('').split('paused').join('') + 'paused';
+            poster.className = poster.className.split('running').join('').split('paused').join('') + 'paused';
+            removeClass(playMask, 'play');
+            addClass(playMask, 'pause')
+        }
+    }
+    playBtn.onclick = togglePlay;
+
+    function louder() {
+        audio.volume < 0.9 ? audio.volume += 0.1 : audio.volume = 1; /* 浮点数加法容易出问题 */
+    }
+
+    function quieter() {
+        audio.volume > 0.1 ? audio.volume -= 0.1 : audio.volume = 0;
+    }
+
+    function trunMusic(reveser) {
+        var pom = reveser ? -1 : 1;
+        current += pom + audioSrcs.length;
+        current %= audioSrcs.length;
+        audio.src = audioSrcs[current].src;
+        marquee.innerText = audioSrcs[current].info;
+        togglePlay();
+    }
+    document.onkeydown = function(e) {
+        e.code == 'ArrowUp' ? louder() : null;
+        e.code == 'ArrowDown' ? quieter() : null;
+        document.onkeyup = function(e) {
+            e.code == 'Space' ? togglePlay() : null;
+            e.code == 'ArrowLeft' ? trunMusic(true) : null;
+            e.code == 'ArrowRight' ? trunMusic() : null;
+        }
+    }
+</script>
+
+</html>

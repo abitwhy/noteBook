@@ -125,7 +125,7 @@
     tabNav.on('click', 'li', function() {
         $(this).siblings('li').removeClass('actived');
         $(this).addClass('actived');
-        $('#' + $(this).data('type')).siblings('ol').removeClass('show');
+        $('#' + $(this).data('type')).siblings('.tab-content').removeClass('show');
         $('#' + $(this).data('type')).addClass('show');
     });
 </script>

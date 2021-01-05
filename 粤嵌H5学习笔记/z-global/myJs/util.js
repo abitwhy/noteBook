@@ -75,3 +75,32 @@ function rgb2hex(r, g, b) { /* rgb 转十六进制 */
         .toString(16) // 先转成十六进制，然后返回字符串
         .substr(1); // 去除字符串的最高位，返回后面六个字符串
 };
+
+function randomRgb() { /* [js]随机颜色 */
+    var r = randomInt(0, 255);
+    var g = randomInt(0, 255);
+    var b = randomInt(0, 255);
+    // return [r, g, b];
+    return rgb2hex(r, g, b); /* 返回十六进制字符串 */
+    // return `rgb(${r},${g},${b})`; /* 返回 rgb 函数字符串（ES6 方式） */
+}
+
+function tap(node, callback) { /* 轻触事件（解决了与触摸拖动事件的冲突） */
+    var startTime, endTime, startY, endY;
+    node.ontouchstart = function(e) {
+        startTime = Date.now(); /* 判断触碰时间 */
+        startY = e.touches[0].clientY; /* 暂时只考虑 y 轴拖动 */
+    };
+    node.ontouchend = function(e) { /* on- 方式添加事件意味着，对同一节点只能添加一个 tap 事件 */
+        endTime = Date.now();
+        endY = e.changedTouches[0].clientY;
+        if (endTime - startTime < 200 && startY == endY) {
+            callback && callback(e);
+        }
+    };
+}
+
+function zeroize(num) { /* 1位正整数补零(没有考虑负数补零) */
+    var result = num < 10 ? num.toFixed(1).split('.').reverse().join('') : num + '';
+    return result;
+}

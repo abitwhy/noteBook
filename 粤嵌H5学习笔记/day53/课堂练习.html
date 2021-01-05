@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>面试题</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function camelCase(str) {
+        // var result = [];
+        // var words = str.split('-');
+        // words.forEach(function(item, index) {
+        //     if (index) { /* 排除首元素 */
+        //         item = item.charAt(0).toUpperCase() + item.slice(1); /* 首字母大写 */
+        //     }
+        //     // item = index ? item.charAt(0).toUpperCase() + item.slice(1) : item; /* 非首项首字母大写 */
+        //     result.push(item);
+        // });
+        // 最简版
+        var result = [];
+        str.split('-').forEach((item, index) => {
+            result.push(index ? item.charAt(0).toUpperCase() + item.slice(1) : item);
+        });
+        return result.join('');
+    }
+</script>
+
+</html>

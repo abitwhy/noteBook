@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>打砖块</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+        }
+        
+        body {
+            background-color: #000;
+        }
+        
+        ul li {
+            list-style: none;
+        }
+        /* 全屏显示 container 的标准样式 */
+        
+        .container {
+            min-width: 1360PX;
+            max-width: 1920PX;
+            margin: 0 auto;
+            /* background-color: aquamarine; */
+            background: url(./asset/images/bg5.jpg);
+            background-size: contain;
+            overflow-x: hidden;
+        }
+        
+        .game-machine {
+            width: 50%;
+            min-width: 400px;
+            min-height: 600px;
+            margin: 0 auto;
+            border-left: 20px double black;
+            border-right: 20px double black;
+            border-top: 10px solid black;
+            border-bottom: 10px solid black;
+            box-shadow: 0 0 200px orangered;
+            background: url(./asset/images/bg7.jpg) no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+        
+        #obstacle {
+            margin-top: 30px;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: center;
+        }
+        
+        .brick {
+            width: 80px;
+            height: 40px;
+            border: 1px solid gainsboro;
+            background-color: rgb(255, 208, 0);
+        }
+        
+        .brick::before {
+            content: '';
+            width: 80px;
+            height: 40px;
+            opacity: 0.4;
+            background: url(./asset/images/block01.png) no-repeat;
+            background-size: cover;
+            position: absolute;
+        }
+        
+        #gamepad {
+            width: 100%;
+            position: absolute;
+            bottom: 30px;
+        }
+        
+        #gamepad .part {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            position: absolute;
+        }
+        
+        #hoodle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: url(./asset/images/bg4.jpeg);
+            background-size: contain;
+            bottom: 0;
+        }
+        
+        #trampoline {
+            width: 100px;
+            height: 12px;
+            border-radius: 5px;
+            box-shadow: 20px 0 0 rgb(255, 24, 3) inset, -20px 0 0 rgb(255, 24, 3) inset;
+            background-color: white;
+        }
+        
+        .info {
+            background-color: rgba(118, 117, 117, 0.7);
+            text-align: center;
+            color: white;
+        }
+        
+        .hide {
+            visibility: hidden;
+        }
+        
+        .show {
+            visibility: visible;
+        }
+    </style>
+    <script src="./asset/js/jQuery.min(3.3.1).js"></script>
+    <script src="./asset/js/util.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="game-machine">
+            <ul id="obstacle">
+                <li class="brick"></li>
+                <li class="brick"></li>
+                <li class="brick"></li>
+                <li class="brick"></li>
+                <li class="brick"></li>
+                <li class="brick"></li>
+                <li class="brick"></li>
+                <li class="brick"></li>
+                <li class="brick"></li>
+                <li class="brick"></li>
+                <li class="brick"></li>
+                <li class="brick"></li>
+                <li class="brick"></li>
+                <li class="brick"></li>
+                <li class="brick"></li>
+                <li class="brick"></li>
+                <li class="brick"></li>
+            </ul>
+            <div id="gamepad">
+                <div id="hoodle" class="part"></div>
+                <div id="trampoline" class="part"></div>
+            </div>
+            <div class="info">
+                <p>infomation</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus quidem omnis voluptate voluptatem molestias aut quisquam fugiat, quis incidunt aperiam soluta itaque. Quo obcaecati sed molestiae quos eaque mollitia dolore.</p>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // util
+    // 使用到的 util 有：randomRgb
+
+    // 全局变量
+    var gameMachine = $('.game-machine');
+    // var
+    // 
+    gameMachine.find('.brick').each(function(index, item) { /* 染色 */
+        $(item).css('background-color', randomRgb());
+    });
+    // 游戏逻辑
+    // 碰撞机
+    function crashMachine() {
+        var subject = $('#hoodle');
+        var _subject = subject.get(0);
+        var speedX;
+        var speedY = -2;
+        var running = -1; /* 游戏驱动（定时器） */
+        // 初始化
+        function init() {
+            // 网格系统
+            $('.brick').each(function(index, item) {
+                // console.log(item.offsetLeft);
+                // console.log(item.offsetTop);
+                // console.log(item.offsetWidth);
+                // console.log(item.offsetTop);
+                // console.log($('.brick').get(0).offsetLeft);
+                // console.log((item.offsetLeft - $('.brick').get(0).offsetLeft) / item.offsetWidth);
+                $(item).addClass('x-' + parseInt((item.offsetLeft - $('.brick').get(0).offsetLeft) / item.offsetWidth)); /* 没有考虑间距 */
+                $(item).addClass('y-' + parseInt((item.offsetTop - $('.brick').get(0).offsetTop) / item.offsetHeight));
+            });
+            // 随机发射角度
+            speedX = speedY * Math.sin(Math.random() * (2 * 2 ** 0.5 + 1) - 2 ** 0.5);
+            // speedX > 0 ?  subject.data('pomX', 1): subject.data('pomX', -1); /* x 轴正负 */
+            // subject.data('pomY', 1); /* y 轴正负 */
+            move();
+        }
+        init();
+
+        function fresh() {
+            // subject.data('addX', subject.data('pomX') * speedX); /* x 轴速度矢量 */
+            // subject.data('addY', subject.data('pomY') * speedY); /* y 轴速度矢量 */
+            console.log(-subject.css('left').slice(0, -2));
+            console.log(-subject.css('top').slice(0, -2));
+            console.log("speedX", speedX);
+            console.log('speedY', speedY);
+            subject.css('left', +subject.css('left').slice(0, -2) + speedX + 'px');
+            subject.css('top', +subject.css('top').slice(0, -2) + speedY + 'px');
+        }
+
+        function stop() {
+            clearInterval(running);
+        }
+
+        function crashDetect(subject, object, dir) { /* 矩形碰撞检测 */
+            var DIR_HIT = 0; /* 记录碰撞发生的方向 */
+            var DIR_T = 1; /* 0001，检测上方 */
+            var DIR_R = 2; /* 0010，检测右侧  */
+            var DIR_B = 4; /* 0100，检测下方 */
+            var DIR_L = 8; /* 1000，检测左侧 */
+            // console.log('subject.offsetTop', subject.offsetTop);
+            // console.log('subject.offsetLeft', subject.offsetLeft);
+            // console.log('subject.offsetWidth', subject.offsetWidth);
+            // console.log('subject.offsetHeight', subject.offsetHeight);
+            // console.log('object.offsetTop', object.offsetTop);
+            // console.log('object.offsetLeft', object.offsetLeft);
+            // console.log('object.offsetWidth', object.offsetWidth);
+            // console.log('object.offsetHeight', object.offsetHeight);
+
+
+            if (dir & DIR_T) {
+                if (subject.offsetTop < object.offsetTop + object.offsetHeight) {
+                    DIR_HIT |= DIR_T;
+                }
+            }
+            if (dir & DIR_R) {
+                if (subject.offsetLeft + subject.offsetWidth > object.offsetLeft) {
+                    DIR_HIT |= DIR_R;
+                }
+            }
+            if (dir & DIR_B) {
+                if (subject.offsetTop + subject.offsetHeight > object.offsetTop) {
+                    DIR_HIT |= DIR_B;
+                }
+            }
+            if (dir & DIR_L) {
+                if (subject.offsetLeft < object.offsetLeft + object.offsetWidth) {
+                    DIR_HIT |= DIR_L;
+                }
+            }
+            return DIR_HIT;
+        }
+
+        function bounce(dir) { /* 反弹 */
+            var DIR_T = 1; /* 0001，检测上方 */
+            var DIR_R = 2; /* 0010，检测右侧  */
+            var DIR_B = 4; /* 0100，检测下方 */
+            var DIR_L = 8; /* 1000，检测左侧 */
+            if (dir & DIR_T || dir & DIR_B) { /* y 轴反向运动 */
+                speedY = -speedY;
+            }
+            if (dir & DIR_L || dir & DIR_R) { /* x 轴反向运动 */
+                speedX = -speedX;
+            }
+        }
+
+        function detectArea() { /* 区域检测（网格方式） */
+            var DIR_T = 1; /* 0001，检测上方 */
+            var DIR_R = 2; /* 0010，检测右侧  */
+            var DIR_B = 4; /* 0100，检测下方 */
+            var DIR_L = 8; /* 1000，检测左侧 */
+            var dir;
+            dir |= speedX > 0 ? DIR_L : DIR_R;
+            dir |= speedY > 0 ? DIR_T : DIR_B;
+            // 边界检测
+            if (subject.css('top').slice(0, -2) < 0) {
+                stop();
+            }
+            if (subject.css('top').slice(0, -2) > _subject.offsetTop - $('gamepad').get(0).offsetTop()) {
+                bounce(1);
+            }
+            if (subject.css('left').slice(0, -2) < 0 || subject.css('left').slice(0, -2) + _subject.offsetWidth < _subject.offsetTop - $('gamepad').get(0).offsetTop()) {
+                bounce(10);
+            }
+            // 操作杆检测
+            // bounce(crashDetect(_subject, $('#trampoline').get(0), dir));
+            // 区域检测
+            var areaBrick = null; /* 区域待检元素 */
+
+        }
+
+        function move() { /* 运动 */
+            running = setInterval(function() {
+                // bounce();
+                detectArea();
+                fresh();
+            }, 2000);
+        }
+
+    }
+    crashMachine();
+</script>
+
+</html>

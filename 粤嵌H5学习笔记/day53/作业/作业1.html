@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        form {
+            width: 400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        input {
+            /* debug：input 设置 padding 会使 input 不居中=》负 margin 调整 */
+            margin: 0 -4px;
+            padding: 0 4px;
+            border-radius: 2px;
+            font-size: 16px;
+        }
+        
+        input[type='text'],
+        input[type='password'] {
+            width: 200px;
+            border: none;
+            box-shadow: 0 0 2px;
+        }
+        
+        input[type='checkbox'] {
+            vertical-align: middle;
+        }
+        
+        input[type='submit'] {
+            width: fit-content;
+            margin: 0 auto;
+        }
+        
+        label[for='rememberMe'] span {
+            font-size: smaller;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="javascript:void(storeItems())" novalidate>
+        <fieldset>
+            <legend>用户登录</legend>
+            <p>
+                <label for="username">账号：</label>
+                <input id="username" name="username" type="text" placeholder="请输入账号" required>
+            </p>
+            <p>
+                <label for="password">密码：</label>
+                <input id="password" name="password" type="password" placeholder="请输入密码" required>
+            </p>
+            <p>
+                <label for="lol">lol:</label>
+                <input id="lol" name="lol" type="text" placeholder="请输入lol" required>
+            </p>
+            <p>
+                <input id="rememberMe" name="rememberMe" type="checkbox">
+                <label for="rememberMe">记住此账户？<span>(下次可直接登录)</span></label>
+            </p>
+            <p>
+                <button type="submit">登录</button>
+            </p>
+        </fieldset>
+    </form>
+</body>
+<script>
+    var username = document.getElementById('username');
+    var password = document.getElementById('password');
+    var rememberMe = document.getElementById('rememberMe');
+    username.value = window.localStorage.getItem('username') || '';
+    password.value = window.localStorage.getItem('password') || '';
+    rememberMe.checked = window.localStorage.getItem('rememberMe');
+
+    function storeItems() {
+        // window.localStorage.clear(); /* 清除所有本地缓存 */
+        if (rememberMe.checked) {
+            window.localStorage.setItem('username', username.value);
+            window.localStorage.setItem('password', password.value);
+            window.localStorage.setItem('rememberMe', true);
+        } else {
+            window.localStorage.setItem('rememberMe', ''); /* localstorage 存储的是字符串，不能设置成 false，需要设置为与 false 等价的字符串，即'' */
+            // 不过，通过 eval 可将字符串转为其对应类型值，可是使用 eval 又存在诸多问题；
+        }
+    }
+</script>
+
+</html>

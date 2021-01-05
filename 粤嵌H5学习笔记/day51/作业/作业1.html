@@ -38,7 +38,7 @@
 <script>
     var moveArea = document.querySelector('.move-area');
 
-    function touchToMove(e) { /* 触摸事件定义在 document 上！！！ */
+    function touchToMove(e) { /* [js]触摸移动元素（目标节点） */
         if (e.target.className == 'move-item') {
             e.preventDefault(); /* 阻止默认滚动事件 */
             // console.log(e); /* TouchEvent 事件对象 */

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旋转木马轮播图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* border: 1px solid red; */
+            box-sizing: border-box;
+        }
+        
+        li {
+            list-style: none;
+        }
+        
+        img {
+            width: 100%;
+            height: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        #photo-wrap {
+            width: 1200px;
+            height: 500px;
+            margin: 0 auto;
+            background-color: #262626;
+            position: relative;
+        }
+        
+        .pick-list {
+            transform: translateX(-50%);
+            position: absolute;
+            left: 50%;
+            bottom: -25%;
+            z-index: 1;
+        }
+        
+        .pick-list>li {
+            width: 18px;
+            height: 18px;
+            border: 1px solid white;
+            border-radius: 50%;
+            background-color: #70a115;
+            cursor: pointer;
+            float: left;
+        }
+        
+        .pick-list>li+li {
+            margin-left: 4px;
+        }
+        
+        .picked {
+            box-shadow: 0px 0px 5px 1px white;
+            border: 2px solid #666fcc !important;
+            background-color: red !important;
+        }
+        
+        .pick-list>li:hover {
+            box-shadow: 0px 0px 5px 1px white;
+            border: 2px solid #666fcc;
+            background-color: #ff8345;
+        }
+        
+        #photo-wrap:hover .toggle-list {
+            visibility: visible;
+        }
+        
+        .toggle-list {
+            visibility: hidden;
+        }
+        
+        .toggle-list>li {
+            width: 60px;
+            height: 60px;
+            margin-top: 2px;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            z-index: 1;
+        }
+        
+        .toggle-list>li:hover {
+            transform: scale(1.4);
+        }
+        
+        .toggle-list>li:nth-child(1) {
+            background: url(./asset/images/arrow_left.png) no-repeat center;
+            background-size: contain;
+            left: 0;
+        }
+        
+        .toggle-list>li:nth-child(2) {
+            background: url(./asset/images/arrow_right.png) no-repeat center;
+            background-size: contain;
+            right: 0;
+        }
+        
+        .img-list {
+            width: 800px;
+            height: 500px;
+            transform: translateX(-50%);
+            position: absolute;
+            left: 50%;
+        }
+        
+        .img-list>li {
+            width: 100%;
+            height: 100%;
+            margin-left: -50%;
+            transition: all 1s ease-out;
+            position: absolute;
+            left: 50%;
+        }
+        
+        .middle {
+            transform: translateY(30%);
+            z-index: 3;
+        }
+        
+        .right1 {
+            transform: translateX(200px) scale(0.75);
+        }
+        
+        .left1 {
+            transform: translateX(-200px) scale(0.75);
+        }
+        
+        .right2 {
+            transform: translateX(150px) translateY(-20%) scale(0.5);
+        }
+        
+        .left2 {
+            transform: translateX(-150px) translateY(-20%) scale(0.5);
+        }
+        
+        .left1,
+        .left2 {
+            transform-origin: left;
+        }
+        
+        .right1,
+        .right2 {
+            transform-origin: right;
+        }
+        
+        .left1,
+        .right1 {
+            opacity: 0.85;
+            z-index: 2;
+        }
+        
+        .left2,
+        .right2 {
+            opacity: 0.3;
+            z-index: 1;
+        }
+    </style>
+    <script src="./asset/js/jQuery.min(3.3.1).js"></script>
+</head>
+
+<body>
+    <h1>旋转木马轮播图</h1>
+    <div id="photo-wrap" class="photo-wrap">
+        <ul class="pick-list">
+            <li class="picked"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+        <ul class="toggle-list">
+            <li class="prev"></li>
+            <li class="next"></li>
+        </ul>
+        <ul class="img-list">
+            <li class="middle">
+                <img src="./asset/images/banner_img01.png" alt="" title="">
+            </li>
+            <li class="right1">
+                <img src="./asset/images/banner_img02.png" alt="" title="">
+            </li>
+            <li class="right2">
+                <img src="./asset/images/banner_img03.png" alt="" title="">
+            </li>
+            <li class="left2">
+                <img src="./asset/images/banner_img04.png" alt="" title="">
+            </li>
+            <li class="left1">
+                <img src="./asset/images/banner_img05.png" alt="" title="">
+            </li>
+        </ul>
+    </div>
+
+</body>
+<script>
+    // 全局变量
+    var autoTimer = -1;
+    var delayTimer = -1;
+    var imgs = $('.img-list').find('li');
+    var turning = false; /* turnPosition 防抖 */
+    var toggling = false; /* [按钮点击跳转]防抖 */
+    var originDur = $('.img-list>li').css('transition-duration'); /* 初始动画时长 */
+
+    // 初始化
+    function init() {
+        autoPlay();
+    }
+    init();
+
+    function turnPosition(reverse) { /* 依次交换位置，默认顺时针，reverse 指定逆时针 */
+        if (turning) {
+            return;
+        }
+        turning = true;
+        setTimeout(function() {
+            turning = false;
+        }, $('.img-list>li').css('transition-duration').slice(0, -1) * 1000);
+        // 以上为防抖功能
+        var pom = reverse ? 1 : -1; /* 正负 */
+        imgs.each(function(index, item) { /* 下面的代码还未简化=》简化会使逻辑复杂，不予简化了 */
+            $(item).data('prevClass', item.className); /* 缓存当前类名 */
+            $(item).removeClass(item.className); /* 清空当前类名 */
+            if (reverse) {
+                if (index < imgs.length - 1) {
+                    $(item).addClass(imgs.eq((index + imgs.length + pom) % imgs.length).get(0).className);
+                } else { /* 单独处理尾元素 */
+                    $(item).addClass(imgs.eq((index + imgs.length + pom) % imgs.length).data('prevClass'));
+                }
+            } else {
+                if (index) {
+                    $(item).addClass(imgs.eq((index + imgs.length + pom) % imgs.length).data('prevClass'));
+                } else { /* 单独处理首元素 */
+                    $(item).addClass(imgs.eq((index + imgs.length + pom) % imgs.length).get(0).className);
+                }
+            }
+        });
+        $('.pick-list').find('li').eq($('.middle').index()).siblings('li').removeClass('picked');
+        $('.pick-list').find('li').eq($('.middle').index()).addClass('picked');
+    }
+    // toggle 轮播
+    $('.toggle-list').on('click', 'li', function(e) {
+        if ($(this).is($('.prev'))) {
+            turnPosition(true);
+        } else if ($(this).is($('.next'))) {
+            turnPosition();
+        }
+    });
+    // 自动轮播
+    function autoPlay() {
+        clearInterval(delayTimer);
+        delayTimer = setTimeout(function() {
+            clearInterval(autoTimer);
+            autoTimer = setInterval(function() {
+                turnPosition();
+            }, 4000);
+        }, originDur.slice(0, -1));
+    }
+    // 按钮点击跳转
+    $('.pick-list').on('click', 'li', function(e) {
+        if (toggling) {
+            return;
+        }
+        toggling = true;
+        setTimeout(function() {
+            toggling = false;
+        }, $('.img-list>li').css('transition-duration').slice(0, -1) * 1000);
+        // 以上为防抖功能
+        var dir = $(this).index() - $('.middle').index() > 0 ? false : true;
+        var clickTimes = Math.abs($(this).index() - $('.middle').index());
+        var duration = $('.img-list>li').css('transition-duration').slice(0, -1);
+        // 修改 duration 方案（逐张停顿效果）
+        $('.img-list>li').css('transition-duration', (duration / clickTimes).toFixed(2) - 0.05 + 's'); /* 多减了0.05秒，解决最后一次点击可能触发不了 */
+        turnPosition(dir); /* [debug]：interval 有延迟=》先直接执行一遍 */
+        console.log($('.img-list>li').css('transition-duration'));
+        var _toggleTimer = setInterval(function() {
+            if (clickTimes > 0) {
+                turnPosition(dir);
+                clickTimes--;
+            } else {
+                $('.img-list>li').css('transition-duration', originDur);
+                toggleTimer = setTimeout(function() {
+                    autoPlay();
+                }, originDur);
+                clearInterval(_toggleTimer);
+            }
+        }, (duration / clickTimes).toFixed(2) * 1000);
+        // 移除防抖方案（洗牌效果）
+        // turnPosition(dir); /* [debug]：interval 有延迟=》先直接执行一遍 */
+        // var _toggleTimer = setInterval(function() {
+        //     if (clickTimes > 0) {
+        //         turning = false;
+        //         turnPosition(dir);
+        //         clickTimes--;
+        //     } else {
+        //         autoPlay();
+        //         clearInterval(_toggleTimer);
+        //     }
+        // }, (duration / clickTimes + 0.05).toFixed(2) * 1000);
+
+        clickTimes--;
+        // 若采用动画队列，则可实现最顺畅的动画效果，不过需要推翻现有 css 动画方式
+    });
+    // 悬停暂停播放
+    $('.img-list').on('mouseenter', 'li', function(e) {
+        e.stopPropagation(); /* debug：跳转按钮不属于该事件的触发对象 */
+        if (this.className == 'middle') {
+            clearInterval(autoTimer);
+            autoPlay();
+        }
+    });
+</script>
+
+</html>
