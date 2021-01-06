@@ -4,14 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>自定义数组 filter 函数</title>
+    <title>自定义数组 map 和 filter 函数</title>
 </head>
 
 <body>
 
 </body>
 <script>
-    // 自定义数组 filter 函数
+    function myMap(callback, context) {
+        var result = [];
+        if (callback) { /* 原生 filter 并没有进行此判断 */
+            this.forEach(function(e, i, a) {
+                context ? callback.call(context, e, i, a) && result.push(e) : callback(e, i, a) && result.push(e);
+            });
+        }
+        return result;
+    }
+    Array.prototype.myFilter = myMap;
+
     function myFilter(callback, context) {
         var result = [];
         if (callback) { /* 原生 filter 并没有进行此判断 */

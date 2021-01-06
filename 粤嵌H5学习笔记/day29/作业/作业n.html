@@ -140,39 +140,37 @@
 
     fruitSearch = document.querySelector("#fruit-search");
     fruitData = [{ /* 数组首元素存表头 */
-            index: "-",
-            /* 暂时必须保留 name 属性，因为封装的构造函数里，search 方法指定搜索 name 属性，考虑后面根据需求做变动 */
-            name: "种类",
-            origin: "产地",
-            taste: "味道"
-        }, {
-            index: 1,
-            name: "苹果",
-            origin: "山东",
-            taste: "又脆又甜"
-        }, {
-            index: 2,
-            name: "香蕉",
-            origin: "海南",
-            taste: "香甜软糯"
-        }, {
-            index: 3,
-            name: "猕猴桃",
-            origin: "四川",
-            taste: "甜蜜生津"
-        }, {
-            index: 4,
-            name: "冻梨",
-            origin: "黑龙江",
-            taste: "冰甜滋润"
-        }, {
-            index: 5,
-            name: "葡萄",
-            origin: "新疆",
-            taste: "酸甜可口"
-        }
-
-    ]
+        index: "-",
+        /* 暂时必须保留 name 属性，因为封装的构造函数里，search 方法指定搜索 name 属性，考虑后面根据需求做变动 */
+        name: "种类",
+        origin: "产地",
+        taste: "味道"
+    }, {
+        index: 1,
+        name: "苹果",
+        origin: "山东",
+        taste: "又脆又甜"
+    }, {
+        index: 2,
+        name: "香蕉",
+        origin: "海南",
+        taste: "香甜软糯"
+    }, {
+        index: 3,
+        name: "猕猴桃",
+        origin: "四川",
+        taste: "甜蜜生津"
+    }, {
+        index: 4,
+        name: "冻梨",
+        origin: "黑龙江",
+        taste: "冰甜滋润"
+    }, {
+        index: 5,
+        name: "葡萄",
+        origin: "新疆",
+        taste: "酸甜可口"
+    }];
     searchFruit = new searchWrap(fruitSearch, fruitData);
     searchFruit.init();
 </script>

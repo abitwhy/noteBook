@@ -1,0 +1,48 @@
+<script>
+    // let - 块级变量
+    // 关于声明语法
+    { /* 原则上，每个花括号{}形成一个块级作用域 block */
+        let x = 'unique';
+        // let x = 'not unique'; /* 同一块级作用域重复定义 let 变量会抛出 SyntaxError：Identifier 'x' has already been declared */
+        var y = 'global';
+        // let y = 'block'; /* 同一块级作用域重复定义 var 声明的变量也会抛出变量已定义错误，不过此时是 let 产生的暂时性死区，使 var 声明处出报错，而不是后面的 let 处 */
+    }
+    // if (true) let y = 'need brace"{}"'; /* 必须以花括号{}作为块级作用域的标志，否则抛出 SyntaxError: Lexical declaration cannot appear in a single-statement context */
+
+    // 关于作用域
+    let z = 'can\'t find in window';
+    console.log(window.z); /* undefined。在顶级作用域声明的 let 变量不会变成 window 的属性 */
+    if (true) {
+        var a = 'global';
+        let b = 'block';
+    }
+    console.log(a); /* "global" */
+    // console.log(b); /* 块级作用域外无法访问，抛出 ReferenceError: b is not defined */
+    for (let i = 0; i < 2; i++) { /* for 循环的圆括号()里也形成一个块级作用域，猜测这只是语法糖，内部还是通过花括号{}来形成块级作用域。且 for 循环的()里的作用域，是后面{}作用域的上级作用域 */
+        let i = 'subbloc'; /* {} 作用域作为子作用域，会修改上级同名变量 */
+        console.log(i); /* "subblcok" */
+    }
+    var arr = [];
+    // for (var i = 0; i < 2; i++) { /* 函数里输出的是 var 声明的变量是全局 i（for 语句执行完毕后，i 始终为3） */
+    for (let i = 0; i < 3; i++) { /* 函数里输出的是 for 块级作用域下的局部变量 i */
+        arr[i] = function() {
+            console.log(i);
+        }
+    }
+    arr[1]();
+    var x = 'global';
+    if (true) {
+        // console.log(x); /* let/const 声明的变量，会其所在的块级作用域内，let 声明之前，产生暂时死区，无法访问该变量（即使存在同名的全局变量），抛出未初始化错误 */
+        let x = "TDZ,temporal dead zone";
+        console.log(x);
+        // let y = y; /* 注意：该句也会报错。虽然 y 出现在声明语句里，但不是 let 操作符语句内，所以前面的“let 声明”仅指 let 操作符语句，而不包含赋值语句 */
+    }
+
+    // const - 常量
+    // const 语法及作用域遵守 let 的规范
+    // 此外，还有以下语法要求：
+    const C = 'const';
+    console.log(C);
+    // C = 'const is variable?'; /* 修改 const 变量会抛出 TypeError: Assignment to constant variable. */
+    // const C2; /* 声明 const 变量必须同时初始 化，否则抛出 SyntaxError: Missing initializer in const declaration */
+</script>

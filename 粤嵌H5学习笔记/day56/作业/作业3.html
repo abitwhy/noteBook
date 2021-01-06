@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ES6-数据查询</title>
+    <link rel="stylesheet" href="full-screen.css">
+    <style>
+        .search-wrap {
+            text-align: center;
+            border: 1px solid #a9a9a9;
+            border-radius: 10px;
+            display: flex;
+            overflow: hidden;
+            flex-flow: column;
+        }
+        
+        .part {
+            width: 100%;
+            min-height: 60px;
+            line-height: 60px;
+        }
+        
+        .search-title {
+            background-color: #ffb821;
+        }
+        
+        .search-bar {
+            margin: 10px 0;
+            display: inline-flex;
+        }
+        
+        .search-bar input {
+            height: 60px;
+            padding: 0 15px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .search-ipt {
+            flex: 1;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+        
+        .search-ipt::placeholder {
+            color: #b0b1ac;
+        }
+        
+        .search-btn {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            background-color: skyblue;
+            cursor: pointer;
+        }
+        
+        .search-content {
+            flex: 1;
+            position: relative;
+        }
+        
+        table {
+            width: 100%;
+            /* 去除 cellpadding */
+            border-collapse: collapse;
+            text-align: center;
+            font-size: large;
+        }
+        
+        tbody {
+            border: 2px solid rgb(96, 95, 95);
+        }
+        
+        th,
+        td {
+            border: 1px solid #a9a9a9;
+        }
+        
+        th {
+            border: 2px solid rgb(96, 95, 95);
+            background-color: #fbbdbe;
+        }
+        
+        tr:nth-child(2n+2) {
+            /* 斑马纹路 */
+            background-color: #f2fbff;
+        }
+        
+        tr:hover {
+            background-color: rgb(240, 124, 124);
+        }
+        
+        .mask {
+            width: 100%;
+            font-size: 30px;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            visibility: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="center search-wrap" id="fruit-search">
+            <h2 class="part search-title">水果信息查询</h2>
+            <div class="part search-bar">
+                <input class="search-ipt" type="text" placeholder="搜索水果名">
+                <input class="search-btn" type="button" value="搜索">
+            </div>
+            <div class="part search-content">
+                <table>
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+                <div class="mask">查询结果为空</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function searchWrap(node, data) {
+        this.node = node || null;
+        this.data = data || [];
+    }
+    searchWrap.prototype.init = function() { /* 初始化 */
+        var sw, searching, qury;
+        sw = this; /* searchWrap 的实例 */
+        sw.renderThead(sw.data[0]);
+        sw.renderTbody(sw.data.slice(1));
+        searching = sw.node.querySelector('.search-ipt');
+        query = sw.node.querySelector('.search-btn');
+        searching.onkeyup = () => {
+            sw.search()
+        };
+        query.onclick = () => {
+            sw.search();
+        };
+    };
+    searchWrap.prototype.search = function() { /* 查找 */
+        var sw, searching, tbody, result;
+        sw = this;
+        searching = sw.node.querySelector('.search-ipt');
+        tbody = sw.node.querySelector("tbody");
+        result = sw.data.slice(1).filter(value => value["name"].includes(searching.value)); /* 查询方式有待优化：考虑使用正则方式，及支持查询任意数据项 */
+        tbody.innerHTML = ""; /* 清空数组 */
+        sw.renderTbody(result);
+    };
+    searchWrap.prototype.renderThead = function(data) { /* 渲染表头 */
+        var thead, tr;
+        thead = this.node.querySelector("thead");
+        tr = document.createElement('tr');
+        for (var i in data) {
+            tr.innerHTML += `<th>${data[i]}</th>`; /* 中文表头 */
+            // tr.innerHTML += `<th>${i}</th>`; /* 或英文表头 */
+        }
+        thead.appendChild(tr);
+    };
+    searchWrap.prototype.renderTbody = function(data) { /* 渲染表数据 */
+        var tbody = this.node.querySelector("tbody");
+        var mask = this.node.querySelector(".mask");
+        if (data.length) {
+            mask.style.visibility = 'hidden';
+            data.forEach(item => {
+                var tr = document.createElement('tr');
+                for (var i in item) {
+                    tr.innerHTML += `<td>${item[i]}</td>`;
+                }
+                tbody.appendChild(tr);
+            });
+        } else {
+            mask.style.visibility = 'visible';
+        }
+    }
+
+    fruitSearch = document.querySelector("#fruit-search");
+    fruitData = [{ /* 数组首元素存表头 */
+        index: "-",
+        /* 暂时必须保留 name 属性，因为封装的构造函数里，search 方法指定搜索 name 属性，考虑后面根据需求做变动 */
+        name: "种类",
+        origin: "产地",
+        taste: "味道"
+    }, {
+        index: 1,
+        name: "苹果",
+        origin: "山东",
+        taste: "又脆又甜"
+    }, {
+        index: 2,
+        name: "香蕉",
+        origin: "海南",
+        taste: "香甜软糯"
+    }, {
+        index: 3,
+        name: "猕猴桃",
+        origin: "四川",
+        taste: "甜蜜生津"
+    }, {
+        index: 4,
+        name: "冻梨",
+        origin: "黑龙江",
+        taste: "冰甜滋润"
+    }, {
+        index: 5,
+        name: "葡萄",
+        origin: "新疆",
+        taste: "酸甜可口"
+    }, {
+        index: 6,
+        name: "脐橙",
+        origin: "江西",
+        taste: "芳香沁甜"
+    }];
+    searchFruit = new searchWrap(fruitSearch, fruitData);
+    searchFruit.init();
+</script>
+
+</html>

@@ -23,6 +23,10 @@ body {
     font-family: normal, Arial, "微软雅黑", "楷体", Helvetica, sans-serif;
 }
 
+button {
+    cursor: pointer;
+}
+
 
 /* 不展示 */
 

@@ -1,0 +1,13 @@
+<script>
+    // 解构 - Destructuring
+    // 1.数组解构
+    let [a, b, c = '3.支持默认参数', d = 'default', , f] = ['1.注意是等式左边是"[]"', '2.参数依次对应', , '4.覆盖默认参数', , '6.解构变量可空余', '7.不必一一对应'];
+    console.log('a:', a);
+    console.log('b:', b);
+    console.log('c:', c);
+    console.log('d:', d);
+    console.log('d:', f);
+    let [first, ...rest] = [1, 2, 3, 4]; /* ‘...’是余参标识符，后面的参数接收剩余所有参数，类型保持与等式右式一致（此处为数组） */
+    console.log(first);
+    console.log(rest); /* [2, 3 ,4] */
+</script>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[ES6]数组方法</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // Array.prototype.map
+    var arr = [{
+        foo: 'v1',
+        bar: 2
+    }, {
+        foo: 'v2',
+        bar: 3
+    }];
+    var arr2 = arr.map(function(item) { /* 返回修改后的完整数组 */
+        var tem = item;
+        tem.bar = item.bar * 2;
+        return tem;
+    });
+    console.log(arr2);
+    //
+</script>
+
+</html>

@@ -100,7 +100,7 @@ function tap(node, callback) { /* 轻触事件（解决了与触摸拖动事件�
     };
 }
 
-function zeroize(num) { /* 1位正整数补零(没有考虑负数补零) */
+function zeroize(num) { /* 1位正整数补零(没有考虑负数补零)，=》后面了解到 ES6 有 padStart 方法可替代 */
     var result = num < 10 ? num.toFixed(1).split('.').reverse().join('') : num + '';
     return result;
 }
