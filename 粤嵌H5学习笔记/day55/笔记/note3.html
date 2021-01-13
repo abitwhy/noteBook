@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang=zh>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ES6 数据类型的拓展</title>
+</head>
+
+<body>
+</body>
+<script>
+    // 字符串扩展
+    let num = 1;
+    document.body.innerHTML = `
+        <ul>
+            <li>字符串模板</li>
+            <li>template string</li>
+            <li>可以换行书写</li>
+        </ul>
+    `;
+
+    function getStrWidth(str) {
+        let width = 0;
+        for (const char of str) {
+            /[\u4e00-\u9fa5]/.test(char) ? width += 2 : width++;
+        }
+        return width;
+    }
+    let lis = document.querySelectorAll('li');
+    let widthes = [];
+    console.log(lis);
+    for (const li of lis) {
+        widthes.push(getStrWidth(li.innerText));
+    }
+    let newNode = document.createElement('div');
+    newNode.innerHTML = `
+        <ul>
+            <li style = "width:${widthes[0]}em; margin:4px 0; background-color:gainsboro;"></li>
+            <li style = "width:${widthes[1]}em; margin:4px 0; background-color:gainsboro;"></li>
+            <li style = "width:${widthes[2]}em; margin:4px 0; background-color:gainsboro;"></li>
+        </ul>
+    `;
+    // 插入节点的几种 js 原生方式：
+    // 1.appendChild 插入 node 节点
+    // document.body.appendChild(newNode);
+    // 2.append 插入 node 节点或插入文本字符串
+    // document.body.append(newNode);
+    // document.body.append('append 插入文本');
+    // 3.insertBefore 在指定节点内的参考节点之前插入新节点
+    // document.body.insertBefore(newNode, document.querySelector('ul'));
+    // document.body.insertBefore(newNode, null); /* 参考节点为 null 时，会在指定节点内的尾部添加新节点 */
+    // 4.insertAdjacent-方法组，插入节点，支持配置位置参数
+    // -insertAdjacentText 插入文本节点
+    // document.querySelector('ul').insertAdjacentText('beforebegin', 'insertAdjacentText 插入文本');
+    // -insertAdjacentElement 插入元素节点
+    // document.querySelector('ul').insertAdjacentElement('beforebegin', newNode);
+    // -insertAdjacentHTML 插入解析 HTML/XML 代码的字符串
+    // document.querySelector('ul').insertAdjacentHTML('beforebegin' /* beforebegin afterbegin beforeend afterend */ , `
+    //     <ul>
+    //         <li style = "width:${widthes[0]}em; margin:4px 0; background-color:gainsboro;"></li>
+    //         <li style = "width:${widthes[1]}em; margin:4px 0; background-color:gainsboro;"></li>
+    //         <li style = "width:${widthes[2]}em; margin:4px 0; background-color:gainsboro;"></li>
+    //     </ul>
+    // `);
+    // 总结：
+    //  append- 的两种方式插入的位置都是 beforeend；
+    //  insertBefore 为了插入位置的自由度，而引入了设置参考元素的代价；
+    //  insertAdjacent- 方法组兼具灵活及便捷，并支持字符串模板，是最佳选择。
+</script>
+
+</html>
