@@ -1,0 +1,48 @@
+@charset "UTF-8";
+body { width: 1200px; margin: 0 auto; background-color: black; }
+
+header { background-color: #e5a770; }
+
+main { background-color: #4abec5; }
+
+main nav { background-color: #ffe9a4; }
+
+main aside { width: 26%; float: right; background-color: #e9b3c5; }
+
+main article { width: 70%; float: left; background-color: #e9b3c5; }
+
+main article section { background-color: lightcyan; }
+
+footer { background-color: #0065b3; color: white; }
+
+header, main, footer, nav, aside, article, section { min-height: 50px; margin: 10px 0; padding: 5px; border-radius: 5px; text-align: center; overflow: hidden; }
+
+main a { color: blue; }
+
+main a:hover { color: red; }
+
+main a :hover { color: green; }
+
+main section#section2 a:hover { color: yellow; }
+
+main::before { content: '★'; }
+
+aside { border-width: 2px; border-style: solid; border-color: gray; }
+
+article { border: 2px dotted red; border-top: 0; border-bottom: 0; }
+
+table { width: 100%; /* 去除 cellpadding */ border-collapse: collapse; }
+
+table th, table td { border: 1px solid #a9a9a9; }
+
+table thead th { border: 2px solid #605f5f; background-color: #fbbdbe; }
+
+table tbody { border: 2px solid #605f5f; }
+
+table tbody tr { background-color: white; }
+
+table tbody tr:nth-child(2n+2) { /* 斑马纹路 */ background-color: #f2fbff; }
+
+table tbody tr:hover { background-color: #f07c7c; }
+
+#diffrent-between-less-and-sass tbody tr td:nth-child(2) { text-align: center; }

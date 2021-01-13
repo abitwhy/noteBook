@@ -1,0 +1,77 @@
+.setting-bar {
+    min-width: 20px;
+    min-height: 20px;
+}
+
+.setting-bar * {}
+
+.trap {
+    border-right: 4px solid skyblue;
+    cursor: pointer;
+}
+
+.reap {
+    transition: visibility 0.2s step-end;
+    visibility: hidden;
+}
+
+.trap:hover+.reap {
+    visibility: visible;
+}
+
+.reap:hover {
+    visibility: visible;
+}
+
+.setting-icon {
+    width: 100%;
+    height: 100%;
+    border: none !important;
+    /* box-shadow: none !important; */
+}
+
+.setting-content {
+    box-shadow: 0 1px 2px 2px gainsboro;
+    background-color: white;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    right: 0;
+}
+
+.setting-bar .setting-group {
+    box-shadow: 0 1px 2px 2px gainsboro;
+    transform: translate(-100%, -30px);
+    position: absolute;
+}
+
+.setting,
+.setting-bar .trap:not(.setting-icon) {
+    min-width: 6em;
+    height: 30px;
+    padding-left: 1em;
+    line-height: 30px;
+    background-color: white;
+    border-bottom: 1px solid gray;
+}
+
+.setting:hover,
+.setting-bar .trap:not(.setting-icon):hover {
+    background-color: skyblue;
+}
+
+.setting-bar .trap:not(.setting-icon)+.reap::before {
+    content: '◀';
+    margin-right: -1em;
+    margin-top: -30px;
+    line-height: 30px;
+    transition: transform 0.2s;
+    transform: rotate(-90deg);
+    float: left;
+}
+
+.setting-bar .trap:hover+.reap::before,
+.setting-bar .trap+.reap:hover::before {
+    visibility: visible;
+    transform: rotate(0);
+}

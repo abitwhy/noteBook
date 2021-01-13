@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>es6-飞机大战</title>
+    <link rel="stylesheet" href="./asset/css/full-screen.css">
+    <link rel="stylesheet" href="./asset/css/setting-bar.css">
+    <link rel="stylesheet" href="./asset/css/index.css">
+
+    <script src="./asset/js/jQuery.min(3.3.1).js"></script>
+    <script src="./asset/js/util.js"></script>
+    <script src="./asset/js/ES6-util.js"></script>
+
+    <body>
+        <div class="container">
+            <div class="center game">
+                <div class="displayer">
+                </div>
+                <div class="menu">
+                    <div class="menu-item setting-bar">
+                        <div class="trap setting-icon" title="游戏设置"><svg t="1610038455439" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2643" width="100%" height="100%"><path d="M881 512c0-52.4 32.9-96.8 79-114.5-11-43.2-28-83.9-50.2-121.3C864.6 296.3 810 288.1 773 251c-37-37-45.2-91.7-25.1-136.8C710.4 92 669.7 75 626.5 64c-17.8 46.1-62.2 79-114.5 79-52.4 0-96.8-32.9-114.5-79-43.2 11-83.9 28-121.3 50.2 20.1 45.2 11.9 99.8-25.1 136.8-37 37-91.7 45.2-136.8 25.2C92 313.6 75 354.3 64 397.5c46.1 17.8 79 62.2 79 114.5 0 52.4-32.9 96.8-79 114.5 11 43.2 28 83.9 50.2 121.3C159.4 727.7 214 735.9 251 773c37 37 45.2 91.7 25.1 136.8C313.6 932 354.3 949 397.5 960c17.8-46.1 62.2-79 114.5-79 52.4 0 96.8 32.9 114.5 79 43.2-11 83.9-28 121.3-50.2-20.1-45.2-11.9-99.8 25.1-136.8 37-37 91.7-45.2 136.8-25.2C932 710.4 949 669.7 960 626.5c-46.1-17.7-79-62.1-79-114.5zM512 635c-67.9 0-123-55.1-123-123s55.1-123 123-123 123 55.1 123 123-55.1 123-123 123z" p-id="2644" fill="#515151"></path></svg></div>
+                        <ul class="reap setting-content">
+                            <li class="trap">g1</li>
+                            <li class="reap">
+                                <ul class="setting-group">
+                                    <li class="setting">g1-s1</li>
+                                    <li class="setting">g1-s2</li>
+                                </ul>
+                            </li>
+                            <li class="trap">g2</li>
+                            <li class="reap">
+                                <ul class="setting-group">
+                                    <li class="trap">g2-g1</li>
+                                    <li class="reap">
+                                        <ul class="setting-group">
+                                            <li class="setting">g2-g1-s1</li>
+                                            <li class="setting">g2-g1-s2</li>
+                                        </ul>
+                                    </li>
+                                    <li class="trap">g2-g2</li>
+                                    <li class="reap">
+                                        <ul class="setting-group">
+                                            <li class="setting">g2-g2-s1</li>
+                                            <li class="setting">g2-g2-s2</li>
+                                        </ul>
+                                    </li>
+                                    <li class="setting">g2-s1</li>
+                                    <li class="setting">g2-s2</li>
+                                </ul>
+                            </li>
+                            <li class="setting">s1</li>
+                        </ul>
+                    </div>
+
+                    <div class="menu-item trap rule-icon" title="游戏规则"><svg t="1610183607348" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1893" width="100%" height="100%"><path d="M510.983345 959.349561c-246.331291 0-447.874517-201.544249-447.874517-447.87554 0-246.331291 201.543226-447.874517 447.874517-447.874517s447.87554 201.543226 447.87554 447.874517C958.858886 757.805312 757.313613 959.349561 510.983345 959.349561L510.983345 959.349561zM575.273581 255.490905l-127.913275 0 0 127.913275 127.913275 0L575.273581 255.490905zM575.273581 446.849164l-127.913275 0 0 320.67858 127.913275 0L575.273581 446.849164z" p-id="1894" fill="#13227a"></path></svg></div>
+                    <div class="reap rule-content">
+                        <p>
+                            <h2>游戏规则</h2>
+                            <p>1.规则1</p>
+                            <p>2.规则2</p>
+                            <p>3.规则3</p>
+                            <p>4.规则4</p>
+                        </p>
+                    </div>
+                </div>
+                <div class="gamepad">
+                    <button class="toggle-item">开始游戏</button>
+                    <button class="toggle-item">继续游戏</button>
+                    <button class="toggle-item">结束游戏</button>
+                </div>
+                <div class="info">
+                    <hr>
+                    <h1 class="info-item">游戏开始</h1>
+                    <h1 class="info-item">回到游戏</h1>
+                    <h1 class="info-item">游戏结束</h1>
+                    <!-- 以上为基础信息，与 toggle-item 一一对应，无需起类名，不可改顺序 -->
+                    <!-- 以下为拓展信息，需设置类名 -->
+                    <div class="info-item pause">
+                        <h1>游戏暂停</h1>
+                    </div>
+                    <div class="info-item score">
+                        <button>X</button>
+                        <h2>游戏成绩</h2>
+                        <p>1.项目1</p>
+                        <p>2.项目2</p>
+                        <p>3.项目3</p>
+                        <p>4.项目4</p>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        let newGame = true; /* 新游戏标志，配合按键事件开始触发时机 */
+        let pauseGame = true; /* 暂停标志，配合按键事件进行继续游戏与暂停游戏之间的切换 */
+
+        function init() {
+            gameControl();
+        }
+        init();
+        let originGame = $('.game').clone(true, true);
+
+        function restart() {
+            newGame = true;
+            pauseGame = true;
+            $('.game').remove();
+            $('.container').append(originGame);
+            originGame = $('.game').clone(true, true);
+            gameControl();
+            // 重新加载设置需要读取 localStorage 暂时不做
+        }
+
+        function gameControl() {
+            $('.gamepad').on('click', '.toggle-item', function(e) {
+                if ($(this).is('.toggle-item')) {
+                    newGame = false;
+                    pauseGame = false;
+                    $(this).prop('disabled', 'true');
+                    $('.info').addClass('visible');
+                    let matchInfo = $('.info-item').eq($(this).index());
+                    matchInfo.siblings('.info-item').css('display', 'none');
+                    matchInfo.css('display', 'unset');
+                    setTimeout(() => {
+                        $('.info').removeClass('visible');
+                        matchInfo.css('display', 'none');
+                        $(this).prop('disabled', '');
+                    }, 500);
+                    $('.toggle-item').fadeOut();
+                    let whichToggle = $(this).index();
+                    setTimeout(() => {
+                        switch (whichToggle) {
+                            case 0:
+                                $('.displayer').addClass('play-bg');
+                                break;
+                            case 1:
+                                $('.displayer').css('animation-play-state', 'running');
+                                break;
+                            case 2:
+                                newGame = true;
+                                $('.info').addClass('visible');
+                                $('.info .score').css('display', 'unset');
+                                $('.info button').click(restart);
+                                break;
+                            default:
+                                break;
+                        }
+                    }, 600);
+                }
+            });
+        }
+        // 按键控制
+        $(document).keydown(function(e) {
+            // console.log(e.keyCode);
+            if (e.keyCode == 32 && !newGame) {
+                if (pauseGame) {
+                    $('.toggle-item').eq(1).trigger('click');
+                } else {
+                    pauseGame = !pauseGame;
+                    $('.info').addClass('visible');
+                    $('.info .pause').css('display', 'unset');
+                    $('.displayer').css('animation-play-state', 'paused');
+                    $('.toggle-item:nth-child(n+2)').fadeIn();
+                }
+            }
+        });
+        // 以上代码完成了界面跳转逻辑（TODO：游戏逻辑）
+    </script>
+
+</html>

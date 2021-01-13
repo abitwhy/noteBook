@@ -1,0 +1,123 @@
+/* 
+ ©abitwhy
+ 2021-01-08 
+*/
+
+.setting-bar {
+    min-width: 20px;
+    min-height: 20px;
+}
+
+.setting-bar * {}
+
+.trap {
+    border-right: 4px solid skyblue;
+    cursor: pointer;
+}
+
+.reap {
+    transition: visibility 0.2s step-end;
+    visibility: hidden;
+}
+
+.trap:hover+.reap {
+    visibility: visible;
+}
+
+.reap:hover {
+    visibility: visible;
+}
+
+.setting-icon {
+    width: 100%;
+    height: 100%;
+    border: none !important;
+    /* box-shadow: none !important; */
+}
+
+.setting-content {
+    box-shadow: 0 1px 2px 2px gainsboro;
+    background-color: white;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    right: 0;
+}
+
+.setting-bar .setting-group {
+    box-shadow: 0 1px 2px 2px gainsboro;
+    transform: translate(-100%, -30px);
+    position: absolute;
+}
+
+.setting,
+.setting-bar .trap:not(.setting-icon) {
+    min-width: 6em;
+    height: 30px;
+    padding-left: 1em;
+    line-height: 30px;
+    background-color: white;
+    border-bottom: 1px solid gray;
+}
+
+.setting:hover,
+.setting-bar .trap:not(.setting-icon):hover {
+    background-color: skyblue;
+}
+
+.setting-bar .trap:not(.setting-icon)+.reap::before {
+    content: '◀';
+    margin-right: -1em;
+    margin-top: -30px;
+    line-height: 30px;
+    transition: transform 0.2s;
+    transform: rotate(-90deg);
+    float: left;
+}
+
+.setting-bar .trap:hover+.reap::before,
+.setting-bar .trap+.reap:hover::before {
+    visibility: visible;
+    transform: rotate(0);
+}
+
+
+/* --------------------------- html 示例 --------------------------- */
+
+
+/* 
+<div class="setting-bar">
+    <div class="trap setting-icon" title="设置缩略图标"><svg t="1610038455439" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2643" width="100%" height="100%"><path d="M881 512c0-52.4 32.9-96.8 79-114.5-11-43.2-28-83.9-50.2-121.3C864.6 296.3 810 288.1 773 251c-37-37-45.2-91.7-25.1-136.8C710.4 92 669.7 75 626.5 64c-17.8 46.1-62.2 79-114.5 79-52.4 0-96.8-32.9-114.5-79-43.2 11-83.9 28-121.3 50.2 20.1 45.2 11.9 99.8-25.1 136.8-37 37-91.7 45.2-136.8 25.2C92 313.6 75 354.3 64 397.5c46.1 17.8 79 62.2 79 114.5 0 52.4-32.9 96.8-79 114.5 11 43.2 28 83.9 50.2 121.3C159.4 727.7 214 735.9 251 773c37 37 45.2 91.7 25.1 136.8C313.6 932 354.3 949 397.5 960c17.8-46.1 62.2-79 114.5-79 52.4 0 96.8 32.9 114.5 79 43.2-11 83.9-28 121.3-50.2-20.1-45.2-11.9-99.8 25.1-136.8 37-37 91.7-45.2 136.8-25.2C932 710.4 949 669.7 960 626.5c-46.1-17.7-79-62.1-79-114.5zM512 635c-67.9 0-123-55.1-123-123s55.1-123 123-123 123 55.1 123 123-55.1 123-123 123z" p-id="2644" fill="#515151"></path></svg></div>
+    <ul class="reap setting-content">
+        <li class="trap">g1</li>
+        <li class="reap">
+            <ul class="setting-group">
+                <li class="setting">g1-s1</li>
+                <li class="setting">g1-s2</li>
+            </ul>
+        </li>
+        <li class="trap">g2</li>
+        <li class="reap">
+            <ul class="setting-group">
+                <li class="trap">g2-g1</li>
+                <li class="reap">
+                    <ul class="setting-group">
+                        <li class="setting">g2-g1-s1</li>
+                        <li class="setting">g2-g1-s2</li>
+                    </ul>
+                </li>
+                <li class="trap">g2-g2</li>
+                <li class="reap">
+                    <ul class="setting-group">
+                        <li class="setting">g2-g2-s1</li>
+                        <li class="setting">g2-g2-s2</li>
+                    </ul>
+                </li>
+                <li class="setting">g2-s1</li>
+                <li class="setting">g2-s2</li>
+            </ul>
+        </li>
+        <li class="setting">s1</li>
+    </ul>
+</div>
+*/

@@ -1,12 +1,8 @@
 * {
     margin: 0;
-    /* padding: 0; */
+    padding: 0;
     /* border: 1px solid red; */
     box-sizing: border-box;
-}
-
-ul {
-    padding: 0;
 }
 
 ul li {
@@ -20,7 +16,7 @@ ul li {
     min-width: 100vw;
     min-height: 100vh;
     margin: 0 auto;
-    background: url(./asset/images/page-bg.jpg) no-repeat;
+    /* background: url(./asset/images/page-bg.jpg) no-repeat; */
     background-size: cover;
     overflow: hidden;
 }

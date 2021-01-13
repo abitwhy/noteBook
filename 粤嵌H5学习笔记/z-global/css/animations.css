@@ -1,0 +1,72 @@
+/* ------------------------------ 2d动画 --------------- */
+
+
+/* 简单的静止样式 */
+
+@keyframes blink-o {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* 简单的平移 */
+
+@keyframes slide-bg-pst-y {
+    from {
+        background-position-y: 0;
+    }
+    to {
+        /* 由于 background-position 的独特计算规则，不存在通用方案使背景滑动一个周期，每次都要单独设置 */
+        /* 以下两种方式均在 box-sizing: border-box 下通过测试 */
+        /* 方式一：计算属性（百分比尺寸）。其中，[容器高度1] 不包含顶部边框宽度，[容器高度2]包含  */
+        /* background-position-y: calc(-容器高度1 / ( 容器高度2 - 图片高度) * 100%); */
+        /* 方式二：手动调试（像素尺寸）至移动一个周期为止 */
+        /* background-position-y: 合适的像素尺寸; */
+    }
+}
+
+
+/* 简单的旋转 */
+
+@keyframes route {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* 复合的平移 */
+
+@keyframes shake-x-2 {
+    0% {
+        transform: translateX(0);
+    }
+    40% {
+        transform: translateX(20%);
+    }
+    60% {
+        transform: translateX(0);
+    }
+    80% {
+        transform: translateX(20%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+
+/* 复合的旋转 */
+
+
+/* 综合动画 */
+
+
+/* ------------------------------ 3d动画 --------------- */

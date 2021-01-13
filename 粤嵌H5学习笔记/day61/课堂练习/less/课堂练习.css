@@ -1,0 +1,60 @@
+body {
+  width: 800px;
+  margin: 0 auto;
+  background-color: black;
+}
+body header {
+  background-color: #e5a770;
+}
+body main {
+  background-color: #4abec5;
+}
+body main nav {
+  background-color: #ffe9a4;
+}
+body main aside {
+  width: 36%;
+  float: right;
+  background-color: #e9b3c5;
+}
+body main article {
+  width: 60%;
+  float: left;
+  background-color: #e9b3c5;
+}
+body main article section {
+  background-color: lightcyan;
+}
+body footer {
+  background-color: #0065b3;
+  color: white;
+}
+body header,
+body main,
+body footer,
+body nav,
+body aside,
+body article,
+body section {
+  min-height: 50px;
+  margin: 10px 0;
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+  overflow: hidden;
+}
+main a {
+  color: blue;
+}
+main a:hover {
+  color: red;
+}
+main a :hover {
+  color: green;
+}
+main section#section2 a:hover {
+  color: yellow;
+}
+main::before {
+  content: '★';
+}

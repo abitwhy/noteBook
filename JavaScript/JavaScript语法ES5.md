@@ -34,7 +34,7 @@ JavaScript 六种**基本类型**有:
 
 ## '='相关运算符
 
-**值表达式**`=`、**严格相等运算符**`===`和**相等运算符**`==`。后两个的区别是，`==`会自动做类型转换。
+**值表达式**`=`、**严格	算符**`===`和**相等运算符**`==`。后两个的区别是，`==`会自动做类型转换。
 
 ***
 
@@ -1076,7 +1076,7 @@ function FruitTree(){
 	this.fruit = '果实';
 }
 // 第二步：子类原型指向父类
-FruitTree.prototype = Object.create(Tree.prototype); // 修改子类原型对象。必须用 Object.create 方式，指向一个父类原型的实例。而不是直接赋值 Tree.prototype，指向父类原型。这样，下一行操作将不至于影响父类原型。
+FruitTree.prototype = Object.create(Tree.prototype); // 修改子类原型对象。必须用 Object.create 方式，指向一个父类原型的实例。而不是直接赋值 Tree.prototype，指向父类原型。这样，下一行操作将不至于影响父类原型。=》对子类原型进行的所有的操作都不会影响父类
 FruitTree.prototype.constructor = FruitTree; // 修改原型对象时，需要同时修改 constructor 属性。
 
 // 验证
@@ -1084,7 +1084,7 @@ var appleTree = new FruitTree();
 appleTree instanceof FruitTree; // true
 appleTree instanceof Tree; // true
 appleTree.beMadeUpOf(); // FruitTree is made up of:枝,叶,根,果实
-// 不太清楚细节（需要深究 create 方法），总之，这样就实现了构造函数的继承，测试也符合预期，这里不一一列举了。
+// 不太清楚细节（需要深究 create 方法），总之，这样就实现了构造函数的继承，测试也符合预期，这里不一一列举了。=》create 仅为创造一个新的父类实例对象而已，可用 new 方式创建父类实例对象代替
 ```
 
 ------

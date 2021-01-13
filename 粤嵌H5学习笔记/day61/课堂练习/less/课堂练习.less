@@ -1,0 +1,111 @@
+// 总结：
+// 0. 行注释不会被编译，块级注释会被编译
+// 1. 尽管变量自身提供了很多有用的地方，但是 less/sass 基于变量提供的更为强大的工具才是重点。只有当变量与 less/sass 的其他特性一起使用时，才能发挥其全部的潜能。
+
+
+// ------------------------------ 全局变量
+// 1. 颜色
+// 1.0 网页配色
+@bodyBgColor: black;
+// 1.1 主题色
+@baseBgColor1:#0065b3;
+@baseBgColor2:#ffe9a4;
+@baseBgColor3:#4abec5;
+@baseBgColor4:#e5a770;
+@baseBgColor5:#e9b3c5;
+@baseBgColor6:lightcyan;
+// 1.2 字体颜色
+@baseColor1: rgb(71, 71, 71);
+@baseColor2: rgb(104, 104, 104);
+@baseColor3: rgb(162, 162, 162);
+@baseColor4: rgb(199, 199, 199);
+@baseColor5: rgb(228, 228, 228);
+// 2. 尺寸
+// 2.1 宽高
+// 2.2 边距
+// 2.2.1 外边距
+// 2.2.2 内边距
+// 2.3 边框
+// 2.4 阴影
+
+// ------------------------------ 样式
+// 使用变量
+body{
+    width: 800px; // 块级
+    margin: 0 auto;
+    background-color: @bodyBgColor;
+}
+
+// 选择器嵌套语法，简化后代选择器的书写
+body{
+    header{
+        background-color: @baseBgColor4; 
+    }
+    main{
+        background-color: @baseBgColor3;
+        nav{
+            background-color: @baseBgColor2;
+        }
+        aside {
+            width: 36%;
+            float: right;
+            background-color: @baseBgColor5;
+        }
+        article {
+            width: 60%;
+            float: left;
+            background-color: @baseBgColor5;
+            section {
+                background-color: @baseBgColor6;
+            }
+        }
+    }
+    footer{
+        background-color:@baseBgColor1;
+        color: white;
+    }
+    // 群组选择器，能够配合选择器嵌套语法。需注意编译出的 css 代码量
+    header,
+    main,
+    footer,
+    nav,
+    aside,
+    article,
+    section {
+        min-height: 50px;
+        margin: 10px 0;
+        padding: 5px;
+        border-radius: 5px;
+        text-align: center;
+        overflow: hidden;
+    }
+}
+// 父类选择器&，能够配合选择器嵌套语法。实质是 less/sass 内置变量，如同 this 指针=》勘误，并不是 this，仅做了简单的嵌套选择器的字符拼接，导致添加祖先选择器会不那么灵活了 
+main{
+    a {
+        color: blue;
+        // 伪类使用 &-父选择器
+        &:hover { color: red }
+        :hover { color:green } // 而不是选择器嵌套语法默认的后代选择器
+        // 使用父类选择器，添加祖辈选择器（失败）
+        // section#section2 &:hover{ // 没有这么灵活
+        //     color: yellow;
+        // }
+    }
+    // 使用父类选择器，添加祖辈选择器
+    section{
+        &#section2 a:hover{
+            color: yellow;
+        }
+    }
+    &::before{
+        content: '★';
+    }
+}
+
+// 此外，选择器嵌套语法还支持的 css 选择器有：后代选择器‘ ’、子选择器‘>’、毗邻选择器‘+’、同层选择器‘~’，不再一一列举
+
+// 属性嵌套语法，简化属性的书写
+
+
+

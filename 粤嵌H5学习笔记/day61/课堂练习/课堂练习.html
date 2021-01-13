@@ -1,0 +1,88 @@
+< !DOCTYPE html>
+    <html lang="zh">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Less/Sass-入门demo</title>
+        <!-- 错误引用 Sass 方式 -->
+        <!-- <link rel="stylesheet" href="./less/课堂练习.less"> -->
+        <!-- 正确引入 css (由 vscode 里的插件自动生成) -->
+        <!-- <link rel="stylesheet" href="./less/课堂练习.css"> -->
+        <link rel="stylesheet" href="./sass/课堂练习.css">
+    </head>
+
+    <body>
+        <header>hello Sass</header>
+        <main>main
+            <nav>nav</nav>
+            <aside>aside</aside>
+            <article>article
+                <section>section1
+                    <hr>
+                    <a href="#">link
+                    <button>child of a</button>
+                </a>
+                </section>
+                <section id="section2">section2
+                    <hr>
+                    <a href="#">link</a>
+                </section>
+                <section>
+                    <table id="diffrent-between-less-and-sass">
+                        <caption>css预处理器 Less 和 Sass 的区别</caption>
+                        <thead>
+                            <tr>
+                                <th>Less 和 Sass 的共同点</th>
+                                <th>序号</th>
+                                <th>Less 的特点</th>
+                                <th>Sass 的特点</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="5">
+                                    <ol>
+                                        <li>混入(Mixins)——class 中的 class;</li>
+                                        <li>参数混入——可以传递参数的 class，就像函数一样;</li>
+                                        <li>嵌套规则——class 中嵌套 class，从而减少重复代码;</li>
+                                        <li>运算——CSS 中进行算数运算（包括函数方法）;</li>
+                                        <li>颜色功能——可以编辑颜色;</li>
+                                        <li>命名空间（namespace）——分组样式，实现相互调用;</li>
+                                        <li>作用域——局部修改样式;</li>
+                                        <li>JavaScript 赋值——在 CSS 中使用 JavaScript 表达式赋值;</li>
+                                    </ol>
+                                </td>
+                                <td>1</td>
+                                <td>Less 环境较 Sass 简单，只需要引入 Less.js 编译 .less 文件即可，也可以在开发环境实用工具先编译好。</td>
+                                <td>Sass 的变量有作用域，有全局和局部变量之分，并且有优先级。</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Less 使用较 Sass 简单，没有裁剪 CSS 原有特性，仅为 CSS 添加了程式语言的特性，容易上手。</td>
+                                <td>Sass 有函数的概念，更接近程式化编程（混入（minxin） 类似函数，但缺乏编程逻辑，不过目前使用得最广泛）。</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>通过客户端动态编译时，速度相对较慢。</td>
+                                <td>通过服务端动态编译时，速度相对较快。</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td></td>
+                                <td>能够进程控制，如条件：@if、@else；循环：@for、@each、@while；继承：@extend、引用：@import。</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td></td>
+                                <td>拥有数据结构，如数组：$list、对象：$map、以及 string、number 等。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </article>
+        </main>
+        <footer>footer</footer>
+    </body>
+
+    </html>

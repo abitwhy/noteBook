@@ -106,3 +106,22 @@ button {
 .remove-bottom-border {
     border-bottom: none !important;
 }
+
+.p-center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.p-center-x {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.p-center-y {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
