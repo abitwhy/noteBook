@@ -1,0 +1,8 @@
+& {
+    /* 彩色字体 */
+    width: fit-content;
+    margin: 0 auto;
+    background: linear-gradient(to right, red, orange, yellow, green, rgb(96, 238, 248), blue, purple);
+    -webkit-background-clip: text;
+    color: transparent;
+}

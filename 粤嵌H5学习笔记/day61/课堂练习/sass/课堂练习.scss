@@ -1,23 +1,23 @@
 // ------------------------------ 总结
-// 0. 行注释不会被编译，块级注释会被编译
+// 0. 行注释不会被编译，块级注释会被编译（补充：原生 css 的注释出现在不恰当位置时（如属性名\值处），也不会被编译出来）
 // 1. 尽管变量自身提供了很多有用的地方，但是 sass 基于变量提供的更为强大的工具才是重点。只有当变量与 less/sass 的其他特性一起使用时，才能发挥其全部的潜能。
 // ------------------------------ 全局变量
 // 1. 颜色
 // 1.0 网页配色
-$bodyBgColor: black;
+$body-bg-color: black;
 // 1.1 主题色
-$baseBgColor1: #0065b3;
-$baseBgColor2: #ffe9a4;
-$baseBgColor3: #4abec5;
-$baseBgColor4: #e5a770;
-$baseBgColor5: #e9b3c5;
-$baseBgColor6: lightcyan;
+$base-bg-color1: #0065b3;
+$base-bg-color2: #ffe9a4;
+$base-bg-color3: #4abec5;
+$base-bg-color4: #e5a770;
+$base-bg-color5: #e9b3c5;
+$base-bg-color6: lightcyan;
 // 1.2 字体颜色
-$baseColor1: rgb(71, 71, 71);
-$baseColor2: rgb(104, 104, 104);
-$baseColor3: rgb(162, 162, 162);
-$baseColor4: rgb(199, 199, 199);
-$baseColor5: rgb(228, 228, 228);
+$base-color1: rgb(71, 71, 71);
+$base-color2: rgb(104, 104, 104);
+$base-color3: rgb(162, 162, 162);
+$base-color4: rgb(199, 199, 199);
+$base-color5: rgb(228, 228, 228);
 // 2. 尺寸
 // 2.1 宽高
 // 2.2 边距
@@ -25,42 +25,65 @@ $baseColor5: rgb(228, 228, 228);
 // 2.2.2 内边距
 // 2.3 边框
 // 2.4 阴影
+// ------------------------------ 混入（mixin）
+// 1. 混入纯属性
+@mixin center-p {
+    /* 通过 position 配合 transform （水平/垂直）居中 */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    // transform: translateX(-50%);
+    // transform: translateY(-50%);
+}
+
+// 2. 混入样式（即：一切 css 规则）
+@mixin a-no-text-decoration {
+    & a {
+        /* 清除 a 标签默认下划线 */
+        text-decoration: none;
+    }
+}
+
+// 3. 传参混入
+@mixin name {}
+
 // ------------------------------ 样式
 // 1. 使用变量
 body {
     width: 1200px;
     margin: 0 auto;
-    background-color: $bodyBgColor;
+    background-color: $body-bg-color;
+}
+
+header {
+    background-color: $base-bg-color4;
 }
 
 // 2.选择器嵌套语法，简化后代选择器的书写
-header {
-    background-color: $baseBgColor4;
-}
-
 // 2.1 纯嵌套
 main {
-    background-color: $baseBgColor3;
+    background-color: $base-bg-color3;
     nav {
-        background-color: $baseBgColor2;
+        background-color: $base-bg-color2;
     }
     aside {
         width: 26%;
         float: right;
-        background-color: $baseBgColor5;
+        background-color: $base-bg-color5;
     }
     article {
         width: 70%;
         float: left;
-        background-color: $baseBgColor5;
+        background-color: $base-bg-color5;
         section {
-            background-color: $baseBgColor6;
+            background-color: $base-bg-color6;
         }
     }
 }
 
 footer {
-    background-color: $baseBgColor1;
+    background-color: $base-bg-color1;
     color: white;
 }
 
@@ -109,6 +132,12 @@ main {
 }
 
 // 2.4 此外，选择器嵌套语法还支持的 css 选择器有：后代选择器‘ ’、子选择器‘>’、毗邻选择器‘+’、同层选择器‘~’，不再一一列举
+h4 {
+    ~span {
+        color: red;
+    }
+}
+
 // 3. 属性嵌套语法，简化属性的书写
 aside {
     border: {
@@ -126,9 +155,57 @@ article {
 }
 
 // 4. @import 导入局部样式
-@import "zebraTable"; // 引入局部样式不必写其前缀下划线‘_’
+// 4.1 全局导入
+@import "zebra-table"; // 引入局部样式可省略其前缀下划线‘_’，也不必写后缀名“.scss”/“.sass”
+
+/* 调整对齐方式 */
+
 #diffrent-between-less-and-sass tbody tr td {
     &:nth-child(2) {
         text-align: center;
+    }
+}
+
+// 4.2 默认变量标签 !default，即：允许导入样式文件自身的外部变量，在与被导入的样式文件中的内部变量同名时，可拥有更高优先级（默认内部变量在自己的作用域会覆盖外部同名变量）
+$same-color: gold;
+$same-text-shadow:-2px 0 0 blue;
+@import "default-value";
+aside {
+    color: $same-color;
+    text-shadow: $same-text-shadow;
+}
+
+// 4.3 嵌套导入，即：可在任意样式块内导入局部样式
+header {
+    h1 {
+        @import "colorful-font";
+    }
+}
+
+// 4.4 导入原生 css 文件
+// 4.4.1 想以原生方式导入（会被浏览器加载，而不是预编译），只需满足以下三种条件之一
+// 被导入文件的名字以.css结尾；
+// 被导入文件的名字是一个URL地址（比如http://www.sass.hk/css/css.css），由此可用谷歌字体API提供的相应服务；
+// 被导入文件的名字是CSS的url()值。
+// 4.4.2 想直接在 sass 里导入并预编译：只需将 css 文件后缀改为 sass/scss
+// 5. 使用混入
+#section5 {
+    >div {
+        width: 100%;
+        margin: 2px;
+        background-color: purple;
+        &:nth-of-type(1) {
+            height: 200px;
+            position: relative;
+            .center-item {
+                width: 50%;
+                height: 50%;
+                background-color: orange;
+                @include center-p(); // 混入纯属性
+            }
+        }
+        &:nth-of-type(2) {
+            @include a-no-text-decoration(); // 混入样式
+        }
     }
 }

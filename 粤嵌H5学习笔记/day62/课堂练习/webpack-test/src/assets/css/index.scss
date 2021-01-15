@@ -1,8 +1,13 @@
-// 包名有下划线‘_’前缀，代表该 sass/scss 样式为局部样式，它们不会编译出相应的 css 文件
+body::after {
+    content: 'webpack 打包 sass 样式成功！';
+}
+
+
+/* 斑马纹路表格 */
+
 table {
     width: 100%;
-    /* 去除 cellpadding */
-    border-collapse: collapse;
+    border-collapse: collapse; // 去除 cellpadding
     // text-align: center;
     th,
     td {
@@ -19,7 +24,7 @@ table {
         tr {
             background-color: white;
             &:nth-child(2n+2) {
-                /* 斑马纹路 */
+                // 核心代码
                 background-color: #f2fbff;
             }
             &:hover {

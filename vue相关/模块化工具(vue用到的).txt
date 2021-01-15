@@ -5,7 +5,7 @@
 > 概念：Node.js 项目模块化架构下的模块描述文件。
 
  **属性说明**  
- `name` - `包名`
+ `name` - `包名` （不同项目，改名则可复用）
  `version` - `版本号`
  `description` - `描述`
  `homepage` - `官网URL`

@@ -1,0 +1,27 @@
+body {
+    /* background-color: skyblue; */
+    background: url(../images/bg2021011001.jpg) no-repeat;
+    background-size: cover;
+}
+
+h1 span {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: url(../images/webpack.png) no-repeat;
+    background-size: cover;
+    animation: roll 2s linear infinite;
+}
+
+@keyframes roll {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+body::before {
+    content: 'webpack 打包 css 样式成功！';
+}

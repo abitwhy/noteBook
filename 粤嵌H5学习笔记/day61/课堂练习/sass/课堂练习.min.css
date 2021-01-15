@@ -27,11 +27,14 @@ main section#section2 a:hover { color: yellow; }
 
 main::before { content: '★'; }
 
+h4 ~ span { color: red; }
+
 aside { border-width: 2px; border-style: solid; border-color: gray; }
 
 article { border: 2px dotted red; border-top: 0; border-bottom: 0; }
 
-table { width: 100%; /* 去除 cellpadding */ border-collapse: collapse; }
+/* 斑马纹路表格 */
+table { width: 100%; border-collapse: collapse; }
 
 table th, table td { border: 1px solid #a9a9a9; }
 
@@ -41,8 +44,21 @@ table tbody { border: 2px solid #605f5f; }
 
 table tbody tr { background-color: white; }
 
-table tbody tr:nth-child(2n+2) { /* 斑马纹路 */ background-color: #f2fbff; }
+table tbody tr:nth-child(2n+2) { background-color: #f2fbff; }
 
 table tbody tr:hover { background-color: #f07c7c; }
 
+/* 调整对齐方式 */
 #diffrent-between-less-and-sass tbody tr td:nth-child(2) { text-align: center; }
+
+aside { color: silver; text-shadow: -2px 0 0 blue; }
+
+header h1 { /* 彩色字体 */ width: -webkit-fit-content; width: -moz-fit-content; width: fit-content; margin: 0 auto; background: -webkit-gradient(linear, left top, right top, from(red), color-stop(orange), color-stop(yellow), color-stop(green), color-stop(#60eef8), color-stop(blue), to(purple)); background: linear-gradient(to right, red, orange, yellow, green, #60eef8, blue, purple); -webkit-background-clip: text; color: transparent; }
+
+#section5 > div { width: 100%; margin: 2px; background-color: purple; }
+
+#section5 > div:nth-of-type(1) { height: 200px; position: relative; }
+
+#section5 > div:nth-of-type(1) .center-item { width: 50%; height: 50%; background-color: orange; /* 通过 position 配合 transform （水平/垂直）居中 */ position: absolute; left: 50%; top: 50%; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%); }
+
+#section5 > div:nth-of-type(2) a { /* 清除 a 标签默认下划线 */ text-decoration: none; }

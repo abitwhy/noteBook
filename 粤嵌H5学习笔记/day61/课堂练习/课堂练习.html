@@ -13,22 +13,31 @@
     </head>
 
     <body>
-        <header>hello Sass</header>
+        <header>
+            <h1>hello Sass</h1>
+        </header>
         <main>main
             <nav>nav</nav>
             <aside>aside</aside>
             <article>article
                 <section>section1
                     <hr>
-                    <a href="#">link
-                    <button>child of a</button>
-                </a>
+                    <a href="#">link</a>
                 </section>
                 <section id="section2">section2
                     <hr>
                     <a href="#">link</a>
                 </section>
-                <section>
+                <section id="section3">section3
+                    <hr>
+                    <h4>组合选择器</h4>
+                    <span>后代选择器‘ ’</span><br>
+                    <span>子选择器‘>’</span><br>
+                    <span>毗邻选择器‘+’</span><br>
+                    <span>同层选择器‘~’</span><br>
+                </section>
+                <section id="section4">section4
+                    <hr>
                     <table id="diffrent-between-less-and-sass">
                         <caption>css预处理器 Less 和 Sass 的区别</caption>
                         <thead>
@@ -41,6 +50,7 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <!-- rowspan="0" 表示横跨到最后一行（实际会适应其内容的宽度，可能导致与其他行高度不一致） -->
                                 <td rowspan="5">
                                     <ol>
                                         <li>混入(Mixins)——class 中的 class;</li>
@@ -79,6 +89,16 @@
                             </tr>
                         </tbody>
                     </table>
+                </section>
+                <section id="section5">section5
+                    <hr>
+                    <div>
+                        <div class="center-item"></div>
+                    </div>
+                    <div><a href="#">混入样式</a></div>
+                </section>
+                <section id="section$">setion$
+                    <hr>
                 </section>
             </article>
         </main>
