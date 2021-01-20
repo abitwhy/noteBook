@@ -3,6 +3,8 @@ body { width: 1200px; margin: 0 auto; background-color: black; }
 
 header { background-color: #e5a770; }
 
+footer { background-color: #0065b3; color: white; }
+
 main { background-color: #4abec5; }
 
 main nav { background-color: #ffe9a4; }
@@ -12,8 +14,6 @@ main aside { width: 26%; float: right; background-color: #e9b3c5; }
 main article { width: 70%; float: left; background-color: #e9b3c5; }
 
 main article section { background-color: lightcyan; }
-
-footer { background-color: #0065b3; color: white; }
 
 header, main, footer, nav, aside, article, section { min-height: 50px; margin: 10px 0; padding: 5px; border-radius: 5px; text-align: center; overflow: hidden; }
 

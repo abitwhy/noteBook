@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue-监听器</title>
+    <script src="./vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <form action="">
+            <p>
+                <label>
+                    用户名
+                    <input type="text" v-model="username">
+                </label>
+            </p>
+            <p>
+                <label>
+                    手机号
+                    <input type="text" v-model="mobile">{{msg.mobile}}
+                </label>
+            </p>
+            <p>
+                <label>
+                    搜&emsp;索
+                    <input type="text" v-model="keyword">
+                </label>
+            </p>
+            <ul>
+                <li v-for="i in searchResult">{{i.name}}</li>
+            </ul>
+        </form>
+    </div>
+</body>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            mobile: '',
+            username: '',
+            keyword: '',
+            searchResult: [],
+            msg: {
+                mobile: '',
+            }
+        },
+        methods: {},
+        watch: {
+            mobile(value, oldValue) {
+                let reg = /^1[3456789][\d]{9}$/;
+                if (!reg.test(value)) {
+                    this.msg.mobile = '手机号码错误';
+                } else {
+                    this.msg.mobile = '正确';
+                }
+            },
+            username(value, oldValue) {
+                let reg = /^\w{0,10}$/;
+                if (!reg.test(value)) {
+                    this.username = oldValue;
+                }
+            },
+            keyword(value) {
+                let vm = this;
+                // fetch 是 es6 的 Ajax 函数，返回 Promise 对象。因此，fetch 的兼容性差
+                fetch('http://musicapi.leanapp.cn/search?keywords=' + value)
+                    .then(function(data) {
+                        return data.json();
+                    })
+                    .then(function(d) {
+                        console.log(d);
+                        vm.searchResult = d.result.songs;
+                    });
+            },
+        },
+    });
+</script>
+
+</html>

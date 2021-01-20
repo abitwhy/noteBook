@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue轮播图（动画队列版）</title>
+    <link rel="stylesheet" href="./assets/css/vue轮播图（动画队列版）.css">
+</head>
+
+<body>
+    <div id="app" class="container">
+        <h1>轮播图</h1>
+        <slideshow :imgs="imgs" :dir="dir" :last-pick="lastPick" @pick-img="pickImg" @after-enter="afterEnter"></slideshow>
+    </div>
+</body>
+<!-- <script src="https://unpkg.com/vue"></script> -->
+<script src="./assets/js/vue.min.js"></script>
+<script>
+    Vue.component('slideshow', {
+        props: {
+            imgs: { // 图片信息。除了路径（src）以外，还至少应有索引（index）属性，配合 v-for 渲染模板时设置 :key 属性（而不能直接使用 v-for 提供的 index，会提示有风险）
+                type: String,
+                required: true,
+            },
+            dir: { // 滑动方向。配合过渡/动画（列表）的动态 name，实现（通过改变类名，这一步是 vue 内部实现的）使用 css 改变滑动方向（不仅是方向，还可以是其它样式），而无需在 js 里改变样式（这符合关注点分离原则）
+                type: String,
+                required: true,
+            },
+            lastPick: { // 上一次选中图片。控制图片显隐，以及为 pick 按钮（通过添加类名）添加选中样式
+                type: Number,
+                required: true,
+            },
+        },
+        template: `
+            <div class="slideshow">
+                <transition-group :name="dir" tag="ul" class="img-list" @after-enter="$emit('after-enter')">
+                    <li v-for="img in imgs" :key="img.index" v-show="img.index==lastPick">
+                        <a href="javascript:;">
+                            <img :src="img.src" alt="" title="">
+                        </a>
+                    </li>
+                </transition-group>
+                <ul class="pick-list">
+                    <li v-for="img in imgs" :key="img.index" :class="{picked : lastPick == img.index}" @click="$emit('pick-img' , img.index < lastPick , img.index)"></li>
+                </ul>
+                <ul class="toggle-list">
+                    <li @click="$emit('pick-img',true)"></li>
+                    <li @click="$emit('pick-img')"></li>
+                </ul>
+            </div>
+        `,
+    });
+    let app = new Vue({
+        el: '#app',
+        data() {
+            return {
+                imgs: [{
+                    index: 0,
+                    src: './assets/images/01.jpg',
+                }, {
+                    index: 1,
+                    src: './assets/images/02.jpg',
+                }, {
+                    index: 2,
+                    src: './assets/images/03.jpg',
+                }, {
+                    index: 3,
+                    src: './assets/images/04.jpg',
+                }, {
+                    index: 4,
+                    src: './assets/images/05.jpg',
+                }, ],
+                lastPick: 0,
+                dir: 'slide',
+                isExecuting: false,
+                autoPlayTimer: NaN,
+            };
+        },
+        mounted() {
+            this.autoPlay();
+        },
+        methods: {
+            /* 选中图片 */
+            pickImg(reverse, currentPick) {
+                /* 参数说明：
+                    reverse:{是否反向，默认选则下一张}[boolean](可选);
+                    currentPick:{当前选则图片的索引，会覆盖选则上/下张的行为}[number](可选); 
+                */
+                // 返回值：undefined
+
+                if (this.isExecuting) {
+                    return;
+                } else {
+                    this.isExecuting = true;
+
+                    // if (reverse) {
+                    //     this.dir = 'slide-reverse';
+                    //     this.lastPick = currentPick != undefined ? currentPick : (--this.lastPick + this.imgs.length) % this.imgs.length;
+                    // } else {
+                    //     this.dir = 'slide'; // 不可省
+                    //     this.lastPick = currentPick != undefined ? currentPick : (++this.lastPick + this.imgs.length) % this.imgs.length;
+                    // }
+
+                    // 这种由同一布尔变量决定的二值变量，其逻辑结构如何简化，从而彻底简化上面的代码
+                    // this.dir = reverse ? 'slide-reverse' : 'slide';
+                    // let pom = reverse ? -1 : 1;
+
+                    // 初步简化方式
+                    // 总结：
+                    //      1. 将代码量转移到了赋值表达式上，但赋值更直观，逻辑也有所整合。
+                    //      2. 如 let break 等命令关键字仍无法在表达式中使用，不过变量可统一提前声明，并没有增加负担。
+                    //      3. 拥有更松散的赋值要求：一方面，赋值语句可完全无序；另一方面，可以缺省某个变量在某一条件下的赋值（而不需要写 null 或''之类赘述）
+                    let pom;
+                    reverse ? (
+                        this.dir = 'slide-reverse'
+                    ) && (
+                        pom = -1
+                    ) : (
+                        this.dir = 'slide'
+                    ) && (
+                        pom = 1
+                    );
+                    this.lastPick = currentPick === undefined ?
+                        (this.lastPick + pom + this.imgs.length) % this.imgs.length :
+                        currentPick;
+                }
+            },
+            /* 动画进入后的钩子 */
+            afterEnter() { // 配合防抖及自动播放
+                // console.log("transition-group can't set transitionend meanwhile"); // 需要使用 vue 提供的 after-enter 钩子
+                this.isExecuting = false;
+                this.autoPlay();
+            },
+            /* 顺序播放 */
+            // orderlyPlay(reverse) { // 默认播放下一张。布尔参数 reverse 指定是否反向=》因为暂无新功能添加，为了精简组件接口，暂时将其废弃
+            //     // console.log(reverse); // 默认传递 event 参数，所以不能缺省参数=》在组件的父子通信中可以，因为 $emit 不传递默认参数
+            //     this.pickImg(reverse);
+            // },
+            /* 自动播放 */
+            autoPlay(reverse) {
+                // 参数说明：reverse:{是否反向}[boolean](可选);
+                // 返回值：undefined
+
+                let vm = this;
+                clearInterval(this.autoPlayTimer);
+                this.autoPlayTimer = setInterval(() => {
+                    // vm.orderlyPlay(reverse); // 暂时废弃
+                    vm.pickImg(reverse);
+                }, 3000);
+            },
+        },
+    });
+</script>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue-计算属性</title>
+    <script src="./vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <form action="">
+            <p>
+                <label>
+                    姓&emsp;
+                    <input type="text" v-model="lastName">
+                </label>
+            </p>
+            <p>
+                <label>
+                    名&emsp;
+                    <input type="text" v-model="firstName">
+                </label>
+            </p>
+            <p>
+                <label>
+                    姓名
+                    <input type="text" v-model="fullName">
+                </label>
+            </p>
+        </form>
+    </div>
+</body>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            lastName: '',
+            firstName: '',
+            fullName: '',
+        },
+        methods: {},
+        computed: {
+            // fullName() { // 只有 setter 的默认计算属性,当 fullName 改变时,由于 lastName/firstName 没有依赖于 fullName,没有同时动态改变
+            //     return this.lastName + this.firstName;
+            // },
+            fullName: { // 具有 setter 功能的计算属性，实现了 -Name 之间的动态绑定
+                get() {
+                    return this.lastName + this.firstName;
+                },
+                set(val) {
+                    // 英文名未考虑（应该需要根据首字母大写来判断）
+                    this.lastName = val.slice(0, 1); // 不要使用 val[0]，因为 ''[0] 的值为 undefined
+                    this.firstName = val.slice(1);
+                },
+            },
+        },
+
+        // watch: { // 监听器实现 -Name 之间的动态绑定
+        //     firstName() {
+        //         this.fullName = this.lastName + this.firstName;
+        //     },
+        //     lastName() {
+        //         this.fullName = this.lastName + this.firstName;
+        //     },
+        //     fullName() {
+        //         this.lastName = this.fullName.slice(0, 1);
+        //         this.firstName = this.fullName.slice(1);
+        //     },
+        // },
+    });
+</script>
+
+</html>

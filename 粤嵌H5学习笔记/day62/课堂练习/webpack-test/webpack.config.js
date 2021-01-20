@@ -3,9 +3,9 @@
 // module.exports 属性：通过 Node 模块操作，向外部暴露配置对象
 // require 方法：获取模块暴露的内部对象
 // “__dirname” 是 node.js 里的一个全局变量，它指向当前执行脚本所在的目录。
-// path.normalize(p) 方法：规范化路径，处理冗余的“..”、“.”、“/”字符。发现多个斜杠时，会替换成一个斜杠。当路径末尾包含一个斜杠时，保留。Windows系统使用反斜杠　
+// path.normalize(p) 方法：规范化路径，处理冗余的“..”、“.”、“/”字符。发现多个斜杠时，会替换成一个斜杠。当路径末尾包含一个斜杠时，保留。Windows 系统使用反斜杠　
 // path.join([path1], [path2], [...]) 方法：将多个路径结合在一起，并转换为规范化路径
-// path.resolve([from ...], to) 方法：从源地址 from 到目的地址 to 的绝对路径，类似在shell里执行一系列的cd命令。如果某个from或to参数是绝对路径（比如 'E:/abc'，或是以“/”开头的路径），则将忽略之前的from参数
+// path.resolve([from ...], to) 方法：从源地址 from 到目的地址 to 的绝对路径，类似在 shell 里执行一系列的 cd 命令。如果某个 from 或 to 参数是绝对路径（比如 'E:/abc'，或是以“/”开头的路径），则将忽略之前的 from 参数
 // [hash] 是 node.js 里的哈希函数。可指定长度，如：[hash:8]=》 webpack5 废弃了它，并迁移至 fullhash
 // [path] 原相对路径标签，在 name 属性里设置，可打包出原文件结构
 // [name] 原文件名标签
@@ -22,7 +22,7 @@
 //     mode: "development", // [webpack4+]设置 mode，常用的有开发（development）和生产（production）两种模式，但不止于此
 //     module: { // 配置 loaders 加载器们
 //         rules: [ // 必须写成 rules，而不能是 loaders（可能是版本的原因）
-//             { // json 加载器（据称“webpack3./webpack2.已经内置可处理JSON文件，无需安装 json-loader”，还未测试过）
+//             { // json 加载器（据称“webpack3./webpack2.已经内置可处理 JSON 文件，无需安装 json-loader”，还未测试过）
 //                 test: /\.json$/i, // [正则式]用以匹配 loaders 所处理文件的拓展名的正则表达式（必须）
 //                 use: "json-loader", // 指定使用 loader 的名称（必须），键名还可以是“loader”，当有多个 loader 时，显然 “use” 键名更合适
 //                 // include: // [正则式]手动添加必须处理的文件（文件夹）（可选）
@@ -54,14 +54,14 @@
 // 处理 html
 // 命令：npm i html-webpack-plugin -D
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// 补充说明：作用：1.自动在内存中根据指定页面生成一个内存的页面 2.自动把打包好的bundle.js追加到页面中去
+// 补充说明：作用：1.自动在内存中根据指定页面生成一个内存的页面 2.自动把打包好的 bundle.js 追加到页面中去
 
 // 去除冗余打包文件
 // 命令：npm i clean-webpack-plugin -D
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // 补充说明：赋值时，官方用了解构赋值，为什么？=》其暴露了多个内部对象
 
-// babel 转 ES6 语法为 ES5）
+// babel 转 ES6 语法为 ES5
 // 命令： npm install babel-loader @babel/core @babel/preset-env -D
 
 // 自动打包（热更）
@@ -83,10 +83,10 @@ module.exports = {
     mode: 'development', // 设置模式，常用的有开发（development）和生产（production）两种模式，但不止于此
     module: { // 解析非 js 文件
         rules: [ // 配置 loaders 加载器们（配置之前需要先行安装）。 必须写成 rules，而不能是 loaders（可能是版本的原因）
-            { // json 加载器（据称“webpack3./webpack2.已经内置可处理JSON文件，无需安装 json-loader”，还未测试过=》没错）
+            { // json 加载器（据称“webpack3./webpack2.已经内置可处理 JSON 文件，无需安装 json-loader”，还未测试过=》没错）
                 test: /\.json$/, // [正则式]loaders 所处理文件的拓展名（必须）
                 use: 'json-loader', // 指定使用 loader 的名称（必须），键名还可以是“loader”，当有多个 loader 时，显然 “use” 键名更合适=>勘误：loader 只是 use 的配置属性之一
-                // include: // [正则式]手动添加必须处理的文件（文件夹）（可选）
+                // include: //, // [正则式]手动添加必须处理的文件（文件夹）（可选）
                 exclude: /node_modules/, // [正则式]或排除不需要处理的文件（文件夹）（可选）
                 type: 'javascript/auto', // 添加 type 以解决 Module parse failed: Unexpected token m in JSON... 错误
             },
@@ -150,7 +150,7 @@ module.exports = {
             },
         ]
     },
-    plugins: [
+    plugins: [ // 使用（并配置）插件
         new HtmlWebpackPlugin({ template: './src/index.html' }),
         new CleanWebpackPlugin(),
     ],

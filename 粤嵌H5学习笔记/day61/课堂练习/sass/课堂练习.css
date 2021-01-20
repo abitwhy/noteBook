@@ -9,6 +9,11 @@ header {
   background-color: #e5a770;
 }
 
+footer {
+  background-color: #0065b3;
+  color: white;
+}
+
 main {
   background-color: #4abec5;
 }
@@ -31,11 +36,6 @@ main article {
 
 main article section {
   background-color: lightcyan;
-}
-
-footer {
-  background-color: #0065b3;
-  color: white;
 }
 
 header,

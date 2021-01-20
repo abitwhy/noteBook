@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue-轮播图</title>
+    <link rel="stylesheet" href="./assets/css/vue轮播图.css">
+</head>
+
+<body>
+    <div id="app" class="container">
+        <h1>轮播图</h1>
+        <slideshow :imgs="imgs" :base-size="baseSize" :slide-style="slideStyle" :last-pick="lastPick" :is-slide="isSlide" @pick-img="pickImg" @transition-end="transitionEnd" @orderly-play="orderlyPlay"></slideshow>
+    </div>
+</body>
+<!-- <script src="https://unpkg.com/vue"></script> -->
+<script src="./assets/js/vue.min.js"></script>
+<script>
+    // 总结：
+    // 1.代码较原生 js 简洁，但实现功能的选择更多样了，带来了思考成本
+    // 2.如何进一步简化组件的接口呢？
+    Vue.component('slideshow', {
+        props: {
+            imgs: {
+                type: String,
+                required: true,
+            },
+            baseSize: { // 仅为了方便获取尺寸，而非为了修改
+                type: Object,
+                required: true,
+            },
+            slideStyle: {
+                type: String,
+                required: true,
+            },
+            lastPick: { // 配合 pick 按钮，（通过添加类名）添加选中样式
+                type: Number,
+                required: true,
+            },
+            isSlide: {
+                type: Boolean,
+                required: true,
+            }
+        },
+        template: `
+            <div class="slideshow">
+                <ul class="img-list" :class="{slide:isSlide}" :style="slideStyle" @transitionend="$emit('transition-end')">
+                    <li v-for="img in imgs" :key="img.index">
+                        <a href="javascript:;">
+                            <img :src="img.src" alt="" title="">
+                        </a>
+                    </li>
+                </ul>  
+                <ul class="pick-list">
+                    <li v-for="img in imgs" v-if="img.index>=0" :key="img.index" :class="{picked : lastPick==img.index}" @click="$emit('pick-img',img.index)"></li>
+                </ul>
+                <ul class="toggle-list" @click="$emit('orderly-play')">
+                    <li @click="$emit('orderly-play',true)"></li>
+                    <li @click="$emit('orderly-play')"></li>
+                </ul> 
+            </div>
+        `,
+        // 注：渲染 pick-list 处，在同一 li 标签上，同时使用了 v-for 和 v-if，这违反了《vue 风格指南》。但此处仅为初始化渲染，根本没有重新渲染的需求。再者，本例 v-if 的判断逻辑的变量 img.index 内嵌于 v-for，不能像《vue 风格指南》推荐的那样，将 v-if 判断提到容器之上。故，此写法是合理的。 
+    });
+    let app = new Vue({
+        el: '#app',
+        data() {
+            return {
+                imgs: [{ // 图片信息。除了路径（src）以外，还至少应有索引（index）属性，配合 v-for 渲染模板时设置 :key 属性（而不能直接使用 v-for 提供 index，会提示有风险）
+                    index: 0,
+                    src: './assets/images/01.jpg',
+                }, {
+                    index: 1,
+                    src: './assets/images/02.jpg',
+                }, {
+                    index: 2,
+                    src: './assets/images/03.jpg',
+                }, {
+                    index: 3,
+                    src: './assets/images/04.jpg',
+                }, {
+                    index: 4,
+                    src: './assets/images/05.jpg',
+                }, ],
+                baseSize: {
+                    width: '800px',
+                    height: '300px',
+                },
+                slideStyle: {
+                    left: '0px',
+                },
+                lastPick: 0,
+                currentPick: 0,
+                isInterim: false,
+                pom: NaN,
+                isSlide: true,
+                isExecuting: false,
+                autoPlayTimer: NaN,
+            };
+        },
+        created() {
+            this.graft(this.imgs);
+        },
+        mounted() {
+            this.autoPlay();
+        },
+        methods: {
+            graft(imgs) { // 无缝连接，注意：vm.imgs 的长度在此之后将增加2，意味着将做无缝连接的图片也算在了 vm.imgs 之中，可以考虑在某一时机将拼接图片剔除出去，使逻辑更清晰=》初步尝试失败
+                imgs.push({
+                    src: imgs[0].src,
+                });
+                imgs.unshift({
+                    src: imgs[imgs.length - 2].src,
+                });
+            },
+            pickImg(currentPick) { // 选中图片
+                if (this.isExecuting) {
+                    return;
+                } else {
+                    this.isExecuting = true;
+                    this.currentPick = currentPick;
+                    this.isInterim = Math.abs(this.currentPick - this.lastPick) == this.imgs.length - 3;
+                    if (!this.isInterim) {
+                        this.slideStyle.left = parseInt(this.slideStyle.left) + (this.lastPick - this.currentPick) * parseInt(this.baseSize.width) + 'px';
+                    } else {
+                        this.pom = this.currentPick == 0 ? -1 : 1; //  plus or minus，决定移动方向
+                        this.slideStyle.left = parseInt(this.slideStyle.left) + this.pom * parseInt(this.baseSize.width) + 'px';
+                    }
+                }
+            },
+            transitionEnd() { // transitionEnd 事件触发的回调，用于配合无缝动画效果
+                // console.log(this.lastPick);
+                // console.log(this.currentPick);
+                // console.log(this.imgs.length - 3);
+                this.isExecuting = false;
+                this.lastPick = this.currentPick;
+                if (this.isInterim) {
+                    this.isSlide = false; // 暂时取消动画
+                    let vm = this;
+                    setTimeout(() => {
+                        vm.isSlide = true; // 恢复动画
+                    }, 0);
+                    this.slideStyle = {
+                        left: this.pom < 0 ? '0px' : -(this.imgs.length - 3) * parseInt(this.baseSize.width) + 'px',
+                    };
+                }
+                this.autoPlay();
+            },
+            orderlyPlay(reverse) { // 顺序播放，默认播放下一张。布尔参数 reverse 指定是否反向
+                let pom = reverse ? -1 : 1;
+                this.pickImg((this.lastPick + pom + this.imgs.length - 2) % (this.imgs.length - 2));
+            },
+            autoPlay() {
+                let vm = this;
+                clearInterval(this.autoPlayTimer);
+                this.autoPlayTimer = setInterval(() => {
+                    vm.orderlyPlay();
+                }, 3000);
+            },
+        },
+    });
+</script>
+
+</html>

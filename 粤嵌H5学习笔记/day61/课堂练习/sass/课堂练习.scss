@@ -60,6 +60,11 @@ header {
     background-color: $base-bg-color4;
 }
 
+footer {
+    background-color: $base-bg-color1;
+    color: white;
+}
+
 // 2.选择器嵌套语法，简化后代选择器的书写
 // 2.1 纯嵌套
 main {
@@ -80,11 +85,6 @@ main {
             background-color: $base-bg-color6;
         }
     }
-}
-
-footer {
-    background-color: $base-bg-color1;
-    color: white;
 }
 
 // 2.2 配合群组选择器。需注意编译出的 css 代码量
@@ -175,7 +175,7 @@ aside {
     text-shadow: $same-text-shadow;
 }
 
-// 4.3 嵌套导入，即：可在任意样式块内导入局部样式
+// 4.3 嵌套导入，即：可在任意样式块内导入局部样式，导入的局部样式仅在该样式块内生效
 header {
     h1 {
         @import "colorful-font";
@@ -184,9 +184,9 @@ header {
 
 // 4.4 导入原生 css 文件
 // 4.4.1 想以原生方式导入（会被浏览器加载，而不是预编译），只需满足以下三种条件之一
-// 被导入文件的名字以.css结尾；
-// 被导入文件的名字是一个URL地址（比如http://www.sass.hk/css/css.css），由此可用谷歌字体API提供的相应服务；
-// 被导入文件的名字是CSS的url()值。
+// 被导入文件的名字以 .css 结尾；
+// 被导入文件的名字是一个 URL 地址（比如http://www.sass.hk/css/css.css），由此可用谷歌字体 API 提供的相应服务；
+// 被导入文件的名字是 CSS 的 url()值。
 // 4.4.2 想直接在 sass 里导入并预编译：只需将 css 文件后缀改为 sass/scss
 // 5. 使用混入
 #section5 {

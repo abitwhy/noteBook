@@ -1,0 +1,148 @@
+@charset "UTF-8";
+.container {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 50px;
+  text-align: center;
+}
+
+/* 以下为轮播图样式 */
+.slideshow {
+  width: 800px;
+  height: 300px;
+  margin: 0 auto;
+  background-color: #262626;
+  position: relative;
+  overflow: hidden;
+}
+
+.slideshow * {
+  margin: 0;
+  padding: 0;
+}
+
+.slideshow li {
+  list-style: none;
+}
+
+.slideshow img {
+  width: 100%;
+  height: 100%;
+}
+
+.slideshow .img-list {
+  width: 800px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.slideshow .img-list > li {
+  width: 800px;
+  height: 300px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: unset;
+}
+
+.slideshow .img-list > li a {
+  height: 100%;
+  display: block;
+}
+
+.slideshow .pick-list {
+  position: absolute;
+  left: 50%;
+  bottom: 10%;
+  z-index: 1;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+.slideshow .pick-list li {
+  width: 18px;
+  height: 18px;
+  border: 1px solid white;
+  border-radius: 50%;
+  background-color: skyblue;
+  float: left;
+  /* 解决边框宽度变化导致元素跳动 */
+  /* box-sizing: border-box; */
+  cursor: pointer;
+}
+
+.slideshow .pick-list li + li {
+  margin-left: 4px;
+}
+
+.slideshow .pick-list li:hover, .slideshow .pick-list li.picked {
+  -webkit-box-shadow: 0px 0px 4px 1px white;
+          box-shadow: 0px 0px 4px 1px white;
+  background-color: red;
+}
+
+.slideshow .toggle-list li {
+  width: 60px;
+  height: 60px;
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+.slideshow .toggle-list li:hover {
+  -webkit-transform: scale(1.4);
+          transform: scale(1.4);
+}
+
+.slideshow .toggle-list li:nth-child(1) {
+  background: url(../images/arrow_left.png) no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  z-index: 1;
+}
+
+.slideshow .toggle-list li:nth-child(2) {
+  background: url(../images/arrow_right.png) no-repeat center;
+  background-size: contain;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  z-index: 1;
+}
+
+/* 以下为 vue 过渡/动画钩子 */
+.slide-enter-to,
+.slide-leave,
+.slide-reverse-enter-to,
+.slide-reverse-leave {
+  -webkit-transform: translateX(0%);
+          transform: translateX(0%);
+}
+
+.slide-leave-to,
+.slide-reverse-enter {
+  -webkit-transform: translateX(-100%);
+          transform: translateX(-100%);
+}
+
+.slide-enter,
+.slide-reverse-leave-to {
+  -webkit-transform: translateX(100%);
+          transform: translateX(100%);
+}
+
+.slide-enter-active,
+.slide-leave-active,
+.slide-reverse-enter-active,
+.slide-reverse-leave-active {
+  -webkit-transition: -webkit-transform 0.6s ease-out;
+  transition: -webkit-transform 0.6s ease-out;
+  transition: transform 0.6s ease-out;
+  transition: transform 0.6s ease-out, -webkit-transform 0.6s ease-out;
+}
