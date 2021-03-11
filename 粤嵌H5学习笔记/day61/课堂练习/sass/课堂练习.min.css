@@ -1,4 +1,8 @@
 @charset "UTF-8";
+#process-control #test1 { result: "1px solid is true"; }
+
+#process-control #test2 { result1: 'can use single if'; result2: 'can use bool operator'; result3: 'can use identifier and'; result4: 'can use identifier or'; result5: 'can use identifier not'; result6: 'can use multy identifiers'; }
+
 body { width: 1200px; margin: 0 auto; background-color: black; }
 
 header { background-color: #e5a770; }
@@ -62,3 +66,5 @@ header h1 { /* 彩色字体 */ width: -webkit-fit-content; width: -moz-fit-conte
 #section5 > div:nth-of-type(1) .center-item { width: 50%; height: 50%; background-color: orange; /* 通过 position 配合 transform （水平/垂直）居中 */ position: absolute; left: 50%; top: 50%; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%); }
 
 #section5 > div:nth-of-type(2) a { /* 清除 a 标签默认下划线 */ text-decoration: none; }
+
+#section5 > div:nth-of-type(2)::before { content: "传参"; }

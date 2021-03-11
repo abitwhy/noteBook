@@ -32,9 +32,14 @@
                 required: true,
             },
         },
+        data() {
+            return {
+                foo: 'foo',
+            }
+        },
         template: `
             <div class="slideshow">
-                <transition-group :name="dir" tag="ul" class="img-list" @after-enter="$emit('after-enter')">
+                <transition-group :name="dir" tag="ul" class="img-list" @afterEnter="$emit('after-enter')">
                     <li v-for="img in imgs" :key="img.index" v-show="img.index==lastPick">
                         <a href="javascript:;">
                             <img :src="img.src" alt="" title="">
@@ -92,7 +97,9 @@
                 if (this.isExecuting) {
                     return;
                 } else {
-                    this.isExecuting = true;
+                    currentPick == this.lastPick ?
+                        this.autoPlay() :
+                        this.isExecuting = true; // debug: 点击同一个不触发动画而 vm.executing 依然被置为 true =>单独判断一下这种情况
 
                     // if (reverse) {
                     //     this.dir = 'slide-reverse';
@@ -107,10 +114,12 @@
                     // let pom = reverse ? -1 : 1;
 
                     // 初步简化方式
-                    // 总结：
-                    //      1. 将代码量转移到了赋值表达式上，但赋值更直观，逻辑也有所整合。
-                    //      2. 如 let break 等命令关键字仍无法在表达式中使用，不过变量可统一提前声明，并没有增加负担。
-                    //      3. 拥有更松散的赋值要求：一方面，赋值语句可完全无序；另一方面，可以缺省某个变量在某一条件下的赋值（而不需要写 null 或''之类赘述）
+
+                    /* 总结：
+                        1. 将代码量转移到了赋值表达式上，但赋值更直观，逻辑也有所整合。
+                        2. 如 let break 等命令关键字仍无法在表达式中使用，不过变量可统一提前声明，并没有增加负担。
+                        3. 拥有更松散的赋值要求：一方面，赋值语句可完全无序；另一方面，可以缺省某个变量在某一条件下的赋值（而不需要写 null 或''之类赘述）
+                    */
                     let pom;
                     reverse ? (
                         this.dir = 'slide-reverse'

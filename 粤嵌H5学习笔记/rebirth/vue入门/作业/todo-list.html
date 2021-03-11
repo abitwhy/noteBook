@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- 开发版本 -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+    <!-- 生产版本 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <!-- <script src="./js/vue.min.js"></script> -->
+    <style>
+      /* tabNav */
+      .tab-nav {
+        width: 100%;
+        text-align: center;
+      }
+      .myTabs {
+        display: flex;
+        background-color: skyblue;
+        cursor: pointer;
+      }
+      .tab {
+        flex: 1;
+        border: 1px solid gray;
+      }
+      .content {
+        min-height: 100px;
+        background-color: ghostwhite;
+        vertical-align: middle;
+      }
+      .active {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- <tab-nav :myTabs="myTabs"></tab-nav>
+      <div class="tab-nav">
+        <div class="myTabs">
+            <input v-for="myTabs" type="radio" name="tab">
+        </div>
+      </div> -->
+      <my-tabs v-model="picked">
+        <my-tab title="标签 1"></my-tab>
+        <my-tab title="标签 2"></my-tab>
+        <my-tab title="标签 3"></my-tab>
+        <my-tab title="标签 4"></my-tab>
+      </my-tabs>
+    </div>
+  </body>
+  <script>
+
+    let myTabs ={
+      // 驼峰式组件名,使用时需转为短线式
+      model: {
+        prop: "picked",
+        event: "change-pick",
+      },
+      props: {
+        picked: Number,
+        // myTabs: Array,
+      },
+      data() {
+        return {
+          pick: 0,
+          count: 0,
+        };
+      },
+      methods:{
+          countUp(){
+            this.count++;
+            console.log(this.count);
+          }
+      },
+      template: `
+          <div class="myTabs">
+              <slot :slotProp="{ count, pick }"></slot>
+          </div>
+          `,
+      // 注意到动态类名只能是驼峰式的
+    };
+    let myTab = {
+      components: {
+       'my-tabs': myTabs,
+      },
+      props: {
+        title: String,
+      },
+      data() {
+        return {
+          index: 0,
+        };
+      },
+      created() {
+        this.$emit("counter");
+      },
+      template: `
+              <my-tabs  @counter="">
+                <template #default="{ slotProp:sp }">
+                    {{sp}}
+                  <div class="tab">
+                    <span @click="$emit('change-pick',index)">lol</span>
+                    <template v-show="index==sp.picked">
+                        <slot>内容{{index=sp.index}}</slot>
+                    </template>
+                  </div>
+                </template>
+              </my-tabs>
+          `,
+    };
+
+    let vm = new Vue({
+      el: "#app",
+      components: {
+        'my-tabs': myTabs,
+        'my-tab': myTab,
+      },
+      data() {
+        return {
+          //   myTabs:['清单','历史']
+          picked: 0,
+        };
+      },
+      computed: {
+        // myTabs() {
+        //   return Array(5)
+        //     .join(",")
+        //     .split(",")
+        //     .map((e, i) => {
+        //       return "标题" + (i + 1);
+        //     });
+        // },
+      },
+    });
+  </script>
+</html>

@@ -1,0 +1,223 @@
+// ------------------------------ 全局变量
+$baseWith: 100%;
+$baseHeight: 100%;
+$baseDuration: 0.6s;
+// ------------------------------ 混入
+// 版本: void 1.0
+// 功能: 检测属性值是否为空值(空值则不需要设置改属性)
+// 改进方向:
+//  1. 如何一次性判断所有参数
+//  2. 以字符串'void'的形式定义空值存在问题吗?还可以更简洁吗?
+@mixin void($attr, $val:'void') {
+    @if $val=='void' {}
+    @else {
+        #{$attr}: $val;
+    }
+}
+
+// 版本: position 1.1
+// 功能: 打包配置 position 相关属性
+// 改进方向：
+//  1. 更具用户使用频率优化参数顺序，可提高用户体验
+//  2. 若能判逻值的类型，接口会更友好，可用性也更强
+//  3. 为了适应 sass 提示插件的规则,为变量添加了'-'前缀,待其更新,有希望免去前缀=>废弃,不应为使用插件而完全牺牲代码的简洁性
+@mixin position( $x-val:'void', $y-val:'void', $z-index:'void', $x-dir:left, $y-dir:top, $p-type:absolute) {
+    // 官文称 @mixin 可简写成‘=’ 、@include 可简写成‘+’ 。尝试失败，可能要求较高的版本
+    position: $p-type;
+    @include void($x-dir, $x-val);
+    @include void($y-dir, $y-val);
+    @include void(z-index, $z-index);
+}
+
+// 单独设置滑动时长(第三个参数可为纵向单独指定时长,以备切换滑动方向同时需要切换时长所需)
+@mixin changeDuration($slider-id, $slider-duration, $slider-duration-y:$slider-duration) {
+    &#{$slider-id} {
+        .slideX-enter-active,
+        .slideX-leave-active,
+        .slideX_reverse-enter-active,
+        .slideX_reverse-leave-active {
+            transition: transform $slider-duration ease-out;
+        }
+        .slideY-enter-active,
+        .slideY-leave-active,
+        .slideY_reverse-enter-active,
+        .slideY_reverse-leave-active {
+            transition: transform $slider-duration-y ease-out;
+        }
+    }
+}
+
+
+/* 以下为轮播器样式 */
+
+.slider {
+    width: $baseWith;
+    height: $baseHeight;
+    margin: 0 auto;
+    background-color: #262626;
+    position: relative;
+    overflow: hidden;
+    * {
+        margin: 0;
+        padding: 0;
+        // border: 1px solid red;
+        // box-sizing: border-box;
+    }
+    li {
+        list-style: none;
+        color: white;
+    }
+    .item-list {
+        width: $baseWith;
+        @include position($z-index: 1);
+        &>li {
+            width: $baseWith;
+            height: $baseHeight;
+            @include position();
+            a {
+                height: 100%;
+                display: block;
+            }
+        }
+    }
+    .pick-list {
+        @include position(50%, 10px, $y-dir: bottom, $z-index: 1);
+        transform: translateX(-50%);
+        li {
+            width: 12px;
+            height: 12px;
+            border: 1px solid white;
+            border-radius: 50%;
+            background-color: skyblue;
+            float: left;
+            /* 解决边框宽度变化导致元素跳动 */
+            box-sizing: border-box;
+            cursor: pointer;
+            +li {
+                margin-left: 4px;
+            }
+            &:hover,
+            &.picked {
+                box-shadow: 0px 0px 4px 1px white;
+                // border: 2px solid #666fcc;
+                background-color: red;
+                transform: scale(1.1);
+            }
+        }
+    }
+    .toggle-list {
+        li {
+            width: 60px;
+            height: 60px;
+            margin-top: 2px;
+            cursor: pointer;
+            &:hover {
+                transform: scale(1.4);
+            }
+            &:nth-child(1) {
+                // background 和 background-size 可考虑写一个混入
+                background: url(../images/arrow_left.png) no-repeat center;
+                background-size: contain;
+                @include position(0, 50%, $z-index: 1);
+            }
+            &:nth-child(2) {
+                background: url(../images/arrow_right.png) no-repeat center;
+                background-size: contain;
+                @include position(0, 50%, $x-dir: right, $z-index: 1);
+            }
+        }
+    }
+}
+
+
+/* 以下为 vue 过渡/动画钩子 */
+
+// 原版 
+// .slide-enter {
+//     transform: translateX(-100%);
+// }
+// .slide-enter-to {
+//     transform: translateX(0%);
+// }
+// .slide-enter-active {
+//     transition: transform 1s ease-out;
+// }
+// .slide-leave {
+//     transform: translateX(0%);
+// }
+// .slide-leave-to {
+//     transform: translateX(100%);
+// }
+// .slide-leave-active {
+//     transition: transform 1s ease-out;
+// }
+// .slide_reverse-enter {
+//     transform: translateX(100%);
+// }
+// .slide_reverse-enter-to {
+//     transform: translateX(0%);
+// }
+// .slide_reverse-enter-active {
+//     transition: transform 1s ease-out;
+// }
+// .slide_reverse-leave {
+//     transform: translateX(0%);
+// }
+// .slide_reverse-leave-to {
+//     transform: translateX(-100%);
+// }
+// .slide_reverse-leave-active {
+//     transition: transform 1s ease-out;
+// }
+// 压缩版（值得考虑的是，是否应该配合字符变量写成混入）
+// 水平滑动
+.slideX-enter-to,
+.slideX-leave,
+.slideX_reverse-enter-to,
+.slideX_reverse-leave {
+    transform: translateX(0%);
+}
+
+.slideX-leave-to,
+.slideX_reverse-enter {
+    transform: translateX(-100%);
+}
+
+.slideX-enter,
+.slideX_reverse-leave-to {
+    transform: translateX(100%);
+}
+
+.slideX-enter-active,
+.slideX-leave-active,
+.slideX_reverse-enter-active,
+.slideX_reverse-leave-active {
+    transition: transform $baseDuration ease-out;
+}
+
+// 垂直滑动
+.slideY-enter-to,
+.slideY-leave,
+.slideY_reverse-enter-to,
+.slideY_reverse-leave {
+    transform: translateY(0%);
+}
+
+.slideY-leave-to,
+.slideY_reverse-enter {
+    transform: translateY(-100%);
+}
+
+.slideY-enter,
+.slideY_reverse-leave-to {
+    transform: translateY(100%);
+}
+
+.slideY-enter-active,
+.slideY-leave-active,
+.slideY_reverse-enter-active,
+.slideY_reverse-leave-active {
+    transition: transform $baseDuration ease-out;
+}
+
+@include changeDuration('#slider2', .2s, 3s); // 单独切换时长实例

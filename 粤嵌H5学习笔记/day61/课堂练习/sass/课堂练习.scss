@@ -45,8 +45,77 @@ $base-color5: rgb(228, 228, 228);
     }
 }
 
+// ------------------------------ 流程控制
+// 1. 布尔运算: 允许(在符合语法的位置)使用 and,or,not 关键字
+// 2. @if-@else
+@mixin test1($bool) {
+    // 总结:
+    //  1. 字面量 true/false 是布尔关键字
+    //  2. 所有字符串等价于 true
+    //  3. 所有被 css 编译成数值的属性值(以下简称数值属性),均被处理为字符串(注意,颜色 red 在 css 中被编译成数值,其是数值属性,而字宽 large,对齐方式 auto 等在 css 外被最终编译成数值的属性值,不是数值属性)
+    //  5, 所有包含数值属性的字面量,均等价于 true
+    //  4. 所有非法符号均等价于 true,但编译后会保留字面量(编译前用其进行运算还会产生不可预知的结果)
+    //  5. 所有 css 属性名和非数值属性值被处理为非法符号
+    @if $bool {
+        result: $bool +' is true';
+    }
+    @else {
+        result: $bool +' is false';
+    }
+}
+
+@mixin test2() {
+    @if 1 {
+        result1: 'can use single if';
+    }
+    @if 1>0 {
+        result2: 'can use bool operator';
+    }
+    @if 1 and 1 {
+        result3: 'can use identifier and';
+    }
+    @if 1 or false {
+        result4: 'can use identifier or';
+    }
+    @if not false {
+        result5: 'can use identifier not';
+    }
+    @if 1 or false and not false {
+        // 总结:
+        //  1. 布尔标识符左结合
+        //  2. 不清楚 or 和 and 没有优先级之分
+        //  3. not 优先级高于 and/or
+        result6: 'can use multy identifiers';
+    }
+    $t: 'have';
+    @if false or 1 and false {
+        result7: 'or&and '+$t+' the same priority';
+    }
+}
+
+#process-control {
+    #test1 {
+        @include test1(1px solid);
+    }
+    #test2 {
+        @include test2();
+    }
+}
+
+// @if 1 {}
+// @else {
+//     width: 3px;
+//     @if 3>2 {
+//         // 相当于 else-if 了
+//         height: 4px;
+//     }
+// }
 // 3. 传参混入
-@mixin name {}
+@mixin before($content) {
+    &::before {
+        content: $content;
+    }
+}
 
 // ------------------------------ 样式
 // 1. 使用变量
@@ -184,9 +253,9 @@ header {
 
 // 4.4 导入原生 css 文件
 // 4.4.1 想以原生方式导入（会被浏览器加载，而不是预编译），只需满足以下三种条件之一
-// 被导入文件的名字以 .css 结尾；
-// 被导入文件的名字是一个 URL 地址（比如http://www.sass.hk/css/css.css），由此可用谷歌字体 API 提供的相应服务；
-// 被导入文件的名字是 CSS 的 url()值。
+//  被导入文件的名字以 .css 结尾；
+//  被导入文件的名字是一个 URL 地址（比如http://www.sass.hk/css/css.css），由此可用谷歌字体 API 提供的相应服务；
+//  被导入文件的名字是 CSS 的 url()值。
 // 4.4.2 想直接在 sass 里导入并预编译：只需将 css 文件后缀改为 sass/scss
 // 5. 使用混入
 #section5 {
@@ -206,6 +275,7 @@ header {
         }
         &:nth-of-type(2) {
             @include a-no-text-decoration(); // 混入样式
+            @include before('传参');
         }
     }
 }

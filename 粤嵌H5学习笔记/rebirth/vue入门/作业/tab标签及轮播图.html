@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script> -->
+    <script src="./js/vue.min.js"></script>
+    <style>
+      /* tabNav */
+      .tab-nav {
+        width: 100%;
+        text-align: center;
+      }
+      .tabs {
+        display: flex;
+        background-color: skyblue;
+        cursor: pointer;
+      }
+      .tab {
+        flex: 1;
+        border: 1px solid gray;
+      }
+      .content {
+        min-height: 100px;
+        background-color: ghostwhite;
+        vertical-align: middle;
+      }
+      .active {
+        font-weight: bold;
+      }
+
+      /* slider */
+      /* 总结: 
+          优点:代码更加简化
+          结果:失败,连续顺序播放没有滑动动画了.原因:设置图片容器 imgs 的滑动动画只执行一次.连续同向滑动,逻辑上容器类名不变没有问题,但实际结果是,同类名导致动画不会执行第二遍了.
+          解决方向:通过 transition 组件,在 after-enter 钩子里清除容器的滑动类名
+          改进方向: 优化样式,添加更多的功能(如文本信息),配置属性(如动画时长,自动播放时长,滑动方向等)及回调钩子
+      */
+
+      .slider {
+        position: relative;
+        width: 800px;
+        height: 500px;
+        margin: 0 auto;
+        overflow: hidden;
+      }
+      .slider .imgs {
+        width: 100%;
+        height: 100%;
+        /* transition: transform .6s; */
+      }
+      .slider img {
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        visibility: hidden;
+      }
+      .control {
+        position: absolute;
+        z-index: 3;
+        left: 50%;
+        bottom: 10%;
+        transform: translateX(-50%);
+        width: 20%;
+        display: flex;
+        justify-content: space-around;
+      }
+      .control .pick-item {
+        width: 30px;
+        height: 30px;
+        background: #000;
+        border-radius: 50%;
+      }
+      .picked {
+        background: red !important;
+      }
+      .left {
+        left: -100%;
+      }
+      .right {
+        right: -100%;
+      }
+      .slideLeft {
+        /* transform: translateX(-100%); */
+        animation: tt 0.3s ease-in 1 forwards;
+      }
+      .slideRight {
+        /* transform: translateX(100%); */
+        animation: tr 0.3s ease-in 1 forwards;
+      }
+      .show {
+        visibility: visible !important;
+      }
+      .cover {
+        z-index: 2;
+      }
+      @keyframes tt {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-100%);
+        }
+      }
+      @keyframes tr {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(100%);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <tab-nav :tabs="tabs"></tab-nav>
+      <slider :imgs="imgs"></slider>
+    </div>
+  </body>
+  <script>
+    Vue.component("tabNav", {
+      // 驼峰式组件名,使用时需转为短线式
+      props: {
+        tabs: Array,
+      },
+      data() {
+        return {
+          currentPick: 0,
+        };
+      },
+      template: `
+        <div class="tab-nav">
+            <div class="tabs">
+                <div v-for="(tab,i) in tabs" :key="i" class="tab" :class="{active:i==currentPick}" @click="currentPick=i">{{tab}}</div>
+            </div>
+            <div class="content" >{{tabs[currentPick]}}的内容</div>
+        </div>
+        `,
+      // 注意到动态类名只能是驼峰式的
+    });
+    Vue.component("slider", {
+      // 驼峰式组件名,使用时需转为短线式
+      props: {
+        imgs: Array,
+        control: {
+          type: Boolean,
+          default: true,
+        },
+      },
+      data() {
+        return {
+          picks: [0, 0], // 选中记录
+        };
+      },
+      computed: {
+        currentPick() {
+          return this.picks[0];
+        },
+        lastPick() {
+          return this.picks.pop();
+        },
+      },
+      mounted() {
+        this.autoPlay();
+      },
+      methods: {
+        autoPlay() {
+          setInterval(() => {
+            // console.log('picks',this.picks)
+            // console.log('currentPick',this.currentPick)
+            // console.log('lastPick',this.lastPick)
+            this.picks.unshift((this.currentPick + 1) % 4);
+          }, 1000);
+        },
+      },
+      template: `
+        <div class="slider">
+            <div 
+              :class="{
+                slideLeft:currentPick>lastPick,
+                slideRight:currentPick<lastPick,
+              }" 
+              class="imgs" 
+            >
+              <img 
+                v-for="(img,i) in imgs"
+                :key="i" 
+                :src="img" 
+                :class="{
+                  cover:i==currentPick,
+                  show:i==currentPick||i==lastPick,
+                  left:i==currentPick&&i<lastPick,
+                  right:i==currentPick&&i>lastPick,
+                }"
+              />
+            </div>
+            <div v-if="control" class="control">
+                <div 
+                    v-for="(img,i) in imgs" 
+                    :key="i" class="pick-item" 
+                    :class="{picked:i==currentPick}" 
+                    @click="picks.unshift(i)"
+                >
+                </div>
+            </div>
+        </div>
+        `,
+    });
+    Vue.component();
+    let vm = new Vue({
+      el: "#app",
+      data() {
+        return {
+          // tabs:['标题1','标题2',]
+        };
+      },
+      computed: {
+        tabs() {
+          return Array(5)
+            .join(",")
+            .split(",")
+            .map((e, i) => {
+              return "标题" + (i + 1);
+            });
+        },
+        imgs() {
+          return Array(4)
+            .join(",")
+            .split(",")
+            .map((e, i) => {
+              return `./images/img${i + 1}.jpg`;
+            });
+        },
+      },
+    });
+  </script>
+</html>

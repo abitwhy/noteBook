@@ -1,0 +1,46 @@
+// 混入 position 1.0
+// 值得改进的地方:
+//  1. 根据用户使用频率优化参数顺序,可提高用户体验
+//  2. 若能进行逻辑判断,接口会更友好,可用性会更强,也不会产生冗余默认样式
+//  3. 为了适应 sass 提示插件的规则,为变量添加了'-'前缀,待其更新,有希望免去前缀=>废弃,不应为使用插件而完全牺牲代码的简洁性
+@mixin _position( $x-val:0, $y-val:0, $p-type:absolute, $x-dir:left, $y-dir:top, $z-index:unset) {
+    // 官文称 @mixin 可简写成‘=’ 、@include 可简写成‘+’ 。尝试失败，可能要求较高的版本
+    position: $p-type;
+    #{$x-dir}: $x-val; // 属性插值，将变量用在了 css 属性上
+    #{$y-dir}: $y-val;
+    z-index: $z-index;
+}
+
+// 版本: void 1.0
+// 功能: 检测属性值是否为空值(空值则不需要设置改属性)
+// 改进方向:
+//  1. 如何一次性判断所有参数
+//  2. 以字符串'void'的形式定义空值存在问题吗?还可以更简洁吗?
+@mixin void($attr, $val:'void') {
+    @if $val=='void' {}
+    @else {
+        #{$attr}: $val;
+    }
+}
+
+// 版本: position 1.1
+// 功能: 打包配置 position 相关属性
+// 改进方向：
+//  1. 更具用户使用频率优化参数顺序，可提高用户体验
+//  2. 若能判逻值的类型，接口会更友好，可用性也更强
+//  3. 为了适应 sass 提示插件的规则,为变量添加了'-'前缀,待其更新,有希望免去前缀=>废弃,不应为使用插件而完全牺牲代码的简洁性
+@mixin position( $x-val:'void', $y-val:'void', $z-index:'void', $x-dir:left, $y-dir:top, $p-type:absolute) {
+    // 官文称 @mixin 可简写成‘=’ 、@include 可简写成‘+’ 。尝试失败，可能要求较高的版本
+    position: $p-type;
+    @include void($x-dir, $x-val);
+    @include void($y-dir, $y-val);
+    @include void(z-index, $z-index);
+}
+
+@mixin center-p {
+    /* 通过 position 配合 transform （水平/垂直）居中 */
+    @include position(50%, 50%);
+    transform: translate(-50%, -50%);
+    // transform: translateX(-50%);
+    // transform: translateY(-50%);
+}

@@ -1753,7 +1753,19 @@ console.log(roundPI(tn));
 console.log(roundPI2(tn));
 ```
 
+- 格式化字符串为 kebab-case 风格
 
+  ```js
+  function kebabCase(str='-aBit why_-'){
+  	return str.toLowerCase()
+        .replace(/\W+/g, '-')
+        // .replace(/[^A-Za-z0-9_\u4e00-\u9fa5]+/g,'-') // 增加汉字
+        .replace(/(^-|-$)/g, '');
+  }
+  
+  ```
+
+  
 
 
 ***

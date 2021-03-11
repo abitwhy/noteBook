@@ -6,8 +6,8 @@
     <title>vue 入门</title>
     <!-- animate.css 4以上的版本前缀不同，需要另外增加 ‘animate__’前缀 -->
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1">
-    <!-- 引入 Element.css (最新) -->
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入 Element.css (最新)=>会挂掉 -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"> -->
     <style>
         .class1 {
             color: greenyellow;
@@ -554,7 +554,7 @@
 						<!-- 容易看出：插槽作用域 prop 是父组件作用域 prop 的子集 -->
 						{{sfpn.slotFooterProp.firstName}}
 						<!-- 插槽作用域 prop 可以访问了。当需要使用包含插槽作用域里的 prop 来更改后备内容时，这很有用。 -->
-					</template>
+                    </template>
             </build-blocks>
             <todo-list-plus :filtered-todos="todos">
                 <template #todo="{todo}">
@@ -614,11 +614,12 @@
 
 
 </body>
-<script src="https://unpkg.com/vue"></script>
+<!-- <script src="https://unpkg.com/vue"></script> -->
+<script src="./vue.min.js"></script>
 <!-- 引入 Vue.js -->
-<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<!-- <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script> -->
 <!-- 引入 Vue Roter -->
-<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
 <!-- 引入 Element.js(需要放在引入 Vue 之后) -->
 <script>
     Vue.config.productionTip = false

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>滑动播放器组件</title>
+    <!-- 滑动器基础样式 -->
+    <link rel="stylesheet" href="./assets/css/slider.css">
+    <!-- 依赖 vue -->
+    <script src="./assets/js/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1 style="text-align:center">轮播图</h1>
+        <!-- <div class="slider">
+            <transition-group :name="dir" tag="ul" class="item-list" @after-enter="afterEnter">
+                <li v-for="index in siderLength" :key="index" v-show="index-1==lastPick">实例{{index}}</li>
+            </transition-group>
+            <ul class="pick-list">
+                <li v-for="index in siderLength" :key="index" :class="{picked : lastPick == index-1}" @click="pick(index-1 < lastPick , index-1)"></li>
+            </ul>
+            <ul class="toggle-list">
+                <li @click="pick(true)">上</li>
+                <li @click="pick(false)">下</li>
+            </ul>
+        </div> -->
+        <slider ref="slider" :sider-length="siderLength" :dir="dir" :last-pick="lastPick" @pick="pick" @after-enter="afterEnter">
+            <template #slide-item="{slotProp}">
+                <img :src="imgs[slotProp]" alt="">
+            </template>
+            <template #slide-controler="{controler}">
+                <div>{{controler}}</div>
+                <div>{{controler.p1='bar'}}</div>
+                <div>{{controler.p1}}</div>
+            </template>
+        </slider>
+        <template v-if="dir.includes('slideX')">
+            <button @click="dir='slideY'" title="点击切换到上下">左右</button>
+        </template>
+        <template v-else>
+            <button @click="dir='slideX'" title="点击切换到左右">上下</button>
+        </template>
+    </div>
+</body>
+<script>
+    Vue.component('slider', {
+        /* 总结:
+            1. v-for 的 index 是从1开始的,带来许多不便;
+            2. 没有剥离出基础的滑动组件
+        */
+        props: {
+            siderLength: {
+                type: Number,
+                required: true,
+            },
+            dir: { // 滑动方向。配合过渡/动画（列表）的动态 name，实现（通过改变类名，这一步是 vue 内部实现的）使用 css 改变滑动方向（不仅是方向，还可以是其它样式），而无需在 js 里改变样式（这符合关注点分离原则）
+                type: String,
+                default: 'slideX',
+                required: true,
+            },
+            lastPick: { // 上一次选中图片。控制图片显隐，以及为 pick 按钮（通过添加类名）添加选中样式
+                type: Number,
+                required: true,
+            },
+        },
+        data() {
+            return {
+                p1: 1,
+            }
+        },
+        methods: {
+            m() {
+                console.log(this.p1);
+                console.log('I am not controler!');
+                console.log('1. slotProp 只提供了一个访问子组件属性的机会,它只是一份属性拷贝,会动态更新,但不能通过它来真正修改子组件里的属性');
+                console.log('2. 请注意,如上述,仅能"访问子组件属性",而不能访问子组件的方法,如果方法被写入 slotProp 会被忽略');
+                console.log('3. 无论后备内容是否被替换,slot 标签里执行的函数会在数据更新时不断触发,这明显不符合 slot 的语义,可能属于漏洞吗?');
+                // this.p1++; // 由于第三点,属性自增会使程序奔溃
+            },
+            m2() {
+                console.log('execute child component\' method');
+            },
+        },
+        template: `
+            <div class="slider">
+                <transition-group :name="dir" tag="ul" class="item-list" @after-enter="$emit('after-enter')">
+                    <li v-for="index in siderLength" :key="index" v-show="index-1==lastPick">
+                        <slot name="slide-item" :slotProp="index-1">slide-item 后备内容{{index}}</slot>
+                    </li>
+                </transition-group>
+                <slot name="slide-controler" :controler="{p1,m,dir}">lol{{m()}}</slot>
+                <ul class="pick-list">
+                    <li v-for="index in siderLength" :key="index" :class="{picked : lastPick == index-1}" @click="$emit('pick',index-1 < lastPick , index-1)"></li>
+                </ul>
+                <ul class="toggle-list">
+                    <li @click="$emit('pick',true)"></li>
+                    <li @click="$emit('pick')"></li>
+                </ul>
+            </div>
+        `,
+
+    });
+    let vm = new Vue({
+        el: '#app',
+        data() {
+            return {
+                imgs: [
+                    './assets/images/01.jpg',
+                    './assets/images/02.jpg',
+                    './assets/images/03.jpg',
+                    './assets/images/04.jpg',
+                    './assets/images/05.jpg',
+                ],
+                siderLength: NaN,
+                lastPick: 0,
+                dir: 'slideX', // dir 的名字中不要使用'_',这意味着可以为了自己的规范,将 slideX 修改为 slide-x(需要同时修改 css 里的类名),但不能改为 slide_x 
+                isExecuting: false,
+                autoPlayTimer: NaN,
+            }
+        },
+        created() {
+            this.siderLength = this.imgs.length;
+            this.autoPlay();
+        },
+        // mounted() { // 还没有体会到 created 和 mounted 的区别
+        //     this.autoPlay();
+        // },
+        methods: {
+            pick(reverse, currentPick) {
+                this.$refs.slider.m2();
+                this.$refs.slider.p1 += 1;
+
+                if (this.isExecuting) {
+                    return;
+                } else {
+                    // this.isExecuting = currentPick == this.lastPick ? false : true; // debug: 点击同一个不触发动画而 vm.executing 依然被置为 true =>单独判断一下这种情况.牵扯到自动播放时,还需重置自动播放
+                    currentPick == this.lastPick ?
+                        this.autoPlay() :
+                        this.isExecuting = true;
+
+                    let pom;
+                    reverse ? (
+                        this.dir = this.dir.split('_')[0] + '_reverse'
+                    ) && (
+                        pom = -1
+                    ) : (
+                        this.dir = this.dir.split('_')[0]
+                    ) && (
+                        pom = 1
+                    );
+                    this.lastPick = currentPick === undefined ?
+                        (this.lastPick + pom + this.siderLength) % this.siderLength :
+                        currentPick;
+                }
+            },
+            /* 动画进入后的钩子 */
+            afterEnter() { // 配合防抖及自动播放
+                // console.log("transition-group can't set transitionend meanwhile"); // 需要使用 vue 提供的 after-enter 钩子
+                this.isExecuting = false;
+                this.autoPlay();
+            },
+            /* 自动播放 */
+            autoPlay(reverse) {
+                // 参数说明：reverse:{是否反向}[boolean](可选);
+                // 返回值：undefined
+
+                let vm = this;
+                clearInterval(this.autoPlayTimer);
+                this.autoPlayTimer = setInterval(() => {
+                    // vm.orderlyPlay(reverse); // 暂时废弃
+                    vm.pick(reverse);
+                }, 3000);
+            },
+        },
+    })
+</script>
+
+</html>

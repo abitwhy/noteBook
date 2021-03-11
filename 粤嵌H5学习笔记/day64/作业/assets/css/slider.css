@@ -1,0 +1,182 @@
+@charset "UTF-8";
+/* 以下为轮播器样式 */
+.slider {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  background-color: #262626;
+  position: relative;
+  overflow: hidden;
+}
+
+.slider * {
+  margin: 0;
+  padding: 0;
+}
+
+.slider li {
+  list-style: none;
+  color: white;
+}
+
+.slider .item-list {
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+}
+
+.slider .item-list > li {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.slider .item-list > li a {
+  height: 100%;
+  display: block;
+}
+
+.slider .pick-list {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  z-index: 1;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+.slider .pick-list li {
+  width: 12px;
+  height: 12px;
+  border: 1px solid white;
+  border-radius: 50%;
+  background-color: skyblue;
+  float: left;
+  /* 解决边框宽度变化导致元素跳动 */
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  cursor: pointer;
+}
+
+.slider .pick-list li + li {
+  margin-left: 4px;
+}
+
+.slider .pick-list li:hover, .slider .pick-list li.picked {
+  -webkit-box-shadow: 0px 0px 4px 1px white;
+          box-shadow: 0px 0px 4px 1px white;
+  background-color: red;
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+.slider .toggle-list li {
+  width: 60px;
+  height: 60px;
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+.slider .toggle-list li:hover {
+  -webkit-transform: scale(1.4);
+          transform: scale(1.4);
+}
+
+.slider .toggle-list li:nth-child(1) {
+  background: url(../images/arrow_left.png) no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  z-index: 1;
+}
+
+.slider .toggle-list li:nth-child(2) {
+  background: url(../images/arrow_right.png) no-repeat center;
+  background-size: contain;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  z-index: 1;
+}
+
+/* 以下为 vue 过渡/动画钩子 */
+.slideX-enter-to,
+.slideX-leave,
+.slideX_reverse-enter-to,
+.slideX_reverse-leave {
+  -webkit-transform: translateX(0%);
+          transform: translateX(0%);
+}
+
+.slideX-leave-to,
+.slideX_reverse-enter {
+  -webkit-transform: translateX(-100%);
+          transform: translateX(-100%);
+}
+
+.slideX-enter,
+.slideX_reverse-leave-to {
+  -webkit-transform: translateX(100%);
+          transform: translateX(100%);
+}
+
+.slideX-enter-active,
+.slideX-leave-active,
+.slideX_reverse-enter-active,
+.slideX_reverse-leave-active {
+  -webkit-transition: -webkit-transform 0.6s ease-out;
+  transition: -webkit-transform 0.6s ease-out;
+  transition: transform 0.6s ease-out;
+  transition: transform 0.6s ease-out, -webkit-transform 0.6s ease-out;
+}
+
+.slideY-enter-to,
+.slideY-leave,
+.slideY_reverse-enter-to,
+.slideY_reverse-leave {
+  -webkit-transform: translateY(0%);
+          transform: translateY(0%);
+}
+
+.slideY-leave-to,
+.slideY_reverse-enter {
+  -webkit-transform: translateY(-100%);
+          transform: translateY(-100%);
+}
+
+.slideY-enter,
+.slideY_reverse-leave-to {
+  -webkit-transform: translateY(100%);
+          transform: translateY(100%);
+}
+
+.slideY-enter-active,
+.slideY-leave-active,
+.slideY_reverse-enter-active,
+.slideY_reverse-leave-active {
+  -webkit-transition: -webkit-transform 0.6s ease-out;
+  transition: -webkit-transform 0.6s ease-out;
+  transition: transform 0.6s ease-out;
+  transition: transform 0.6s ease-out, -webkit-transform 0.6s ease-out;
+}
+
+#slider2 .slideX-enter-active,
+#slider2 .slideX-leave-active,
+#slider2 .slideX_reverse-enter-active,
+#slider2 .slideX_reverse-leave-active {
+  -webkit-transition: -webkit-transform 0.2s ease-out;
+  transition: -webkit-transform 0.2s ease-out;
+  transition: transform 0.2s ease-out;
+  transition: transform 0.2s ease-out, -webkit-transform 0.2s ease-out;
+}
+
+#slider2 .slideY-enter-active,
+#slider2 .slideY-leave-active,
+#slider2 .slideY_reverse-enter-active,
+#slider2 .slideY_reverse-leave-active {
+  -webkit-transition: -webkit-transform 3s ease-out;
+  transition: -webkit-transform 3s ease-out;
+  transition: transform 3s ease-out;
+  transition: transform 3s ease-out, -webkit-transform 3s ease-out;
+}

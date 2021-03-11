@@ -18,7 +18,7 @@ function render(nodeSet, dataArr) { /* [jQuery]批量数据渲染 */
 
         // 思考：$.html 可以接受节点参数，那么 dataArr 里面也可以是结点，不过需要考虑是否是需要 clone
         // 支持渲染节点版
-        if (dataArr[index] instanceof Node /* 原生 Node */ || dataArr[index].get ? dataArr[index].get(0) instanceof Node : false /* $(Node) */ ) { /* 目前已知插入 document、document.body 这样的顶级节点会使网页崩溃 */
+        if (dataArr[index] instanceof Node /* 原生 Node */ || dataArr[index].get ? dataArr[index].get(0) instanceof Node : false /* $(Node) */) { /* 目前已知插入 document、document.body 这样的顶级节点会使网页崩溃 */
             $(item).html($(dataArr[index]).clone(true, true)); /* 考虑不 clone 会导致网页原有节点被移动（可能会有该需求，暂不考虑），所以渲染原节点的复制品 */
         } else {
             $(item).html(dataArr[index]);
@@ -34,11 +34,11 @@ function render(nodeSet, dataArr) { /* [jQuery]批量数据渲染 */
 
 function debounce(fn, delay) { /* 防抖函数 */
     var timer = null; // 声明计时器
-    return function() {
+    return function () {
         var context = this;
         var args = arguments;
         clearTimeout(timer);
-        timer = setTimeout(function() {
+        timer = setTimeout(function () {
             fn.apply(context, args);
         }, delay);
     };
@@ -87,11 +87,11 @@ function randomRgb() { /* [js]随机颜色 */
 
 function tap(node, callback) { /* 轻触事件（解决了与触摸拖动事件的冲突） */
     var startTime, endTime, startY, endY;
-    node.ontouchstart = function(e) {
+    node.ontouchstart = function (e) {
         startTime = Date.now(); /* 判断触碰时间 */
         startY = e.touches[0].clientY; /* 暂时只考虑 y 轴拖动 */
     };
-    node.ontouchend = function(e) { /* on- 方式添加事件意味着，对同一节点只能添加一个 tap 事件 */
+    node.ontouchend = function (e) { /* on- 方式添加事件意味着，对同一节点只能添加一个 tap 事件 */
         endTime = Date.now();
         endY = e.changedTouches[0].clientY;
         if (endTime - startTime < 200 && startY == endY) {
@@ -103,4 +103,16 @@ function tap(node, callback) { /* 轻触事件（解决了与触摸拖动事件�
 function zeroize(num) { /* 1位正整数补零(没有考虑负数补零)，=》后面了解到 ES6 有 padStart 方法可替代 */
     var result = num < 10 ? num.toFixed(1).split('.').reverse().join('') : num + '';
     return result;
+}
+
+function splitX(source, scope, separater) { // 指定间隔分隔
+    scope = scope || 3;
+    separater = separater || ',';
+    return source.split('').map((el, i, arr) => {
+        if (arr.length - i - 1 != 0 && (arr.length - i - 1) % scope == 0) {
+            return el + separater
+        } else {
+            return el
+        }
+    }).join('')
 }

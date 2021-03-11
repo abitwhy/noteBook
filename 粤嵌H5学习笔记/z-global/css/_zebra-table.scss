@@ -1,0 +1,32 @@
+// 包名有下划线‘_’前缀，代表该 sass/scss 样式为局部样式，它们不会编译出相应的 css 文件
+
+/* 斑马纹路表格 */
+
+table {
+    width: 100%;
+    border-collapse: collapse; // 去除 cellpadding
+    // text-align: center;
+    th,
+    td {
+        border: 1px solid #a9a9a9;
+    }
+    thead {
+        th {
+            border: 2px solid rgb(96, 95, 95);
+            background-color: #fbbdbe;
+        }
+    }
+    tbody {
+        border: 2px solid rgb(96, 95, 95);
+        tr {
+            background-color: white;
+            &:nth-child(2n+2) {
+                // 核心代码
+                background-color: #f2fbff;
+            }
+            &:hover {
+                background-color: rgb(240, 124, 124);
+            }
+        }
+    }
+}

@@ -1,0 +1,14 @@
+<!--pages/test/test.wxml-->
+<text>pages/test/test.wxml</text>
+<view bindtap="viewTap">{{text}}</view>
+<!-- 测试 map 组件 -->
+<map longitude="{{longitude}}" latitude="{{latitude}}"></map>
+<view bindtap="getLocal">获取我的位置</view>
+<!-- 测试二维码接口 -->
+<button bindtap="scanHandle">scan</button>
+<view wx:if="{{scanResult!==null}}">二维码信息:<b>{{scanResult}}</b></view>
+<!-- 测试 wx:if -->
+<!-- 数字也可做为遍历源 -->
+<!-- <view wx:for="{{5}}" wx:for-item="num" wx:for-index="index" wx:key="index">{{index}}.{{num}}</view> -->
+<!-- 写法不如 vue 简便 -->
+<view wx:for="{{questions}}" wx:for-item="question" wx:for-index="index" wx:key="index">{{index}}.{{question}}</view>
